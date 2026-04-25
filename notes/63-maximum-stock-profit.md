@@ -6,13 +6,13 @@
 
 ## Problem Description
 
-可以有一次买入和一次卖出，买入必须在前。求最大收益。
+One buy and one sell are allowed, and the buy must happen first. Find the maximum profit.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/42661013-750f-420b-b3c1-437e9a11fb65.png" width="220px"> </div><br>
 
 ## Solution
 
-使用贪心策略，假设第 i 轮进行卖出操作，买入操作价格应该在 i 之前并且价格最低。因此在遍历数组时记录当前最低的买入价格，并且尝试将每个位置都作为卖出价格，取收益最大的即可。
+Use a greedy strategy. Suppose the sell operation happens at round i; the buy price should be the lowest price before i. Therefore, while traversing the array, record the current lowest buy price and try each position as the sell price, taking the maximum profit.
 
 ```java
 public int maxProfit(int[] prices) {

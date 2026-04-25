@@ -1,87 +1,87 @@
 # Git
 <!-- GFM-TOC -->
 * [Git](#git)
-    * [集中式与分布式](#centralized-and-distributed)
-    * [中心服务器](#central-server)
-    * [工作流](#workflow)
-    * [分支实现](#branch-implementation)
-    * [冲突](#conflicts)
+    * [Centralized and Distributed](#centralized-and-distributed)
+    * [Central Server](#central-server)
+    * [Workflow](#workflow)
+    * [Branch Implementation](#branch-implementation)
+    * [Conflicts](#conflicts)
     * [Fast forward](#fast-forward)
-    * [储藏（Stashing）](#stashing)
-    * [SSH 传输设置](#ssh-transport-setup)
-    * [.gitignore 文件](#gitignore-file)
-    * [Git 命令一览](#git-command-overview)
-    * [参考资料](#references)
+    * [Stashing](#stashing)
+    * [SSH Transport Setup](#ssh-transport-setup)
+    * [.gitignore File](#gitignore-file)
+    * [Git Command Overview](#git-command-overview)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
 ## Centralized and Distributed
 
-Git 属于分布式版本控制系统，而 SVN 属于集中式。
+Git is a distributed version control system, while SVN is centralized.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208200656794.png"/> </div><br>
 
-集中式版本控制只有中心服务器拥有一份代码，而分布式版本控制每个人的电脑上就有一份完整的代码。
+In centralized version control, only the central server has a copy of the code. In distributed version control, everyone has a complete copy of the code on their own computer.
 
-集中式版本控制有安全性问题，当中心服务器挂了所有人都没办法工作了。
+Centralized version control has reliability risks: if the central server goes down, no one can work.
 
-集中式版本控制需要连网才能工作，如果网速过慢，那么提交一个文件会慢的无法让人忍受。而分布式版本控制不需要连网就能工作。
+Centralized version control requires a network connection. If the network is too slow, committing a file can become unbearably slow. Distributed version control can work without a network connection.
 
-分布式版本控制新建分支、合并分支操作速度非常快，而集中式版本控制新建一个分支相当于复制一份完整代码。
+Distributed version control can create and merge branches very quickly, while in centralized version control creating a branch is equivalent to copying the entire codebase.
 
 ## Central Server
 
-中心服务器用来交换每个用户的修改，没有中心服务器也能工作，但是中心服务器能够 24 小时保持开机状态，这样就能更方便的交换修改。
+The central server is used to exchange each user's changes. Work can continue without it, but a central server can stay online 24 hours a day, making it more convenient to exchange changes.
 
-Github 就是一个中心服务器。
+GitHub is a central server.
 
 ## Workflow
 
-新建一个仓库之后，当前目录就成为了工作区，工作区下有一个隐藏目录 .git，它属于 Git 的版本库。
+After creating a new repository, the current directory becomes the working tree. It contains a hidden .git directory, which is Git's repository.
 
-Git 的版本库有一个称为 Stage 的暂存区以及最后的 History 版本库，History 存储所有分支信息，使用一个 HEAD 指针指向当前分支。
+A Git repository has a staging area called Stage and the final History repository. History stores all branch information, and a HEAD pointer points to the current branch.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208195941661.png"/> </div><br>
 
-- git add files 把文件的修改添加到暂存区
-- git commit 把暂存区的修改提交到当前分支，提交之后暂存区就被清空了
-- git reset -- files 使用当前分支上的修改覆盖暂存区，用来撤销最后一次 git add files
-- git checkout -- files 使用暂存区的修改覆盖工作目录，用来撤销本地修改
+- git add files adds file changes to the staging area.
+- git commit commits staged changes to the current branch; after the commit, the staging area is cleared.
+- git reset -- files overwrites the staging area with changes from the current branch, undoing the most recent git add files.
+- git checkout -- files overwrites the working directory with staged changes, undoing local modifications.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208200014395.png"/> </div><br>
 
-可以跳过暂存区域直接从分支中取出修改，或者直接提交修改到分支中。
+You can skip the staging area and check changes out directly from a branch, or commit changes directly to a branch.
 
-- git commit -a 直接把所有文件的修改添加到暂存区然后执行提交
-- git checkout HEAD -- files 取出最后一次修改，可以用来进行回滚操作
+- git commit -a directly stages all file modifications and commits them.
+- git checkout HEAD -- files checks out the latest committed version and can be used for rollback.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208200543923.png"/> </div><br>
 
 ## Branch Implementation
 
-使用指针将每个提交连接成一条时间线，HEAD 指针指向当前分支指针。
+Pointers connect each commit into a timeline, and the HEAD pointer points to the current branch pointer.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203219927.png"/> </div><br>
 
-新建分支是新建一个指针指向时间线的最后一个节点，并让 HEAD 指针指向新分支，表示新分支成为当前分支。
+Creating a new branch creates a new pointer to the last node in the timeline and makes HEAD point to the new branch, meaning the new branch becomes the current branch.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203142527.png"/> </div><br>
 
-每次提交只会让当前分支指针向前移动，而其它分支指针不会移动。
+Each commit only moves the current branch pointer forward; other branch pointers do not move.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203112400.png"/> </div><br>
 
-合并分支也只需要改变指针即可。
+Merging branches also only requires changing pointers.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203010540.png"/> </div><br>
 
 ## Conflicts
 
-当两个分支都对同一个文件的同一行进行了修改，在分支合并时就会产生冲突。
+When two branches both modify the same line in the same file, a conflict occurs during branch merge.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203034705.png"/> </div><br>
 
-Git 会使用 \<\<\<\<\<\<\< ，======= ，\>\>\>\>\>\>\> 标记出不同分支的内容，只需要把不同分支中冲突部分修改成一样就能解决冲突。
+Git uses \<\<\<\<\<\<\<, =======, and \>\>\>\>\>\>\> to mark content from different branches. To resolve the conflict, edit the conflicting parts from the different branches so they become consistent.
 
 ```
 <<<<<<< HEAD
@@ -93,9 +93,9 @@ Creating a new branch is quick AND simple.
 
 ## Fast forward
 
-"快进式合并"（fast-farward merge），会直接将 master 分支指向合并的分支，这种模式下进行分支合并会丢失分支信息，也就不能在分支历史上看出分支信息。
+A "fast-forward merge" directly moves the master branch to point to the merged branch. In this mode, branch information is lost, so the branch history no longer shows that branch information.
 
-可以在合并时加上 --no-ff 参数来禁用 Fast forward 模式，并且加上 -m 参数让合并时产生一个新的 commit。
+Use the --no-ff parameter during merge to disable Fast forward mode, and add the -m parameter to create a new commit during the merge.
 
 ```
 $ git merge --no-ff -m "merge with no-ff" dev
@@ -105,9 +105,9 @@ $ git merge --no-ff -m "merge with no-ff" dev
 
 ## Stashing
 
-在一个分支上操作之后，如果还没有将修改提交到分支上，此时进行切换分支，那么另一个分支上也能看到新的修改。这是因为所有分支都共用一个工作区的缘故。
+After working on one branch, if the changes have not been committed and you switch branches, the new changes can also be seen on the other branch. This is because all branches share the same working tree.
 
-可以使用 git stash 将当前分支的修改储藏起来，此时当前工作区的所有修改都会被存到栈中，也就是说当前工作区是干净的，没有任何未提交的修改。此时就可以安全的切换到其它分支上了。
+Use git stash to stash the current branch changes. At this point, all modifications in the current working tree are saved on a stack, meaning the working tree is clean and has no uncommitted changes. You can then safely switch to another branch.
 
 ```
 $ git stash
@@ -115,39 +115,39 @@ Saved working directory and index state \ "WIP on master: 049d078 added the inde
 HEAD is now at 049d078 added the index file (To restore them type "git stash apply")
 ```
 
-该功能可以用于 bug 分支的实现。如果当前正在 dev 分支上进行开发，但是此时 master 上有个 bug 需要修复，但是 dev 分支上的开发还未完成，不想立即提交。在新建 bug 分支并切换到 bug 分支之前就需要使用 git stash 将 dev 分支的未提交修改储藏起来。
+This feature can be used for bug-fix branches. If you are developing on the dev branch and a bug on master needs to be fixed, but the work on dev is not finished and should not be committed yet, use git stash to stash the uncommitted changes on dev before creating and switching to the bug branch.
 
 ## SSH Transport Setup
 
-Git 仓库和 Github 中心仓库之间的传输是通过 SSH 加密。
+Transmission between a Git repository and the GitHub central repository is encrypted through SSH.
 
-如果工作区下没有 .ssh 目录，或者该目录下没有 id_rsa 和 id_rsa.pub 这两个文件，可以通过以下命令来创建 SSH Key：
+If there is no .ssh directory under the working tree, or if that directory does not contain id_rsa and id_rsa.pub, create an SSH Key with the following command:
 
 ```
 $ ssh-keygen -t rsa -C "youremail@example.com"
 ```
 
-然后把公钥 id_rsa.pub 的内容复制到 Github "Account settings" 的 SSH Keys 中。
+Then copy the contents of the public key id_rsa.pub into SSH Keys under GitHub "Account settings".
 
 ## .gitignore File
 
-忽略以下文件：
+Ignore the following files:
 
-- 操作系统自动生成的文件，比如缩略图；
-- 编译生成的中间文件，比如 Java 编译产生的 .class 文件；
-- 自己的敏感信息，比如存放口令的配置文件。
+- Files automatically generated by the operating system, such as thumbnails;
+- Intermediate files generated by compilation, such as .class files produced by Java compilation;
+- Personal sensitive information, such as configuration files that store passwords.
 
-不需要全部自己编写，可以到 [https://github.com/github/gitignore](https://github.com/github/gitignore) 中进行查询。
+You do not need to write everything yourself; you can search at [https://github.com/github/gitignore](https://github.com/github/gitignore).
 
 ## Git Command Overview
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7a29acce-f243-4914-9f00-f2988c528412.jpg" width=""> </div><br>
 
-比较详细的地址：http://www.cheat-sheets.org/saved-copy/git-cheat-sheet.pdf
+A more detailed reference: http://www.cheat-sheets.org/saved-copy/git-cheat-sheet.pdf
 
 ## References
 
-- [Git - 简明指南](http://rogerdudler.github.io/git-guide/index.zh.html)
-- [图解 Git](http://marklodato.github.io/visual-git-guide/index-zh-cn.html)
-- [廖雪峰 : Git 教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
+- [Git - The Simple Guide](http://rogerdudler.github.io/git-guide/index.zh.html)
+- [A Visual Git Guide](http://marklodato.github.io/visual-git-guide/index-zh-cn.html)
+- [Liao Xuefeng: Git Tutorial](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
 - [Learn Git Branching](https://learngitbranching.js.org/)

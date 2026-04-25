@@ -6,13 +6,13 @@
 
 ## Problem Description
 
-写一个函数，求两个整数之和，要求不得使用 +、-、\*、/ 四则运算符号。
+Write a function to compute the sum of two integers without using the arithmetic operators +, -, \*, or /.
 
 ## Solution
 
-a ^ b 表示没有考虑进位的情况下两数的和，(a & b) \<\< 1 就是进位。
+a ^ b represents the sum of two numbers without considering carries, and (a & b) \<\< 1 represents the carry.
 
-递归会终止的原因是 (a & b) \<\< 1 最右边会多一个 0，那么继续递归，进位最右边的 0 会慢慢增多，最后进位会变为 0，递归终止。
+The recursion terminates because (a & b) \<\< 1 adds one more 0 on the right. As recursion continues, the number of rightmost 0s in the carry gradually increases, and eventually the carry becomes 0, ending recursion.
 
 ```java
 public int Add(int a, int b) {

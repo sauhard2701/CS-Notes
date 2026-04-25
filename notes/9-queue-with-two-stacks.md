@@ -2,15 +2,15 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/54275ddae22f475981afa2244dd448c6?tpId=13&tqId=11158&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/54275ddae22f475981afa2244dd448c6?tpId=13&tqId=11158&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
 ## Problem Description
 
-用两个栈来实现一个队列，完成队列的 Push 和 Pop 操作。
+Implement a queue with two stacks, supporting the queue Push and Pop operations.
 
 ## Solution
 
-in 栈用来处理入栈（push）操作，out 栈用来处理出栈（pop）操作。一个元素进入 in 栈之后，出栈的顺序被反转。当元素要出栈时，需要先进入 out 栈，此时元素出栈顺序再一次被反转，因此出栈顺序就和最开始入栈顺序是相同的，先进入的元素先退出，这就是队列的顺序。
+The in stack handles push operations, and the out stack handles pop operations. After an element enters the in stack, its pop order is reversed. When an element needs to be popped, it first moves into the out stack, reversing the pop order again. Therefore, the final pop order is the same as the original enqueue order: the first element in is the first element out, which is queue order.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/3ea280b5-be7d-471b-ac76-ff020384357c.gif" width="450"/> </div><br>
 

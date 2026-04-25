@@ -2,11 +2,11 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/8a19cbe657394eeaac2f6ea9b0f6fcf6?tpId=13&tqId=11157&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/8a19cbe657394eeaac2f6ea9b0f6fcf6?tpId=13&tqId=11157&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
 ## Problem Description
 
-根据二叉树的前序遍历和中序遍历的结果，重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+Reconstruct a binary tree from its preorder traversal and inorder traversal results. Assume neither traversal contains duplicate numbers.
 
 
 
@@ -14,12 +14,12 @@
 
 ## Solution
 
-前序遍历的第一个值为根节点的值，使用这个值将中序遍历结果分成两部分，左部分为树的左子树中序遍历结果，右部分为树的右子树中序遍历的结果。然后分别对左右子树递归地求解。
+The first value in preorder traversal is the root node value. Use this value to split the inorder traversal result into two parts: the left part is the inorder traversal result of the left subtree, and the right part is the inorder traversal result of the right subtree. Then recursively solve the left and right subtrees.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/60c4a44c-7829-4242-b3a1-26c3b513aaf0.gif" width="430px"> </div><br>
 
 ```java
-// 缓存中序遍历数组每个值对应的索引
+// Cache the index corresponding to each value in the inorder traversal array
 private Map<Integer, Integer> indexForInOrders = new HashMap<>();
 
 public TreeNode reConstructBinaryTree(int[] pre, int[] in) {

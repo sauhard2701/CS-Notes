@@ -6,7 +6,7 @@
 
 ## Problem Description
 
-给定一个数组 A[0, 1,..., n-1]，请构建一个数组 B[0, 1,..., n-1]，其中 B 中的元素 B[i]=A[0]\*A[1]\*...\*A[i-1]\*A[i+1]\*...\*A[n-1]。要求不能使用除法。
+Given an array A[0, 1,..., n-1], construct an array B[0, 1,..., n-1], where B[i]=A[0]\*A[1]\*...\*A[i-1]\*A[i+1]\*...\*A[n-1]. Division must not be used.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/4240a69f-4d51-4d16-b797-2dfe110f30bd.png" width="250px"> </div><br>
 
@@ -17,9 +17,9 @@
 public int[] multiply(int[] A) {
     int n = A.length;
     int[] B = new int[n];
-    for (int i = 0, product = 1; i < n; product *= A[i], i++)       /* 从左往右累乘 */
+    for (int i = 0, product = 1; i < n; product *= A[i], i++)       /* Accumulate products from left to right */
         B[i] = product;
-    for (int i = n - 1, product = 1; i >= 0; product *= A[i], i--)  /* 从右往左累乘 */
+    for (int i = n - 1, product = 1; i >= 0; product *= A[i], i--)  /* Accumulate products from right to left */
         B[i] *= product;
     return B;
 }

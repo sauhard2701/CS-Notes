@@ -2,11 +2,11 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/d0267f7f55b3412ba93bd35cfa8e8035?tpId=13&tqId=11156&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/d0267f7f55b3412ba93bd35cfa8e8035?tpId=13&tqId=11156&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
 ## Problem Description
 
-从尾到头反过来打印出每个结点的值。
+Print the value of each node in reverse order from tail to head.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f5792051-d9b2-4ca4-a234-a4a2de3d5a57.png" width="300px"> </div><br>
 
@@ -14,7 +14,7 @@
 
 ### 1. Use Recursion
 
-要逆序打印链表 1-\>2-\>3（3,2,1)，可以先逆序打印链表 2-\>3(3,2)，最后再打印第一个节点 1。而链表 2-\>3 可以看成一个新的链表，要逆序打印该链表可以继续使用求解函数，也就是在求解函数中调用自己，这就是递归函数。
+To print the linked list 1-\>2-\>3 in reverse order (3,2,1), first print the linked list 2-\>3 in reverse order (3,2), then print the first node 1. The linked list 2-\>3 can be viewed as a new linked list, and the same solving function can be used to print it in reverse order. Calling the solving function inside itself is recursion.
 
 ```java
 public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
@@ -29,9 +29,9 @@ public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
 
 ### 2. Use Head Insertion
 
-头插法顾名思义是将节点插入到头部：在遍历原始链表时，将当前节点插入新链表的头部，使其成为第一个节点。
+Head insertion, as the name suggests, inserts nodes at the head. While traversing the original linked list, insert the current node at the head of the new linked list so that it becomes the first node.
 
-链表的操作需要维护后继关系，例如在某个节点 node1 之后插入一个节点 node2，我们可以通过修改后继关系来实现：
+Linked-list operations need to maintain successor relationships. For example, to insert node2 after node1, modify the successor relationships as follows:
 
 ```java
 node3 = node1.next;
@@ -43,13 +43,13 @@ node1.next = node2;
 
 
 
-为了能将一个节点插入头部，我们引入了一个叫头结点的辅助节点，该节点不存储值，只是为了方便进行插入操作。不要将头结点与第一个节点混起来，第一个节点是链表中第一个真正存储值的节点。
+To insert a node at the head, introduce an auxiliary node called the head node. This node stores no value and only makes insertion easier. Do not confuse the head node with the first node; the first node is the first actual node in the linked list that stores a value.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0dae7e93-cfd1-4bd3-97e8-325b032b716f-1572687622947.gif" width="420px"> </div><br>
 
 ```java
 public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
-    // 头插法构建逆序链表
+    // Build the reversed linked list with head insertion
     ListNode head = new ListNode(-1);
     while (listNode != null) {
         ListNode memo = listNode.next;
@@ -57,7 +57,7 @@ public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
         head.next = listNode;
         listNode = memo;
     }
-    // 构建 ArrayList
+    // Build the ArrayList
     ArrayList<Integer> ret = new ArrayList<>();
     head = head.next;
     while (head != null) {
@@ -70,7 +70,7 @@ public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
 
 ### 3. Use Stack
 
-栈具有后进先出的特点，在遍历链表时将值按顺序放入栈中，最后出栈的顺序即为逆序。
+A stack is last-in, first-out. Put values into a stack in order while traversing the linked list, and the final pop order is the reverse order.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9d1deeba-4ae1-41dc-98f4-47d85b9831bc.gif" width="340px"> </div><br>
 

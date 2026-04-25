@@ -9,7 +9,7 @@
 
 ### Solution
 
-在二叉查找树中，两个节点 p, q 的公共祖先 root 满足 root.val \>= p.val && root.val \<= q.val。
+In a binary search tree, the common ancestor root of two nodes p and q satisfies root.val \>= p.val && root.val \<= q.val.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/047faac4-a368-4565-8331-2b66253080d3.jpg" width="250"/> </div><br>
 
@@ -33,7 +33,7 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 
 ### Solution
 
-在左右子树中查找是否存在 p 或者 q，如果 p 和 q 分别在两个子树中，那么就说明根节点就是最低公共祖先。
+Search the left and right subtrees for p or q. If p and q are in different subtrees, then the root node is the lowest common ancestor.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/d27c99f0-7881-4f2d-9675-c75cbdee3acd.jpg" width="250"/> </div><br>
 

@@ -6,7 +6,7 @@
 
 ## Problem Description
 
-五张牌，其中大小鬼为癞子，牌面为 0。判断这五张牌是否能组成顺子。
+Given five cards, where jokers are wildcards and have face value 0, determine whether the five cards can form a straight.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/eaa506b6-0747-4bee-81f8-3cda795d8154.png" width="350px"> </div><br>
 
@@ -21,13 +21,13 @@ public boolean isContinuous(int[] nums) {
 
     Arrays.sort(nums);
 
-    // 统计癞子数量
+    // Count wildcards
     int cnt = 0;
     for (int num : nums)
         if (num == 0)
             cnt++;
 
-    // 使用癞子去补全不连续的顺子
+    // Use wildcards to fill gaps in the straight
     for (int i = cnt; i < nums.length - 1; i++) {
         if (nums[i + 1] == nums[i])
             return false;

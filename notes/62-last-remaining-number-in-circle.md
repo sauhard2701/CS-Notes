@@ -6,17 +6,17 @@
 
 ## Problem Description
 
-让小朋友们围成一个大圈。然后，随机指定一个数 m，让编号为 0 的小朋友开始报数。每次喊到 m-1 的那个小朋友要出列唱首歌，然后可以在礼品箱中任意的挑选礼物，并且不再回到圈中，从他的下一个小朋友开始，继续 0...m-1 报数 .... 这样下去 .... 直到剩下最后一个小朋友，可以不用表演。
+Let the children form a large circle. Randomly choose a number m, and let the child numbered 0 start counting. Each time the child who counts m-1 leaves the circle, sings a song, chooses any gift from the gift box, and does not return to the circle. Counting then continues from the next child, from 0 to m-1, and so on until only one child remains, who does not need to perform.
 
 ## Solution
 
-约瑟夫环，圆圈长度为 n 的解可以看成长度为 n-1 的解再加上报数的长度 m。因为是圆圈，所以最后需要对 n 取余。
+This is the Josephus problem. The solution for a circle of length n can be viewed as the solution for length n-1 plus the count length m. Because it is a circle, take modulo n at the end.
 
 ```java
 public int LastRemaining_Solution(int n, int m) {
-    if (n == 0)     /* 特殊输入的处理 */
+    if (n == 0)     /* Handle special input */
         return -1;
-    if (n == 1)     /* 递归返回条件 */
+    if (n == 1)     /* Recursive return condition */
         return 0;
     return (LastRemaining_Solution(n - 1, m) + m) % n;
 }

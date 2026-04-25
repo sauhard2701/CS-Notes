@@ -2,11 +2,11 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/9023a0c988684a53960365b889ceaf5e?tpId=13&tqId=11210&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/9023a0c988684a53960365b889ceaf5e?tpId=13&tqId=11210&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
 ## Problem Description
 
-给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回 。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+Given a binary tree and one node in it, find and return the next node in inorder traversal order. Note that nodes in the tree contain not only left and right child nodes, but also a pointer to the parent node.
 
 ```java
 public class TreeLinkNode {
@@ -14,7 +14,7 @@ public class TreeLinkNode {
     int val;
     TreeLinkNode left = null;
     TreeLinkNode right = null;
-    TreeLinkNode next = null; // 指向父结点的指针
+    TreeLinkNode next = null; // Pointer to the parent node
 
     TreeLinkNode(int val) {
         this.val = val;
@@ -24,7 +24,7 @@ public class TreeLinkNode {
 
 ## Solution
 
-我们先来回顾一下中序遍历的过程：先遍历树的左子树，再遍历根节点，最后再遍历右子树。所以最左节点是中序遍历的第一个节点。
+First review inorder traversal: traverse the left subtree, then the root node, and finally the right subtree. Therefore, the leftmost node is the first node in inorder traversal.
 
 ```java
 void traverse(TreeNode root) {
@@ -39,11 +39,11 @@ void traverse(TreeNode root) {
 
 
 
-① 如果一个节点的右子树不为空，那么该节点的下一个节点是右子树的最左节点；
+① If a node has a non-empty right subtree, then its next node is the leftmost node of the right subtree;
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7008dc2b-6f13-4174-a516-28b2d75b0152.gif" width="300px"/> </div><br>
 
-② 否则，向上找第一个左链接指向的树包含该节点的祖先节点。
+② Otherwise, move upward to find the first ancestor whose left link points to a tree containing this node.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/094e3ac8-e080-4e94-9f0a-64c25abc695e.gif" width="300px"/> </div><br>
 
