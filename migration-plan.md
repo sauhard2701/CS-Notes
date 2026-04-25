@@ -1,118 +1,108 @@
 # Migration Plan
 
-Generated on 2026-04-25 from tracked files reported by `git ls-files`. The generated reports intentionally do not translate any source content yet; translation and rename targets are left blank for human review.
+Generated on 2026-04-26 from the current repository file tree using `git ls-files --cached --others --exclude-standard`, excluding vendor/media paths listed below. The generated reports intentionally do not translate source content.
+
+## Excluded Paths
+
+- `docs/_style/prism-master/**`
+- `docs/_media/**`
 
 ## Generated Files
 
-- `translation-file-map.csv`: complete tracked-file inventory with Chinese filename, heading, Markdown/HTML link, code-comment, and asset-name flags.
-- `internal-link-map.csv`: internal Markdown and Markdown-embedded HTML link inventory, including GitHub `CyC2018/CS-Notes/blob/master/...` links normalized back to repository paths.
-- `migration-plan.md`: this summary and staged migration checklist.
+- `translation-file-map.csv`: file inventory with Chinese filename, heading, Markdown body, Markdown/HTML link, code-comment, and asset-name flags.
+- `internal-link-map.csv`: internal Markdown/HTML link inventory normalized to repository paths for scanned source files.
+- `migration-plan.md`: this summary and follow-up checklist.
 
 ## Inventory Summary
 
 | Metric | Count |
 | --- | ---: |
-| Tracked files inventoried | 2555 |
-| Markdown files | 183 |
-| Asset/media files | 637 |
-| Files needing translation or rename review | 202 |
-| Files with Chinese filenames | 185 |
-| Assets with Chinese names | 18 |
+| Files inventoried | 809 |
+| Files excluded | 1748 |
+| Markdown files | 182 |
+| Asset/media files | 623 |
+| Files needing translation review | 181 |
+| Files with Chinese filenames | 0 |
+| Assets with Chinese names | 0 |
 | Files with Chinese headings | 173 |
 | Chinese headings found | 1671 |
-| Files with Chinese Markdown/HTML links | 115 |
-| Chinese Markdown/HTML links found | 1525 |
-| Files with Chinese code comments | 58 |
-| Chinese code comments found | 245 |
+| Files with Chinese Markdown body content | 175 |
+| Chinese Markdown body lines found | 5987 |
+| Files with Chinese Markdown/HTML links | 113 |
+| Chinese Markdown/HTML links found | 1523 |
+| Files with Chinese code comments | 57 |
+| Chinese code comments found | 244 |
 | Internal links mapped | 1472 |
-| Internal links needing update if renamed | 1215 |
-| Internal links to missing targets | 0 |
+| Internal links to excluded targets | 0 |
+| Internal links needing path update | 0 |
+| Internal links needing content/anchor update | 1214 |
+| Anchor-only internal links | 1268 |
+| Broken internal file/directory links | 0 |
 
 ## Repository Shape
 
-| Area | Tracked files |
+| Area | Files |
 | --- | ---: |
-| `.` | 2 |
+| `.` | 3 |
 | `assets` | 10 |
-| `docs` | 1753 |
+| `docs` | 5 |
 | `notes` | 790 |
+| `scripts` | 1 |
 
 ## Detection Rules
 
-- Chinese detection uses CJK unified ideograph ranges and also checks URL-decoded, HTML-decoded, and `_uXXXX` decoded path/target forms.
-- Chinese filenames are any tracked basename whose literal or decoded form contains Chinese characters.
-- Chinese asset names are asset/media basenames with literal or decoded Chinese characters, including image names such as `_uXXXX...gif`.
+- Chinese detection uses CJK unified ideograph ranges and checks URL-decoded, HTML-decoded, and `_uXXXX` decoded text where relevant.
+- Chinese filenames are literal or decoded basenames containing Chinese characters.
+- Chinese asset names are asset/media basenames containing Chinese characters after literal or decoded checks.
 - Chinese headings are Markdown ATX headings outside fenced code blocks.
-- Chinese Markdown/HTML links are Markdown inline links, Markdown images, reference definitions, and Markdown-embedded `href`/`src` attributes whose text/alt or target contains Chinese after decoding.
-- Chinese code comments are detected inside Markdown fenced code blocks and code-like text files using common comment syntaxes (`//`, `/* */`, `<!-- -->`, `#`, `--`, `%`, `;`, `'`, `REM`).
-- Internal link normalization prefers an existing repo-root path, then falls back to a source-relative path; this covers both `/notes/...` style and `notes/...` style links used from nested Markdown files.
+- Chinese Markdown body content is non-heading Markdown text outside fenced code blocks.
+- Chinese code comments are detected in Markdown fenced code blocks and code-like files using common comment syntaxes.
+- Internal links include Markdown inline/reference/image links and HTML `href`/`src` attributes from scanned Markdown and HTML files.
+- Target existence is checked against the actual repository tree, including excluded folders, so links into excluded media/vendor paths are not treated as broken.
+- Internal GitHub `CyC2018/CS-Notes` blob/raw URLs are normalized back to repository paths; true external URLs, including protocol-relative `//...` URLs, are not listed.
 
-## Migration Checklist
+## Current Migration State
 
-1. Freeze content changes while path and link migrations are in flight.
-2. Fill `proposed_english_path` in `translation-file-map.csv` for rows where `needs_filename_migration` is `yes`.
-3. Choose a stable slug policy before renaming: lowercase ASCII, hyphen-separated words, preserve numeric problem prefixes, and avoid case-only renames.
-4. Rename Markdown files and assets in small batches with `git mv` so history is preserved.
-5. Use `internal-link-map.csv` to update every row where `needs_update_if_renamed` is `yes`, including GitHub blob URLs that point back into this repository.
-6. Translate headings after filename/link migration, then regenerate anchor links because translated headings will change heading slugs.
-7. Translate Chinese code comments only after examples still compile or remain semantically equivalent.
-8. Rebuild or serve the docs site and run a link checker against generated pages.
-9. Regenerate these three reports and compare counts; remaining Chinese surfaces should be intentional or queued for a later pass.
+- Filename migration appears complete if `Files with Chinese filenames` and `Assets with Chinese names` are zero.
+- Path-level link migration appears complete if `Internal links needing path update` and `Broken internal file/directory links` are zero.
+- Remaining work is primarily content translation: headings, Markdown body text, visible link text, anchors, and code comments.
+
+## Suggested Next Steps
+
+1. Translate headings in small batches and regenerate heading anchors.
+2. Update anchor-only and same-file TOC links after heading translation.
+3. Translate Markdown body content while preserving code examples and technical terms.
+4. Translate code comments only after confirming examples still make sense.
+5. Regenerate these reports after each batch and monitor broken links.
 
 ## Review Hotspots
 
-The first Chinese filename rows are:
-- `assets/今日头条招聘海报.png`
-- `assets/公众号二维码-2.png`
-- `assets/公众号海报7.png`
-- `assets/内推.md`
-- `docs/_media/公众号.jpg`
-- `notes/10.1 斐波那契数列.md`
-- `notes/10.2 矩形覆盖.md`
-- `notes/10.3 跳台阶.md`
-- `notes/10.4 变态跳台阶.md`
-- `notes/11. 旋转数组的最小数字.md`
-- `notes/12. 矩阵中的路径.md`
-- `notes/13. 机器人的运动范围.md`
-- `notes/14. 剪绳子.md`
-- `notes/15. 二进制中 1 的个数.md`
-- `notes/16. 数值的整数次方.md`
-- `notes/17. 打印从 1 到最大的 n 位数.md`
-- `notes/18.1 在 O(1) 时间内删除链表节点.md`
-- `notes/18.2 删除链表中重复的结点.md`
-- `notes/19. 正则表达式匹配.md`
-- `notes/20. 表示数值的字符串.md`
-- `notes/21. 调整数组顺序使奇数位于偶数前面.md`
-- `notes/22. 链表中倒数第 K 个结点.md`
-- `notes/23. 链表中环的入口结点.md`
-- `notes/24. 反转链表.md`
-- `notes/25. 合并两个排序的链表.md`
+The files with the most remaining Chinese text surfaces are:
+- `notes/Linux.md` (395 heading/body/comment hits)
+- `notes/HTTP.md` (383 heading/body/comment hits)
+- `notes/java-concurrency.md` (316 heading/body/comment hits)
+- `notes/jvm.md` (294 heading/body/comment hits)
+- `notes/java-basics.md` (272 heading/body/comment hits)
+- `notes/sql-syntax.md` (264 heading/body/comment hits)
+- `notes/SQL.md` (262 heading/body/comment hits)
+- `notes/database-system-principles.md` (232 heading/body/comment hits)
+- `notes/design-patterns.md` (214 heading/body/comment hits)
+- `notes/leetcode-solutions-dynamic-programming.md` (214 heading/body/comment hits)
+- `notes/MySQL.md` (200 heading/body/comment hits)
+- `notes/Redis.md` (200 heading/body/comment hits)
+- `notes/java-collections.md` (181 heading/body/comment hits)
+- `notes/Java IO.md` (170 heading/body/comment hits)
+- `notes/distributed-systems.md` (170 heading/body/comment hits)
+- `notes/operating-systems-process-management.md` (157 heading/body/comment hits)
+- `notes/regular-expressions.md` (155 heading/body/comment hits)
+- `notes/algorithms-symbol-tables.md` (150 heading/body/comment hits)
+- `notes/leetcode-solutions-trees.md` (132 heading/body/comment hits)
+- `notes/computer-networking-network-layer.md` (121 heading/body/comment hits)
+- `notes/leetcode-solutions-search.md` (120 heading/body/comment hits)
+- `notes/object-oriented-programming.md` (111 heading/body/comment hits)
+- `notes/leetcode-solutions-math.md` (102 heading/body/comment hits)
+- `notes/caching.md` (97 heading/body/comment hits)
+- `notes/clustering.md` (96 heading/body/comment hits)
 
-The first Chinese asset-name rows are:
-- `assets/今日头条招聘海报.png`
-- `assets/公众号二维码-2.png`
-- `assets/公众号海报7.png`
-- `docs/_media/公众号.jpg`
-- `notes/pics/_u4E0B_u8F7D.png`
-- `notes/pics/_u4E8C_u53C9_u6811_u7684_u4E0B_.gif`
-- `notes/pics/_u4E8C_u53C9_u6811_u7684_u4E0B_1548504426508.gif`
-- `notes/pics/_u4E8C_u7EF4_u6570_u7EC4_u4E2D_.gif`
-- `notes/pics/_u4ECE_u5C3E_u5230_u5934_u6253_1548293972480.gif`
-- `notes/pics/_u4ECE_u5C3E_u5230_u5934_u6253_1548295232667.gif`
-- `notes/pics/_u4ECE_u5C3E_u5230_u5934_u6253_1548296249372.gif`
-- `notes/pics/_u4ECE_u5C3E_u5230_u5934_u6253_1548503461113.gif`
-- `notes/pics/_u6590_u6CE2_u90A3_u5951_u6570_u5217.gif`
-- `notes/pics/_u66FF_u6362_u7A7A_u683C.gif`
-- `notes/pics/_u7528_u4E24_u4E2A_u6808_u5B9E_.gif`
-- `notes/pics/_u91CD_u5EFA_u4E8C_u53C9_u6811-1.gif`
-- `notes/pics/_u91CD_u5EFA_u4E8C_u53C9_u6811-21548502782193.gif`
-- `notes/pics/公众号海报4.png`
-
-Internal targets currently missing or unresolved most often:
+Broken internal file/directory links sample:
 - None found.
-
-## Notes Before Translation
-
-- Do not translate content directly in this pass; use the CSV maps to decide scope and ordering first.
-- Preserve existing numeric prefixes for algorithm/problem notes unless the site navigation is redesigned at the same time.
-- The vendored Prism tree is included in the inventory because it is tracked; consider excluding or replacing it separately if it should not be part of translation work.
