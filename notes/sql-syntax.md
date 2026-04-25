@@ -1,64 +1,64 @@
 # SQL Syntax
 <!-- GFM-TOC -->
-* [SQL 语法](#sql-syntax)
-    * [一、基础](#1-basics)
-    * [二、创建表](#2-create-tables)
-    * [三、修改表](#3-modify-tables)
-    * [四、插入](#4-insert)
-    * [五、更新](#5-update)
-    * [六、删除](#6-delete)
-    * [七、查询](#7-query)
+* [SQL Syntax](#sql-syntax)
+    * [1. Basics](#1-basics)
+    * [2. Create Tables](#2-create-tables)
+    * [3. Modify Tables](#3-modify-tables)
+    * [4. Insert](#4-insert)
+    * [5. Update](#5-update)
+    * [6. Delete](#6-delete)
+    * [7. Query](#7-query)
         * [DISTINCT](#distinct)
         * [LIMIT](#limit)
-    * [八、排序](#8-sorting)
-    * [九、过滤](#9-filtering)
-    * [十、通配符](#10-wildcards)
-    * [十一、计算字段](#11-calculated-fields)
-    * [十二、函数](#12-functions)
-        * [汇总](#aggregation)
-        * [文本处理](#text-processing)
-        * [日期和时间处理](#date-and-time-processing)
-        * [数值处理](#numeric-processing)
-    * [十三、分组](#13-grouping)
-    * [十四、子查询](#14-subqueries)
-    * [十五、连接](#15-joins)
-        * [内连接](#inner-join)
-        * [自连接](#self-join)
-        * [自然连接](#natural-join)
-        * [外连接](#outer-join)
-    * [十六、组合查询](#16-combined-queries)
-    * [十七、视图](#17-views)
-    * [十八、存储过程](#18-stored-procedures)
-    * [十九、游标](#19-cursors)
-    * [二十、触发器](#20-triggers)
-    * [二十一、事务管理](#21-transaction-management)
-    * [二十二、字符集](#22-character-sets)
-    * [二十三、权限管理](#23-access-control)
-    * [参考资料](#references)
+    * [8. Sorting](#8-sorting)
+    * [9. Filtering](#9-filtering)
+    * [10. Wildcards](#10-wildcards)
+    * [11. Calculated Fields](#11-calculated-fields)
+    * [12. Functions](#12-functions)
+        * [Aggregation](#aggregation)
+        * [Text Processing](#text-processing)
+        * [Date and Time Processing](#date-and-time-processing)
+        * [Numeric Processing](#numeric-processing)
+    * [13. Grouping](#13-grouping)
+    * [14. Subqueries](#14-subqueries)
+    * [15. Joins](#15-joins)
+        * [Inner Join](#inner-join)
+        * [Self Join](#self-join)
+        * [Natural Join](#natural-join)
+        * [Outer Join](#outer-join)
+    * [16. Combined Queries](#16-combined-queries)
+    * [17. Views](#17-views)
+    * [18. Stored Procedures](#18-stored-procedures)
+    * [19. Cursors](#19-cursors)
+    * [20. Triggers](#20-triggers)
+    * [21. Transaction Management](#21-transaction-management)
+    * [22. Character Sets](#22-character-sets)
+    * [23. Access Control](#23-access-control)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
 ## 1. Basics
 
-模式定义了数据如何存储、存储什么样的数据以及数据如何分解等信息，数据库和表都有模式。
+A schema defines how data is stored, what kind of data is stored, and how data is organized. Both databases and tables have schemas.
 
-主键的值不允许修改，也不允许复用（不能将已经删除的主键值赋给新数据行的主键）。
+Primary key values should not be modified or reused. A deleted primary key value should not be assigned as the primary key of a new row.
 
-SQL（Structured Query Language)，标准 SQL 由 ANSI 标准委员会管理，从而称为 ANSI SQL。各个 DBMS 都有自己的实现，如 PL/SQL、Transact-SQL 等。
+SQL (Structured Query Language) is standardized by the ANSI standards committee, so standard SQL is also called ANSI SQL. Each DBMS has its own implementation, such as PL/SQL and Transact-SQL.
 
-SQL 语句不区分大小写，但是数据库表名、列名和值是否区分依赖于具体的 DBMS 以及配置。
+SQL statements are case-insensitive, but whether database table names, column names, and values are case-sensitive depends on the specific DBMS and configuration.
 
-SQL 支持以下三种注释：
+SQL supports the following three comment styles:
 
 ```sql
-## 注释
+## comment
 SELECT *
-FROM mytable; -- 注释
-/* 注释1
-   注释2 */
+FROM mytable; -- comment
+/* comment 1
+   comment 2 */
 ```
 
-数据库创建与使用：
+Database creation and usage:
 
 ```sql
 CREATE DATABASE test;
@@ -69,35 +69,35 @@ USE test;
 
 ```sql
 CREATE TABLE mytable (
-  # int 类型，不为空，自增
+  # int type, not null, auto-increment
   id INT NOT NULL AUTO_INCREMENT,
-  # int 类型，不可为空，默认值为 1，不为空
+  # int type, not null, default value 1
   col1 INT NOT NULL DEFAULT 1,
-  # 变长字符串类型，最长为 45 个字符，可以为空
+  # variable-length string type, up to 45 characters, nullable
   col2 VARCHAR(45) NULL,
-  # 日期类型，可为空
+  # date type, nullable
   col3 DATE NULL,
-  # 设置主键为 id
+  # set id as the primary key
   PRIMARY KEY (`id`));
 ```
 
 ## 3. Modify Tables
 
-添加列
+Add a column
 
 ```sql
 ALTER TABLE mytable
 ADD col CHAR(20);
 ```
 
-删除列
+Drop a column
 
 ```sql
 ALTER TABLE mytable
 DROP COLUMN col;
 ```
 
-删除表
+Drop a table
 
 ```sql
 DROP TABLE mytable;
@@ -105,14 +105,14 @@ DROP TABLE mytable;
 
 ## 4. Insert
 
-普通插入
+Regular insert
 
 ```sql
 INSERT INTO mytable(col1, col2)
 VALUES(val1, val2);
 ```
 
-插入检索出来的数据
+Insert retrieved data
 
 ```sql
 INSERT INTO mytable1(col1, col2)
@@ -120,7 +120,7 @@ SELECT col1, col2
 FROM mytable2;
 ```
 
-将一个表的内容插入到一个新表
+Insert the contents of one table into a new table
 
 ```sql
 CREATE TABLE newtable AS
@@ -142,19 +142,19 @@ DELETE FROM mytable
 WHERE id = 1;
 ```
 
-**TRUNCATE TABLE**   可以清空表，也就是删除所有行。
+**TRUNCATE TABLE** clears a table, meaning it deletes all rows.
 
 ```sql
 TRUNCATE TABLE mytable;
 ```
 
-使用更新和删除操作时一定要用 WHERE 子句，不然会把整张表的数据都破坏。可以先用 SELECT 语句进行测试，防止错误删除。
+Always use a WHERE clause when performing update and delete operations, otherwise data in the entire table may be damaged. Test with a SELECT statement first to prevent accidental deletion.
 
 ## 7. Query
 
 ### DISTINCT
 
-相同值只会出现一次。它作用于所有列，也就是说所有列的值都相同才算相同。
+Identical values appear only once. DISTINCT applies to all columns, meaning rows are considered identical only when all column values are identical.
 
 ```sql
 SELECT DISTINCT col1, col2
@@ -163,9 +163,9 @@ FROM mytable;
 
 ### LIMIT
 
-限制返回的行数。可以有两个参数，第一个参数为起始行，从 0 开始；第二个参数为返回的总行数。
+Limits the number of rows returned. It can take two parameters: the first is the starting row, beginning from 0, and the second is the total number of rows to return.
 
-返回前 5 行：
+Return the first 5 rows:
 
 ```sql
 SELECT *
@@ -179,7 +179,7 @@ FROM mytable
 LIMIT 0, 5;
 ```
 
-返回第 3 \~ 5 行：
+Return rows 3 through 5:
 
 ```sql
 SELECT *
@@ -189,10 +189,10 @@ LIMIT 2, 3;
 
 ## 8. Sorting
 
--   **ASC**  ：升序（默认）
--   **DESC**  ：降序
+-   **ASC**: ascending order (default)
+-   **DESC**: descending order
 
-可以按多个列进行排序，并且为每个列指定不同的排序方式：
+You can sort by multiple columns and specify a different sort order for each column:
 
 ```sql
 SELECT *
@@ -202,7 +202,7 @@ ORDER BY col1 DESC, col2 ASC;
 
 ## 9. Filtering
 
-不进行过滤的数据非常大，导致通过网络传输了多余的数据，从而浪费了网络带宽。因此尽量使用 SQL 语句来过滤不必要的数据，而不是传输所有的数据到客户端中然后由客户端进行过滤。
+Unfiltered data can be very large, causing unnecessary data to be transferred over the network and wasting network bandwidth. Therefore, use SQL statements to filter unnecessary data as much as possible instead of transferring all data to the client and filtering there.
 
 ```sql
 SELECT *
@@ -210,59 +210,59 @@ FROM mytable
 WHERE col IS NULL;
 ```
 
-下表显示了 WHERE 子句可用的操作符
+The following table shows operators available in the WHERE clause.
 
-|  操作符 | 说明  |
+| Operator | Description |
 | :---: | :---: |
-| = | 等于 |
-| &lt; | 小于 |
-| &gt; | 大于 |
-| &lt;&gt; != | 不等于 |
-| &lt;= !&gt; | 小于等于 |
-| &gt;= !&lt; | 大于等于 |
-| BETWEEN | 在两个值之间 |
-| IS NULL | 为 NULL 值 |
+| = | equal to |
+| &lt; | less than |
+| &gt; | greater than |
+| &lt;&gt; != | not equal to |
+| &lt;= !&gt; | less than or equal to |
+| &gt;= !&lt; | greater than or equal to |
+| BETWEEN | between two values |
+| IS NULL | is a NULL value |
 
-应该注意到，NULL 与 0、空字符串都不同。
+Note that NULL is different from 0 and from the empty string.
 
-**AND 和 OR**   用于连接多个过滤条件。优先处理 AND，当一个过滤表达式涉及到多个 AND 和 OR 时，可以使用 () 来决定优先级，使得优先级关系更清晰。
+**AND and OR** are used to connect multiple filter conditions. AND has higher precedence. When a filter expression contains multiple AND and OR operators, use () to set precedence and make it clearer.
 
-**IN**   操作符用于匹配一组值，其后也可以接一个 SELECT 子句，从而匹配子查询得到的一组值。
+The **IN** operator matches a set of values. It can also be followed by a SELECT clause to match a set of values obtained from a subquery.
 
-**NOT**   操作符用于否定一个条件。
+The **NOT** operator negates a condition.
 
 ## 10. Wildcards
 
-通配符也是用在过滤语句中，但它只能用于文本字段。
+Wildcards are also used in filtering statements, but they can only be used with text fields.
 
--   **%**   匹配 \>=0 个任意字符；
+-   **%** matches \>=0 arbitrary characters.
 
--   **\_**   匹配 ==1 个任意字符；
+-   **\_** matches exactly one arbitrary character.
 
--   **[ ]**   可以匹配集合内的字符，例如 [ab] 将匹配字符 a 或者 b。用脱字符 ^ 可以对其进行否定，也就是不匹配集合内的字符。
+-   **[ ]** matches characters in a set. For example, [ab] matches character a or b. Use the caret ^ to negate the set, meaning characters in the set are not matched.
 
-使用 Like 来进行通配符匹配。
+Use LIKE for wildcard matching.
 
 ```sql
 SELECT *
 FROM mytable
-WHERE col LIKE '[^AB]%'; -- 不以 A 和 B 开头的任意文本
+WHERE col LIKE '[^AB]%'; -- any text that does not start with A or B
 ```
 
-不要滥用通配符，通配符位于开头处匹配会非常慢。
+Do not overuse wildcards. Matching with a wildcard at the beginning is very slow.
 
 ## 11. Calculated Fields
 
-在数据库服务器上完成数据的转换和格式化的工作往往比客户端上快得多，并且转换和格式化后的数据量更少的话可以减少网络通信量。
+Completing data conversion and formatting on the database server is often much faster than doing so on the client, and if the converted and formatted data is smaller, network traffic can be reduced.
 
-计算字段通常需要使用   **AS**   来取别名，否则输出的时候字段名为计算表达式。
+Calculated fields usually need an alias with **AS**; otherwise, the output field name is the calculation expression.
 
 ```sql
 SELECT col1 * col2 AS alias
 FROM mytable;
 ```
 
-**CONCAT()**   用于连接两个字段。许多数据库会使用空格把一个值填充为列宽，因此连接的结果会出现一些不必要的空格，使用 **TRIM()** 可以去除首尾空格。
+**CONCAT()** joins two fields. Many databases pad a value with spaces to the column width, so the joined result may contain unnecessary spaces. Use **TRIM()** to remove leading and trailing spaces.
 
 ```sql
 SELECT CONCAT(TRIM(col1), '(', TRIM(col2), ')') AS concat_col
@@ -271,21 +271,21 @@ FROM mytable;
 
 ## 12. Functions
 
-各个 DBMS 的函数都是不相同的，因此不可移植，以下主要是 MySQL 的函数。
+Functions differ across DBMSs and are therefore not portable. The following mainly covers MySQL functions.
 
 ### Aggregation
 
-|函 数 |说 明|
+| Function | Description |
 | :---: | :---: |
-| AVG() | 返回某列的平均值 |
-| COUNT() | 返回某列的行数 |
-| MAX() | 返回某列的最大值 |
-| MIN() | 返回某列的最小值 |
-| SUM() |返回某列值之和 |
+| AVG() | returns the average value of a column |
+| COUNT() | returns the number of rows in a column |
+| MAX() | returns the maximum value of a column |
+| MIN() | returns the minimum value of a column |
+| SUM() | returns the sum of values in a column |
 
-AVG() 会忽略 NULL 行。
+AVG() ignores NULL rows.
 
-使用 DISTINCT 可以汇总不同的值。
+Use DISTINCT to aggregate distinct values.
 
 ```sql
 SELECT AVG(DISTINCT col1) AS avg_col
@@ -294,18 +294,18 @@ FROM mytable;
 
 ### Text Processing
 
-| 函数  | 说明  |
+| Function | Description |
 | :---: | :---: |
-|  LEFT() |  左边的字符 |
-| RIGHT() | 右边的字符 |
-| LOWER() | 转换为小写字符 |
-| UPPER() | 转换为大写字符 |
-| LTRIM() | 去除左边的空格 |
-| RTRIM() | 去除右边的空格 |
-| LENGTH() | 长度 |
-| SOUNDEX() | 转换为语音值 |
+|  LEFT() | left-side characters |
+| RIGHT() | right-side characters |
+| LOWER() | converts to lowercase characters |
+| UPPER() | converts to uppercase characters |
+| LTRIM() | removes spaces on the left |
+| RTRIM() | removes spaces on the right |
+| LENGTH() | length |
+| SOUNDEX() | converts to a phonetic value |
 
-其中，  **SOUNDEX()**   可以将一个字符串转换为描述其语音表示的字母数字模式。
+**SOUNDEX()** converts a string into an alphanumeric pattern that describes its phonetic representation.
 
 ```sql
 SELECT *
@@ -316,28 +316,28 @@ WHERE SOUNDEX(col1) = SOUNDEX('apple')
 ### Date and Time Processing
 
 
-- 日期格式：YYYY-MM-DD
-- 时间格式：HH:\<zero-width space\>MM:SS
+- Date format: YYYY-MM-DD
+- Time format: HH:\<zero-width space\>MM:SS
 
-|函 数 | 说 明|
+| Function | Description |
 | :---: | :---: |
-| ADDDATE() | 增加一个日期（天、周等）|
-| ADDTIME() | 增加一个时间（时、分等）|
-| CURDATE() | 返回当前日期 |
-| CURTIME() | 返回当前时间 |
-| DATE() |返回日期时间的日期部分|
-| DATEDIFF() |计算两个日期之差|
-| DATE_ADD() |高度灵活的日期运算函数|
-| DATE_FORMAT() |返回一个格式化的日期或时间串|
-| DAY()| 返回一个日期的天数部分|
-| DAYOFWEEK() |对于一个日期，返回对应的星期几|
-| HOUR() |返回一个时间的小时部分|
-| MINUTE() |返回一个时间的分钟部分|
-| MONTH() |返回一个日期的月份部分|
-| NOW() |返回当前日期和时间|
-| SECOND() |返回一个时间的秒部分|
-| TIME() |返回一个日期时间的时间部分|
-| YEAR() |返回一个日期的年份部分|
+| ADDDATE() | adds to a date (days, weeks, etc.) |
+| ADDTIME() | adds to a time (hours, minutes, etc.) |
+| CURDATE() | returns the current date |
+| CURTIME() | returns the current time |
+| DATE() | returns the date part of a date-time value |
+| DATEDIFF() | calculates the difference between two dates |
+| DATE_ADD() | highly flexible date arithmetic function |
+| DATE_FORMAT() | returns a formatted date or time string |
+| DAY()| returns the day part of a date |
+| DAYOFWEEK() | returns the weekday for a date |
+| HOUR() | returns the hour part of a time |
+| MINUTE() | returns the minute part of a time |
+| MONTH() | returns the month part of a date |
+| NOW() | returns the current date and time |
+| SECOND() | returns the second part of a time |
+| TIME() | returns the time part of a date-time value |
+| YEAR() | returns the year part of a date |
 
 ```sql
 mysql> SELECT NOW();
@@ -349,25 +349,25 @@ mysql> SELECT NOW();
 
 ### Numeric Processing
 
-| 函数 | 说明 |
+| Function | Description |
 | :---: | :---: |
-| SIN() | 正弦 |
-| COS() | 余弦 |
-| TAN() | 正切 |
-| ABS() | 绝对值 |
-| SQRT() | 平方根 |
-| MOD() | 余数 |
-| EXP() | 指数 |
-| PI() | 圆周率 |
-| RAND() | 随机数 |
+| SIN() | sine |
+| COS() | cosine |
+| TAN() | tangent |
+| ABS() | absolute value |
+| SQRT() | square root |
+| MOD() | remainder |
+| EXP() | exponent |
+| PI() | pi |
+| RAND() | random number |
 
 ## 13. Grouping
 
-把具有相同的数据值的行放在同一组中。
+Put rows with the same data value into the same group.
 
-可以对同一分组数据使用汇总函数进行处理，例如求分组数据的平均值等。
+Aggregate functions can be applied to grouped data, such as computing the average of each group.
 
-指定的分组字段除了能按该字段进行分组，也会自动按该字段进行排序。
+The specified grouping field is used for grouping and is also automatically sorted by that field.
 
 ```sql
 SELECT col, COUNT(*) AS num
@@ -375,7 +375,7 @@ FROM mytable
 GROUP BY col;
 ```
 
-GROUP BY 自动按分组字段进行排序，ORDER BY 也可以按汇总字段来进行排序。
+GROUP BY automatically sorts by the grouping field. ORDER BY can also sort by aggregate fields.
 
 ```sql
 SELECT col, COUNT(*) AS num
@@ -384,7 +384,7 @@ GROUP BY col
 ORDER BY num;
 ```
 
-WHERE 过滤行，HAVING 过滤分组，行过滤应当先于分组过滤。
+WHERE filters rows, while HAVING filters groups. Row filtering should happen before group filtering.
 
 ```sql
 SELECT col, COUNT(*) AS num
@@ -394,18 +394,18 @@ GROUP BY col
 HAVING num >= 2;
 ```
 
-分组规定：
+Grouping rules:
 
-- GROUP BY 子句出现在 WHERE 子句之后，ORDER BY 子句之前；
-- 除了汇总字段外，SELECT 语句中的每一字段都必须在 GROUP BY 子句中给出；
-- NULL 的行会单独分为一组；
-- 大多数 SQL 实现不支持 GROUP BY 列具有可变长度的数据类型。
+- The GROUP BY clause appears after the WHERE clause and before the ORDER BY clause.
+- Except for aggregate fields, every field in the SELECT statement must appear in the GROUP BY clause.
+- Rows with NULL are grouped separately.
+- Most SQL implementations do not support GROUP BY columns with variable-length data types.
 
 ## 14. Subqueries
 
-子查询中只能返回一个字段的数据。
+A subquery can return data from only one field.
 
-可以将子查询的结果作为 WHRER 语句的过滤条件：
+The result of a subquery can be used as a filter condition in a WHERE statement:
 
 ```sql
 SELECT *
@@ -414,7 +414,7 @@ WHERE col1 IN (SELECT col2
                FROM mytable2);
 ```
 
-下面的语句可以检索出客户的订单数量，子查询语句会对第一个查询检索出的每个客户执行一次：
+The following statement retrieves the number of orders for each customer. The subquery executes once for each customer retrieved by the first query:
 
 ```sql
 SELECT cust_name, (SELECT COUNT(*)
@@ -427,15 +427,15 @@ ORDER BY cust_name;
 
 ## 15. Joins
 
-连接用于连接多个表，使用 JOIN 关键字，并且条件语句使用 ON 而不是 WHERE。
+Joins connect multiple tables using the JOIN keyword, and the condition uses ON instead of WHERE.
 
-连接可以替换子查询，并且比子查询的效率一般会更快。
+Joins can replace subqueries and are generally more efficient.
 
-可以用 AS 给列名、计算字段和表名取别名，给表名取别名是为了简化 SQL 语句以及连接相同表。
+Use AS to assign aliases to column names, calculated fields, and table names. Table aliases simplify SQL statements and support joining the same table.
 
 ### Inner Join
 
-内连接又称等值连接，使用 INNER JOIN 关键字。
+An inner join is also called an equijoin and uses the INNER JOIN keyword.
 
 ```sql
 SELECT A.value, B.value
@@ -443,7 +443,7 @@ FROM tablea AS A INNER JOIN tableb AS B
 ON A.key = B.key;
 ```
 
-可以不明确使用 INNER JOIN，而使用普通查询并在 WHERE 中将两个表中要连接的列用等值方法连接起来。
+You can omit explicit INNER JOIN and use a regular query, connecting the columns to be joined from the two tables with equality in WHERE.
 
 ```sql
 SELECT A.value, B.value
@@ -453,11 +453,11 @@ WHERE A.key = B.key;
 
 ### Self Join
 
-自连接可以看成内连接的一种，只是连接的表是自身而已。
+A self join can be viewed as a type of inner join, except the joined table is the same table.
 
-一张员工表，包含员工姓名和员工所属部门，要找出与 Jim 处在同一部门的所有员工姓名。
+Given an employee table containing employee names and departments, find the names of all employees in the same department as Jim.
 
-子查询版本
+Subquery version
 
 ```sql
 SELECT name
@@ -468,7 +468,7 @@ WHERE department = (
       WHERE name = "Jim");
 ```
 
-自连接版本
+Self-join version
 
 ```sql
 SELECT e1.name
@@ -479,9 +479,9 @@ ON e1.department = e2.department
 
 ### Natural Join
 
-自然连接是把同名列通过等值测试连接起来的，同名列可以有多个。
+A natural join connects columns with the same name through equality tests. There can be multiple same-name columns.
 
-内连接和自然连接的区别：内连接提供连接的列，而自然连接自动连接所有同名列。
+Difference between inner join and natural join: an inner join provides the columns to join, while a natural join automatically joins all columns with the same name.
 
 ```sql
 SELECT A.value, B.value
@@ -490,9 +490,9 @@ FROM tablea AS A NATURAL JOIN tableb AS B;
 
 ### Outer Join
 
-外连接保留了没有关联的那些行。分为左外连接，右外连接以及全外连接，左外连接就是保留左表没有关联的行。
+An outer join preserves rows without matches. It includes left outer join, right outer join, and full outer join. A left outer join preserves unmatched rows from the left table.
 
-检索所有顾客的订单信息，包括还没有订单信息的顾客。
+Retrieve order information for all customers, including customers who do not yet have order information.
 
 ```sql
 SELECT Customers.cust_id, Customer.cust_name, Orders.order_id
@@ -500,7 +500,7 @@ FROM Customers LEFT OUTER JOIN Orders
 ON Customers.cust_id = Orders.cust_id;
 ```
 
-customers 表：
+customers table:
 
 | cust_id | cust_name |
 | :---: | :---: |
@@ -508,7 +508,7 @@ customers 表：
 | 2 | b |
 | 3 | c |
 
-orders 表：
+orders table:
 
 | order_id | cust_id |
 | :---: | :---: |
@@ -517,7 +517,7 @@ orders 表：
 |3    | 3 |
 |4    | 3 |
 
-结果：
+Result:
 
 | cust_id | cust_name | order_id |
 | :---: | :---: | :---: |
@@ -529,13 +529,13 @@ orders 表：
 
 ## 16. Combined Queries
 
-使用   **UNION**   来组合两个查询，如果第一个查询返回 M 行，第二个查询返回 N 行，那么组合查询的结果一般为 M+N 行。
+Use **UNION** to combine two queries. If the first query returns M rows and the second returns N rows, the combined query result generally has M+N rows.
 
-每个查询必须包含相同的列、表达式和聚集函数。
+Each query must contain the same columns, expressions, and aggregate functions.
 
-默认会去除相同行，如果需要保留相同行，使用 UNION ALL。
+Duplicate rows are removed by default. Use UNION ALL if duplicate rows should be retained.
 
-只能包含一个 ORDER BY 子句，并且必须位于语句的最后。
+Only one ORDER BY clause can be included, and it must appear at the end of the statement.
 
 ```sql
 SELECT col
@@ -549,16 +549,16 @@ WHERE col =2;
 
 ## 17. Views
 
-视图是虚拟的表，本身不包含数据，也就不能对其进行索引操作。
+A view is a virtual table. It does not contain data itself, so indexes cannot be applied to it.
 
-对视图的操作和对普通表的操作一样。
+Operations on views are the same as operations on ordinary tables.
 
-视图具有如下好处：
+Views have the following benefits:
 
-- 简化复杂的 SQL 操作，比如复杂的连接；
-- 只使用实际表的一部分数据；
-- 通过只给用户访问视图的权限，保证数据的安全性；
-- 更改数据格式和表示。
+- simplify complex SQL operations, such as complex joins;
+- use only part of the data from actual tables;
+- ensure data security by granting users access only to views;
+- change data format and representation.
 
 ```sql
 CREATE VIEW myview AS
@@ -569,21 +569,21 @@ WHERE col5 = val;
 
 ## 18. Stored Procedures
 
-存储过程可以看成是对一系列 SQL 操作的批处理。
+A stored procedure can be viewed as batch processing for a series of SQL operations.
 
-使用存储过程的好处：
+Benefits of stored procedures:
 
-- 代码封装，保证了一定的安全性；
-- 代码复用；
-- 由于是预先编译，因此具有很高的性能。
+- code encapsulation, providing a certain level of security;
+- code reuse;
+- high performance because they are precompiled.
 
-命令行中创建存储过程需要自定义分隔符，因为命令行是以 ; 为结束符，而存储过程中也包含了分号，因此会错误把这部分分号当成是结束符，造成语法错误。
+Creating stored procedures on the command line requires a custom delimiter because the command line uses ; as the terminator, and stored procedures also contain semicolons. Otherwise, those semicolons are mistakenly treated as terminators, causing syntax errors.
 
-包含 in、out 和 inout 三种参数。
+They include three parameter types: in, out, and inout.
 
-给变量赋值都需要用 select into 语句。
+Assigning values to variables requires the select into statement.
 
-每次只能给一个变量赋值，不支持集合的操作。
+Only one variable can be assigned at a time; set operations are not supported.
 
 ```sql
 delimiter //
@@ -607,16 +607,16 @@ select @ret;
 
 ## 19. Cursors
 
-在存储过程中使用游标可以对一个结果集进行移动遍历。
+Using cursors in stored procedures allows moving through a result set.
 
-游标主要用于交互式应用，其中用户需要对数据集中的任意行进行浏览和修改。
+Cursors are mainly used in interactive applications where users need to browse and modify arbitrary rows in a dataset.
 
-使用游标的四个步骤：
+Four steps for using a cursor:
 
-1. 声明游标，这个过程没有实际检索出数据；
-2. 打开游标；
-3. 取出数据；
-4. 关闭游标；
+1. Declare the cursor; this step does not actually retrieve data.
+2. Open the cursor.
+3. Fetch data.
+4. Close the cursor.
 
 ```sql
 delimiter //
@@ -626,7 +626,7 @@ create procedure myprocedure(out ret int)
 
         declare mycursor cursor for
         select col1 from mytable;
-        # 定义了一个 continue handler，当 sqlstate '02000' 这个条件出现时，会执行 set done = 1
+        # Define a continue handler. When sqlstate '02000' occurs, set done = 1 is executed.
         declare continue handler for sqlstate '02000' set done = 1;
 
         open mycursor;
@@ -643,41 +643,41 @@ create procedure myprocedure(out ret int)
 
 ## 20. Triggers
 
-触发器会在某个表执行以下语句时而自动执行：DELETE、INSERT、UPDATE。
+A trigger executes automatically when the following statements are executed on a table: DELETE, INSERT, and UPDATE.
 
-触发器必须指定在语句执行之前还是之后自动执行，之前执行使用 BEFORE 关键字，之后执行使用 AFTER 关键字。BEFORE 用于数据验证和净化，AFTER 用于审计跟踪，将修改记录到另外一张表中。
+A trigger must specify whether it executes automatically before or after the statement. Use the BEFORE keyword for execution before the statement and AFTER for execution after the statement. BEFORE is used for data validation and cleanup, while AFTER is used for audit trails, recording modifications into another table.
 
-INSERT 触发器包含一个名为 NEW 的虚拟表。
+An INSERT trigger contains a virtual table named NEW.
 
 ```sql
 CREATE TRIGGER mytrigger AFTER INSERT ON mytable
 FOR EACH ROW SELECT NEW.col into @result;
 
-SELECT @result; -- 获取结果
+SELECT @result; -- get result
 ```
 
-DELETE 触发器包含一个名为 OLD 的虚拟表，并且是只读的。
+A DELETE trigger contains a virtual table named OLD, which is read-only.
 
-UPDATE 触发器包含一个名为 NEW 和一个名为 OLD 的虚拟表，其中 NEW 是可以被修改的，而 OLD 是只读的。
+An UPDATE trigger contains virtual tables named NEW and OLD. NEW can be modified, while OLD is read-only.
 
-MySQL 不允许在触发器中使用 CALL 语句，也就是不能调用存储过程。
+MySQL does not allow CALL statements in triggers, meaning stored procedures cannot be called.
 
 ## 21. Transaction Management
 
-基本术语：
+Basic terms:
 
-- 事务（transaction）指一组 SQL 语句；
-- 回退（rollback）指撤销指定 SQL 语句的过程；
-- 提交（commit）指将未存储的 SQL 语句结果写入数据库表；
-- 保留点（savepoint）指事务处理中设置的临时占位符（placeholder），你可以对它发布回退（与回退整个事务处理不同）。
+- Transaction: a group of SQL statements.
+- Rollback: the process of undoing specified SQL statements.
+- Commit: writing unstored SQL statement results into database tables.
+- Savepoint: a temporary placeholder set during transaction processing. You can roll back to it, unlike rolling back the entire transaction.
 
-不能回退 SELECT 语句，回退 SELECT 语句也没意义；也不能回退 CREATE 和 DROP 语句。
+SELECT statements cannot be rolled back, and rolling them back would not make sense. CREATE and DROP statements also cannot be rolled back.
 
-MySQL 的事务提交默认是隐式提交，每执行一条语句就把这条语句当成一个事务然后进行提交。当出现 START TRANSACTION 语句时，会关闭隐式提交；当 COMMIT 或 ROLLBACK 语句执行后，事务会自动关闭，重新恢复隐式提交。
+MySQL commits transactions implicitly by default. Each statement is treated as a transaction and committed. When a START TRANSACTION statement appears, implicit commit is disabled. After COMMIT or ROLLBACK executes, the transaction closes automatically and implicit commit is restored.
 
-设置 autocommit 为 0 可以取消自动提交；autocommit 标记是针对每个连接而不是针对服务器的。
+Setting autocommit to 0 disables automatic commit. The autocommit flag applies to each connection, not to the server.
 
-如果没有设置保留点，ROLLBACK 会回退到 START TRANSACTION 语句处；如果设置了保留点，并且在 ROLLBACK 中指定该保留点，则会回退到该保留点。
+If no savepoint is set, ROLLBACK rolls back to the START TRANSACTION statement. If a savepoint is set and specified in ROLLBACK, rollback returns to that savepoint.
 
 ```sql
 START TRANSACTION
@@ -691,13 +691,13 @@ COMMIT
 
 ## 22. Character Sets
 
-基本术语：
+Basic terms:
 
-- 字符集为字母和符号的集合；
-- 编码为某个字符集成员的内部表示；
-- 校对字符指定如何比较，主要用于排序和分组。
+- A character set is a collection of letters and symbols.
+- Encoding is the internal representation of members of a character set.
+- Collation specifies how characters are compared, mainly for sorting and grouping.
 
-除了给表指定字符集和校对外，也可以给列指定：
+Besides specifying a character set and collation for a table, you can also specify them for columns:
 
 ```sql
 CREATE TABLE mytable
@@ -705,7 +705,7 @@ CREATE TABLE mytable
 DEFAULT CHARACTER SET hebrew COLLATE hebrew_general_ci;
 ```
 
-可以在排序、分组时指定校对：
+Collation can be specified during sorting and grouping:
 
 ```sql
 SELECT *
@@ -715,64 +715,64 @@ ORDER BY col COLLATE latin1_general_ci;
 
 ## 23. Access Control
 
-MySQL 的账户信息保存在 mysql 这个数据库中。
+MySQL account information is stored in the mysql database.
 
 ```sql
 USE mysql;
 SELECT user FROM user;
 ```
 
-**创建账户**  
+**Create Account**  
 
-新创建的账户没有任何权限。
+Newly created accounts have no privileges.
 
 ```sql
 CREATE USER myuser IDENTIFIED BY 'mypassword';
 ```
 
-**修改账户名**  
+**Rename Account**  
 
 ```sql
 RENAME USER myuser TO newuser;
 ```
 
-**删除账户**  
+**Delete Account**  
 
 ```sql
 DROP USER myuser;
 ```
 
-**查看权限**  
+**View Privileges**  
 
 ```sql
 SHOW GRANTS FOR myuser;
 ```
 
-**授予权限**  
+**Grant Privileges**  
 
-账户用 username@host 的形式定义，username@% 使用的是默认主机名。
+Accounts are defined in the form username@host. username@% uses the default host name.
 
 ```sql
 GRANT SELECT, INSERT ON mydatabase.* TO myuser;
 ```
 
-**删除权限**  
+**Revoke Privileges**  
 
-GRANT 和 REVOKE 可在几个层次上控制访问权限：
+GRANT and REVOKE can control access privileges at several levels:
 
-- 整个服务器，使用 GRANT ALL 和 REVOKE ALL；
-- 整个数据库，使用 ON database.\*；
-- 特定的表，使用 ON database.table；
-- 特定的列；
-- 特定的存储过程。
+- Entire server, using GRANT ALL and REVOKE ALL.
+- Entire database, using ON database.\*.
+- Specific table, using ON database.table.
+- Specific column.
+- Specific stored procedure.
 
 ```sql
 REVOKE SELECT, INSERT ON mydatabase.* FROM myuser;
 ```
 
-**更改密码**  
+**Change Password**  
 
-必须使用 Password() 函数进行加密。
+The Password() function must be used for encryption.
 
 ```sql
 SET PASSWROD FOR myuser = Password('new_password');
@@ -780,4 +780,4 @@ SET PASSWROD FOR myuser = Password('new_password');
 
 ## References
 
-- BenForta. SQL 必知必会 [M]. 人民邮电出版社, 2013.
+- Ben Forta. SQL in 10 Minutes, Sams Teach Yourself [M]. People's Posts and Telecommunications Press, 2013.

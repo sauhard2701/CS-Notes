@@ -1,6 +1,6 @@
 # SQL Exercises
 <!-- GFM-TOC -->
-* [SQL 练习](#sql-exercises)
+* [SQL Exercises](#sql-exercises)
     * [595. Big Countries](#595-big-countries)
     * [627. Swap Salary](#627-swap-salary)
     * [620. Not Boring Movies](#620-not-boring-movies)
@@ -37,7 +37,7 @@ https://leetcode.com/problems/big-countries/description/
 +-----------------+------------+------------+--------------+---------------+
 ```
 
-查找面积超过 3,000,000 或者人口数超过 25,000,000 的国家。
+Find countries with an area greater than 3,000,000 or a population greater than 25,000,000.
 
 ```html
 +--------------+-------------+--------------+
@@ -63,7 +63,7 @@ WHERE
 
 ### SQL Schema
 
-SQL Schema 用于在本地环境下创建表结构并导入数据，从而方便在本地环境调试。
+SQL Schema is used to create table structures and import data in a local environment, making local debugging easier.
 
 ```sql
 DROP TABLE
@@ -94,7 +94,7 @@ https://leetcode.com/problems/swap-salary/description/
 | 4  | D    | f   | 500    |
 ```
 
-只用一个 SQL 查询，将 sex 字段反转。
+Use a single SQL query to reverse the sex field.
 
 ```html
 | id | name | sex | salary |
@@ -107,16 +107,16 @@ https://leetcode.com/problems/swap-salary/description/
 
 ### Solution
 
-两个相等的数异或的结果为 0，而 0 与任何一个数异或的结果为这个数。
+The XOR result of two equal values is 0, and the XOR result of 0 with any value is that value.
 
-sex  字段只有两个取值：'f' 和 'm'，并且有以下规律：
+The sex field has only two values, 'f' and 'm', and follows this pattern:
 
 ```
 'f' ^ ('m' ^ 'f') = 'm' ^ ('f' ^ 'f') = 'm'
 'm' ^ ('m' ^ 'f') = 'f' ^ ('m' ^ 'm') = 'f'
 ```
 
-因此将 sex 字段和 'm' ^ 'f' 进行异或操作，最后就能反转 sex 字段。
+Therefore, XORing the sex field with 'm' ^ 'f' reverses the sex field.
 
 ```sql
 UPDATE salary
@@ -157,7 +157,7 @@ https://leetcode.com/problems/not-boring-movies/description/
 +---------+-----------+--------------+-----------+
 ```
 
-查找 id 为奇数，并且 description 不是 boring 的电影，按 rating 降序。
+Find movies whose id is odd and whose description is not boring, ordered by rating in descending order.
 
 ```html
 +---------+-----------+--------------+-----------+
@@ -220,7 +220,7 @@ https://leetcode.com/problems/classes-more-than-5-students/description/
 +---------+------------+
 ```
 
-查找有五名及以上 student 的 class。
+Find classes with at least five students.
 
 ```html
 +---------+
@@ -232,7 +232,7 @@ https://leetcode.com/problems/classes-more-than-5-students/description/
 
 ### Solution
 
-对 class 列进行分组之后，再使用 count 汇总函数统计每个分组的记录个数，之后使用 HAVING 进行筛选。HAVING  针对分组进行筛选，而 WHERE 针对每个记录（行）进行筛选。
+Group by the class column, then use the count aggregate function to count the number of records in each group, and use HAVING to filter. HAVING filters groups, while WHERE filters individual records or rows.
 
 ```sql
 SELECT
@@ -271,7 +271,7 @@ https://leetcode.com/problems/duplicate-emails/description/
 
 ### Description
 
-邮件地址表：
+Email address table:
 
 ```html
 +----+---------+
@@ -283,7 +283,7 @@ https://leetcode.com/problems/duplicate-emails/description/
 +----+---------+
 ```
 
-查找重复的邮件地址：
+Find duplicate email addresses:
 
 ```html
 +---------+
@@ -295,7 +295,7 @@ https://leetcode.com/problems/duplicate-emails/description/
 
 ### Solution
 
-对 Email 进行分组，如果并使用 COUNT 进行计数统计，结果大于等于 2 的表示 Email  重复。
+Group by Email and use COUNT to count records. Results greater than or equal to 2 indicate duplicate Email values.
 
 ```sql
 SELECT
@@ -329,7 +329,7 @@ https://leetcode.com/problems/delete-duplicate-emails/description/
 
 ### Description
 
-邮件地址表：
+Email address table:
 
 ```html
 +----+---------+
@@ -341,7 +341,7 @@ https://leetcode.com/problems/delete-duplicate-emails/description/
 +----+---------+
 ```
 
-删除重复的邮件地址：
+Delete duplicate email addresses:
 
 ```html
 +----+------------------+
@@ -354,9 +354,9 @@ https://leetcode.com/problems/delete-duplicate-emails/description/
 
 ### Solution
 
-只保留相同 Email 中 Id 最小的那一个，然后删除其它的。
+Keep only the row with the smallest Id among identical Email values and delete the others.
 
-连接查询：
+Join query:
 
 ```sql
 DELETE p1
@@ -368,7 +368,7 @@ WHERE
     AND p1.Id > p2.Id
 ```
 
-子查询：
+Subquery:
 
 ```sql
 DELETE
@@ -385,7 +385,7 @@ WHERE
     );
 ```
 
-应该注意的是上述解法额外嵌套了一个 SELECT 语句，如果不这么做，会出现错误：You can't specify target table 'Person' for update in FROM clause。以下演示了这种错误解法。
+Note that the solution above nests an extra SELECT statement. Without doing so, the error "You can't specify target table 'Person' for update in FROM clause" occurs. The following demonstrates this incorrect solution.
 
 ```sql
 DELETE
@@ -399,11 +399,11 @@ WHERE
     );
 ```
 
-参考：[pMySQL Error 1093 - Can't specify target table for update in FROM clause](https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause)
+Reference: [pMySQL Error 1093 - Can't specify target table for update in FROM clause](https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause)
 
 ### SQL Schema
 
-与 182 相同。
+Same as 182.
 
 ## 175. Combine Two Tables
 
@@ -411,7 +411,7 @@ https://leetcode.com/problems/combine-two-tables/description/
 
 ### Description
 
-Person 表：
+Person table:
 
 ```html
 +-------------+---------+
@@ -424,7 +424,7 @@ Person 表：
 PersonId is the primary key column for this table.
 ```
 
-Address 表：
+Address table:
 
 ```html
 +-------------+---------+
@@ -438,11 +438,11 @@ Address 表：
 AddressId is the primary key column for this table.
 ```
 
-查找 FirstName, LastName, City, State 数据，而不管一个用户有没有填地址信息。
+Find FirstName, LastName, City, and State, regardless of whether a user has filled in address information.
 
 ### Solution
 
-涉及到 Person 和 Address 两个表，在对这两个表执行连接操作时，因为要保留 Person 表中的信息，即使在 Address 表中没有关联的信息也要保留。此时可以用左外连接，将 Person 表放在 LEFT JOIN 的左边。
+This involves the Person and Address tables. When joining these two tables, Person table information must be preserved even if no related information exists in the Address table. Use a left outer join and place the Person table on the left side of LEFT JOIN.
 
 ```sql
 SELECT
@@ -481,7 +481,7 @@ https://leetcode.com/problems/employees-earning-more-than-their-managers/descrip
 
 ### Description
 
-Employee 表：
+Employee table:
 
 ```html
 +----+-------+--------+-----------+
@@ -494,7 +494,7 @@ Employee 表：
 +----+-------+--------+-----------+
 ```
 
-查找薪资大于其经理薪资的员工信息。
+Find employees whose salary is greater than their manager's salary.
 
 ### Solution
 
@@ -529,7 +529,7 @@ https://leetcode.com/problems/customers-who-never-order/description/
 
 ### Description
 
-Customers 表：
+Customers table:
 
 ```html
 +----+-------+
@@ -542,7 +542,7 @@ Customers 表：
 +----+-------+
 ```
 
-Orders 表：
+Orders table:
 
 ```html
 +----+------------+
@@ -553,7 +553,7 @@ Orders 表：
 +----+------------+
 ```
 
-查找没有订单的顾客信息：
+Find customers who have no orders:
 
 ```html
 +-----------+
@@ -566,7 +566,7 @@ Orders 表：
 
 ### Solution
 
-左外链接
+Left outer join
 
 ```sql
 SELECT
@@ -579,7 +579,7 @@ WHERE
     O.CustomerId IS NULL;
 ```
 
-子查询
+Subquery
 
 ```sql
 SELECT
@@ -622,7 +622,7 @@ https://leetcode.com/problems/department-highest-salary/description/
 
 ### Description
 
-Employee 表：
+Employee table:
 
 ```html
 +----+-------+--------+--------------+
@@ -635,7 +635,7 @@ Employee 表：
 +----+-------+--------+--------------+
 ```
 
-Department 表：
+Department table:
 
 ```html
 +----+----------+
@@ -646,7 +646,7 @@ Department 表：
 +----+----------+
 ```
 
-查找一个 Department 中收入最高者的信息：
+Find the information for the highest earner in each department:
 
 ```html
 +------------+----------+--------+
@@ -659,9 +659,9 @@ Department 表：
 
 ### Solution
 
-创建一个临时表，包含了部门员工的最大薪资。可以对部门进行分组，然后使用 MAX() 汇总函数取得最大薪资。
+Create a temporary table containing the maximum salary of employees in each department. Group by department and use the MAX() aggregate function to obtain the maximum salary.
 
-之后使用连接找到一个部门中薪资等于临时表中最大薪资的员工。
+Then use a join to find employees in each department whose salary equals the maximum salary in the temporary table.
 
 ```sql
 SELECT
@@ -716,7 +716,7 @@ https://leetcode.com/problems/second-highest-salary/description/
 +----+--------+
 ```
 
-查找工资第二高的员工。
+Find the employee with the second highest salary.
 
 ```html
 +---------------------+
@@ -726,11 +726,11 @@ https://leetcode.com/problems/second-highest-salary/description/
 +---------------------+
 ```
 
-没有找到返回 null 而不是不返回数据。
+If no result is found, return null instead of returning no data.
 
 ### Solution
 
-为了在没有查找到数据时返回 null，需要在查询结果外面再套一层 SELECT。
+To return null when no data is found, wrap another SELECT around the query result.
 
 ```sql
 SELECT
@@ -758,7 +758,7 @@ VALUES
 
 ### Description
 
-查找工资第 N 高的员工。
+Find the employee with the N-th highest salary.
 
 ### Solution
 
@@ -780,7 +780,7 @@ END
 
 ### SQL Schema
 
-同 176。
+Same as 176.
 
 
 ## 178. Rank Scores
@@ -789,7 +789,7 @@ https://leetcode.com/problems/rank-scores/description/
 
 ### Description
 
-得分表：
+Scores table:
 
 ```html
 +----+-------+
@@ -804,7 +804,7 @@ https://leetcode.com/problems/rank-scores/description/
 +----+-------+
 ```
 
-将得分排序，并统计排名。
+Sort the scores and calculate ranks.
 
 ```html
 +-------+------+
@@ -821,15 +821,15 @@ https://leetcode.com/problems/rank-scores/description/
 
 ### Solution
 
-要统计某个 score 的排名，只要统计大于等于该 score 的 score 数量。
+To calculate the rank of a score, count the number of scores greater than or equal to that score.
 
-| Id | score | 大于等于该 score 的 score 数量 | 排名 |
+| Id | score | number of scores greater than or equal to this score | rank |
 | :---: | :---: | :---: | :---: |
 | 1 | 4.1 | 3 | 3 |
 | 2 | 4.2 | 2 | 2 |
 | 3 | 4.3 | 1 | 1 |
 
-使用连接操作找到某个 score 对应的大于等于其值的记录：
+Use a join to find records whose score is greater than or equal to a given score:
 
 ```sql
 SELECT
@@ -851,7 +851,7 @@ ORDER BY
 |1|	4.1	|2|	4.2|
 |1|	4.1	|3|	4.3|
 
-可以看到每个 S1.score 都有对应好几条记录，我们再进行分组，并统计每个分组的数量作为 'Rank'
+Each S1.score corresponds to several records. Group them and count the records in each group as 'Rank'.
 
 ```sql
 SELECT
@@ -873,7 +873,7 @@ ORDER BY
 | 4.2 | 2 |
 | 4.1 | 3 |
 
-上面的解法看似没问题，但是对于以下数据，它却得到了错误的结果：
+The solution above appears correct, but it returns an incorrect result for the following data:
 
 | Id | score |
 | :---: | :---: |
@@ -887,7 +887,7 @@ ORDER BY
 |  4.2  |  2   |
 |  4.1  |  3   |
 
-而我们希望的结果为：
+The expected result is:
 
 | score | Rank |
 | :---: | :--: |
@@ -895,7 +895,7 @@ ORDER BY
 |  4.2  |  1   |
 |  4.1  |  2   |
 
-连接情况如下：
+The join result is:
 
 | S1.Id | S1.score | S2.Id | S2.score |
 | :---: | :------: | :---: | :------: |
@@ -907,7 +907,7 @@ ORDER BY
 |   1   |   4.1    |   2   |   4.2    |
 |   1   |   4.1    |   1   |   4.1    |
 
-我们想要的结果是，把分数相同的放在同一个排名，并且相同分数只占一个位置，例如上面的分数，Id=2 和 Id=3 的记录都有相同的分数，并且最高，他们并列第一。而 Id=1 的记录应该排第二名，而不是第三名。所以在进行 COUNT 计数统计时，我们需要使用 COUNT( DISTINCT S2.score ) 从而只统计一次相同的分数。
+The desired result places equal scores at the same rank, and identical scores occupy only one position. In the example above, the records with Id=2 and Id=3 have the same highest score, so they tie for first. The record with Id=1 should rank second, not third. Therefore, when using COUNT, use COUNT( DISTINCT S2.score ) so identical scores are counted only once.
 
 ```sql
 SELECT
@@ -946,7 +946,7 @@ https://leetcode.com/problems/consecutive-numbers/description/
 
 ### Description
 
-数字表：
+Numbers table:
 
 ```html
 +----+-----+
@@ -962,7 +962,7 @@ https://leetcode.com/problems/consecutive-numbers/description/
 +----+-----+
 ```
 
-查找连续出现三次的数字。
+Find numbers that appear three times consecutively.
 
 ```html
 +-----------------+
@@ -1011,7 +1011,7 @@ https://leetcode.com/problems/exchange-seats/description/
 
 ### Description
 
-seat 表存储着座位对应的学生。
+The seat table stores the student corresponding to each seat.
 
 ```html
 +---------+---------+
@@ -1025,7 +1025,7 @@ seat 表存储着座位对应的学生。
 +---------+---------+
 ```
 
-要求交换相邻座位的两个学生，如果最后一个座位是奇数，那么不交换这个座位上的学生。
+Swap students in adjacent seats. If the last seat has an odd id, do not swap the student in that seat.
 
 ```html
 +---------+---------+
@@ -1041,11 +1041,11 @@ seat 表存储着座位对应的学生。
 
 ### Solution
 
-使用多个 union。
+Use multiple UNION operations.
 
 ```sql
-## 处理偶数 id，让 id 减 1
-## 例如 2,4,6,... 变成 1,3,5,...
+## Process even ids by subtracting 1
+## For example, 2,4,6,... become 1,3,5,...
 SELECT
     s1.id - 1 AS id,
     s1.student
@@ -1053,8 +1053,8 @@ FROM
     seat s1
 WHERE
     s1.id MOD 2 = 0 UNION
-## 处理奇数 id，让 id 加 1。但是如果最大的 id 为奇数，则不做处理
-## 例如 1,3,5,... 变成 2,4,6,...
+## Process odd ids by adding 1. However, if the largest id is odd, leave it unchanged.
+## For example, 1,3,5,... become 2,4,6,...
 SELECT
     s2.id + 1 AS id,
     s2.student
@@ -1063,7 +1063,7 @@ FROM
 WHERE
     s2.id MOD 2 = 1
     AND s2.id != ( SELECT max( s3.id ) FROM seat s3 ) UNION
-## 如果最大的 id 为奇数，单独取出这个数
+## If the largest id is odd, select this row separately
 SELECT
     s4.id AS id,
     s4.student

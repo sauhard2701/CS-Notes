@@ -1,45 +1,45 @@
 # Database System Principles
 <!-- GFM-TOC -->
-* [数据库系统原理](#database-system-principles)
-    * [一、事务](#1-transactions)
-        * [概念](#overview)
+* [Database System Principles](#database-system-principles)
+    * [1. Transactions](#1-transactions)
+        * [Overview](#overview)
         * [ACID](#acid)
         * [AUTOCOMMIT](#autocommit)
-    * [二、并发一致性问题](#2-concurrency-consistency-problems)
-        * [丢失修改](#lost-update)
-        * [读脏数据](#dirty-read)
-        * [不可重复读](#non-repeatable-read)
-        * [幻影读](#phantom-read)
-    * [三、封锁](#3-locking)
-        * [封锁粒度](#lock-granularity)
-        * [封锁类型](#lock-types)
-        * [封锁协议](#locking-protocols)
-        * [MySQL 隐式与显式锁定](#mysql-implicit-and-explicit-locking)
-    * [四、隔离级别](#4-isolation-levels)
-        * [未提交读（READ UNCOMMITTED）](#read-uncommitted)
-        * [提交读（READ COMMITTED）](#read-committed)
-        * [可重复读（REPEATABLE READ）](#repeatable-read)
-        * [可串行化（SERIALIZABLE）](#serializable)
-    * [五、多版本并发控制](#5-multiversion-concurrency-control)
-        * [基本思想](#core-idea)
-        * [版本号](#version-numbers)
-        * [Undo 日志](#undo-log)
+    * [2. Concurrency Consistency Problems](#2-concurrency-consistency-problems)
+        * [Lost Update](#lost-update)
+        * [Dirty Read](#dirty-read)
+        * [Non-Repeatable Read](#non-repeatable-read)
+        * [Phantom Read](#phantom-read)
+    * [3. Locking](#3-locking)
+        * [Lock Granularity](#lock-granularity)
+        * [Lock Types](#lock-types)
+        * [Locking Protocols](#locking-protocols)
+        * [MySQL Implicit and Explicit Locking](#mysql-implicit-and-explicit-locking)
+    * [4. Isolation Levels](#4-isolation-levels)
+        * [Read Uncommitted](#read-uncommitted)
+        * [Read Committed](#read-committed)
+        * [Repeatable Read](#repeatable-read)
+        * [Serializable](#serializable)
+    * [5. Multiversion Concurrency Control](#5-multiversion-concurrency-control)
+        * [Core Idea](#core-idea)
+        * [Version Numbers](#version-numbers)
+        * [Undo Log](#undo-log)
         * [ReadView](#readview)
-        * [快照读与当前读](#snapshot-read-and-current-read)
-    * [六、Next-Key Locks](#6-next-key-locks)
+        * [Snapshot Read and Current Read](#snapshot-read-and-current-read)
+    * [6. Next-Key Locks](#6-next-key-locks)
         * [Record Locks](#record-locks)
         * [Gap Locks](#gap-locks)
         * [Next-Key Locks](#next-key-locks)
-    * [七、关系数据库设计理论](#7-relational-database-design-theory)
-        * [函数依赖](#functional-dependencies)
-        * [异常](#anomalies)
-        * [范式](#normal-forms)
-    * [八、ER 图](#8-er-diagrams)
-        * [实体的三种联系](#three-entity-relationship-types)
-        * [表示出现多次的关系](#represent-repeated-relationships)
-        * [联系的多向性](#multi-way-relationships)
-        * [表示子类](#represent-subclasses)
-    * [参考资料](#references)
+    * [7. Relational Database Design Theory](#7-relational-database-design-theory)
+        * [Functional Dependencies](#functional-dependencies)
+        * [Anomalies](#anomalies)
+        * [Normal Forms](#normal-forms)
+    * [8. ER Diagrams](#8-er-diagrams)
+        * [Three Entity Relationship Types](#three-entity-relationship-types)
+        * [Represent Repeated Relationships](#represent-repeated-relationships)
+        * [Multi-Way Relationships](#multi-way-relationships)
+        * [Represent Subclasses](#represent-subclasses)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
@@ -47,7 +47,7 @@
 
 ### Overview
 
-事务指的是满足 ACID 特性的一组操作，可以通过 Commit 提交一个事务，也可以使用 Rollback 进行回滚。
+A transaction is a group of operations that satisfies the ACID properties. A transaction can be committed with Commit or rolled back with Rollback.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222237925.png"/> </div><br>
 
@@ -55,163 +55,163 @@
 
 #### 1. Atomicity
 
-事务被视为不可分割的最小单元，事务的所有操作要么全部提交成功，要么全部失败回滚。
+A transaction is treated as the smallest indivisible unit. All operations in a transaction either commit successfully together or fail and roll back together.
 
-回滚可以用回滚日志（Undo Log）来实现，回滚日志记录着事务所执行的修改操作，在回滚时反向执行这些修改操作即可。
+Rollback can be implemented with an undo log. The undo log records the modification operations performed by the transaction; rollback executes these modifications in reverse.
 
 #### 2. Consistency
 
-数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的。
+The database remains in a consistent state before and after transaction execution. In a consistent state, all transactions read the same result for the same data.
 
 #### 3. Isolation
 
-一个事务所做的修改在最终提交以前，对其它事务是不可见的。
+Modifications made by one transaction are invisible to other transactions until the transaction is finally committed.
 
 #### 4. Durability
 
-一旦事务提交，则其所做的修改将会永远保存到数据库中。即使系统发生崩溃，事务执行的结果也不能丢失。
+Once a transaction commits, its modifications are permanently saved in the database. Even if the system crashes, the transaction's results must not be lost.
 
-系统发生崩溃可以用重做日志（Redo Log）进行恢复，从而实现持久性。与回滚日志记录数据的逻辑修改不同，重做日志记录的是数据页的物理修改。
+System crashes can be recovered using redo logs, thereby achieving durability. Unlike undo logs, which record logical data modifications, redo logs record physical modifications to data pages.
 
 ----
 
-事务的 ACID 特性概念简单，但不是很好理解，主要是因为这几个特性不是一种平级关系：
+The concepts behind ACID are simple but not easy to fully understand, mainly because these properties are not peers:
 
-- 只有满足一致性，事务的执行结果才是正确的。
-- 在无并发的情况下，事务串行执行，隔离性一定能够满足。此时只要能满足原子性，就一定能满足一致性。
-- 在并发的情况下，多个事务并行执行，事务不仅要满足原子性，还需要满足隔离性，才能满足一致性。
-- 事务满足持久化是为了能应对系统崩溃的情况。
+- Only when consistency is satisfied is the execution result of a transaction correct.
+- Without concurrency, transactions execute serially and isolation is guaranteed. In this case, atomicity is enough to guarantee consistency.
+- With concurrency, multiple transactions execute in parallel. Transactions must satisfy both atomicity and isolation to satisfy consistency.
+- Durability is required so transactions can survive system crashes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207210437023.png"/> </div><br>
 
 ### AUTOCOMMIT
 
-MySQL 默认采用自动提交模式。也就是说，如果不显式使用`START TRANSACTION`语句来开始一个事务，那么每个查询操作都会被当做一个事务并自动提交。
+MySQL uses automatic commit mode by default. That is, if a transaction is not explicitly started with `START TRANSACTION`, every query operation is treated as a transaction and committed automatically.
 
 ## 2. Concurrency Consistency Problems
 
-在并发环境下，事务的隔离性很难保证，因此会出现很多并发一致性问题。
+In a concurrent environment, transaction isolation is hard to guarantee, so many concurrency consistency problems can occur.
 
 ### Lost Update
 
-丢失修改指一个事务的更新操作被另外一个事务的更新操作替换。一般在现实生活中常会遇到，例如：T<sub>1</sub> 和 T<sub>2</sub> 两个事务都对一个数据进行修改，T<sub>1</sub> 先修改并提交生效，T<sub>2</sub> 随后修改，T<sub>2</sub> 的修改覆盖了 T<sub>1</sub> 的修改。
+A lost update means one transaction's update is replaced by another transaction's update. This is common in real life. For example, transactions T<sub>1</sub> and T<sub>2</sub> both modify the same data. T<sub>1</sub> modifies and commits first, then T<sub>2</sub> modifies later, and T<sub>2</sub>'s modification overwrites T<sub>1</sub>'s modification.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221744244.png"/> </div><br>
 
 ### Dirty Read
 
-读脏数据指在不同的事务下，当前事务可以读到另外事务未提交的数据。例如：T<sub>1</sub> 修改一个数据但未提交，T<sub>2</sub> 随后读取这个数据。如果 T<sub>1</sub> 撤销了这次修改，那么 T<sub>2</sub> 读取的数据是脏数据。
+A dirty read means that under different transactions, the current transaction can read data that another transaction has not yet committed. For example, T<sub>1</sub> modifies data but does not commit, and T<sub>2</sub> then reads this data. If T<sub>1</sub> rolls back the modification, the data read by T<sub>2</sub> is dirty data.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221920368.png"/> </div><br>
 
 ### Non-Repeatable Read
 
-不可重复读指在一个事务内多次读取同一数据集合。在这一事务还未结束前，另一事务也访问了该同一数据集合并做了修改，由于第二个事务的修改，第一次事务的两次读取的数据可能不一致。例如：T<sub>2</sub> 读取一个数据，T<sub>1</sub> 对该数据做了修改。如果 T<sub>2</sub> 再次读取这个数据，此时读取的结果和第一次读取的结果不同。
+A non-repeatable read means reading the same data set multiple times within one transaction, while another transaction accesses and modifies that same data set before the first transaction ends. Because of the second transaction's modification, the first transaction's two reads may produce inconsistent data. For example, T<sub>2</sub> reads data, T<sub>1</sub> modifies that data, and if T<sub>2</sub> reads it again, the result differs from the first read.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222102010.png"/> </div><br>
 
 ### Phantom Read
 
-幻读本质上也属于不可重复读的情况，T<sub>1</sub> 读取某个范围的数据，T<sub>2</sub> 在这个范围内插入新的数据，T<sub>1</sub> 再次读取这个范围的数据，此时读取的结果和和第一次读取的结果不同。
+A phantom read is essentially also a non-repeatable read. T<sub>1</sub> reads data within a range, T<sub>2</sub> inserts new data into that range, and T<sub>1</sub> reads the range again. The result then differs from the first read.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222134306.png"/> </div><br>
 
 ----
 
-产生并发不一致性问题的主要原因是破坏了事务的隔离性，解决方法是通过并发控制来保证隔离性。并发控制可以通过封锁来实现，但是封锁操作需要用户自己控制，相当复杂。数据库管理系统提供了事务的隔离级别，让用户以一种更轻松的方式处理并发一致性问题。
+The main reason for concurrency inconsistency is that transaction isolation is broken. The solution is to guarantee isolation through concurrency control. Concurrency control can be implemented with locking, but locking requires user control and is quite complex. Database management systems provide transaction isolation levels so users can handle concurrency consistency problems more easily.
 
 ## 3. Locking
 
 ### Lock Granularity
 
-MySQL 中提供了两种封锁粒度：行级锁以及表级锁。
+MySQL provides two locking granularities: row-level locks and table-level locks.
 
-应该尽量只锁定需要修改的那部分数据，而不是所有的资源。锁定的数据量越少，发生锁争用的可能就越小，系统的并发程度就越高。
+Lock only the data that needs to be modified whenever possible, instead of all resources. The less data that is locked, the lower the chance of lock contention and the higher the system concurrency.
 
-但是加锁需要消耗资源，锁的各种操作（包括获取锁、释放锁、以及检查锁状态）都会增加系统开销。因此封锁粒度越小，系统开销就越大。
+However, locking consumes resources. Lock operations, including acquiring locks, releasing locks, and checking lock status, increase system overhead. Therefore, the smaller the lock granularity, the greater the system overhead.
 
-在选择封锁粒度时，需要在锁开销和并发程度之间做一个权衡。
+When choosing lock granularity, make a trade-off between lock overhead and concurrency.
 
 
 ### Lock Types
 
 #### 1. Read/Write Locks
 
-- 互斥锁（Exclusive），简写为 X 锁，又称写锁。
-- 共享锁（Shared），简写为 S 锁，又称读锁。
+- Exclusive lock, abbreviated as X lock, also called a write lock.
+- Shared lock, abbreviated as S lock, also called a read lock.
 
-有以下两个规定：
+There are two rules:
 
-- 一个事务对数据对象 A 加了 X 锁，就可以对 A 进行读取和更新。加锁期间其它事务不能对 A 加任何锁。
-- 一个事务对数据对象 A 加了 S 锁，可以对 A 进行读取操作，但是不能进行更新操作。加锁期间其它事务能对 A 加 S 锁，但是不能加 X 锁。
+- If a transaction places an X lock on data object A, it can read and update A. During the lock, other transactions cannot place any lock on A.
+- If a transaction places an S lock on data object A, it can read A but cannot update it. During the lock, other transactions can place S locks on A, but cannot place X locks.
 
-锁的兼容关系如下：
+The lock compatibility relationship is:
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207213523777.png"/> </div><br>
 
 #### 2. Intention Locks
 
-使用意向锁（Intention Locks）可以更容易地支持多粒度封锁。
+Intention locks make it easier to support multi-granularity locking.
 
-在存在行级锁和表级锁的情况下，事务 T 想要对表 A 加 X 锁，就需要先检测是否有其它事务对表 A 或者表 A 中的任意一行加了锁，那么就需要对表 A 的每一行都检测一次，这是非常耗时的。
+When row-level and table-level locks both exist, if transaction T wants to place an X lock on table A, it must first check whether any other transaction has locked table A or any row in table A. This would require checking every row in table A, which is very time-consuming.
 
-意向锁在原来的 X/S 锁之上引入了 IX/IS，IX/IS 都是表锁，用来表示一个事务想要在表中的某个数据行上加 X 锁或 S 锁。有以下两个规定：
+Intention locks introduce IX/IS on top of the original X/S locks. IX/IS are table locks used to indicate that a transaction wants to place an X lock or S lock on some data row in the table. There are two rules:
 
-- 一个事务在获得某个数据行对象的 S 锁之前，必须先获得表的 IS 锁或者更强的锁；
-- 一个事务在获得某个数据行对象的 X 锁之前，必须先获得表的 IX 锁。
+- Before a transaction obtains an S lock on a data-row object, it must first obtain an IS lock or a stronger lock on the table;
+- Before a transaction obtains an X lock on a data-row object, it must first obtain an IX lock on the table.
 
-通过引入意向锁，事务 T 想要对表 A 加 X 锁，只需要先检测是否有其它事务对表 A 加了 X/IX/S/IS 锁，如果加了就表示有其它事务正在使用这个表或者表中某一行的锁，因此事务 T 加 X 锁失败。
+By introducing intention locks, if transaction T wants to place an X lock on table A, it only needs to check whether any other transaction has placed an X/IX/S/IS lock on table A. If so, another transaction is using the table or a row in the table, so transaction T fails to acquire the X lock.
 
-各种锁的兼容关系如下：
+The compatibility relationship among lock types is:
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207214442687.png"/> </div><br>
 
-解释如下：
+Explanation:
 
-- 任意 IS/IX 锁之间都是兼容的，因为它们只表示想要对表加锁，而不是真正加锁；
-- 这里兼容关系针对的是表级锁，而表级的 IX 锁和行级的 X 锁兼容，两个事务可以对两个数据行加 X 锁。（事务 T<sub>1</sub> 想要对数据行 R<sub>1</sub> 加 X 锁，事务 T<sub>2</sub> 想要对同一个表的数据行 R<sub>2</sub> 加 X 锁，两个事务都需要对该表加 IX 锁，但是 IX 锁是兼容的，并且 IX 锁与行级的 X 锁也是兼容的，因此两个事务都能加锁成功，对同一个表中的两个数据行做修改。）
+- Any IS/IX locks are compatible with each other because they only indicate an intention to lock a table, not an actual lock;
+- The compatibility relationship here is for table-level locks. A table-level IX lock is compatible with a row-level X lock, so two transactions can place X locks on two different rows. For example, transaction T<sub>1</sub> wants to place an X lock on row R<sub>1</sub>, and transaction T<sub>2</sub> wants to place an X lock on row R<sub>2</sub> in the same table. Both transactions need to place IX locks on the table, but IX locks are compatible, and IX locks are also compatible with row-level X locks, so both transactions can lock successfully and modify two rows in the same table.
 
 ### Locking Protocols
 
 #### 1. Three-Level Locking Protocol
 
-**一级封锁协议**  
+**Level-One Locking Protocol**  
 
-事务 T 要修改数据 A 时必须加 X 锁，直到 T 结束才释放锁。
+When transaction T wants to modify data A, it must place an X lock and release it only after T ends.
 
-可以解决丢失修改问题，因为不能同时有两个事务对同一个数据进行修改，那么事务的修改就不会被覆盖。
+This solves lost updates because two transactions cannot modify the same data at the same time, so one transaction's modification will not be overwritten.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207220440451.png"/> </div><br>
 
-**二级封锁协议**  
+**Level-Two Locking Protocol**  
 
-在一级的基础上，要求读取数据 A 时必须加 S 锁，读取完马上释放 S 锁。
+Based on level one, reading data A requires placing an S lock and releasing it immediately after the read.
 
-可以解决读脏数据问题，因为如果一个事务在对数据 A 进行修改，根据 1 级封锁协议，会加 X 锁，那么就不能再加 S 锁了，也就是不会读入数据。
+This solves dirty reads because if a transaction is modifying data A, it holds an X lock according to the level-one locking protocol, so an S lock cannot be placed and the data cannot be read.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207220831843.png"/> </div><br>
 
-**三级封锁协议**  
+**Level-Three Locking Protocol**  
 
-在二级的基础上，要求读取数据 A 时必须加 S 锁，直到事务结束了才能释放 S 锁。
+Based on level two, reading data A requires placing an S lock and releasing it only after the transaction ends.
 
-可以解决不可重复读的问题，因为读 A 时，其它事务不能对 A 加 X 锁，从而避免了在读的期间数据发生改变。
+This solves non-repeatable reads because while A is being read, other transactions cannot place an X lock on A, preventing the data from changing during the read period.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221313819.png"/> </div><br>
 
 #### 2. Two-Phase Locking Protocol
 
-加锁和解锁分为两个阶段进行。
+Locking and unlocking are divided into two phases.
 
-可串行化调度是指，通过并发控制，使得并发执行的事务结果与某个串行执行的事务结果相同。串行执行的事务互不干扰，不会出现并发一致性问题。
+Serializable scheduling means using concurrency control so that the result of concurrently executed transactions is the same as the result of some serial execution of those transactions. Serially executed transactions do not interfere with each other, so concurrency consistency problems do not occur.
 
-事务遵循两段锁协议是保证可串行化调度的充分条件。例如以下操作满足两段锁协议，它是可串行化调度。
+Following the two-phase locking protocol is a sufficient condition for ensuring serializable scheduling. For example, the following operations satisfy two-phase locking and are serializable.
 
 ```html
 lock-x(A)...lock-s(B)...lock-s(C)...unlock(A)...unlock(C)...unlock(B)
 ```
 
-但不是必要条件，例如以下操作不满足两段锁协议，但它还是可串行化调度。
+But it is not a necessary condition. For example, the following operations do not satisfy two-phase locking, but they are still serializable.
 
 ```html
 lock-x(A)...unlock(A)...lock-s(B)...unlock(B)...lock-s(C)...unlock(C)
@@ -219,9 +219,9 @@ lock-x(A)...unlock(A)...lock-s(B)...unlock(B)...lock-s(C)...unlock(C)
 
 ### MySQL Implicit and Explicit Locking
 
-MySQL 的 InnoDB 存储引擎采用两段锁协议，会根据隔离级别在需要的时候自动加锁，并且所有的锁都是在同一时刻被释放，这被称为隐式锁定。
+MySQL's InnoDB storage engine uses the two-phase locking protocol. It automatically locks when needed according to the isolation level, and all locks are released at the same time. This is called implicit locking.
 
-InnoDB 也可以使用特定的语句进行显示锁定：
+InnoDB can also use specific statements for explicit locking:
 
 ```sql
 SELECT ... LOCK In SHARE MODE;
@@ -232,21 +232,21 @@ SELECT ... FOR UPDATE;
 
 ### Read Uncommitted
 
-事务中的修改，即使没有提交，对其它事务也是可见的。
+Modifications in a transaction are visible to other transactions even if they have not been committed.
 
 ### Read Committed
 
-一个事务只能读取已经提交的事务所做的修改。换句话说，一个事务所做的修改在提交之前对其它事务是不可见的。
+A transaction can read only modifications made by committed transactions. In other words, modifications made by a transaction are invisible to other transactions before commit.
 
 ### Repeatable Read
 
-保证在同一个事务中多次读取同一数据的结果是一样的。
+Guarantees that multiple reads of the same data within the same transaction return the same result.
 
 ### Serializable
 
-强制事务串行执行，这样多个事务互不干扰，不会出现并发一致性问题。
+Forces transactions to execute serially, so multiple transactions do not interfere with each other and concurrency consistency problems do not occur.
 
-该隔离级别需要加锁实现，因为要使用加锁机制保证同一时间只有一个事务执行，也就是保证事务串行执行。
+This isolation level requires locking because a locking mechanism is needed to ensure that only one transaction executes at a time, guaranteeing serial execution.
 
 ----
 
@@ -254,26 +254,26 @@ SELECT ... FOR UPDATE;
 
 ## 5. Multiversion Concurrency Control
 
-多版本并发控制（Multi-Version Concurrency Control, MVCC）是 MySQL 的 InnoDB 存储引擎实现隔离级别的一种具体方式，用于实现提交读和可重复读这两种隔离级别。而未提交读隔离级别总是读取最新的数据行，要求很低，无需使用 MVCC。可串行化隔离级别需要对所有读取的行都加锁，单纯使用 MVCC 无法实现。
+Multiversion Concurrency Control (MVCC) is a concrete way for MySQL's InnoDB storage engine to implement isolation levels. It is used to implement Read Committed and Repeatable Read. The Read Uncommitted isolation level always reads the latest data rows and has low requirements, so MVCC is unnecessary. The Serializable isolation level needs to lock all rows read, so MVCC alone cannot implement it.
 
 ### Core Idea
 
-在封锁一节中提到，加锁能解决多个事务同时执行时出现的并发一致性问题。在实际场景中读操作往往多于写操作，因此又引入了读写锁来避免不必要的加锁操作，例如读和读没有互斥关系。读写锁中读和写操作仍然是互斥的，而 MVCC 利用了多版本的思想，写操作更新最新的版本快照，而读操作去读旧版本快照，没有互斥关系，这一点和 CopyOnWrite 类似。
+As mentioned in the locking section, locks can solve concurrency consistency problems that occur when multiple transactions execute at the same time. In practice, reads often outnumber writes, so read/write locks are introduced to avoid unnecessary locking; for example, reads do not conflict with reads. In read/write locks, reads and writes still conflict. MVCC uses the idea of multiple versions: write operations update the latest version snapshot, while read operations read older version snapshots without mutual exclusion. This is similar to CopyOnWrite.
 
-在 MVCC 中事务的修改操作（DELETE、INSERT、UPDATE）会为数据行新增一个版本快照。
+In MVCC, transaction modification operations (DELETE, INSERT, UPDATE) add a new version snapshot for the data row.
 
-脏读和不可重复读最根本的原因是事务读取到其它事务未提交的修改。在事务进行读取操作时，为了解决脏读和不可重复读问题，MVCC 规定只能读取已经提交的快照。当然一个事务可以读取自身未提交的快照，这不算是脏读。
+The root cause of dirty reads and non-repeatable reads is that a transaction reads uncommitted modifications from another transaction. To solve dirty reads and non-repeatable reads during transaction reads, MVCC requires reading only committed snapshots. Of course, a transaction can read its own uncommitted snapshots; this is not considered a dirty read.
 
 ### Version Numbers
 
-- 系统版本号 SYS_ID：是一个递增的数字，每开始一个新的事务，系统版本号就会自动递增。
-- 事务版本号 TRX_ID ：事务开始时的系统版本号。
+- System version number SYS_ID: an increasing number. Each time a new transaction starts, the system version number automatically increases.
+- Transaction version number TRX_ID: the system version number when the transaction starts.
 
 ### Undo Log
 
-MVCC 的多版本指的是多个版本的快照，快照存储在 Undo 日志中，该日志通过回滚指针 ROLL_PTR 把一个数据行的所有快照连接起来。
+The "multi-version" in MVCC refers to multiple versions of snapshots. Snapshots are stored in the Undo log, which connects all snapshots of a data row through the rollback pointer ROLL_PTR.
 
-例如在 MySQL 创建一个表 t，包含主键 id 和一个字段 x。我们先插入一个数据行，然后对该数据行执行两次更新操作。
+For example, create a table t in MySQL containing primary key id and a field x. First insert one data row, then update that row twice.
 
 ```sql
 INSERT INTO t(id, x) VALUES(1, "a");
@@ -281,34 +281,34 @@ UPDATE t SET x="b" WHERE id=1;
 UPDATE t SET x="c" WHERE id=1;
 ```
 
-因为没有使用 `START TRANSACTION` 将上面的操作当成一个事务来执行，根据 MySQL 的 AUTOCOMMIT 机制，每个操作都会被当成一个事务来执行，所以上面的操作总共涉及到三个事务。快照中除了记录事务版本号 TRX_ID 和操作之外，还记录了一个 bit 的 DEL 字段，用于标记是否被删除。
+Because `START TRANSACTION` is not used to execute the operations above as one transaction, MySQL's AUTOCOMMIT mechanism treats each operation as a transaction. Therefore, the operations above involve three transactions in total. In addition to recording the transaction version number TRX_ID and the operation, the snapshot also records a one-bit DEL field that marks whether the row has been deleted.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208164808217.png"/> </div><br>
 
-INSERT、UPDATE、DELETE 操作会创建一个日志，并将事务版本号 TRX_ID  写入。DELETE 可以看成是一个特殊的 UPDATE，还会额外将 DEL 字段设置为 1。
+INSERT, UPDATE, and DELETE operations create a log and write the transaction version number TRX_ID into it. DELETE can be viewed as a special UPDATE, and it additionally sets the DEL field to 1.
 
 ### ReadView
 
-MVCC 维护了一个 ReadView 结构，主要包含了当前系统未提交的事务列表 TRX_IDs {TRX_ID_1, TRX_ID_2, ...}，还有该列表的最小值 TRX_ID_MIN 和 TRX_ID_MAX。
+MVCC maintains a ReadView structure. It mainly contains the list of uncommitted transactions in the current system, TRX_IDs {TRX_ID_1, TRX_ID_2, ...}, along with the minimum value TRX_ID_MIN and TRX_ID_MAX of that list.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208171445674.png"/> </div><br>
 
-在进行 SELECT 操作时，根据数据行快照的 TRX_ID 与 TRX_ID_MIN 和 TRX_ID_MAX 之间的关系，从而判断数据行快照是否可以使用：
+During a SELECT operation, whether a data-row snapshot can be used is determined from the relationship between the snapshot's TRX_ID and TRX_ID_MIN/TRX_ID_MAX:
 
-- TRX_ID \< TRX_ID_MIN，表示该数据行快照时在当前所有未提交事务之前进行更改的，因此可以使用。
+- TRX_ID \< TRX_ID_MIN means the data-row snapshot was changed before all currently uncommitted transactions, so it can be used.
 
-- TRX_ID \> TRX_ID_MAX，表示该数据行快照是在事务启动之后被更改的，因此不可使用。
-- TRX_ID_MIN \<= TRX_ID \<= TRX_ID_MAX，需要根据隔离级别再进行判断：
-  - 提交读：如果 TRX_ID  在 TRX_IDs  列表中，表示该数据行快照对应的事务还未提交，则该快照不可使用。否则表示已经提交，可以使用。
-  - 可重复读：都不可以使用。因为如果可以使用的话，那么其它事务也可以读到这个数据行快照并进行修改，那么当前事务再去读这个数据行得到的值就会发生改变，也就是出现了不可重复读问题。
+- TRX_ID \> TRX_ID_MAX means the data-row snapshot was changed after the transaction started, so it cannot be used.
+- TRX_ID_MIN \<= TRX_ID \<= TRX_ID_MAX requires further judgment based on the isolation level:
+  - Read Committed: if TRX_ID is in the TRX_IDs list, the transaction corresponding to this data-row snapshot has not yet committed, so the snapshot cannot be used. Otherwise, it has committed and can be used.
+  - Repeatable Read: none can be used. If it could be used, other transactions could also read and modify this data-row snapshot, so the current transaction would read a different value for this row later, causing a non-repeatable read.
 
-在数据行快照不可使用的情况下，需要沿着 Undo Log 的回滚指针 ROLL_PTR  找到下一个快照，再进行上面的判断。
+If the data-row snapshot cannot be used, follow the rollback pointer ROLL_PTR in the Undo Log to find the next snapshot, then apply the same judgment above.
 
 ### Snapshot Read and Current Read
 
 #### 1. Snapshot Read
 
-MVCC 的 SELECT 操作是快照中的数据，不需要进行加锁操作。
+MVCC SELECT operations read data from snapshots and do not need locking.
 
 ```sql
 SELECT * FROM table ...;
@@ -316,7 +316,7 @@ SELECT * FROM table ...;
 
 #### 2. Current Read
 
-MVCC 其它会对数据库进行修改的操作（INSERT、UPDATE、DELETE）需要进行加锁操作，从而读取最新的数据。可以看到 MVCC 并不是完全不用加锁，而只是避免了 SELECT 的加锁操作。
+Other MVCC operations that modify the database (INSERT, UPDATE, DELETE) require locking so they can read the latest data. MVCC does not completely avoid locks; it only avoids locking for SELECT operations.
 
 ```sql
 INSERT;
@@ -324,7 +324,7 @@ UPDATE;
 DELETE;
 ```
 
-在进行 SELECT 操作时，可以强制指定进行加锁操作。以下第一个语句需要加 S 锁，第二个需要加 X 锁。
+During SELECT operations, locking can be forced explicitly. The first statement below requires an S lock, and the second requires an X lock.
 
 ```sql
 SELECT * FROM table WHERE ? lock in share mode;
@@ -333,19 +333,19 @@ SELECT * FROM table WHERE ? for update;
 
 ## 6. Next-Key Locks
 
-Next-Key Locks 是 MySQL 的 InnoDB 存储引擎的一种锁实现。
+Next-Key Locks are a lock implementation in MySQL's InnoDB storage engine.
 
-MVCC 不能解决幻影读问题，Next-Key Locks 就是为了解决这个问题而存在的。在可重复读（REPEATABLE READ）隔离级别下，使用 MVCC + Next-Key Locks 可以解决幻读问题。
+MVCC cannot solve phantom reads, so Next-Key Locks exist to solve this problem. Under the Repeatable Read isolation level, MVCC + Next-Key Locks can solve phantom reads.
 
 ### Record Locks
 
-锁定一个记录上的索引，而不是记录本身。
+Lock the index on a record, not the record itself.
 
-如果表没有设置索引，InnoDB 会自动在主键上创建隐藏的聚簇索引，因此 Record Locks 依然可以使用。
+If a table has no index, InnoDB automatically creates a hidden clustered index on the primary key, so Record Locks can still be used.
 
 ### Gap Locks
 
-锁定索引之间的间隙，但是不包含索引本身。例如当一个事务执行以下语句，其它事务就不能在 t.c 中插入 15。
+Lock the gaps between indexes, excluding the indexes themselves. For example, when one transaction executes the following statement, other transactions cannot insert 15 into t.c.
 
 ```sql
 SELECT c FROM t WHERE c BETWEEN 10 and 20 FOR UPDATE;
@@ -353,7 +353,7 @@ SELECT c FROM t WHERE c BETWEEN 10 and 20 FOR UPDATE;
 
 ### Next-Key Locks
 
-它是 Record Locks 和 Gap Locks 的结合，不仅锁定一个记录上的索引，也锁定索引之间的间隙。它锁定一个前开后闭区间，例如一个索引包含以下值：10, 11, 13, and 20，那么就需要锁定以下区间：
+It combines Record Locks and Gap Locks. It locks not only the index on a record but also the gaps between indexes. It locks a left-open, right-closed interval. For example, if an index contains the values 10, 11, 13, and 20, the following intervals need to be locked:
 
 ```sql
 (-∞, 10]
@@ -367,163 +367,163 @@ SELECT c FROM t WHERE c BETWEEN 10 and 20 FOR UPDATE;
 
 ### Functional Dependencies
 
-记 A-\>B 表示 A 函数决定 B，也可以说 B 函数依赖于 A。
+Use A-\>B to mean A functionally determines B. This can also be said as B functionally depends on A.
 
-如果 {A1，A2，... ，An} 是关系的一个或多个属性的集合，该集合函数决定了关系的其它所有属性并且是最小的，那么该集合就称为键码。
+If {A1, A2, ..., An} is a set of one or more attributes in a relation, and this set functionally determines all other attributes in the relation and is minimal, then this set is called a key.
 
-对于 A-\>B，如果能找到 A 的真子集 A'，使得 A'-\> B，那么 A-\>B 就是部分函数依赖，否则就是完全函数依赖。
+For A-\>B, if a proper subset A' of A can be found such that A'-\>B, then A-\>B is a partial functional dependency; otherwise, it is a full functional dependency.
 
-对于 A-\>B，B-\>C，则 A-\>C 是一个传递函数依赖。
+For A-\>B and B-\>C, A-\>C is a transitive functional dependency.
 
 ### Anomalies
 
-以下的学生课程关系的函数依赖为 {Sno, Cname} -\> {Sname, Sdept, Mname, Grade}，键码为 {Sno, Cname}。也就是说，确定学生和课程之后，就能确定其它信息。
+The following student-course relation has the functional dependency {Sno, Cname} -\> {Sname, Sdept, Mname, Grade}, and its key is {Sno, Cname}. In other words, once the student and course are determined, all other information is determined.
 
 | Sno | Sname | Sdept | Mname | Cname | Grade |
 | :---: | :---: | :---: | :---: | :---: |:---:|
-| 1 | 学生-1 | 学院-1 | 院长-1 | 课程-1 | 90 |
-| 2 | 学生-2 | 学院-2 | 院长-2 | 课程-2 | 80 |
-| 2 | 学生-2 | 学院-2 | 院长-2 | 课程-1 | 100 |
-| 3 | 学生-3 | 学院-2 | 院长-2 | 课程-2 | 95 |
+| 1 | Student-1 | Department-1 | Dean-1 | Course-1 | 90 |
+| 2 | Student-2 | Department-2 | Dean-2 | Course-2 | 80 |
+| 2 | Student-2 | Department-2 | Dean-2 | Course-1 | 100 |
+| 3 | Student-3 | Department-2 | Dean-2 | Course-2 | 95 |
 
-不符合范式的关系，会产生很多异常，主要有以下四种异常：
+Relations that do not conform to normal forms produce many anomalies, mainly the following four:
 
-- 冗余数据：例如 `学生-2` 出现了两次。
-- 修改异常：修改了一个记录中的信息，但是另一个记录中相同的信息却没有被修改。
-- 删除异常：删除一个信息，那么也会丢失其它信息。例如删除了 `课程-1` 需要删除第一行和第三行，那么 `学生-1` 的信息就会丢失。
-- 插入异常：例如想要插入一个学生的信息，如果这个学生还没选课，那么就无法插入。
+- Redundant data: for example, `Student-2` appears twice.
+- Update anomaly: information in one record is modified, but the same information in another record is not.
+- Deletion anomaly: deleting one piece of information also loses other information. For example, deleting `Course-1` requires deleting the first and third rows, so information about `Student-1` is lost.
+- Insertion anomaly: for example, if you want to insert information about a student who has not selected any course, it cannot be inserted.
 
 ### Normal Forms
 
-范式理论是为了解决以上提到四种异常。
+Normal form theory exists to solve the four anomalies above.
 
-高级别范式的依赖于低级别的范式，1NF 是最低级别的范式。
+Higher-level normal forms depend on lower-level normal forms. 1NF is the lowest normal form.
 
 #### 1. First Normal Form (1NF)
 
-属性不可分。
+Attributes are indivisible.
 
 #### 2. Second Normal Form (2NF)
 
-每个非主属性完全函数依赖于键码。
+Every non-prime attribute fully functionally depends on the key.
 
-可以通过分解来满足。
+This can be satisfied through decomposition.
 
-<font size=4>  **分解前**  </font><br>
+<font size=4>  **Before Decomposition**  </font><br>
 
 | Sno | Sname | Sdept | Mname | Cname | Grade |
 | :---: | :---: | :---: | :---: | :---: |:---:|
-| 1 | 学生-1 | 学院-1 | 院长-1 | 课程-1 | 90 |
-| 2 | 学生-2 | 学院-2 | 院长-2 | 课程-2 | 80 |
-| 2 | 学生-2 | 学院-2 | 院长-2 | 课程-1 | 100 |
-| 3 | 学生-3 | 学院-2 | 院长-2 | 课程-2 | 95 |
+| 1 | Student-1 | Department-1 | Dean-1 | Course-1 | 90 |
+| 2 | Student-2 | Department-2 | Dean-2 | Course-2 | 80 |
+| 2 | Student-2 | Department-2 | Dean-2 | Course-1 | 100 |
+| 3 | Student-3 | Department-2 | Dean-2 | Course-2 | 95 |
 
-以上学生课程关系中，{Sno, Cname} 为键码，有如下函数依赖：
+In the student-course relation above, {Sno, Cname} is the key, and the following functional dependencies exist:
 
 - Sno -\> Sname, Sdept
 - Sdept -\> Mname
 - Sno, Cname-\> Grade
 
-Grade 完全函数依赖于键码，它没有任何冗余数据，每个学生的每门课都有特定的成绩。
+Grade fully functionally depends on the key. It has no redundant data; each student's course has a specific grade.
 
-Sname, Sdept 和 Mname 都部分依赖于键码，当一个学生选修了多门课时，这些数据就会出现多次，造成大量冗余数据。
+Sname, Sdept, and Mname all partially depend on the key. When a student takes multiple courses, this data appears multiple times, causing significant redundancy.
 
-<font size=4>  **分解后**  </font><br>
+<font size=4>  **After Decomposition**  </font><br>
 
-关系-1
+Relation-1
 
 | Sno | Sname | Sdept | Mname |
 | :---: | :---: | :---: | :---: |
-| 1 | 学生-1 | 学院-1 | 院长-1 |
-| 2 | 学生-2 | 学院-2 | 院长-2 |
-| 3 | 学生-3 | 学院-2 | 院长-2 |
+| 1 | Student-1 | Department-1 | Dean-1 |
+| 2 | Student-2 | Department-2 | Dean-2 |
+| 3 | Student-3 | Department-2 | Dean-2 |
 
-有以下函数依赖：
+The following functional dependencies exist:
 
 - Sno -\> Sname, Sdept
 - Sdept -\> Mname
 
-关系-2
+Relation-2
 
 | Sno | Cname | Grade |
 | :---: | :---: |:---:|
-| 1 | 课程-1 | 90 |
-| 2 | 课程-2 | 80 |
-| 2 | 课程-1 | 100 |
-| 3 | 课程-2 | 95 |
+| 1 | Course-1 | 90 |
+| 2 | Course-2 | 80 |
+| 2 | Course-1 | 100 |
+| 3 | Course-2 | 95 |
 
-有以下函数依赖：
+The following functional dependency exists:
 
 - Sno, Cname -\>  Grade
 
 #### 3. Third Normal Form (3NF)
 
-非主属性不传递函数依赖于键码。
+Non-prime attributes do not transitively functionally depend on the key.
 
-上面的 关系-1 中存在以下传递函数依赖：
+Relation-1 above has the following transitive functional dependency:
 
 - Sno -\> Sdept -\> Mname
 
-可以进行以下分解：
+It can be decomposed as follows:
 
-关系-11
+Relation-11
 
 | Sno | Sname | Sdept |
 | :---: | :---: | :---: |
-| 1 | 学生-1 | 学院-1 |
-| 2 | 学生-2 | 学院-2 |
-| 3 | 学生-3 | 学院-2 |
+| 1 | Student-1 | Department-1 |
+| 2 | Student-2 | Department-2 |
+| 3 | Student-3 | Department-2 |
 
-关系-12
+Relation-12
 
 | Sdept | Mname |
 | :---: | :---: |
-| 学院-1 | 院长-1 |
-| 学院-2 | 院长-2 |
+| Department-1 | Dean-1 |
+| Department-2 | Dean-2 |
 
 ## 8. ER Diagrams
 
-Entity-Relationship，有三个组成部分：实体、属性、联系。
+Entity-Relationship has three components: entities, attributes, and relationships.
 
-用来进行关系型数据库系统的概念设计。
+It is used for conceptual design of relational database systems.
 
 ### Three Entity Relationship Types
 
-包含一对一，一对多，多对多三种。
+There are three types: one-to-one, one-to-many, and many-to-many.
 
-- 如果 A 到 B 是一对多关系，那么画个带箭头的线段指向 B；
-- 如果是一对一，画两个带箭头的线段；
-- 如果是多对多，画两个不带箭头的线段。
+- If A to B is a one-to-many relationship, draw a line segment with an arrow pointing to B;
+- If it is one-to-one, draw two line segments with arrows;
+- If it is many-to-many, draw two line segments without arrows.
 
-下图的 Course 和 Student 是一对多的关系。
+In the figure below, Course and Student have a one-to-many relationship.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1d28ad05-39e5-49a2-a6a1-a6f496adba6a.png" width="380px"/> </div><br>
 
 ### Represent Repeated Relationships
 
-一个实体在联系出现几次，就要用几条线连接。
+If an entity appears several times in a relationship, connect it with that many lines.
 
-下图表示一个课程的先修关系，先修关系出现两个 Course 实体，第一个是先修课程，后一个是后修课程，因此需要用两条线来表示这种关系。
+The following figure represents prerequisite relationships for a course. The prerequisite relationship contains two Course entities: the first is the prerequisite course, and the second is the subsequent course. Therefore, two lines are needed to represent this relationship.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ac929ea3-daca-40ec-9e95-4b2fa6678243.png" width="250px"/> </div><br>
 
 ### Multi-Way Relationships
 
-虽然老师可以开设多门课，并且可以教授多名学生，但是对于特定的学生和课程，只有一个老师教授，这就构成了一个三元联系。
+Although a teacher can offer multiple courses and teach many students, for a specific student and course, there is only one teacher. This forms a ternary relationship.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5bb1b38a-527e-4802-a385-267dadbd30ba.png" width="350px"/> </div><br>
 
 ### Represent Subclasses
 
-用一个三角形和两条线来连接类和子类，与子类有关的属性和联系都连到子类上，而与父类和子类都有关的连到父类上。
+Use a triangle and two lines to connect classes and subclasses. Attributes and relationships related to subclasses connect to the subclass, while those related to both the parent class and subclasses connect to the parent class.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/14389ea4-8d96-4e96-9f76-564ca3324c1e.png" width="450px"/> </div><br>
 
 ## References
 
-- AbrahamSilberschatz, HenryF.Korth, S.Sudarshan, 等. 数据库系统概念 [M]. 机械工业出版社, 2006.
-- 施瓦茨. 高性能 MYSQL(第3版)[M]. 电子工业出版社, 2013.
-- 史嘉权. 数据库系统概论[M]. 清华大学出版社有限公司, 2006.
+- Abraham Silberschatz, Henry F. Korth, S. Sudarshan, et al. Database System Concepts[M]. China Machine Press, 2006.
+- Schwartz. High Performance MySQL, Third Edition[M]. Publishing House of Electronics Industry, 2013.
+- Shi Jiaquan. Introduction to Database Systems[M]. Tsinghua University Press, 2006.
 - [The InnoDB Storage Engine](https://dev.mysql.com/doc/refman/5.7/en/innodb-storage-engine.html)
 - [Transaction isolation levels](https://www.slideshare.net/ErnestoHernandezRodriguez/transaction-isolation-levels)
 - [Concurrency Control](http://scanftree.com/dbms/2-phase-locking-protocol)
@@ -531,5 +531,5 @@ Entity-Relationship，有三个组成部分：实体、属性、联系。
 - [Database Normalization and Normal Forms with an Example](https://aksakalli.github.io/2012/03/12/database-normalization-and-normal-forms-with-an-example.html)
 - [The basics of the InnoDB undo logging and history system](https://blog.jcole.us/2014/04/16/the-basics-of-the-innodb-undo-logging-and-history-system/)
 - [MySQL locking for the busy web developer](https://www.brightbox.com/blog/2013/10/31/on-mysql-locks/)
-- [浅入浅出 MySQL 和 InnoDB](https://draveness.me/mysql-innodb)
-- [Innodb 中的事务隔离级别和锁的关系](https://tech.meituan.com/2014/08/20/innodb-lock.html)
+- [MySQL and InnoDB, from basics to internals](https://draveness.me/mysql-innodb)
+- [The relationship between transaction isolation levels and locks in InnoDB](https://tech.meituan.com/2014/08/20/innodb-lock.html)

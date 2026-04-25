@@ -1,13 +1,13 @@
 # Java Collections
 <!-- GFM-TOC -->
-* [Java 容器](#java-collections)
-    * [一、概览](#1-overview)
+* [Java Collections](#java-collections)
+    * [1. Overview](#1-overview)
         * [Collection](#collection)
         * [Map](#map)
-    * [二、容器中的设计模式](#2-design-patterns-in-collections)
-        * [迭代器模式](#iterator-pattern)
-        * [适配器模式](#adapter-pattern)
-    * [三、源码分析](#3-source-code-analysis)
+    * [2. Design Patterns in Collections](#2-design-patterns-in-collections)
+        * [Iterator Pattern](#iterator-pattern)
+        * [Adapter Pattern](#adapter-pattern)
+    * [3. Source Code Analysis](#3-source-code-analysis)
         * [ArrayList](#arraylist)
         * [Vector](#vector)
         * [CopyOnWriteArrayList](#copyonwritearraylist)
@@ -16,13 +16,13 @@
         * [ConcurrentHashMap](#concurrenthashmap)
         * [LinkedHashMap](#linkedhashmap)
         * [WeakHashMap](#weakhashmap)
-    * [参考资料](#references)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
 ## 1. Overview
 
-容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。
+Collections mainly include Collection and Map. Collection stores a collection of objects, while Map stores a mapping table of key-value pairs, or two objects.
 
 ### Collection
 
@@ -30,37 +30,37 @@
 
 #### 1. Set
 
-- TreeSet：基于红黑树实现，支持有序性操作，例如根据一个范围查找元素的操作。但是查找效率不如 HashSet，HashSet 查找的时间复杂度为 O(1)，TreeSet 则为 O(logN)。
+- TreeSet: implemented based on a red-black tree. It supports ordered operations, such as finding elements within a range. However, its lookup efficiency is lower than HashSet. HashSet lookup has time complexity O(1), while TreeSet is O(logN).
 
-- HashSet：基于哈希表实现，支持快速查找，但不支持有序性操作。并且失去了元素的插入顺序信息，也就是说使用 Iterator 遍历 HashSet 得到的结果是不确定的。
+- HashSet: implemented based on a hash table. It supports fast lookup but not ordered operations. It also loses insertion-order information, meaning the result of traversing a HashSet with an Iterator is uncertain.
 
-- LinkedHashSet：具有 HashSet 的查找效率，并且内部使用双向链表维护元素的插入顺序。
+- LinkedHashSet: has the lookup efficiency of HashSet and internally uses a doubly linked list to maintain insertion order.
 
 #### 2. List
 
-- ArrayList：基于动态数组实现，支持随机访问。
+- ArrayList: implemented based on a dynamic array and supports random access.
 
-- Vector：和 ArrayList 类似，但它是线程安全的。
+- Vector: similar to ArrayList, but thread-safe.
 
-- LinkedList：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。不仅如此，LinkedList 还可以用作栈、队列和双向队列。
+- LinkedList: implemented based on a doubly linked list. It supports only sequential access but can quickly insert and delete elements in the middle of the list. LinkedList can also be used as a stack, queue, or deque.
 
 #### 3. Queue
 
-- LinkedList：可以用它来实现双向队列。
+- LinkedList: can be used to implement a deque.
 
-- PriorityQueue：基于堆结构实现，可以用它来实现优先队列。
+- PriorityQueue: implemented based on a heap structure and can be used to implement a priority queue.
 
 ### Map
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20201101234335837.png"/> </div><br>
 
-- TreeMap：基于红黑树实现。
+- TreeMap: implemented based on a red-black tree.
 
-- HashMap：基于哈希表实现。
+- HashMap: implemented based on a hash table.
 
-- HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。
+- HashTable: similar to HashMap, but thread-safe. This means multiple threads writing to HashTable at the same time will not cause data inconsistency. It is a legacy class and should not be used. Use ConcurrentHashMap for thread safety instead. ConcurrentHashMap is more efficient because it introduces segmented locks.
 
-- LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。
+- LinkedHashMap: uses a doubly linked list to maintain element order, either insertion order or least-recently-used (LRU) order.
 
 
 ## 2. Design Patterns in Collections
@@ -69,9 +69,9 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208225301973.png"/> </div><br>
 
-Collection 继承了 Iterable 接口，其中的 iterator() 方法能够产生一个 Iterator 对象，通过这个对象就可以迭代遍历 Collection 中的元素。
+Collection extends the Iterable interface. Its iterator() method can produce an Iterator object, and this object can iterate through elements in the Collection.
 
-从 JDK 1.5 之后可以使用 foreach 方法来遍历实现了 Iterable 接口的聚合对象。
+Since JDK 1.5, foreach can be used to traverse aggregate objects that implement Iterable.
 
 ```java
 List<String> list = new ArrayList<>();
@@ -84,21 +84,21 @@ for (String item : list) {
 
 ### Adapter Pattern
 
-java.util.Arrays#asList() 可以把数组类型转换为 List 类型。
+java.util.Arrays#asList() can convert an array type to a List type.
 
 ```java
 @SafeVarargs
 public static <T> List<T> asList(T... a)
 ```
 
-应该注意的是 asList() 的参数为泛型的变长参数，不能使用基本类型数组作为参数，只能使用相应的包装类型数组。
+Note that the parameter of asList() is a generic varargs parameter. Primitive arrays cannot be used as parameters; only the corresponding wrapper type arrays can be used.
 
 ```java
 Integer[] arr = {1, 2, 3};
 List list = Arrays.asList(arr);
 ```
 
-也可以使用以下方式调用 asList()：
+asList() can also be called as follows:
 
 ```java
 List list = Arrays.asList(1, 2, 3);
@@ -106,23 +106,23 @@ List list = Arrays.asList(1, 2, 3);
 
 ## 3. Source Code Analysis
 
-如果没有特别说明，以下源码分析基于 JDK 1.8。
+Unless otherwise specified, the following source code analysis is based on JDK 1.8.
 
-在 IDEA 中 double shift 调出 Search EveryWhere，查找源码文件，找到之后就可以阅读源码。
+In IDEA, press double shift to open Search Everywhere, search for the source file, and read it after finding it.
 
 ### ArrayList
 
 
 #### 1. Overview
 
-因为 ArrayList 是基于数组实现的，所以支持快速随机访问。RandomAccess 接口标识着该类支持快速随机访问。
+Because ArrayList is implemented based on an array, it supports fast random access. The RandomAccess interface indicates that the class supports fast random access.
 
 ```java
 public class ArrayList<E> extends AbstractList<E>
         implements List<E>, RandomAccess, Cloneable, java.io.Serializable
 ```
 
-数组的默认大小为 10。
+The default array size is 10.
 
 ```java
 private static final int DEFAULT_CAPACITY = 10;
@@ -132,9 +132,9 @@ private static final int DEFAULT_CAPACITY = 10;
 
 #### 2. Resizing
 
-添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为 `oldCapacity + (oldCapacity >> 1)`，即 oldCapacity+oldCapacity/2。其中 oldCapacity >> 1 需要取整，所以新容量大约是旧容量的 1.5 倍左右。（oldCapacity 为偶数就是 1.5 倍，为奇数就是 1.5 倍-0.5）
+When adding elements, ensureCapacityInternal() is used to ensure sufficient capacity. If capacity is insufficient, grow() is used for expansion. The new capacity is `oldCapacity + (oldCapacity >> 1)`, or oldCapacity + oldCapacity / 2. Since oldCapacity >> 1 is rounded down, the new capacity is about 1.5 times the old capacity. If oldCapacity is even, it is exactly 1.5 times; if odd, it is 1.5 times minus 0.5.
 
-扩容操作需要调用 `Arrays.copyOf()` 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。
+Expansion calls `Arrays.copyOf()` to copy the entire original array into a new array. This operation is expensive, so it is best to specify an approximate capacity when creating an ArrayList to reduce the number of expansions.
 
 ```java
 public boolean add(E e) {
@@ -172,7 +172,7 @@ private void grow(int minCapacity) {
 
 #### 3. Delete Elements
 
-需要调用 System.arraycopy() 将 index+1 后面的元素都复制到 index 位置上，该操作的时间复杂度为 O(N)，可以看到 ArrayList 删除元素的代价是非常高的。
+System.arraycopy() needs to be called to copy all elements after index+1 to the index position. This operation has time complexity O(N), so deleting elements from ArrayList is very costly.
 
 ```java
 public E remove(int index) {
@@ -189,15 +189,15 @@ public E remove(int index) {
 
 #### 4. Serialization
 
-ArrayList 基于数组实现，并且具有动态扩容特性，因此保存元素的数组不一定都会被使用，那么就没必要全部进行序列化。
+ArrayList is implemented based on an array and supports dynamic expansion, so the array that stores elements may not be fully used. Therefore, there is no need to serialize the entire array.
 
-保存元素的数组 elementData 使用 transient 修饰，该关键字声明数组默认不会被序列化。
+The elementData array that stores elements is marked transient, which declares that the array is not serialized by default.
 
 ```java
 transient Object[] elementData; // non-private to simplify nested class access
 ```
 
-ArrayList 实现了 writeObject() 和 readObject() 来控制只序列化数组中有元素填充那部分内容。
+ArrayList implements writeObject() and readObject() to control serialization so that only the part of the array filled with elements is serialized.
 
 ```java
 private void readObject(java.io.ObjectInputStream s)
@@ -244,7 +244,7 @@ private void writeObject(java.io.ObjectOutputStream s)
 }
 ```
 
-序列化时需要使用 ObjectOutputStream 的 writeObject() 将对象转换为字节流并输出。而 writeObject() 方法在传入的对象存在 writeObject() 的时候会去反射调用该对象的 writeObject() 来实现序列化。反序列化使用的是 ObjectInputStream 的 readObject() 方法，原理类似。
+Serialization uses ObjectOutputStream's writeObject() to convert an object to a byte stream and output it. If the passed object has a writeObject() method, writeObject() uses reflection to call that object's writeObject() to implement serialization. Deserialization uses ObjectInputStream's readObject(), with a similar principle.
 
 ```java
 ArrayList list = new ArrayList();
@@ -254,16 +254,16 @@ oos.writeObject(list);
 
 #### 5. Fail-Fast
 
-modCount 用来记录 ArrayList 结构发生变化的次数。结构发生变化是指添加或者删除至少一个元素的所有操作，或者是调整内部数组的大小，仅仅只是设置元素的值不算结构发生变化。
+modCount records how many times the ArrayList structure changes. Structural changes include all operations that add or delete at least one element, or adjust the size of the internal array. Merely setting an element's value is not a structural change.
 
-在进行序列化或者迭代等操作时，需要比较操作前后 modCount 是否改变，如果改变了需要抛出 ConcurrentModificationException。代码参考上节序列化中的 writeObject() 方法。
+During serialization or iteration, modCount before and after the operation must be compared. If it changes, ConcurrentModificationException must be thrown. See the writeObject() method in the serialization section above for code.
 
 
 ### Vector
 
 #### 1. Synchronization
 
-它的实现与 ArrayList 类似，但是使用了 synchronized 进行同步。
+Its implementation is similar to ArrayList, but it uses synchronized for synchronization.
 
 ```java
 public synchronized boolean add(E e) {
@@ -283,7 +283,7 @@ public synchronized E get(int index) {
 
 #### 2. Resizing
 
-Vector 的构造函数可以传入 capacityIncrement 参数，它的作用是在扩容时使容量 capacity 增长 capacityIncrement。如果这个参数的值小于等于 0，扩容时每次都令 capacity 为原来的两倍。
+Vector's constructor can accept the capacityIncrement parameter. Its role is to increase capacity by capacityIncrement during expansion. If this parameter is less than or equal to 0, capacity doubles each time expansion occurs.
 
 ```java
 public Vector(int initialCapacity, int capacityIncrement) {
@@ -310,7 +310,7 @@ private void grow(int minCapacity) {
 }
 ```
 
-调用没有 capacityIncrement 的构造函数时，capacityIncrement 值被设置为 0，也就是说默认情况下 Vector 每次扩容时容量都会翻倍。
+When calling a constructor without capacityIncrement, capacityIncrement is set to 0. In other words, by default, Vector doubles its capacity each time it expands.
 
 ```java
 public Vector(int initialCapacity) {
@@ -324,19 +324,19 @@ public Vector() {
 
 #### 3. Comparison with ArrayList
 
-- Vector 是同步的，因此开销就比 ArrayList 要大，访问速度更慢。最好使用 ArrayList 而不是 Vector，因为同步操作完全可以由程序员自己来控制；
-- Vector 每次扩容请求其大小的 2 倍（也可以通过构造函数设置增长的容量），而 ArrayList 是 1.5 倍。
+- Vector is synchronized, so it has higher overhead and slower access than ArrayList. It is better to use ArrayList instead of Vector because synchronization can be fully controlled by the programmer;
+- Vector requests 2 times its size on each expansion, although growth capacity can also be configured through the constructor, while ArrayList expands by 1.5 times.
 
 #### 4. Alternatives
 
-可以使用 `Collections.synchronizedList();` 得到一个线程安全的 ArrayList。
+Use `Collections.synchronizedList();` to obtain a thread-safe ArrayList.
 
 ```java
 List<String> list = new ArrayList<>();
 List<String> synList = Collections.synchronizedList(list);
 ```
 
-也可以使用 concurrent 并发包下的 CopyOnWriteArrayList 类。
+You can also use CopyOnWriteArrayList from the concurrent package.
 
 ```java
 List<String> list = new CopyOnWriteArrayList<>();
@@ -346,11 +346,11 @@ List<String> list = new CopyOnWriteArrayList<>();
 
 #### 1. Read/Write Separation
 
-写操作在一个复制的数组上进行，读操作还是在原始数组中进行，读写分离，互不影响。
+Write operations are performed on a copied array, while read operations still use the original array. Reads and writes are separated and do not affect each other.
 
-写操作需要加锁，防止并发写入时导致写入数据丢失。
+Write operations need locking to prevent data loss during concurrent writes.
 
-写操作结束之后需要把原始数组指向新的复制数组。
+After the write operation finishes, the original array must point to the new copied array.
 
 ```java
 public boolean add(E e) {
@@ -382,20 +382,20 @@ private E get(Object[] a, int index) {
 
 #### 2. Use Cases
 
-CopyOnWriteArrayList 在写操作的同时允许读操作，大大提高了读操作的性能，因此很适合读多写少的应用场景。
+CopyOnWriteArrayList allows reads while writes occur, greatly improving read performance. It is well suited for read-heavy, write-light scenarios.
 
-但是 CopyOnWriteArrayList 有其缺陷：
+However, CopyOnWriteArrayList has drawbacks:
 
-- 内存占用：在写操作时需要复制一个新的数组，使得内存占用为原来的两倍左右；
-- 数据不一致：读操作不能读取实时性的数据，因为部分写操作的数据还未同步到读数组中。
+- Memory usage: write operations need to copy a new array, making memory usage about twice the original;
+- Data inconsistency: read operations cannot read real-time data because some write data has not yet been synchronized to the read array.
 
-所以 CopyOnWriteArrayList 不适合内存敏感以及对实时性要求很高的场景。
+Therefore, CopyOnWriteArrayList is not suitable for memory-sensitive scenarios or scenarios with high real-time requirements.
 
 ### LinkedList
 
 #### 1. Overview
 
-基于双向链表实现，使用 Node 存储链表节点信息。
+Implemented based on a doubly linked list, using Node to store linked-list node information.
 
 ```java
 private static class Node<E> {
@@ -405,7 +405,7 @@ private static class Node<E> {
 }
 ```
 
-每个链表存储了 first 和 last 指针：
+Each list stores first and last pointers:
 
 ```java
 transient Node<E> first;
@@ -416,18 +416,18 @@ transient Node<E> last;
 
 #### 2. Comparison with ArrayList
 
-ArrayList 基于动态数组实现，LinkedList 基于双向链表实现。ArrayList 和 LinkedList 的区别可以归结为数组和链表的区别：
+ArrayList is implemented based on a dynamic array, while LinkedList is implemented based on a doubly linked list. The difference between ArrayList and LinkedList can be summarized as the difference between arrays and linked lists:
 
-- 数组支持随机访问，但插入删除的代价很高，需要移动大量元素；
-- 链表不支持随机访问，但插入删除只需要改变指针。
+- Arrays support random access, but insertion and deletion are expensive because many elements need to be moved;
+- Linked lists do not support random access, but insertion and deletion only require changing pointers.
 
 ### HashMap
 
-为了便于理解，以下源码分析以 JDK 1.7 为主。
+For easier understanding, the following source analysis is mainly based on JDK 1.7.
 
 #### 1. Storage Structure
 
-内部包含了一个 Entry 类型的数组 table。Entry 存储着键值对。它包含了四个字段，从 next 字段我们可以看出 Entry 是一个链表。即数组中的每个位置被当成一个桶，一个桶存放一个链表。HashMap 使用拉链法来解决冲突，同一个链表中存放哈希值和散列桶取模运算结果相同的 Entry。
+Internally, it contains an array table of Entry type. Entry stores key-value pairs. It contains four fields, and from the next field we can see that Entry forms a linked list. Each position in the array is treated as a bucket, and each bucket stores a linked list. HashMap uses separate chaining to resolve collisions. Entries with the same hash value and bucket index after modulo are stored in the same linked list.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208234948205.png"/> </div><br>
 
@@ -497,17 +497,17 @@ map.put("K2", "V2");
 map.put("K3", "V3");
 ```
 
-- 新建一个 HashMap，默认大小为 16；
-- 插入 &lt;K1,V1\> 键值对，先计算 K1 的 hashCode 为 115，使用除留余数法得到所在的桶下标 115%16=3。
-- 插入 &lt;K2,V2\> 键值对，先计算 K2 的 hashCode 为 118，使用除留余数法得到所在的桶下标 118%16=6。
-- 插入 &lt;K3,V3\> 键值对，先计算 K3 的 hashCode 为 118，使用除留余数法得到所在的桶下标 118%16=6，插在 &lt;K2,V2\> 前面。
+- Create a new HashMap with default size 16;
+- Insert the &lt;K1,V1\> key-value pair. First compute K1's hashCode as 115, then use the division method to get bucket index 115%16=3.
+- Insert the &lt;K2,V2\> key-value pair. First compute K2's hashCode as 118, then use the division method to get bucket index 118%16=6.
+- Insert the &lt;K3,V3\> key-value pair. First compute K3's hashCode as 118, then use the division method to get bucket index 118%16=6, and insert it before &lt;K2,V2\>.
 
-应该注意到链表的插入是以头插法方式进行的，例如上面的 &lt;K3,V3\> 不是插在 &lt;K2,V2\> 后面，而是插入在链表头部。
+Note that linked-list insertion uses head insertion. For example, &lt;K3,V3\> above is not inserted after &lt;K2,V2\>; it is inserted at the head of the list.
 
-查找需要分成两步进行：
+Lookup has two steps:
 
-- 计算键值对所在的桶；
-- 在链表上顺序查找，时间复杂度显然和链表的长度成正比。
+- Compute the bucket containing the key-value pair;
+- Search sequentially in the linked list. The time complexity is clearly proportional to the list length.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208235258643.png"/> </div><br>
 
@@ -518,13 +518,13 @@ public V put(K key, V value) {
     if (table == EMPTY_TABLE) {
         inflateTable(threshold);
     }
-    // 键为 null 单独处理
+    // Handle null key separately
     if (key == null)
         return putForNullKey(value);
     int hash = hash(key);
-    // 确定桶下标
+    // Determine bucket index
     int i = indexFor(hash, table.length);
-    // 先找出是否已经存在键为 key 的键值对，如果存在的话就更新这个键值对的值为 value
+    // First check whether a key-value pair with key already exists; if so, update its value to value
     for (Entry<K,V> e = table[i]; e != null; e = e.next) {
         Object k;
         if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
@@ -536,13 +536,13 @@ public V put(K key, V value) {
     }
 
     modCount++;
-    // 插入新键值对
+    // Insert new key-value pair
     addEntry(hash, key, value, i);
     return null;
 }
 ```
 
-HashMap 允许插入键为 null 的键值对。但是因为无法调用 null 的 hashCode() 方法，也就无法确定该键值对的桶下标，只能通过强制指定一个桶下标来存放。HashMap 使用第 0 个桶存放键为 null 的键值对。
+HashMap allows inserting key-value pairs whose key is null. However, because null's hashCode() method cannot be called, the bucket index of this key-value pair cannot be determined normally and must be forcibly specified. HashMap uses bucket 0 to store key-value pairs whose key is null.
 
 ```java
 private V putForNullKey(V value) {
@@ -560,7 +560,7 @@ private V putForNullKey(V value) {
 }
 ```
 
-使用链表的头插法，也就是新的键值对插在链表的头部，而不是链表的尾部。
+It uses linked-list head insertion, meaning the new key-value pair is inserted at the head of the list rather than the tail.
 
 ```java
 void addEntry(int hash, K key, V value, int bucketIndex) {
@@ -575,7 +575,7 @@ void addEntry(int hash, K key, V value, int bucketIndex) {
 
 void createEntry(int hash, K key, V value, int bucketIndex) {
     Entry<K,V> e = table[bucketIndex];
-    // 头插法，链表头部指向新的键值对
+    // Head insertion: the list head points to the new key-value pair
     table[bucketIndex] = new Entry<>(hash, key, value, e);
     size++;
 }
@@ -592,14 +592,14 @@ Entry(int h, K k, V v, Entry<K,V> n) {
 
 #### 4. Determine Bucket Index
 
-很多操作都需要先确定一个键值对所在的桶下标。
+Many operations first need to determine the bucket index where a key-value pair belongs.
 
 ```java
 int hash = hash(key);
 int i = indexFor(hash, table.length);
 ```
 
-**4.1 计算 hash 值**  
+**4.1 Compute the hash value**  
 
 ```java
 final int hash(Object k) {
@@ -624,16 +624,16 @@ public final int hashCode() {
 }
 ```
 
-**4.2 取模**  
+**4.2 Modulo**  
 
-令 x = 1\<\<4，即 x 为 2 的 4 次方，它具有以下性质：
+Let x = 1\<\<4, meaning x is 2 to the 4th power. It has the following property:
 
 ```
 x   : 00010000
 x-1 : 00001111
 ```
 
-令一个数 y 与 x-1 做与运算，可以去除 y 位级表示的第 4 位以上数：
+Performing an AND operation between a number y and x-1 removes bits above the 4th bit in y's bit-level representation:
 
 ```
 y       : 10110010
@@ -641,7 +641,7 @@ x-1     : 00001111
 y&(x-1) : 00000010
 ```
 
-这个性质和 y 对 x 取模效果是一样的：
+This property has the same effect as y modulo x:
 
 ```
 y   : 10110010
@@ -649,9 +649,9 @@ x   : 00010000
 y%x : 00000010
 ```
 
-我们知道，位运算的代价比求模运算小的多，因此在进行这种计算时用位运算的话能带来更高的性能。
+Bit operations are much cheaper than modulo operations, so using bit operations for this calculation can provide higher performance.
 
-确定桶下标的最后一步是将 key 的 hash 值对桶个数取模：hash%capacity，如果能保证 capacity 为 2 的 n 次方，那么就可以将这个操作转换为位运算。
+The final step in determining the bucket index is taking the key's hash value modulo the number of buckets: hash%capacity. If capacity is guaranteed to be a power of 2, this operation can be converted to a bit operation.
 
 ```java
 static int indexFor(int h, int length) {
@@ -661,18 +661,18 @@ static int indexFor(int h, int length) {
 
 #### 5. Resizing - Basics
 
-设 HashMap 的 table 长度为 M，需要存储的键值对数量为 N，如果哈希函数满足均匀性的要求，那么每条链表的长度大约为 N/M，因此查找的复杂度为 O(N/M)。
+Suppose the HashMap table length is M and the number of key-value pairs to store is N. If the hash function satisfies uniformity, each linked list has length about N/M, so lookup complexity is O(N/M).
 
-为了让查找的成本降低，应该使 N/M 尽可能小，因此需要保证 M 尽可能大，也就是说 table 要尽可能大。HashMap 采用动态扩容来根据当前的 N 值来调整 M 值，使得空间效率和时间效率都能得到保证。
+To reduce lookup cost, N/M should be as small as possible, so M should be as large as possible, meaning the table should be as large as possible. HashMap uses dynamic expansion to adjust M according to the current N, ensuring both space efficiency and time efficiency.
 
-和扩容相关的参数主要有：capacity、size、threshold 和 load_factor。
+Parameters related to expansion mainly include capacity, size, threshold, and load_factor.
 
-| 参数 | 含义 |
+| Parameter | Meaning |
 | :--: | :-- |
-| capacity | table 的容量大小，默认为 16。需要注意的是 capacity 必须保证为 2 的 n 次方。|
-| size | 键值对数量。 |
-| threshold | size 的临界值，当 size 大于等于 threshold 就必须进行扩容操作。 |
-| loadFactor | 装载因子，table 能够使用的比例，threshold = (int)(capacity* loadFactor)。 |
+| capacity | Capacity of table, default 16. Note that capacity must be a power of 2. |
+| size | Number of key-value pairs. |
+| threshold | Critical value of size. When size is greater than or equal to threshold, expansion must occur. |
+| loadFactor | Load factor, the usable ratio of table. threshold = (int)(capacity* loadFactor). |
 
 ```java
 static final int DEFAULT_INITIAL_CAPACITY = 16;
@@ -692,7 +692,7 @@ final float loadFactor;
 transient int modCount;
 ```
 
-从下面的添加元素代码中可以看出，当需要扩容时，令 capacity 为原来的两倍。
+From the following element-addition code, when expansion is needed, capacity is doubled.
 
 ```java
 void addEntry(int hash, K key, V value, int bucketIndex) {
@@ -703,7 +703,7 @@ void addEntry(int hash, K key, V value, int bucketIndex) {
 }
 ```
 
-扩容使用 resize() 实现，需要注意的是，扩容操作同样需要把 oldTable 的所有键值对重新插入 newTable 中，因此这一步是很费时的。
+Expansion is implemented with resize(). Note that expansion also needs to reinsert all key-value pairs from oldTable into newTable, so this step is time-consuming.
 
 ```java
 void resize(int newCapacity) {
@@ -740,25 +740,25 @@ void transfer(Entry[] newTable) {
 
 #### 6. Resizing - Recompute Bucket Index
 
-在进行扩容时，需要把键值对重新计算桶下标，从而放到对应的桶上。在前面提到，HashMap 使用 hash%capacity 来确定桶下标。HashMap capacity 为 2 的 n 次方这一特点能够极大降低重新计算桶下标操作的复杂度。
+During expansion, the bucket index of each key-value pair must be recomputed so it can be placed into the corresponding bucket. As mentioned earlier, HashMap uses hash%capacity to determine the bucket index. The fact that HashMap capacity is a power of 2 greatly reduces the complexity of recomputing bucket indexes.
 
-假设原数组长度 capacity 为 16，扩容之后 new capacity 为 32：
+Assume the original array capacity is 16 and the new capacity after expansion is 32:
 
 ```html
 capacity     : 00010000
 new capacity : 00100000
 ```
 
-对于一个 Key，它的哈希值 hash 在第 5 位：
+For a key whose hash has a value at the 5th bit:
 
-- 为 0，那么 hash%00010000 = hash%00100000，桶位置和原来一致；
-- 为 1，hash%00010000 = hash%00100000 + 16，桶位置是原位置 + 16。
+- If it is 0, then hash%00010000 = hash%00100000, and the bucket position stays the same;
+- If it is 1, then hash%00010000 = hash%00100000 + 16, and the bucket position is the original position + 16.
 
 #### 7. Calculate Array Capacity
 
-HashMap 构造函数允许用户传入的容量不是 2 的 n 次方，因为它可以自动地将传入的容量转换为 2 的 n 次方。
+HashMap constructors allow users to pass a capacity that is not a power of 2 because it can automatically convert the passed capacity to a power of 2.
 
-先考虑如何求一个数的掩码，对于 10010000，它的掩码为 11111111，可以使用以下方法得到：
+First consider how to compute a number's mask. For 10010000, its mask is 11111111, which can be obtained as follows:
 
 ```
 mask |= mask >> 1    11011000
@@ -766,14 +766,14 @@ mask |= mask >> 2    11111110
 mask |= mask >> 4    11111111
 ```
 
-mask+1 是大于原始数字的最小的 2 的 n 次方。
+mask+1 is the smallest power of 2 greater than the original number.
 
 ```
 num     10010000
 mask+1 100000000
 ```
 
-以下是 HashMap 中计算数组容量的代码：
+The following is the code in HashMap for calculating array capacity:
 
 ```java
 static final int tableSizeFor(int cap) {
@@ -789,14 +789,14 @@ static final int tableSizeFor(int cap) {
 
 #### 8. Convert Linked List to Red-Black Tree
 
-从 JDK 1.8 开始，一个桶存储的链表长度大于等于 8 时会将链表转换为红黑树。
+Starting from JDK 1.8, when the linked list stored in a bucket has length greater than or equal to 8, it is converted into a red-black tree.
 
 #### 9. Comparison with Hashtable
 
-- Hashtable 使用 synchronized 来进行同步。
-- HashMap 可以插入键为 null 的 Entry。
-- HashMap 的迭代器是 fail-fast 迭代器。
-- HashMap 不能保证随着时间的推移 Map 中的元素次序是不变的。
+- Hashtable uses synchronized for synchronization.
+- HashMap can insert an Entry whose key is null.
+- HashMap's iterator is a fail-fast iterator.
+- HashMap does not guarantee that the order of elements in the Map remains unchanged over time.
 
 ### ConcurrentHashMap
 
@@ -813,9 +813,9 @@ static final class HashEntry<K,V> {
 }
 ```
 
-ConcurrentHashMap 和 HashMap 实现上类似，最主要的差别是 ConcurrentHashMap 采用了分段锁（Segment），每个分段锁维护着几个桶（HashEntry），多个线程可以同时访问不同分段锁上的桶，从而使其并发度更高（并发度就是 Segment 的个数）。
+ConcurrentHashMap and HashMap have similar implementations. The main difference is that ConcurrentHashMap uses segmented locks (Segment). Each segmented lock maintains several buckets (HashEntry). Multiple threads can access buckets on different segments at the same time, giving it higher concurrency. The concurrency level is the number of Segments.
 
-Segment 继承自 ReentrantLock。
+Segment extends ReentrantLock.
 
 ```java
 static final class Segment<K,V> extends ReentrantLock implements Serializable {
@@ -841,7 +841,7 @@ static final class Segment<K,V> extends ReentrantLock implements Serializable {
 final Segment<K,V>[] segments;
 ```
 
-默认的并发级别为 16，也就是说默认创建 16 个 Segment。
+The default concurrency level is 16, meaning 16 Segments are created by default.
 
 ```java
 static final int DEFAULT_CONCURRENCY_LEVEL = 16;
@@ -849,7 +849,7 @@ static final int DEFAULT_CONCURRENCY_LEVEL = 16;
 
 #### 2. size Operation
 
-每个 Segment 维护了一个 count 变量来统计该 Segment 中的键值对个数。
+Each Segment maintains a count variable to count the number of key-value pairs in that Segment.
 
 ```java
 /**
@@ -859,13 +859,13 @@ static final int DEFAULT_CONCURRENCY_LEVEL = 16;
 transient int count;
 ```
 
-在执行 size 操作时，需要遍历所有 Segment 然后把 count 累计起来。
+When executing size, all Segments must be traversed and their counts accumulated.
 
-ConcurrentHashMap 在执行 size 操作时先尝试不加锁，如果连续两次不加锁操作得到的结果一致，那么可以认为这个结果是正确的。
+When executing size, ConcurrentHashMap first tries without locking. If two consecutive unlocked operations produce the same result, the result can be considered correct.
 
-尝试次数使用 RETRIES_BEFORE_LOCK 定义，该值为 2，retries 初始值为 -1，因此尝试次数为 3。
+The number of attempts is defined by RETRIES_BEFORE_LOCK, whose value is 2. Since retries starts at -1, the number of attempts is 3.
 
-如果尝试的次数超过 3 次，就需要对每个 Segment 加锁。
+If the number of attempts exceeds 3, every Segment needs to be locked.
 
 ```java
 
@@ -888,7 +888,7 @@ public int size() {
     int retries = -1; // first iteration isn't retry
     try {
         for (;;) {
-            // 超过尝试次数，则对每个 Segment 加锁
+            // If the retry count is exceeded, lock every Segment
             if (retries++ == RETRIES_BEFORE_LOCK) {
                 for (int j = 0; j < segments.length; ++j)
                     ensureSegment(j).lock(); // force creation
@@ -905,7 +905,7 @@ public int size() {
                         overflow = true;
                 }
             }
-            // 连续两次得到的结果一致，则认为这个结果是正确的
+            // If two consecutive results are consistent, consider the result correct
             if (sum == last)
                 break;
             last = sum;
@@ -922,23 +922,23 @@ public int size() {
 
 #### 3. JDK 1.8 Changes
 
-JDK 1.7 使用分段锁机制来实现并发更新操作，核心类为 Segment，它继承自重入锁 ReentrantLock，并发度与 Segment 数量相等。
+JDK 1.7 uses a segmented locking mechanism to implement concurrent updates. The core class is Segment, which extends the reentrant lock ReentrantLock, and concurrency equals the number of Segments.
 
-JDK 1.8 使用了 CAS 操作来支持更高的并发度，在 CAS 操作失败时使用内置锁 synchronized。
+JDK 1.8 uses CAS operations to support higher concurrency and uses the built-in synchronized lock when CAS operations fail.
 
-并且 JDK 1.8 的实现也在链表过长时会转换为红黑树。
+The JDK 1.8 implementation also converts a linked list into a red-black tree when the list becomes too long.
 
 ### LinkedHashMap
 
 #### Storage Structure
 
-继承自 HashMap，因此具有和 HashMap 一样的快速查找特性。
+It extends HashMap, so it has the same fast lookup behavior as HashMap.
 
 ```java
 public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>
 ```
 
-内部维护了一个双向链表，用来维护插入顺序或者 LRU 顺序。
+Internally, it maintains a doubly linked list to maintain insertion order or LRU order.
 
 ```java
 /**
@@ -952,13 +952,13 @@ transient LinkedHashMap.Entry<K,V> head;
 transient LinkedHashMap.Entry<K,V> tail;
 ```
 
-accessOrder 决定了顺序，默认为 false，此时维护的是插入顺序。
+accessOrder determines the order. It defaults to false, meaning insertion order is maintained.
 
 ```java
 final boolean accessOrder;
 ```
 
-LinkedHashMap 最重要的是以下用于维护顺序的函数，它们会在 put、get 等方法中调用。
+The most important parts of LinkedHashMap are the following functions for maintaining order. They are called in methods such as put and get.
 
 ```java
 void afterNodeAccess(Node<K,V> p) { }
@@ -967,7 +967,7 @@ void afterNodeInsertion(boolean evict) { }
 
 #### afterNodeAccess()
 
-当一个节点被访问时，如果 accessOrder 为 true，则会将该节点移到链表尾部。也就是说指定为 LRU 顺序之后，在每次访问一个节点时，会将这个节点移到链表尾部，保证链表尾部是最近访问的节点，那么链表首部就是最近最久未使用的节点。
+When a node is accessed, if accessOrder is true, the node is moved to the tail of the linked list. In other words, after specifying LRU order, each time a node is accessed it is moved to the tail, ensuring that the tail is the most recently accessed node and the head is the least recently used node.
 
 ```java
 void afterNodeAccess(Node<K,V> e) { // move node to last
@@ -998,9 +998,9 @@ void afterNodeAccess(Node<K,V> e) { // move node to last
 
 #### afterNodeInsertion()
 
-在 put 等操作之后执行，当 removeEldestEntry() 方法返回 true 时会移除最晚的节点，也就是链表首部节点 first。
+Executed after operations such as put. When removeEldestEntry() returns true, it removes the eldest node, which is the first node at the head of the linked list.
 
-evict 只有在构建 Map 的时候才为 false，在这里为 true。
+evict is false only when the Map is being constructed; here it is true.
 
 ```java
 void afterNodeInsertion(boolean evict) { // possibly remove eldest
@@ -1012,7 +1012,7 @@ void afterNodeInsertion(boolean evict) { // possibly remove eldest
 }
 ```
 
-removeEldestEntry() 默认为 false，如果需要让它为 true，需要继承 LinkedHashMap 并且覆盖这个方法的实现，这在实现 LRU 的缓存中特别有用，通过移除最近最久未使用的节点，从而保证缓存空间足够，并且缓存的数据都是热点数据。
+removeEldestEntry() returns false by default. To make it return true, extend LinkedHashMap and override this method. This is especially useful for implementing LRU caches: by removing the least recently used node, cache space is kept sufficient and cached data remains hot.
 
 ```java
 protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
@@ -1022,11 +1022,11 @@ protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
 
 #### LRU Cache
 
-以下是使用 LinkedHashMap 实现的一个 LRU 缓存：
+The following is an LRU cache implemented with LinkedHashMap:
 
-- 设定最大缓存空间 MAX_ENTRIES  为 3；
-- 使用 LinkedHashMap 的构造函数将 accessOrder 设置为 true，开启 LRU 顺序；
-- 覆盖 removeEldestEntry() 方法实现，在节点多于 MAX_ENTRIES 就会将最近最久未使用的数据移除。
+- Set the maximum cache size MAX_ENTRIES to 3;
+- Use the LinkedHashMap constructor to set accessOrder to true, enabling LRU order;
+- Override removeEldestEntry() so that when there are more than MAX_ENTRIES nodes, the least recently used data is removed.
 
 ```java
 class LRUCache<K, V> extends LinkedHashMap<K, V> {
@@ -1062,9 +1062,9 @@ public static void main(String[] args) {
 
 #### Storage Structure
 
-WeakHashMap 的 Entry 继承自 WeakReference，被 WeakReference 关联的对象在下一次垃圾回收时会被回收。
+WeakHashMap's Entry extends WeakReference. Objects associated with WeakReference are reclaimed during the next garbage collection.
 
-WeakHashMap 主要用来实现缓存，通过使用 WeakHashMap 来引用缓存对象，由 JVM 对这部分缓存进行回收。
+WeakHashMap is mainly used to implement caches. By using WeakHashMap to reference cached objects, the JVM can reclaim this part of the cache.
 
 ```java
 private static class Entry<K,V> extends WeakReference<Object> implements Map.Entry<K,V>
@@ -1072,14 +1072,14 @@ private static class Entry<K,V> extends WeakReference<Object> implements Map.Ent
 
 #### ConcurrentCache
 
-Tomcat 中的 ConcurrentCache 使用了 WeakHashMap 来实现缓存功能。
+Tomcat's ConcurrentCache uses WeakHashMap to implement caching.
 
-ConcurrentCache 采取的是分代缓存：
+ConcurrentCache uses generational caching:
 
-- 经常使用的对象放入 eden 中，eden 使用 ConcurrentHashMap 实现，不用担心会被回收（伊甸园）；
-- 不常用的对象放入 longterm，longterm 使用 WeakHashMap 实现，这些老对象会被垃圾收集器回收。
-- 当调用  get() 方法时，会先从 eden 区获取，如果没有找到的话再到 longterm 获取，当从 longterm 获取到就把对象放入 eden 中，从而保证经常被访问的节点不容易被回收。
-- 当调用 put() 方法时，如果 eden 的大小超过了 size，那么就将 eden 中的所有对象都放入 longterm 中，利用虚拟机回收掉一部分不经常使用的对象。
+- Frequently used objects are placed in eden. eden is implemented with ConcurrentHashMap, so there is no need to worry about reclamation;
+- Infrequently used objects are placed in longterm. longterm is implemented with WeakHashMap, and these older objects are reclaimed by the garbage collector.
+- When get() is called, eden is checked first. If not found, longterm is checked. If an object is found in longterm, it is placed into eden, ensuring frequently accessed nodes are less likely to be reclaimed.
+- When put() is called, if the size of eden exceeds size, all objects in eden are moved into longterm, allowing the virtual machine to reclaim some infrequently used objects.
 
 ```java
 public final class ConcurrentCache<K, V> {
@@ -1119,15 +1119,14 @@ public final class ConcurrentCache<K, V> {
 
 ## References
 
-- Eckel B. Java 编程思想 [M]. 机械工业出版社, 2002.
+- Eckel B. Thinking in Java[M]. China Machine Press, 2002.
 - [Java Collection Framework](https://www.w3resource.com/java-tutorial/java-collections.php)
-- [Iterator 模式](https://openhome.cc/Gossip/DesignPattern/IteratorPattern.htm)
-- [Java 8 系列之重新认识 HashMap](https://tech.meituan.com/java_hashmap.html)
+- [Iterator pattern](https://openhome.cc/Gossip/DesignPattern/IteratorPattern.htm)
+- [Java 8 series: rediscovering HashMap](https://tech.meituan.com/java_hashmap.html)
 - [What is difference between HashMap and Hashtable in Java?](http://javarevisited.blogspot.hk/2010/10/difference-between-hashmap-and.html)
-- [Java 集合之 HashMap](http://www.zhangchangle.com/2018/02/07/Java%E9%9B%86%E5%90%88%E4%B9%8BHashMap/)
+- [Java Collections: HashMap](http://www.zhangchangle.com/2018/02/07/Java%E9%9B%86%E5%90%88%E4%B9%8BHashMap/)
 - [The principle of ConcurrentHashMap analysis](http://www.programering.com/a/MDO3QDNwATM.html)
-- [探索 ConcurrentHashMap 高并发性的实现机制](https://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/)
-- [HashMap 相关面试题及其解答](https://www.jianshu.com/p/75adf47958a7)
-- [Java 集合细节（二）：asList 的缺陷](http://wiki.jikexueyuan.com/project/java-enhancement/java-thirtysix.html)
+- [Exploring the implementation mechanism behind ConcurrentHashMap's high concurrency](https://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/)
+- [HashMap interview questions and answers](https://www.jianshu.com/p/75adf47958a7)
+- [Java collection details (2): limitations of asList](http://wiki.jikexueyuan.com/project/java-enhancement/java-thirtysix.html)
 - [Java Collection Framework – The LinkedList Class](http://javaconceptoftheday.com/java-collection-framework-linkedlist-class/)
-

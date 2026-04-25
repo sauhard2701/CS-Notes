@@ -1,44 +1,44 @@
 # Java Basics
 <!-- GFM-TOC -->
-* [Java 基础](#java-basics)
-    * [一、数据类型](#1-data-types)
-        * [基本类型](#primitive-types)
-        * [包装类型](#wrapper-types)
-        * [缓存池](#cache-pool)
-    * [二、String](#2-string)
-        * [概览](#overview)
-        * [不可变的好处](#benefits-of-immutability)
+* [Java Basics](#java-basics)
+    * [1. Data Types](#1-data-types)
+        * [Primitive Types](#primitive-types)
+        * [Wrapper Types](#wrapper-types)
+        * [Cache Pool](#cache-pool)
+    * [2. String](#2-string)
+        * [Overview](#overview)
+        * [Benefits of Immutability](#benefits-of-immutability)
         * [String, StringBuffer and StringBuilder	](#string-stringbuffer-and-stringbuilder)
         * [String Pool](#string-pool)
         * [new String("abc")](#new-stringabc)
-    * [三、运算](#3-operations)
-        * [参数传递](#parameter-passing)
-        * [float 与 double](#float-and-double)
-        * [隐式类型转换](#implicit-type-conversion)
+    * [3. Operations](#3-operations)
+        * [Parameter Passing](#parameter-passing)
+        * [float and double](#float-and-double)
+        * [Implicit Type Conversion](#implicit-type-conversion)
         * [switch](#switch)
-    * [四、关键字](#4-keywords)
+    * [4. Keywords](#4-keywords)
         * [final](#final)
         * [static](#static)
-    * [五、Object 通用方法](#5-object-common-methods)
-        * [概览](#overview)
+    * [5. Object Common Methods](#5-object-common-methods)
+        * [Overview](#overview)
         * [equals()](#equals)
         * [hashCode()](#hashcode)
         * [toString()](#tostring)
         * [clone()](#clone)
-    * [六、继承](#6-inheritance)
-        * [访问权限](#access-modifiers)
-        * [抽象类与接口](#abstract-classes-and-interfaces)
+    * [6. Inheritance](#6-inheritance)
+        * [Access Modifiers](#access-modifiers)
+        * [Abstract Classes and Interfaces](#abstract-classes-and-interfaces)
         * [super](#super)
-        * [重写与重载](#override-and-overload)
-    * [七、反射](#7-reflection)
-    * [八、异常](#8-exceptions)
-    * [九、泛型](#9-generics)
-    * [十、注解](#10-annotations)
-    * [十一、特性](#11-features)
-        * [Java 各版本的新特性](#new-features-by-java-version)
-        * [Java 与 C++ 的区别](#java-vs-c)
+        * [Override and Overload](#override-and-overload)
+    * [7. Reflection](#7-reflection)
+    * [8. Exceptions](#8-exceptions)
+    * [9. Generics](#9-generics)
+    * [10. Annotations](#10-annotations)
+    * [11. Features](#11-features)
+        * [New Features by Java Version](#new-features-by-java-version)
+        * [Java vs C++](#java-vs-c)
         * [JRE or JDK](#jre-or-jdk)
-    * [参考资料](#references)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
@@ -55,28 +55,28 @@
 - double/64
 - boolean/\~
 
-boolean 只有两个值：true、false，可以使用 1 bit 来存储，但是具体大小没有明确规定。JVM 会在编译时期将 boolean 类型的数据转换为 int，使用 1 来表示 true，0 表示 false。JVM 支持 boolean 数组，但是是通过读写 byte 数组来实现的。
+boolean has only two values: true and false. It can be stored in 1 bit, but its exact size is not clearly specified. During compilation, the JVM converts boolean data to int, using 1 for true and 0 for false. The JVM supports boolean arrays, but implements them by reading and writing byte arrays.
 
 - [Primitive Data Types](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)
 - [The Java® Virtual Machine Specification](https://docs.oracle.com/javase/specs/jvms/se8/jvms8.pdf)
 
 ### Wrapper Types
 
-基本类型都有对应的包装类型，基本类型与其对应的包装类型之间的赋值使用自动装箱与拆箱完成。
+Every primitive type has a corresponding wrapper type. Assignments between primitive types and their wrapper types are completed through autoboxing and unboxing.
 
 ```java
-Integer x = 2;     // 装箱 调用了 Integer.valueOf(2)
-int y = x;         // 拆箱 调用了 X.intValue()
+Integer x = 2;     // boxing, calls Integer.valueOf(2)
+int y = x;         // unboxing, calls X.intValue()
 ```
 
 - [Autoboxing and Unboxing](https://docs.oracle.com/javase/tutorial/java/data/autoboxing.html)
 
 ### Cache Pool
 
-new Integer(123) 与 Integer.valueOf(123) 的区别在于：
+The difference between new Integer(123) and Integer.valueOf(123) is:
 
-- new Integer(123) 每次都会新建一个对象；
-- Integer.valueOf(123) 会使用缓存池中的对象，多次调用会取得同一个对象的引用。
+- new Integer(123) creates a new object every time;
+- Integer.valueOf(123) uses an object from the cache pool, so repeated calls get a reference to the same object.
 
 ```java
 Integer x = new Integer(123);
@@ -87,7 +87,7 @@ Integer k = Integer.valueOf(123);
 System.out.println(z == k);   // true
 ```
 
-valueOf() 方法的实现比较简单，就是先判断值是否在缓存池中，如果在的话就直接返回缓存池的内容。
+The implementation of valueOf() is simple: it first checks whether the value is in the cache pool. If it is, it directly returns the cached object.
 
 ```java
 public static Integer valueOf(int i) {
@@ -97,7 +97,7 @@ public static Integer valueOf(int i) {
 }
 ```
 
-在 Java 8 中，Integer 缓存池的大小默认为 -128\~127。
+In Java 8, the default range of the Integer cache pool is -128\~127.
 
 ```java
 static final int low = -128;
@@ -131,7 +131,7 @@ static {
 }
 ```
 
-编译器会在自动装箱过程调用 valueOf() 方法，因此多个值相同且值在缓存池范围内的 Integer 实例使用自动装箱来创建，那么就会引用相同的对象。
+The compiler calls valueOf() during autoboxing. Therefore, if multiple Integer instances with the same value within the cache range are created through autoboxing, they reference the same object.
 
 ```java
 Integer m = 123;
@@ -139,7 +139,7 @@ Integer n = 123;
 System.out.println(m == n); // true
 ```
 
-基本类型对应的缓冲池如下：
+The cache pools for primitive wrapper types are:
 
 - boolean values true and false
 - all byte values
@@ -147,9 +147,9 @@ System.out.println(m == n); // true
 - int values between -128 and 127
 - char in the range \u0000 to \u007F
 
-在使用这些基本类型对应的包装类型时，如果该数值范围在缓冲池范围内，就可以直接使用缓冲池中的对象。
+When using wrapper types corresponding to these primitive types, if the value is within the cache range, the cached object can be used directly.
 
-在 jdk 1.8 所有的数值类缓冲池中，Integer 的缓冲池 IntegerCache 很特殊，这个缓冲池的下界是 - 128，上界默认是 127，但是这个上界是可调的，在启动 jvm 的时候，通过 -XX:AutoBoxCacheMax=&lt;size&gt; 来指定这个缓冲池的大小，该选项在 JVM 初始化的时候会设定一个名为 java.lang.IntegerCache.high 系统属性，然后 IntegerCache 初始化的时候就会读取该系统属性来决定上界。
+Among all numeric wrapper caches in JDK 1.8, IntegerCache is special. Its lower bound is -128 and its default upper bound is 127, but the upper bound is configurable. When starting the JVM, use -XX:AutoBoxCacheMax=&lt;size&gt; to specify the cache size. During JVM initialization, this option sets a system property named java.lang.IntegerCache.high, and IntegerCache reads this property during initialization to determine the upper bound.
 
 [StackOverflow : Differences between new Integer(123), Integer.valueOf(123) and just 123
 ](https://stackoverflow.com/questions/9030817/differences-between-new-integer123-integer-valueof123-and-just-123)
@@ -158,9 +158,9 @@ System.out.println(m == n); // true
 
 ### Overview
 
-String 被声明为 final，因此它不可被继承。(Integer 等包装类也不能被继承）
+String is declared final, so it cannot be inherited. Wrapper classes such as Integer also cannot be inherited.
 
-在 Java 8 中，String 内部使用 char 数组存储数据。
+In Java 8, String internally uses a char array to store data.
 
 ```java
 public final class String
@@ -170,7 +170,7 @@ public final class String
 }
 ```
 
-在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 `coder` 来标识使用了哪种编码。
+After Java 9, the String implementation changed to store strings in a byte array and uses `coder` to indicate which encoding is used.
 
 ```java
 public final class String
@@ -183,52 +183,52 @@ public final class String
 }
 ```
 
-value 数组被声明为 final，这意味着 value 数组初始化之后就不能再引用其它数组。并且 String 内部没有改变 value 数组的方法，因此可以保证 String 不可变。
+The value array is declared final, meaning it cannot reference another array after initialization. In addition, String has no internal method that changes the value array, so String immutability can be guaranteed.
 
 ### Benefits of Immutability
 
-**1. 可以缓存 hash 值**  
+**1. hash values can be cached**  
 
-因为 String 的 hash 值经常被使用，例如 String 用做 HashMap 的 key。不可变的特性可以使得 hash 值也不可变，因此只需要进行一次计算。
+Because String hash values are used frequently, such as when String is used as a HashMap key. Immutability makes the hash value immutable as well, so it only needs to be computed once.
 
-**2. String Pool 的需要**  
+**2. String Pool requirement**  
 
-如果一个 String 对象已经被创建过了，那么就会从 String Pool 中取得引用。只有 String 是不可变的，才可能使用 String Pool。
+If a String object has already been created, its reference can be obtained from the String Pool. String Pool is possible only because String is immutable.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191210004132894.png"/> </div><br>
 
-**3. 安全性**  
+**3. Security**  
 
-String 经常作为参数，String 不可变性可以保证参数不可变。例如在作为网络连接参数的情况下如果 String 是可变的，那么在网络连接过程中，String 被改变，改变 String 的那一方以为现在连接的是其它主机，而实际情况却不一定是。
+String is often used as a parameter, and String immutability guarantees that parameters do not change. For example, if String were mutable when used as a network connection parameter, it could be changed during the connection process. The party that changed it might think it is now connecting to another host, while the actual situation may not match.
 
-**4. 线程安全**  
+**4. Thread safety**  
 
-String 不可变性天生具备线程安全，可以在多个线程中安全地使用。
+String immutability is inherently thread-safe, so String can be safely used across multiple threads.
 
 [Program Creek : Why String is immutable in Java?](https://www.programcreek.com/2013/04/why-string-is-immutable-in-java/)
 
 ### String, StringBuffer and StringBuilder	
 
-**1. 可变性**  
+**1. Mutability**  
 
-- String 不可变
-- StringBuffer 和 StringBuilder 可变
+- String is immutable
+- StringBuffer and StringBuilder are mutable
 
-**2. 线程安全**  
+**2. Thread safety**  
 
-- String 不可变，因此是线程安全的
-- StringBuilder 不是线程安全的
-- StringBuffer 是线程安全的，内部使用 synchronized 进行同步
+- String is immutable, so it is thread-safe
+- StringBuilder is not thread-safe
+- StringBuffer is thread-safe and uses synchronized internally for synchronization
 
 [StackOverflow : String, StringBuffer, and StringBuilder](https://stackoverflow.com/questions/2971315/string-stringbuffer-and-stringbuilder)
 
 ### String Pool
 
-字符串常量池（String Pool）保存着所有字符串字面量（literal strings），这些字面量在编译时期就确定。不仅如此，还可以使用 String 的 intern() 方法在运行过程将字符串添加到 String Pool 中。
+The string constant pool (String Pool) stores all string literals, which are determined at compile time. In addition, String's intern() method can add strings to the String Pool at runtime.
 
-当一个字符串调用 intern() 方法时，如果 String Pool 中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回 String Pool 中字符串的引用；否则，就会在 String Pool 中添加一个新的字符串，并返回这个新字符串的引用。
+When a string calls intern(), if a string with the same value already exists in the String Pool (determined using equals()), the reference to the string in the String Pool is returned. Otherwise, a new string is added to the String Pool and a reference to the new string is returned.
 
-下面示例中，s1 和 s2 采用 new String() 的方式新建了两个不同字符串，而 s3 和 s4 是通过 s1.intern() 和 s2.intern() 方法取得同一个字符串引用。intern() 首先把 "aaa" 放到 String Pool 中，然后返回这个字符串引用，因此 s3 和 s4 引用的是同一个字符串。
+In the example below, s1 and s2 create two different strings using new String(), while s3 and s4 obtain the same string reference through s1.intern() and s2.intern(). intern() first puts "aaa" into the String Pool and then returns the string reference, so s3 and s4 reference the same string.
 
 ```java
 String s1 = new String("aaa");
@@ -239,7 +239,7 @@ String s4 = s2.intern();
 System.out.println(s3 == s4);           // true
 ```
 
-如果是采用 "bbb" 这种字面量的形式创建字符串，会自动地将字符串放入 String Pool 中。
+If a string is created as a literal such as "bbb", it is automatically placed into the String Pool.
 
 ```java
 String s5 = "bbb";
@@ -247,19 +247,19 @@ String s6 = "bbb";
 System.out.println(s5 == s6);  // true
 ```
 
-在 Java 7 之前，String Pool 被放在运行时常量池中，它属于永久代。而在 Java 7，String Pool 被移到堆中。这是因为永久代的空间有限，在大量使用字符串的场景下会导致 OutOfMemoryError 错误。
+Before Java 7, the String Pool was stored in the runtime constant pool, which belonged to the permanent generation. In Java 7, the String Pool was moved to the heap because permanent generation space is limited and can cause OutOfMemoryError when many strings are used.
 
 - [StackOverflow : What is String interning?](https://stackoverflow.com/questions/10578984/what-is-string-interning)
-- [深入解析 String#intern](https://tech.meituan.com/in_depth_understanding_string_intern.html)
+- [In-depth analysis of String#intern](https://tech.meituan.com/in_depth_understanding_string_intern.html)
 
 ### new String("abc")
 
-使用这种方式一共会创建两个字符串对象（前提是 String Pool 中还没有 "abc" 字符串对象）。
+Using this approach creates two string objects in total, assuming the String Pool does not yet contain the "abc" string object.
 
-- "abc" 属于字符串字面量，因此编译时期会在 String Pool 中创建一个字符串对象，指向这个 "abc" 字符串字面量；
-- 而使用 new 的方式会在堆中创建一个字符串对象。
+- "abc" is a string literal, so a string object pointing to this "abc" literal is created in the String Pool at compile time;
+- Using new creates a string object on the heap.
 
-创建一个测试类，其 main 方法中使用这种方式来创建字符串对象。
+Create a test class whose main method uses this approach to create a string object.
 
 ```java
 public class NewStringTest {
@@ -269,7 +269,7 @@ public class NewStringTest {
 }
 ```
 
-使用 javap -verbose 进行反编译，得到以下内容：
+Use javap -verbose to decompile and obtain the following content:
 
 ```java
 // ...
@@ -295,9 +295,9 @@ Constant pool:
 // ...
 ```
 
-在 Constant Pool 中，#19 存储这字符串字面量 "abc"，#3 是 String Pool 的字符串对象，它指向 #19 这个字符串字面量。在 main 方法中，0: 行使用 new #2 在堆中创建一个字符串对象，并且使用 ldc #3 将 String Pool 中的字符串对象作为 String 构造函数的参数。
+In the Constant Pool, #19 stores the string literal "abc", and #3 is the String Pool string object that points to this string literal #19. In the main method, line 0 uses new #2 to create a string object on the heap, and ldc #3 uses the string object in the String Pool as the parameter to the String constructor.
 
-以下是 String 构造函数的源码，可以看到，在将一个字符串对象作为另一个字符串对象的构造函数参数时，并不会完全复制 value 数组内容，而是都会指向同一个 value 数组。
+The following is the source code of the String constructor. When one string object is passed as the constructor parameter of another string object, the value array contents are not fully copied; both objects point to the same value array.
 
 ```java
 public String(String original) {
@@ -310,9 +310,9 @@ public String(String original) {
 
 ### Parameter Passing
 
-Java 的参数是以值传递的形式传入方法中，而不是引用传递。
+Java passes parameters to methods by value, not by reference.
 
-以下代码中 Dog dog 的 dog 是一个指针，存储的是对象的地址。在将一个参数传入一个方法时，本质上是将对象的地址以值的方式传递到形参中。
+In the following code, dog in Dog dog is a pointer that stores the object's address. When passing a parameter into a method, the object's address is essentially passed by value to the formal parameter.
 
 ```java
 public class Dog {
@@ -337,7 +337,7 @@ public class Dog {
 }
 ```
 
-在方法中改变对象的字段值会改变原对象该字段值，因为引用的是同一个对象。
+Changing an object's field value inside a method changes the original object's field value because both references point to the same object.
 
 ```java
 class PassByValueExample {
@@ -353,7 +353,7 @@ class PassByValueExample {
 }
 ```
 
-但是在方法中将指针引用了其它对象，那么此时方法里和方法外的两个指针指向了不同的对象，在一个指针改变其所指向对象的内容对另一个指针所指向的对象没有影响。
+However, if the pointer is made to reference another object inside the method, then the pointers inside and outside the method point to different objects. Changing the object pointed to by one pointer does not affect the object pointed to by the other pointer.
 
 ```java
 public class PassByValueExample {
@@ -378,15 +378,15 @@ public class PassByValueExample {
 
 ### float and double
 
-Java 不能隐式执行向下转型，因为这会使得精度降低。
+Java cannot implicitly perform downcasting because it can reduce precision.
 
-1.1 字面量属于 double 类型，不能直接将 1.1 直接赋值给 float 变量，因为这是向下转型。
+The literal 1.1 is of type double and cannot be assigned directly to a float variable because this is downcasting.
 
 ```java
 // float f = 1.1;
 ```
 
-1.1f 字面量才是 float 类型。
+The literal 1.1f is of type float.
 
 ```java
 float f = 1.1f;
@@ -394,21 +394,21 @@ float f = 1.1f;
 
 ### Implicit Type Conversion
 
-因为字面量 1 是 int 类型，它比 short 类型精度要高，因此不能隐式地将 int 类型向下转型为 short 类型。
+Because the literal 1 is of type int, which has higher precision than short, int cannot be implicitly downcast to short.
 
 ```java
 short s1 = 1;
 // s1 = s1 + 1;
 ```
 
-但是使用 += 或者 ++ 运算符会执行隐式类型转换。
+However, the += or ++ operators perform implicit type conversion.
 
 ```java
 s1 += 1;
 s1++;
 ```
 
-上面的语句相当于将 s1 + 1 的计算结果进行了向下转型：
+The statement above is equivalent to downcasting the result of s1 + 1:
 
 ```java
 s1 = (short) (s1 + 1);
@@ -418,7 +418,7 @@ s1 = (short) (s1 + 1);
 
 ### switch
 
-从 Java 7 开始，可以在 switch 条件判断语句中使用 String 对象。
+Starting from Java 7, String objects can be used in switch condition statements.
 
 ```java
 String s = "a";
@@ -432,7 +432,7 @@ switch (s) {
 }
 ```
 
-switch 不支持 long、float、double，是因为 switch 的设计初衷是对那些只有少数几个值的类型进行等值判断，如果值过于复杂，那么还是用 if 比较合适。
+switch does not support long, float, or double because it was originally designed for equality checks on types with only a small number of values. If the values are too complex, if is more appropriate.
 
 ```java
 // long x = 111;
@@ -453,12 +453,12 @@ switch 不支持 long、float、double，是因为 switch 的设计初衷是对�
 
 ### final
 
-**1. 数据**  
+**1. Data**  
 
-声明数据为常量，可以是编译时常量，也可以是在运行时被初始化后不能被改变的常量。
+Declares data as a constant. It can be a compile-time constant or a constant that cannot be changed after being initialized at runtime.
 
-- 对于基本类型，final 使数值不变；
-- 对于引用类型，final 使引用不变，也就不能引用其它对象，但是被引用的对象本身是可以修改的。
+- For primitive types, final makes the value unchanged;
+- For reference types, final makes the reference unchanged, so it cannot reference another object, but the referenced object itself can still be modified.
 
 ```java
 final int x = 1;
@@ -467,28 +467,28 @@ final A y = new A();
 y.a = 1;
 ```
 
-**2. 方法**  
+**2. Methods**  
 
-声明方法不能被子类重写。
+Declares that a method cannot be overridden by subclasses.
 
-private 方法隐式地被指定为 final，如果在子类中定义的方法和基类中的一个 private 方法签名相同，此时子类的方法不是重写基类方法，而是在子类中定义了一个新的方法。
+private methods are implicitly final. If a method defined in a subclass has the same signature as a private method in the base class, the subclass method does not override the base-class method; it defines a new method in the subclass.
 
-**3. 类**  
+**3. Classes**  
 
-声明类不允许被继承。
+Declares that a class cannot be inherited.
 
 ### static
 
-**1. 静态变量**  
+**1. Static variables**  
 
-- 静态变量：又称为类变量，也就是说这个变量属于类的，类所有的实例都共享静态变量，可以直接通过类名来访问它。静态变量在内存中只存在一份。
-- 实例变量：每创建一个实例就会产生一个实例变量，它与该实例同生共死。
+- Static variable: also called a class variable. It belongs to the class, and all instances of the class share the static variable. It can be accessed directly through the class name. Only one copy of a static variable exists in memory.
+- Instance variable: each created instance has its own instance variable, which is created and destroyed with that instance.
 
 ```java
 public class A {
 
-    private int x;         // 实例变量
-    private static int y;  // 静态变量
+    private int x;         // instance variable
+    private static int y;  // static variable
 
     public static void main(String[] args) {
         // int x = A.x;  // Non-static field 'x' cannot be referenced from a static context
@@ -499,9 +499,9 @@ public class A {
 }
 ```
 
-**2. 静态方法**  
+**2. Static methods**  
 
-静态方法在类加载的时候就存在了，它不依赖于任何实例。所以静态方法必须有实现，也就是说它不能是抽象方法。
+Static methods exist when the class is loaded and do not depend on any instance. Therefore, static methods must have implementations, meaning they cannot be abstract methods.
 
 ```java
 public abstract class A {
@@ -511,7 +511,7 @@ public abstract class A {
 }
 ```
 
-只能访问所属类的静态字段和静态方法，方法中不能有 this 和 super 关键字，因为这两个关键字与具体对象关联。
+They can access only static fields and static methods of their class. They cannot use this or super because those keywords are associated with concrete objects.
 
 ```java
 public class A {
@@ -527,9 +527,9 @@ public class A {
 }
 ```
 
-**3. 静态语句块**  
+**3. Static blocks**  
 
-静态语句块在类初始化时运行一次。
+Static blocks run once when the class is initialized.
 
 ```java
 public class A {
@@ -548,9 +548,9 @@ public class A {
 123
 ```
 
-**4. 静态内部类**  
+**4. Static inner classes**  
 
-非静态内部类依赖于外部类的实例，也就是说需要先创建外部类实例，才能用这个实例去创建非静态内部类。而静态内部类不需要。
+Non-static inner classes depend on an instance of the outer class. In other words, an outer-class instance must be created first, and then that instance is used to create the non-static inner class. Static inner classes do not require this.
 
 ```java
 public class OuterClass {
@@ -570,56 +570,56 @@ public class OuterClass {
 }
 ```
 
-静态内部类不能访问外部类的非静态的变量和方法。
+Static inner classes cannot access non-static variables or methods of the outer class.
 
-**5. 静态导包**  
+**5. Static imports**  
 
-在使用静态变量和方法时不用再指明 ClassName，从而简化代码，但可读性大大降低。
+When using static variables and methods, ClassName no longer needs to be specified. This simplifies code but greatly reduces readability.
 
 ```java
 import static com.xxx.ClassName.*
 ```
 
-**6. 初始化顺序**  
+**6. Initialization order**  
 
-静态变量和静态语句块优先于实例变量和普通语句块，静态变量和静态语句块的初始化顺序取决于它们在代码中的顺序。
+Static variables and static blocks take precedence over instance variables and ordinary blocks. The initialization order of static variables and static blocks depends on their order in the code.
 
 ```java
-public static String staticField = "静态变量";
+public static String staticField = "static variable";
 ```
 
 ```java
 static {
-    System.out.println("静态语句块");
+    System.out.println("static block");
 }
 ```
 
 ```java
-public String field = "实例变量";
+public String field = "instance variable";
 ```
 
 ```java
 {
-    System.out.println("普通语句块");
+    System.out.println("ordinary block");
 }
 ```
 
-最后才是构造函数的初始化。
+Constructor initialization happens last.
 
 ```java
 public InitialOrderTest() {
-    System.out.println("构造函数");
+    System.out.println("constructor");
 }
 ```
 
-存在继承的情况下，初始化顺序为：
+When inheritance is involved, the initialization order is:
 
-- 父类（静态变量、静态语句块）
-- 子类（静态变量、静态语句块）
-- 父类（实例变量、普通语句块）
-- 父类（构造函数）
-- 子类（实例变量、普通语句块）
-- 子类（构造函数）
+- Parent class (static variables, static blocks)
+- Child class (static variables, static blocks)
+- Parent class (instance variables, ordinary blocks)
+- Parent class (constructor)
+- Child class (instance variables, ordinary blocks)
+- Child class (constructor)
 
 ## 5. Object Common Methods
 
@@ -652,49 +652,49 @@ public final void wait() throws InterruptedException
 
 ### equals()
 
-**1. 等价关系**  
+**1. Equivalence relation**  
 
-两个对象具有等价关系，需要满足以下五个条件：
+Two objects have an equivalence relation if the following five conditions are satisfied:
 
-Ⅰ 自反性
+I. Reflexivity
 
 ```java
 x.equals(x); // true
 ```
 
-Ⅱ 对称性
+II. Symmetry
 
 ```java
 x.equals(y) == y.equals(x); // true
 ```
 
-Ⅲ 传递性
+III. Transitivity
 
 ```java
 if (x.equals(y) && y.equals(z))
     x.equals(z); // true;
 ```
 
-Ⅳ 一致性
+IV. Consistency
 
-多次调用 equals() 方法结果不变
+Multiple calls to equals() return the same result.
 
 ```java
 x.equals(y) == x.equals(y); // true
 ```
 
-Ⅴ 与 null 的比较
+V. Comparison with null
 
-对任何不是 null 的对象 x 调用 x.equals(null) 结果都为 false
+For any object x that is not null, x.equals(null) returns false.
 
 ```java
 x.equals(null); // false;
 ```
 
-**2. 等价与相等**  
+**2. Equivalence and equality**  
 
-- 对于基本类型，== 判断两个值是否相等，基本类型没有 equals() 方法。
-- 对于引用类型，== 判断两个变量是否引用同一个对象，而 equals() 判断引用的对象是否等价。
+- For primitive types, == checks whether two values are equal. Primitive types do not have equals().
+- For reference types, == checks whether two variables reference the same object, while equals() checks whether the referenced objects are equivalent.
 
 ```java
 Integer x = new Integer(1);
@@ -703,12 +703,12 @@ System.out.println(x.equals(y)); // true
 System.out.println(x == y);      // false
 ```
 
-**3. 实现**  
+**3. Implementation**  
 
-- 检查是否为同一个对象的引用，如果是直接返回 true；
-- 检查是否是同一个类型，如果不是，直接返回 false；
-- 将 Object 对象进行转型；
-- 判断每个关键域是否相等。
+- Check whether it is a reference to the same object. If so, return true directly;
+- Check whether it is the same type. If not, return false directly;
+- Cast the Object;
+- Check whether each significant field is equal.
 
 ```java
 public class EqualExample {
@@ -739,13 +739,13 @@ public class EqualExample {
 
 ### hashCode()
 
-hashCode() 返回哈希值，而 equals() 是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价，这是因为计算哈希值具有随机性，两个值不同的对象可能计算出相同的哈希值。
+hashCode() returns a hash value, while equals() determines whether two objects are equivalent. Two equivalent objects must have the same hash value, but two objects with the same hash value are not necessarily equivalent, because hash computation has randomness and two different objects may compute the same hash value.
 
-在覆盖 equals() 方法时应当总是覆盖 hashCode() 方法，保证等价的两个对象哈希值也相等。
+When overriding equals(), always override hashCode() as well to ensure that equivalent objects also have equal hash values.
 
-HashSet  和 HashMap 等集合类使用了 hashCode()  方法来计算对象应该存储的位置，因此要将对象添加到这些集合类中，需要让对应的类实现 hashCode()  方法。
+Collection classes such as HashSet and HashMap use hashCode() to compute where an object should be stored. Therefore, to add objects to these collections, the corresponding class needs to implement hashCode().
 
-下面的代码中，新建了两个等价的对象，并将它们添加到 HashSet 中。我们希望将这两个对象当成一样的，只在集合中添加一个对象。但是 EqualExample 没有实现 hashCode() 方法，因此这两个对象的哈希值是不同的，最终导致集合添加了两个等价的对象。
+In the code below, two equivalent objects are created and added to a HashSet. We want these two objects to be treated as the same, so only one object should be added to the set. However, EqualExample does not implement hashCode(), so the two objects have different hash values, causing the set to contain two equivalent objects.
 
 ```java
 EqualExample e1 = new EqualExample(1, 1, 1);
@@ -757,9 +757,9 @@ set.add(e2);
 System.out.println(set.size());   // 2
 ```
 
-理想的哈希函数应当具有均匀性，即不相等的对象应当均匀分布到所有可能的哈希值上。这就要求了哈希函数要把所有域的值都考虑进来。可以将每个域都当成 R 进制的某一位，然后组成一个 R 进制的整数。
+An ideal hash function should be uniform: unequal objects should be evenly distributed across all possible hash values. This requires the hash function to consider the values of all fields. Each field can be treated as one digit in base R, forming a base-R integer.
 
-R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法：`31*x == (x<<5)-x`，编译器会自动进行这个优化。
+R is usually 31 because it is an odd prime. If it were even, information would be lost during multiplication overflow because multiplying by 2 is equivalent to shifting left by one bit, losing the leftmost bit. Also, multiplying by 31 can be converted into shifting and subtraction: `31*x == (x<<5)-x`, and the compiler automatically performs this optimization.
 
 ```java
 @Override
@@ -774,7 +774,7 @@ public int hashCode() {
 
 ### toString()
 
-默认返回 ToStringExample@4554617c 这种形式，其中 @ 后面的数值为散列码的无符号十六进制表示。
+By default, it returns a form such as ToStringExample@4554617c, where the value after @ is the unsigned hexadecimal representation of the hash code.
 
 ```java
 public class ToStringExample {
@@ -798,9 +798,9 @@ ToStringExample@4554617c
 
 ### clone()
 
-**1. cloneable**  
+**1. Cloneable**  
 
-clone() 是 Object 的 protected 方法，它不是 public，一个类不显式去重写 clone()，其它类就不能直接去调用该类实例的 clone() 方法。
+clone() is a protected method of Object, not public. If a class does not explicitly override clone(), other classes cannot directly call clone() on instances of that class.
 
 ```java
 public class CloneExample {
@@ -814,7 +814,7 @@ CloneExample e1 = new CloneExample();
 // CloneExample e2 = e1.clone(); // 'clone()' has protected access in 'java.lang.Object'
 ```
 
-重写 clone() 得到以下实现：
+Override clone() with the following implementation:
 
 ```java
 public class CloneExample {
@@ -841,9 +841,9 @@ try {
 java.lang.CloneNotSupportedException: CloneExample
 ```
 
-以上抛出了 CloneNotSupportedException，这是因为 CloneExample 没有实现 Cloneable 接口。
+The code above throws CloneNotSupportedException because CloneExample does not implement the Cloneable interface.
 
-应该注意的是，clone() 方法并不是 Cloneable 接口的方法，而是 Object 的一个 protected 方法。Cloneable 接口只是规定，如果一个类没有实现 Cloneable 接口又调用了 clone() 方法，就会抛出 CloneNotSupportedException。
+Note that clone() is not a method of the Cloneable interface; it is a protected method of Object. The Cloneable interface only specifies that if a class does not implement Cloneable and clone() is called, CloneNotSupportedException is thrown.
 
 ```java
 public class CloneExample implements Cloneable {
@@ -857,9 +857,9 @@ public class CloneExample implements Cloneable {
 }
 ```
 
-**2. 浅拷贝**  
+**2. Shallow copy**  
 
-拷贝对象和原始对象的引用类型引用同一个对象。
+The copied object and the original object reference the same object for reference-type fields.
 
 ```java
 public class ShallowCloneExample implements Cloneable {
@@ -900,9 +900,9 @@ e1.set(2, 222);
 System.out.println(e2.get(2)); // 222
 ```
 
-**3. 深拷贝**  
+**3. Deep copy**  
 
-拷贝对象和原始对象的引用类型引用不同对象。
+The copied object and the original object reference different objects for reference-type fields.
 
 ```java
 public class DeepCloneExample implements Cloneable {
@@ -948,9 +948,9 @@ e1.set(2, 222);
 System.out.println(e2.get(2)); // 2
 ```
 
-**4. clone() 的替代方案**  
+**4. Alternatives to clone()**  
 
-使用 clone() 方法来拷贝一个对象即复杂又有风险，它会抛出异常，并且还需要类型转换。Effective Java 书上讲到，最好不要去使用 clone()，可以使用拷贝构造函数或者拷贝工厂来拷贝一个对象。
+Using clone() to copy an object is both complex and risky. It throws exceptions and requires type conversion. Effective Java recommends avoiding clone() and using copy constructors or copy factories to copy objects.
 
 ```java
 public class CloneConstructorExample {
@@ -992,20 +992,20 @@ System.out.println(e2.get(2)); // 2
 
 ### Access Modifiers
 
-Java 中有三个访问权限修饰符：private、protected 以及 public，如果不加访问修饰符，表示包级可见。
+Java has three access modifiers: private, protected, and public. If no access modifier is added, the member has package-level visibility.
 
-可以对类或类中的成员（字段和方法）加上访问修饰符。
+Access modifiers can be added to classes or members of a class, such as fields and methods.
 
-- 类可见表示其它类可以用这个类创建实例对象。
-- 成员可见表示其它类可以用这个类的实例对象访问到该成员；
+- Class visibility means other classes can use this class to create instances.
+- Member visibility means other classes can access that member through an instance of this class.
 
-protected 用于修饰成员，表示在继承体系中成员对于子类可见，但是这个访问修饰符对于类没有意义。
+protected is used to modify members, meaning the member is visible to subclasses in the inheritance hierarchy. This modifier is meaningless for classes.
 
-设计良好的模块会隐藏所有的实现细节，把它的 API 与它的实现清晰地隔离开来。模块之间只通过它们的 API 进行通信，一个模块不需要知道其他模块的内部工作情况，这个概念被称为信息隐藏或封装。因此访问权限应当尽可能地使每个类或者成员不被外界访问。
+A well-designed module hides all implementation details and clearly separates its API from its implementation. Modules communicate only through their APIs, and one module does not need to know the internal workings of another. This concept is called information hiding or encapsulation. Therefore, access permissions should prevent each class or member from being accessed externally whenever possible.
 
-如果子类的方法重写了父类的方法，那么子类中该方法的访问级别不允许低于父类的访问级别。这是为了确保可以使用父类实例的地方都可以使用子类实例去代替，也就是确保满足里氏替换原则。
+If a subclass method overrides a parent-class method, the access level of the subclass method cannot be lower than that of the parent-class method. This ensures that wherever a parent-class instance can be used, a subclass instance can be used instead, satisfying the Liskov Substitution Principle.
 
-字段决不能是公有的，因为这么做的话就失去了对这个字段修改行为的控制，客户端可以对其随意修改。例如下面的例子中，AccessExample 拥有 id 公有字段，如果在某个时刻，我们想要使用 int 存储 id 字段，那么就需要修改所有的客户端代码。
+Fields should never be public because doing so loses control over modifications to the field, and clients can modify it arbitrarily. For example, in the following example, AccessExample has a public id field. If at some point we want to store the id field as an int, all client code must be modified.
 
 ```java
 public class AccessExample {
@@ -1013,7 +1013,7 @@ public class AccessExample {
 }
 ```
 
-可以使用公有的 getter 和 setter 方法来替换公有字段，这样的话就可以控制对字段的修改行为。
+Public getter and setter methods can replace public fields, allowing control over field modification behavior.
 
 ```java
 public class AccessExample {
@@ -1030,7 +1030,7 @@ public class AccessExample {
 }
 ```
 
-但是也有例外，如果是包级私有的类或者私有的嵌套类，那么直接暴露成员不会有特别大的影响。
+There are exceptions. If it is a package-private class or a private nested class, directly exposing members usually does not have much impact.
 
 ```java
 public class AccessWithInnerClassExample {
@@ -1046,18 +1046,18 @@ public class AccessWithInnerClassExample {
     }
 
     public int getValue() {
-        return innerClass.x;  // 直接访问
+        return innerClass.x;  // direct access
     }
 }
 ```
 
 ### Abstract Classes and Interfaces
 
-**1. 抽象类**  
+**1. Abstract classes**  
 
-抽象类和抽象方法都使用 abstract 关键字进行声明。如果一个类中包含抽象方法，那么这个类必须声明为抽象类。
+Abstract classes and abstract methods are declared using the abstract keyword. If a class contains abstract methods, the class must be declared as abstract.
 
-抽象类和普通类最大的区别是，抽象类不能被实例化，只能被继承。
+The biggest difference between abstract classes and ordinary classes is that abstract classes cannot be instantiated and can only be inherited.
 
 ```java
 public abstract class AbstractClassExample {
@@ -1088,15 +1088,15 @@ AbstractClassExample ac2 = new AbstractExtendClassExample();
 ac2.func1();
 ```
 
-**2. 接口**  
+**2. Interfaces**  
 
-接口是抽象类的延伸，在 Java 8 之前，它可以看成是一个完全抽象的类，也就是说它不能有任何的方法实现。
+An interface is an extension of an abstract class. Before Java 8, it could be viewed as a completely abstract class, meaning it could not contain any method implementation.
 
-从 Java 8 开始，接口也可以拥有默认的方法实现，这是因为不支持默认方法的接口的维护成本太高了。在 Java 8 之前，如果一个接口想要添加新的方法，那么要修改所有实现了该接口的类，让它们都实现新增的方法。
+Starting from Java 8, interfaces can also have default method implementations because maintaining interfaces without default methods is too costly. Before Java 8, if an interface wanted to add a new method, every class implementing that interface had to be modified to implement the new method.
 
-接口的成员（字段 + 方法）默认都是 public 的，并且不允许定义为 private 或者 protected。从 Java 9 开始，允许将方法定义为 private，这样就能定义某些复用的代码又不会把方法暴露出去。
+Interface members, including fields and methods, are public by default and cannot be defined as private or protected. Starting from Java 9, methods can be defined as private, allowing reusable code to be defined without exposing the method.
 
-接口的字段默认都是 static 和 final 的。
+Interface fields are static and final by default.
 
 ```java
 public interface InterfaceExample {
@@ -1132,38 +1132,38 @@ ie2.func1();
 System.out.println(InterfaceExample.x);
 ```
 
-**3. 比较**  
+**3. Comparison**  
 
-- 从设计层面上看，抽象类提供了一种 IS-A 关系，需要满足里式替换原则，即子类对象必须能够替换掉所有父类对象。而接口更像是一种 LIKE-A 关系，它只是提供一种方法实现契约，并不要求接口和实现接口的类具有 IS-A 关系。
-- 从使用上来看，一个类可以实现多个接口，但是不能继承多个抽象类。
-- 接口的字段只能是 static 和 final 类型的，而抽象类的字段没有这种限制。
-- 接口的成员只能是 public 的，而抽象类的成员可以有多种访问权限。
+- From a design perspective, an abstract class provides an IS-A relationship and must satisfy the Liskov Substitution Principle, meaning subclass objects must be able to replace all parent-class objects. An interface is more like a LIKE-A relationship. It only provides a method implementation contract and does not require an IS-A relationship between the interface and the implementing class.
+- From a usage perspective, a class can implement multiple interfaces but cannot inherit multiple abstract classes.
+- Interface fields can only be static and final, while abstract-class fields have no such restriction.
+- Interface members can only be public, while abstract-class members can have multiple access levels.
 
-**4. 使用选择**  
+**4. Choosing which to use**  
 
-使用接口：
+Use interfaces when:
 
-- 需要让不相关的类都实现一个方法，例如不相关的类都可以实现 Comparable 接口中的 compareTo() 方法；
-- 需要使用多重继承。
+- Unrelated classes need to implement a method, such as unrelated classes implementing compareTo() from the Comparable interface;
+- Multiple inheritance is needed.
 
-使用抽象类：
+Use abstract classes when:
 
-- 需要在几个相关的类中共享代码。
-- 需要能控制继承来的成员的访问权限，而不是都为 public。
-- 需要继承非静态和非常量字段。
+- Code needs to be shared among several related classes.
+- The access permissions of inherited members need to be controlled instead of all being public.
+- Non-static and non-constant fields need to be inherited.
 
-在很多情况下，接口优先于抽象类。因为接口没有抽象类严格的类层次结构要求，可以灵活地为一个类添加行为。并且从 Java 8 开始，接口也可以有默认的方法实现，使得修改接口的成本也变的很低。
+In many cases, interfaces are preferred over abstract classes. Interfaces do not impose the strict class hierarchy requirements of abstract classes and can flexibly add behavior to a class. Starting from Java 8, interfaces can also have default method implementations, making the cost of modifying interfaces much lower.
 
 - [Abstract Methods and Classes](https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html)
-- [深入理解 abstract class 和 interface](https://www.ibm.com/developerworks/cn/java/l-javainterface-abstract/)
+- [Deep understanding of abstract class and interface](https://www.ibm.com/developerworks/cn/java/l-javainterface-abstract/)
 - [When to Use Abstract Class and Interface](https://dzone.com/articles/when-to-use-abstract-class-and-intreface)
 - [Java 9 Private Methods in Interfaces](https://www.journaldev.com/12850/java-9-private-methods-interfaces)
 
 
 ### super
 
-- 访问父类的构造函数：可以使用 super() 函数访问父类的构造函数，从而委托父类完成一些初始化的工作。应该注意到，子类一定会调用父类的构造函数来完成初始化工作，一般是调用父类的默认构造函数，如果子类需要调用父类其它构造函数，那么就可以使用 super() 函数。
-- 访问父类的成员：如果子类重写了父类的某个方法，可以通过使用 super 关键字来引用父类的方法实现。
+- Access parent-class constructors: use super() to access a parent-class constructor and delegate some initialization work to the parent class. Note that a subclass always calls a parent-class constructor to complete initialization, usually the default constructor. If the subclass needs to call another parent-class constructor, it can use super().
+- Access parent-class members: if a subclass overrides a parent-class method, use the super keyword to reference the parent-class method implementation.
 
 ```java
 public class SuperExample {
@@ -1214,24 +1214,24 @@ SuperExtendExample.func()
 
 ### Override and Overload
 
-**1. 重写（Override）**  
+**1. Override**  
 
-存在于继承体系中，指子类实现了一个与父类在方法声明上完全相同的一个方法。
+Exists in an inheritance hierarchy and means a subclass implements a method with exactly the same method declaration as the parent class.
 
-为了满足里式替换原则，重写有以下三个限制：
+To satisfy the Liskov Substitution Principle, overriding has the following three restrictions:
 
-- 子类方法的访问权限必须大于等于父类方法；
-- 子类方法的返回类型必须是父类方法返回类型或为其子类型。
-- 子类方法抛出的异常类型必须是父类抛出异常类型或为其子类型。
+- The access permission of the subclass method must be greater than or equal to that of the parent-class method;
+- The return type of the subclass method must be the parent-class method's return type or a subtype of it.
+- The exception type thrown by the subclass method must be the exception type thrown by the parent class or a subtype of it.
 
-使用 @Override 注解，可以让编译器帮忙检查是否满足上面的三个限制条件。
+Using the @Override annotation lets the compiler check whether the three restrictions above are satisfied.
 
-下面的示例中，SubClass 为 SuperClass 的子类，SubClass 重写了 SuperClass 的 func() 方法。其中：
+In the example below, SubClass is a subclass of SuperClass, and SubClass overrides SuperClass's func() method. In this example:
 
-- 子类方法访问权限为 public，大于父类的 protected。
-- 子类的返回类型为 ArrayList\<Integer\>，是父类返回类型 List\<Integer\> 的子类。
-- 子类抛出的异常类型为 Exception，是父类抛出异常 Throwable 的子类。
-- 子类重写方法使用 @Override 注解，从而让编译器自动检查是否满足限制条件。
+- The subclass method access level is public, greater than the parent class's protected.
+- The subclass return type is ArrayList\<Integer\>, a subtype of the parent return type List\<Integer\>.
+- The subclass throws Exception, a subtype of the parent class's Throwable.
+- The subclass override uses the @Override annotation, so the compiler automatically checks whether the restrictions are satisfied.
 
 ```java
 class SuperClass {
@@ -1248,7 +1248,7 @@ class SubClass extends SuperClass {
 }
 ```
 
-在调用一个方法时，先从本类中查找看是否有对应的方法，如果没有再到父类中查看，看是否从父类继承来。否则就要对参数进行转型，转成父类之后看是否有对应的方法。总的来说，方法调用的优先级为：
+When calling a method, first look in the current class for a matching method. If none exists, look in the parent class to see whether one was inherited. Otherwise, cast the parameter to a parent type and check whether a corresponding method exists. Overall, method-call priority is:
 
 - this.func(this)
 - super.func(this)
@@ -1302,27 +1302,27 @@ public static void main(String[] args) {
     C c = new C();
     D d = new D();
 
-    // 在 A 中存在 show(A obj)，直接调用
+    // A has show(A obj), so call it directly
     a.show(a); // A.show(A)
-    // 在 A 中不存在 show(B obj)，将 B 转型成其父类 A
+    // A does not have show(B obj), so cast B to its parent class A
     a.show(b); // A.show(A)
-    // 在 B 中存在从 A 继承来的 show(C obj)，直接调用
+    // B has show(C obj) inherited from A, so call it directly
     b.show(c); // A.show(C)
-    // 在 B 中不存在 show(D obj)，但是存在从 A 继承来的 show(C obj)，将 D 转型成其父类 C
+    // B does not have show(D obj), but has show(C obj) inherited from A, so cast D to its parent class C
     b.show(d); // A.show(C)
 
-    // 引用的还是 B 对象，所以 ba 和 b 的调用结果一样
+    // The referenced object is still B, so ba and b have the same call result
     A ba = new B();
     ba.show(c); // A.show(C)
     ba.show(d); // A.show(C)
 }
 ```
 
-**2. 重载（Overload）**  
+**2. Overload**  
 
-存在于同一个类中，指一个方法与已经存在的方法名称上相同，但是参数类型、个数、顺序至少有一个不同。
+Exists within the same class and means a method has the same name as an existing method, but at least one of the parameter type, count, or order differs.
 
-应该注意的是，返回值不同，其它都相同不算是重载。
+Note that if only the return value differs and everything else is the same, it is not overloading.
 
 ```java
 class OverloadingExample {
@@ -1346,49 +1346,49 @@ public static void main(String[] args) {
 
 ## 7. Reflection
 
-每个类都有一个   **Class**   对象，包含了与类有关的信息。当编译一个新类时，会产生一个同名的 .class 文件，该文件内容保存着 Class 对象。
+Every class has a   **Class**   object that contains information about the class. When a new class is compiled, a .class file with the same name is produced, and its contents store the Class object.
 
-类加载相当于 Class 对象的加载，类在第一次使用时才动态加载到 JVM 中。也可以使用 `Class.forName("com.mysql.jdbc.Driver")` 这种方式来控制类的加载，该方法会返回一个 Class 对象。
+Class loading is equivalent to loading the Class object. A class is dynamically loaded into the JVM only when it is first used. You can also control class loading with `Class.forName("com.mysql.jdbc.Driver")`, which returns a Class object.
 
-反射可以提供运行时的类信息，并且这个类可以在运行时才加载进来，甚至在编译时期该类的 .class 不存在也可以加载进来。
+Reflection can provide runtime class information, and the class can be loaded only at runtime. It can even be loaded when the class's .class file did not exist at compile time.
 
-Class 和 java.lang.reflect 一起对反射提供了支持，java.lang.reflect 类库主要包含了以下三个类：
+Class and java.lang.reflect together provide reflection support. The java.lang.reflect library mainly contains the following three classes:
 
--  **Field**  ：可以使用 get() 和 set() 方法读取和修改 Field 对象关联的字段；
--  **Method**  ：可以使用 invoke() 方法调用与 Method 对象关联的方法；
--  **Constructor**  ：可以用 Constructor 的 newInstance() 创建新的对象。
+-  **Field**  : use get() and set() to read and modify the field associated with a Field object;
+-  **Method**  : use invoke() to call the method associated with a Method object;
+-  **Constructor**  : use Constructor's newInstance() to create new objects.
 
-**反射的优点：**  
+**Advantages of reflection:**  
 
--  **可扩展性**   ：应用程序可以利用全限定名创建可扩展对象的实例，来使用来自外部的用户自定义类。
--  **类浏览器和可视化开发环境**   ：一个类浏览器需要可以枚举类的成员。可视化开发环境（如 IDE）可以从利用反射中可用的类型信息中受益，以帮助程序员编写正确的代码。
--  **调试器和测试工具**   ： 调试器需要能够检查一个类里的私有成员。测试工具可以利用反射来自动地调用类里定义的可被发现的 API 定义，以确保一组测试中有较高的代码覆盖率。
+-  **Extensibility**   : applications can use fully qualified names to create instances of extensible objects and use externally supplied user-defined classes.
+-  **Class browsers and visual development environments**   : a class browser needs to enumerate class members. Visual development environments, such as IDEs, can benefit from type information available through reflection to help programmers write correct code.
+-  **Debuggers and testing tools**   : debuggers need to inspect private members in a class. Testing tools can use reflection to automatically call discoverable API definitions in a class, ensuring higher code coverage in a test suite.
 
-**反射的缺点：**  
+**Disadvantages of reflection:**  
 
-尽管反射非常强大，但也不能滥用。如果一个功能可以不用反射完成，那么最好就不用。在我们使用反射技术时，下面几条内容应该牢记于心。
+Although reflection is powerful, it should not be abused. If a feature can be implemented without reflection, it is better not to use it. Keep the following points in mind when using reflection.
 
--  **性能开销**   ：反射涉及了动态类型的解析，所以 JVM 无法对这些代码进行优化。因此，反射操作的效率要比那些非反射操作低得多。我们应该避免在经常被执行的代码或对性能要求很高的程序中使用反射。
+-  **Performance overhead**   : reflection involves dynamic type resolution, so the JVM cannot optimize this code. Therefore, reflection operations are much less efficient than non-reflection operations. Avoid reflection in frequently executed code or programs with high performance requirements.
 
--  **安全限制**   ：使用反射技术要求程序必须在一个没有安全限制的环境中运行。如果一个程序必须在有安全限制的环境中运行，如 Applet，那么这就是个问题了。
+-  **Security restrictions**   : using reflection requires the program to run in an environment without security restrictions. If a program must run in an environment with security restrictions, such as an Applet, this becomes a problem.
 
--  **内部暴露**   ：由于反射允许代码执行一些在正常情况下不被允许的操作（比如访问私有的属性和方法），所以使用反射可能会导致意料之外的副作用，这可能导致代码功能失调并破坏可移植性。反射代码破坏了抽象性，因此当平台发生改变的时候，代码的行为就有可能也随着变化。
+-  **Internal exposure**   : because reflection allows code to perform operations that are normally not allowed, such as accessing private fields and methods, using reflection may cause unexpected side effects. This can make code malfunction and harm portability. Reflection code breaks abstraction, so when the platform changes, code behavior may also change.
 
 - [Trail: The Reflection API](https://docs.oracle.com/javase/tutorial/reflect/index.html)
-- [深入解析 Java 反射（1）- 基础](http://www.sczyh30.com/posts/Java/java-reflection-1/)
+- [In-depth analysis of Java reflection (1) - basics](http://www.sczyh30.com/posts/Java/java-reflection-1/)
 
 ## 8. Exceptions
 
-Throwable 可以用来表示任何可以作为异常抛出的类，分为两种：  **Error**   和 **Exception**。其中 Error 用来表示 JVM 无法处理的错误，Exception 分为两种：
+Throwable can represent any class that can be thrown as an exception. It is divided into two types:   **Error**   and **Exception**. Error represents errors that the JVM cannot handle, while Exception is divided into two types:
 
--   **受检异常**  ：需要用 try...catch... 语句捕获并进行处理，并且可以从异常中恢复；
--   **非受检异常**  ：是程序运行时错误，例如除 0 会引发 Arithmetic Exception，此时程序崩溃并且无法恢复。
+-   **Checked exceptions**  : must be caught and handled with try...catch..., and recovery from the exception is possible;
+-   **Unchecked exceptions**  : runtime errors, such as division by 0 causing an ArithmeticException. The program crashes and cannot recover.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/PPjwP.png" width="600"/> </div><br>
 
 - [Java Exception Interview Questions and Answers](https://www.journaldev.com/2167/java-exception-interview-questions-and-answersl)
 
-- [Java提高篇——Java 异常处理](https://www.cnblogs.com/Qian123/p/5715402.html)
+- [Advanced Java - Java exception handling](https://www.cnblogs.com/Qian123/p/5715402.html)
 
 ## 9. Generics
 
@@ -1401,14 +1401,14 @@ public class Box<T> {
 }
 ```
 
-- [Java 泛型详解](https://www.cnblogs.com/Blue-Keroro/p/8875898.html)
-- [10 道 Java 泛型面试题](https://cloud.tencent.com/developer/article/1033693)
+- [Detailed explanation of Java generics](https://www.cnblogs.com/Blue-Keroro/p/8875898.html)
+- [10 Java generics interview questions](https://cloud.tencent.com/developer/article/1033693)
 
 ## 10. Annotations
 
-Java 注解是附加在代码中的一些元信息，用于一些工具在编译、运行时进行解析和使用，起到说明、配置的功能。注解不会也不能影响代码的实际逻辑，仅仅起到辅助性的作用。
+Java annotations are metadata attached to code. Tools can parse and use them during compilation and runtime, providing description and configuration functions. Annotations do not and cannot affect the actual logic of the code; they only provide auxiliary information.
 
-[注解 Annotation 实现原理与自定义注解例子](https://www.cnblogs.com/acm-bingzi/p/javaAnnotation.html)
+[Annotation implementation principles and custom annotation examples](https://www.cnblogs.com/acm-bingzi/p/javaAnnotation.html)
 
 ## 11. Features
 
@@ -1438,26 +1438,26 @@ Java 注解是附加在代码中的一些元信息，用于一些工具在编译
 8. Diamond Syntax
 
 - [Difference between Java 1.8 and Java 1.7?](http://www.selfgrowth.com/articles/difference-between-java-18-and-java-17)
-- [Java 8 特性](http://www.importnew.com/19345.html)
+- [Java 8 features](http://www.importnew.com/19345.html)
 
 ### Java vs C++
 
-- Java 是纯粹的面向对象语言，所有的对象都继承自 java.lang.Object，C++ 为了兼容 C 即支持面向对象也支持面向过程。
-- Java 通过虚拟机从而实现跨平台特性，但是 C++ 依赖于特定的平台。
-- Java 没有指针，它的引用可以理解为安全指针，而 C++ 具有和 C 一样的指针。
-- Java 支持自动垃圾回收，而 C++ 需要手动回收。
-- Java 不支持多重继承，只能通过实现多个接口来达到相同目的，而 C++ 支持多重继承。
-- Java 不支持操作符重载，虽然可以对两个 String 对象执行加法运算，但是这是语言内置支持的操作，不属于操作符重载，而 C++ 可以。
-- Java 的 goto 是保留字，但是不可用，C++ 可以使用 goto。
+- Java is a purely object-oriented language. All objects inherit from java.lang.Object. To stay compatible with C, C++ supports both object-oriented and procedural programming.
+- Java achieves cross-platform behavior through the virtual machine, while C++ depends on specific platforms.
+- Java has no pointers. Its references can be understood as safe pointers, while C++ has pointers like C.
+- Java supports automatic garbage collection, while C++ requires manual memory management.
+- Java does not support multiple inheritance and can only achieve similar behavior by implementing multiple interfaces, while C++ supports multiple inheritance.
+- Java does not support operator overloading. Although addition can be performed on two String objects, this is built-in language support and is not operator overloading, while C++ supports operator overloading.
+- Java's goto is a reserved word but cannot be used; C++ can use goto.
 
 [What are the main differences between Java and C++?](http://cs-fundamentals.com/tech-interview/java/differences-between-java-and-cpp.php)
 
 ### JRE or JDK
 
-- JRE：Java Runtime Environment，Java 运行环境的简称，为 Java 的运行提供了所需的环境。它是一个 JVM 程序，主要包括了 JVM 的标准实现和一些 Java 基本类库。
-- JDK：Java Development Kit，Java 开发工具包，提供了 Java 的开发及运行环境。JDK 是 Java 开发的核心，集成了 JRE 以及一些其它的工具，比如编译 Java 源码的编译器 javac 等。
+- JRE: Java Runtime Environment. It provides the environment required to run Java. It is a JVM program that mainly includes the standard JVM implementation and some basic Java class libraries.
+- JDK: Java Development Kit. It provides the development and runtime environment for Java. The JDK is the core of Java development and integrates the JRE plus other tools, such as the javac compiler for compiling Java source code.
 
 ## References
 
-- Eckel B. Java 编程思想[M]. 机械工业出版社, 2002.
+- Eckel B. Thinking in Java[M]. China Machine Press, 2002.
 - Bloch J. Effective java[M]. Addison-Wesley Professional, 2017.

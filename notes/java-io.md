@@ -131,7 +131,7 @@ Java uses the two-byte encoding UTF-16be for in-memory character encoding. This 
 A String can be viewed as a character sequence. You can specify an encoding to encode it into a byte sequence, or specify an encoding to decode a byte sequence into a String.
 
 ```java
-String str1 = "中文";
+String str1 = "English";
 byte[] bytes = str1.getBytes("UTF-8");
 String str2 = new String(bytes, "UTF-8");
 System.out.println(str2);

@@ -1,30 +1,30 @@
 # Operating Systems - Process Management
 <!-- GFM-TOC -->
-* [计算机操作系统 - 进程管理](#operating-systems---process-management)
-    * [进程与线程](#processes-and-threads)
-        * [1. 进程](#1-process)
-        * [2. 线程](#2-thread)
-        * [3. 区别](#3-differences)
-    * [进程状态的切换](#process-state-transitions)
-    * [进程调度算法](#process-scheduling-algorithms)
-        * [1. 批处理系统](#1-batch-systems)
-        * [2. 交互式系统](#2-interactive-systems)
-        * [3. 实时系统](#3-real-time-systems)
-    * [进程同步](#process-synchronization)
-        * [1. 临界区](#1-critical-section)
-        * [2. 同步与互斥](#2-synchronization-and-mutual-exclusion)
-        * [3. 信号量](#3-semaphore)
-        * [4. 管程](#4-monitor)
-    * [经典同步问题](#classic-synchronization-problems)
-        * [1. 哲学家进餐问题](#1-dining-philosophers-problem)
-        * [2. 读者-写者问题](#2-readers-writers-problem)
-    * [进程通信](#interprocess-communication)
-        * [1. 管道](#1-pipes)
+* [Operating Systems - Process Management](#operating-systems---process-management)
+    * [Processes and Threads](#processes-and-threads)
+        * [1. Process](#1-process)
+        * [2. Thread](#2-thread)
+        * [3. Differences](#3-differences)
+    * [Process State Transitions](#process-state-transitions)
+    * [Process Scheduling Algorithms](#process-scheduling-algorithms)
+        * [1. Batch Systems](#1-batch-systems)
+        * [2. Interactive Systems](#2-interactive-systems)
+        * [3. Real-Time Systems](#3-real-time-systems)
+    * [Process Synchronization](#process-synchronization)
+        * [1. Critical Section](#1-critical-section)
+        * [2. Synchronization and Mutual Exclusion](#2-synchronization-and-mutual-exclusion)
+        * [3. Semaphore](#3-semaphore)
+        * [4. Monitor](#4-monitor)
+    * [Classic Synchronization Problems](#classic-synchronization-problems)
+        * [1. Dining Philosophers Problem](#1-dining-philosophers-problem)
+        * [2. Readers-Writers Problem](#2-readers-writers-problem)
+    * [Interprocess Communication](#interprocess-communication)
+        * [1. Pipes](#1-pipes)
         * [2. FIFO](#2-fifo)
-        * [3. 消息队列](#3-message-queues)
-        * [4. 信号量](#4-semaphore)
-        * [5. 共享存储](#5-shared-memory)
-        * [6. 套接字](#6-sockets)
+        * [3. Message Queues](#3-message-queues)
+        * [4. Semaphore](#4-semaphore)
+        * [5. Shared Memory](#5-shared-memory)
+        * [6. Sockets](#6-sockets)
 <!-- GFM-TOC -->
 
 
@@ -32,125 +32,125 @@
 
 ### 1. Process
 
-进程是资源分配的基本单位。
+A process is the basic unit of resource allocation.
 
-进程控制块 (Process Control Block, PCB) 描述进程的基本信息和运行状态，所谓的创建进程和撤销进程，都是指对 PCB 的操作。
+The Process Control Block (PCB) describes a process's basic information and running state. Creating and terminating a process are both operations on the PCB.
 
-下图显示了 4 个程序创建了 4 个进程，这 4 个进程可以并发地执行。
+The following figure shows four programs creating four processes. These four processes can execute concurrently.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a6ac2b08-3861-4e85-baa8-382287bfee9f.png"/> </div><br>
 
 ### 2. Thread
 
-线程是独立调度的基本单位。
+A thread is the basic unit of independent scheduling.
 
-一个进程中可以有多个线程，它们共享进程资源。
+A process can contain multiple threads, and they share the process's resources.
 
-QQ 和浏览器是两个进程，浏览器进程里面有很多线程，例如 HTTP 请求线程、事件响应线程、渲染线程等等，线程的并发执行使得在浏览器中点击一个新链接从而发起 HTTP 请求时，浏览器还可以响应用户的其它事件。
+QQ and a browser are two processes. A browser process contains many threads, such as HTTP request threads, event response threads, rendering threads, and so on. Concurrent execution of threads allows the browser to respond to other user events while initiating an HTTP request after the user clicks a new link.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/3cd630ea-017c-488d-ad1d-732b4efeddf5.png"/> </div><br>
 
 ### 3. Differences
 
-Ⅰ 拥有资源
+I. Resource Ownership
 
-进程是资源分配的基本单位，但是线程不拥有资源，线程可以访问隶属进程的资源。
+A process is the basic unit of resource allocation, but a thread does not own resources. A thread can access resources belonging to its process.
 
-Ⅱ 调度
+II. Scheduling
 
-线程是独立调度的基本单位，在同一进程中，线程的切换不会引起进程切换，从一个进程中的线程切换到另一个进程中的线程时，会引起进程切换。
+A thread is the basic unit of independent scheduling. Switching threads within the same process does not cause a process switch, while switching from a thread in one process to a thread in another process does cause a process switch.
 
-Ⅲ 系统开销
+III. System Overhead
 
-由于创建或撤销进程时，系统都要为之分配或回收资源，如内存空间、I/O 设备等，所付出的开销远大于创建或撤销线程时的开销。类似地，在进行进程切换时，涉及当前执行进程 CPU 环境的保存及新调度进程 CPU 环境的设置，而线程切换时只需保存和设置少量寄存器内容，开销很小。
+When creating or terminating a process, the system must allocate or reclaim resources such as memory space and I/O devices, so the overhead is much greater than creating or terminating a thread. Similarly, process switching involves saving the CPU context of the current process and setting up the CPU context of the newly scheduled process, while thread switching only needs to save and set a small number of registers, so the overhead is low.
 
-Ⅳ 通信方面
+IV. Communication
 
-线程间可以通过直接读写同一进程中的数据进行通信，但是进程通信需要借助 IPC。
+Threads can communicate by directly reading and writing data in the same process, while process communication requires IPC.
 
 ## Process State Transitions
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ProcessState.png" width="500"/> </div><br>
 
-- 就绪状态（ready）：等待被调度
-- 运行状态（running）
-- 阻塞状态（waiting）：等待资源
+- Ready state: waiting to be scheduled
+- Running state
+- Waiting state: waiting for resources
 
-应该注意以下内容：
+Note the following:
 
-- 只有就绪态和运行态可以相互转换，其它的都是单向转换。就绪状态的进程通过调度算法从而获得 CPU 时间，转为运行状态；而运行状态的进程，在分配给它的 CPU 时间片用完之后就会转为就绪状态，等待下一次调度。
-- 阻塞状态是缺少需要的资源从而由运行状态转换而来，但是该资源不包括 CPU 时间，缺少 CPU 时间会从运行态转换为就绪态。
+- Only ready and running states can transition to each other; all other transitions are one-way. A process in the ready state obtains CPU time through the scheduling algorithm and becomes running. A running process becomes ready after its allocated CPU time slice is exhausted, waiting for the next scheduling.
+- The waiting state is reached from the running state because required resources are unavailable, but those resources do not include CPU time. Lack of CPU time changes a process from running to ready.
 
 ## Process Scheduling Algorithms
 
-不同环境的调度算法目标不同，因此需要针对不同环境来讨论调度算法。
+Scheduling algorithms have different goals in different environments, so they should be discussed by environment.
 
 ### 1. Batch Systems
 
-批处理系统没有太多的用户操作，在该系统中，调度算法目标是保证吞吐量和周转时间（从提交到终止的时间）。
+Batch systems do not have many user operations. In such systems, scheduling algorithms aim to guarantee throughput and turnaround time, which is the time from submission to termination.
 
-**1.1 先来先服务 first-come first-serverd（FCFS）**  
+**1.1 First-Come, First-Served (FCFS)**  
 
-非抢占式的调度算法，按照请求的顺序进行调度。
+A non-preemptive scheduling algorithm that schedules jobs in request order.
 
-有利于长作业，但不利于短作业，因为短作业必须一直等待前面的长作业执行完毕才能执行，而长作业又需要执行很长时间，造成了短作业等待时间过长。
+It favors long jobs but is unfavorable to short jobs, because short jobs must wait until earlier long jobs finish, and long jobs take a long time to execute. This causes excessive waiting time for short jobs.
 
-**1.2 短作业优先 shortest job first（SJF）**  
+**1.2 Shortest Job First (SJF)**  
 
-非抢占式的调度算法，按估计运行时间最短的顺序进行调度。
+A non-preemptive scheduling algorithm that schedules jobs in ascending order of estimated running time.
 
-长作业有可能会饿死，处于一直等待短作业执行完毕的状态。因为如果一直有短作业到来，那么长作业永远得不到调度。
+Long jobs may starve, waiting indefinitely for short jobs to finish. If short jobs keep arriving, long jobs may never be scheduled.
 
-**1.3 最短剩余时间优先 shortest remaining time next（SRTN）**  
+**1.3 Shortest Remaining Time Next (SRTN)**  
 
-最短作业优先的抢占式版本，按剩余运行时间的顺序进行调度。 当一个新的作业到达时，其整个运行时间与当前进程的剩余时间作比较。如果新的进程需要的时间更少，则挂起当前进程，运行新的进程。否则新的进程等待。
+The preemptive version of shortest job first. It schedules by remaining running time. When a new job arrives, its total running time is compared with the current process's remaining time. If the new process needs less time, the current process is suspended and the new process runs. Otherwise, the new process waits.
 
 ### 2. Interactive Systems
 
-交互式系统有大量的用户交互操作，在该系统中调度算法的目标是快速地进行响应。
+Interactive systems have many user interactions. In such systems, scheduling algorithms aim to respond quickly.
 
-**2.1 时间片轮转**  
+**2.1 Round Robin**  
 
-将所有就绪进程按 FCFS 的原则排成一个队列，每次调度时，把 CPU 时间分配给队首进程，该进程可以执行一个时间片。当时间片用完时，由计时器发出时钟中断，调度程序便停止该进程的执行，并将它送往就绪队列的末尾，同时继续把 CPU 时间分配给队首的进程。
+All ready processes are arranged in a queue according to FCFS. At each scheduling event, CPU time is allocated to the process at the front of the queue, and that process can execute for one time slice. When the time slice is exhausted, the timer issues a clock interrupt, and the scheduler stops the process, sends it to the end of the ready queue, and continues allocating CPU time to the process at the front of the queue.
 
-时间片轮转算法的效率和时间片的大小有很大关系：
+The efficiency of round-robin scheduling is closely related to the time-slice size:
 
-- 因为进程切换都要保存进程的信息并且载入新进程的信息，如果时间片太小，会导致进程切换得太频繁，在进程切换上就会花过多时间。
-- 而如果时间片过长，那么实时性就不能得到保证。
+- Process switching must save the current process information and load the new process information. If the time slice is too small, process switching becomes too frequent and too much time is spent on switching.
+- If the time slice is too long, real-time responsiveness cannot be guaranteed.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/8c662999-c16c-481c-9f40-1fdba5bc9167.png"/> </div><br>
 
-**2.2 优先级调度**  
+**2.2 Priority Scheduling**  
 
-为每个进程分配一个优先级，按优先级进行调度。
+Assign each process a priority and schedule according to priority.
 
-为了防止低优先级的进程永远等不到调度，可以随着时间的推移增加等待进程的优先级。
+To prevent low-priority processes from waiting forever, increase the priority of waiting processes over time.
 
-**2.3 多级反馈队列**  
+**2.3 Multilevel Feedback Queue**  
 
-一个进程需要执行 100 个时间片，如果采用时间片轮转调度算法，那么需要交换 100 次。
+If a process needs to execute for 100 time slices, round-robin scheduling requires 100 switches.
 
-多级队列是为这种需要连续执行多个时间片的进程考虑，它设置了多个队列，每个队列时间片大小都不同，例如 1,2,4,8,..。进程在第一个队列没执行完，就会被移到下一个队列。这种方式下，之前的进程只需要交换 7 次。
+Multilevel queues are designed for processes that need to execute across multiple consecutive time slices. They set up multiple queues, each with a different time-slice size, such as 1, 2, 4, 8, and so on. If a process does not finish in the first queue, it is moved to the next queue. With this approach, the previous process only needs 7 switches.
 
-每个队列优先权也不同，最上面的优先权最高。因此只有上一个队列没有进程在排队，才能调度当前队列上的进程。
+Each queue also has a different priority, with the top queue having the highest priority. Therefore, a process in the current queue can be scheduled only when no process is waiting in the previous queue.
 
-可以将这种调度算法看成是时间片轮转调度算法和优先级调度算法的结合。
+This scheduling algorithm can be viewed as a combination of round-robin scheduling and priority scheduling.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/042cf928-3c8e-4815-ae9c-f2780202c68f.png"/> </div><br>
 
 ### 3. Real-Time Systems
 
-实时系统要求一个请求在一个确定时间内得到响应。
+Real-time systems require a request to receive a response within a fixed time.
 
-分为硬实时和软实时，前者必须满足绝对的截止时间，后者可以容忍一定的超时。
+They are divided into hard real-time and soft real-time systems. The former must meet absolute deadlines, while the latter can tolerate some timeout.
 
 ## Process Synchronization
 
 ### 1. Critical Section
 
-对临界资源进行访问的那段代码称为临界区。
+The code segment that accesses a critical resource is called a critical section.
 
-为了互斥访问临界资源，每个进程在进入临界区之前，需要先进行检查。
+To access critical resources mutually exclusively, each process must perform a check before entering the critical section.
 
 ```html
 // entry section
@@ -160,45 +160,45 @@ QQ 和浏览器是两个进程，浏览器进程里面有很多线程，例如 H
 
 ### 2. Synchronization and Mutual Exclusion
 
-- 同步：多个进程因为合作产生的直接制约关系，使得进程有一定的先后执行关系。
-- 互斥：多个进程在同一时刻只有一个进程能进入临界区。
+- Synchronization: a direct constraint relationship produced by cooperation among multiple processes, giving processes a certain execution order.
+- Mutual exclusion: among multiple processes, only one process can enter the critical section at the same time.
 
 ### 3. Semaphore
 
-信号量（Semaphore）是一个整型变量，可以对其执行 down 和 up 操作，也就是常见的 P 和 V 操作。
+A semaphore is an integer variable on which down and up operations can be performed, commonly known as P and V operations.
 
--   **down**   : 如果信号量大于 0 ，执行 -1 操作；如果信号量等于 0，进程睡眠，等待信号量大于 0；
--   **up**  ：对信号量执行 +1 操作，唤醒睡眠的进程让其完成 down 操作。
+-   **down**: if the semaphore is greater than 0, decrement it by 1; if the semaphore equals 0, the process sleeps and waits until the semaphore is greater than 0.
+-   **up**: increment the semaphore by 1 and wake a sleeping process so it can complete its down operation.
 
-down 和 up 操作需要被设计成原语，不可分割，通常的做法是在执行这些操作的时候屏蔽中断。
+down and up operations must be designed as indivisible primitives. The usual approach is to disable interrupts while executing these operations.
 
-如果信号量的取值只能为 0 或者 1，那么就成为了   **互斥量（Mutex）**  ，0 表示临界区已经加锁，1 表示临界区解锁。
+If a semaphore can only be 0 or 1, it becomes a **mutex**. 0 means the critical section is locked, and 1 means the critical section is unlocked.
 
 ```c
 typedef int semaphore;
 semaphore mutex = 1;
 void P1() {
     down(&mutex);
-    // 临界区
+    // critical section
     up(&mutex);
 }
 
 void P2() {
     down(&mutex);
-    // 临界区
+    // critical section
     up(&mutex);
 }
 ```
 
-\<font size=3\>   **使用信号量实现生产者-消费者问题**   \</font\> \</br\>
+\<font size=3\>   **Using Semaphores to Implement the Producer-Consumer Problem**   \</font\> \</br\>
 
-问题描述：使用一个缓冲区来保存物品，只有缓冲区没有满，生产者才可以放入物品；只有缓冲区不为空，消费者才可以拿走物品。
+Problem description: Use a buffer to store items. A producer can place an item only when the buffer is not full, and a consumer can take an item only when the buffer is not empty.
 
-因为缓冲区属于临界资源，因此需要使用一个互斥量 mutex 来控制对缓冲区的互斥访问。
+Because the buffer is a critical resource, a mutex is needed to control mutually exclusive access to the buffer.
 
-为了同步生产者和消费者的行为，需要记录缓冲区中物品的数量。数量可以使用信号量来进行统计，这里需要使用两个信号量：empty 记录空缓冲区的数量，full 记录满缓冲区的数量。其中，empty 信号量是在生产者进程中使用，当 empty 不为 0 时，生产者才可以放入物品；full 信号量是在消费者进程中使用，当 full 信号量不为 0 时，消费者才可以取走物品。
+To synchronize producer and consumer behavior, record the number of items in the buffer. Semaphores can be used for this count. Two semaphores are needed here: empty records the number of empty buffer slots, and full records the number of full buffer slots. The empty semaphore is used in the producer process; when empty is not 0, the producer can place an item. The full semaphore is used in the consumer process; when full is not 0, the consumer can take an item.
 
-注意，不能先对缓冲区进行加锁，再测试信号量。也就是说，不能先执行 down(mutex) 再执行 down(empty)。如果这么做了，那么可能会出现这种情况：生产者对缓冲区加锁后，执行 down(empty) 操作，发现 empty = 0，此时生产者睡眠。消费者不能进入临界区，因为生产者对缓冲区加锁了，消费者就无法执行 up(empty) 操作，empty 永远都为 0，导致生产者永远等待下，不会释放锁，消费者因此也会永远等待下去。
+Note that the buffer must not be locked before testing the semaphore. In other words, do not execute down(mutex) before down(empty). If this is done, the following may happen: after the producer locks the buffer, it executes down(empty) and finds empty = 0, so the producer sleeps. The consumer cannot enter the critical section because the producer has locked the buffer, so the consumer cannot execute up(empty). empty stays 0 forever, causing the producer to wait forever without releasing the lock, and the consumer also waits forever.
 
 ```c
 #define N 100
@@ -232,9 +232,9 @@ void consumer() {
 
 ### 4. Monitor
 
-使用信号量机制实现的生产者消费者问题需要客户端代码做很多控制，而管程把控制的代码独立出来，不仅不容易出错，也使得客户端代码调用更容易。
+Implementing the producer-consumer problem with semaphores requires a lot of control in client code. A monitor separates the control code, making it less error-prone and easier for client code to call.
 
-c 语言不支持管程，下面的示例代码使用了类 Pascal 语言来描述管程。示例代码的管程提供了 insert() 和 remove() 方法，客户端代码通过调用这两个方法来解决生产者-消费者问题。
+The C language does not support monitors. The following example uses a Pascal-like language to describe a monitor. The monitor in the example provides insert() and remove() methods, and client code solves the producer-consumer problem by calling these two methods.
 
 ```pascal
 monitor ProducerConsumer
@@ -253,14 +253,14 @@ monitor ProducerConsumer
 end monitor;
 ```
 
-管程有一个重要特性：在一个时刻只能有一个进程使用管程。进程在无法继续执行的时候不能一直占用管程，否则其它进程永远不能使用管程。
+A monitor has an important property: only one process can use the monitor at a time. When a process cannot continue executing, it must not keep occupying the monitor; otherwise, other processes can never use it.
 
-管程引入了   **条件变量**   以及相关的操作：**wait()** 和 **signal()** 来实现同步操作。对条件变量执行 wait() 操作会导致调用进程阻塞，把管程让出来给另一个进程持有。signal() 操作用于唤醒被阻塞的进程。
+A monitor introduces **condition variables** and related operations, **wait()** and **signal()**, to implement synchronization. Performing wait() on a condition variable blocks the calling process and releases the monitor so another process can hold it. signal() is used to wake a blocked process.
 
-<font size=3>  **使用管程实现生产者-消费者问题**  </font><br>
+<font size=3>  **Using Monitors to Implement the Producer-Consumer Problem**  </font><br>
 
 ```pascal
-// 管程
+// monitor
 monitor ProducerConsumer
     condition full, empty;
     integer count := 0;
@@ -283,7 +283,7 @@ monitor ProducerConsumer
     end;
 end monitor;
 
-// 生产者客户端
+// producer client
 procedure producer
 begin
     while true do
@@ -293,7 +293,7 @@ begin
     end
 end;
 
-// 消费者客户端
+// consumer client
 procedure consumer
 begin
     while true do
@@ -306,15 +306,15 @@ end;
 
 ## Classic Synchronization Problems
 
-生产者和消费者问题前面已经讨论过了。
+The producer-consumer problem has already been discussed above.
 
 ### 1. Dining Philosophers Problem
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a9077f06-7584-4f2b-8c20-3a8e46928820.jpg"/> </div><br>
 
-五个哲学家围着一张圆桌，每个哲学家面前放着食物。哲学家的生活有两种交替活动：吃饭以及思考。当一个哲学家吃饭时，需要先拿起自己左右两边的两根筷子，并且一次只能拿起一根筷子。
+Five philosophers sit around a round table, with food in front of each philosopher. A philosopher alternates between two activities: eating and thinking. When a philosopher eats, they must first pick up the two chopsticks on their left and right, and they can pick up only one chopstick at a time.
 
-下面是一种错误的解法，如果所有哲学家同时拿起左手边的筷子，那么所有哲学家都在等待其它哲学家吃完并释放自己手中的筷子，导致死锁。
+The following is an incorrect solution. If all philosophers pick up the chopstick on their left at the same time, every philosopher waits for another philosopher to finish eating and release a chopstick, causing deadlock.
 
 ```c
 #define N 5
@@ -322,8 +322,8 @@ end;
 void philosopher(int i) {
     while(TRUE) {
         think();
-        take(i);       // 拿起左边的筷子
-        take((i+1)%N); // 拿起右边的筷子
+        take(i);       // pick up the left chopstick
+        take((i+1)%N); // pick up the right chopstick
         eat();
         put(i);
         put((i+1)%N);
@@ -331,22 +331,22 @@ void philosopher(int i) {
 }
 ```
 
-为了防止死锁的发生，可以设置两个条件：
+To prevent deadlock, set two conditions:
 
-- 必须同时拿起左右两根筷子；
-- 只有在两个邻居都没有进餐的情况下才允许进餐。
+- Both left and right chopsticks must be picked up at the same time.
+- A philosopher is allowed to eat only when neither neighbor is eating.
 
 ```c
 #define N 5
-#define LEFT (i + N - 1) % N // 左邻居
-#define RIGHT (i + 1) % N    // 右邻居
+#define LEFT (i + N - 1) % N // left neighbor
+#define RIGHT (i + 1) % N    // right neighbor
 #define THINKING 0
 #define HUNGRY   1
 #define EATING   2
 typedef int semaphore;
-int state[N];                // 跟踪每个哲学家的状态
-semaphore mutex = 1;         // 临界区的互斥，临界区是 state 数组，对其修改需要互斥
-semaphore s[N];              // 每个哲学家一个信号量
+int state[N];                // track each philosopher's state
+semaphore mutex = 1;         // mutual exclusion for the critical section; state is the critical array and must be modified mutually exclusively
+semaphore s[N];              // one semaphore per philosopher
 
 void philosopher(int i) {
     while(TRUE) {
@@ -362,13 +362,13 @@ void take_two(int i) {
     state[i] = HUNGRY;
     check(i);
     up(&mutex);
-    down(&s[i]); // 只有收到通知之后才可以开始吃，否则会一直等下去
+    down(&s[i]); // can start eating only after receiving notification; otherwise waits forever
 }
 
 void put_two(i) {
     down(&mutex);
     state[i] = THINKING;
-    check(LEFT); // 尝试通知左右邻居，自己吃完了，你们可以开始吃了
+    check(LEFT); // try to notify the left and right neighbors that this philosopher has finished eating, so they can start
     check(RIGHT);
     up(&mutex);
 }
@@ -379,7 +379,7 @@ void eat(int i) {
     up(&mutex);
 }
 
-// 检查两个邻居是否都没有用餐，如果是的话，就 up(&s[i])，使得 down(&s[i]) 能够得到通知并继续执行
+// Check whether both neighbors are not eating; if so, call up(&s[i]) so down(&s[i]) is notified and can continue.
 void check(i) {         
     if(state[i] == HUNGRY && state[LEFT] != EATING && state[RIGHT] !=EATING) {
         state[i] = EATING;
@@ -390,9 +390,9 @@ void check(i) {
 
 ### 2. Readers-Writers Problem
 
-允许多个进程同时对数据进行读操作，但是不允许读和写以及写和写操作同时发生。
+Multiple processes are allowed to read data at the same time, but reads and writes, as well as writes and writes, are not allowed to occur simultaneously.
 
-一个整型变量 count 记录在对数据进行读操作的进程数量，一个互斥量 count_mutex 用于对 count 加锁，一个互斥量 data_mutex 用于对读写的数据加锁。
+An integer variable count records the number of processes reading the data. A mutex count_mutex is used to lock count, and a mutex data_mutex is used to lock the data being read or written.
 
 ```c
 typedef int semaphore;
@@ -404,7 +404,7 @@ void reader() {
     while(TRUE) {
         down(&count_mutex);
         count++;
-        if(count == 1) down(&data_mutex); // 第一个读者需要对数据进行加锁，防止写进程访问
+        if(count == 1) down(&data_mutex); // the first reader locks the data to prevent writer access
         up(&count_mutex);
         read();
         down(&count_mutex);
@@ -423,7 +423,7 @@ void writer() {
 }
 ```
 
-以下内容由 [@Bandi Yugandhar](https://github.com/yugandharbandi) 提供。
+The following content was provided by [@Bandi Yugandhar](https://github.com/yugandharbandi).
 
 The first case may result Writer to starve. This case favous Writers i.e no writer, once added to the queue, shall be kept waiting longer than absolutely necessary(only when there are readers that entered the queue before the writer).
 
@@ -534,32 +534,32 @@ void reader()
 
 ## Interprocess Communication
 
-进程同步与进程通信很容易混淆，它们的区别在于：
+Process synchronization and interprocess communication are easy to confuse. Their difference is:
 
-- 进程同步：控制多个进程按一定顺序执行；
-- 进程通信：进程间传输信息。
+- Process synchronization: controls multiple processes to execute in a certain order.
+- Interprocess communication: transfers information between processes.
 
-进程通信是一种手段，而进程同步是一种目的。也可以说，为了能够达到进程同步的目的，需要让进程进行通信，传输一些进程同步所需要的信息。
+Interprocess communication is a means, while process synchronization is a goal. In other words, to achieve process synchronization, processes need to communicate and transfer information required for synchronization.
 
 ### 1. Pipes
 
-管道是通过调用 pipe 函数创建的，fd[0] 用于读，fd[1] 用于写。
+A pipe is created by calling the pipe function. fd[0] is used for reading, and fd[1] is used for writing.
 
 ```c
 #include <unistd.h>
 int pipe(int fd[2]);
 ```
 
-它具有以下限制：
+It has the following limitations:
 
-- 只支持半双工通信（单向交替传输）；
-- 只能在父子进程或者兄弟进程中使用。
+- It only supports half-duplex communication, meaning one-way alternating transmission.
+- It can only be used between parent-child processes or sibling processes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/53cd9ade-b0a6-4399-b4de-7f1fbd06cdfb.png"/> </div><br>
 
 ### 2. FIFO
 
-也称为命名管道，去除了管道只能在父子进程中使用的限制。
+Also called a named pipe, it removes the limitation that pipes can only be used between parent-child processes.
 
 ```c
 #include <sys/stat.h>
@@ -567,30 +567,30 @@ int mkfifo(const char *path, mode_t mode);
 int mkfifoat(int fd, const char *path, mode_t mode);
 ```
 
-FIFO 常用于客户-服务器应用程序中，FIFO 用作汇聚点，在客户进程和服务器进程之间传递数据。
+FIFO is often used in client-server applications. FIFO acts as a rendezvous point to pass data between client and server processes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2ac50b81-d92a-4401-b9ec-f2113ecc3076.png"/> </div><br>
 
 ### 3. Message Queues
 
-相比于 FIFO，消息队列具有以下优点：
+Compared with FIFO, message queues have the following advantages:
 
-- 消息队列可以独立于读写进程存在，从而避免了 FIFO 中同步管道的打开和关闭时可能产生的困难；
-- 避免了 FIFO 的同步阻塞问题，不需要进程自己提供同步方法；
-- 读进程可以根据消息类型有选择地接收消息，而不像 FIFO 那样只能默认地接收。
+- Message queues can exist independently of reader and writer processes, avoiding difficulties that may occur when opening and closing synchronous pipes in FIFO.
+- They avoid FIFO's synchronous blocking problem and do not require processes to provide their own synchronization methods.
+- Reader processes can selectively receive messages by message type, unlike FIFO, which can only receive by default.
 
 ### 4. Semaphore
 
-它是一个计数器，用于为多个进程提供对共享数据对象的访问。
+It is a counter used to provide multiple processes with access to shared data objects.
 
 ### 5. Shared Memory
 
-允许多个进程共享一个给定的存储区。因为数据不需要在进程之间复制，所以这是最快的一种 IPC。
+Allows multiple processes to share a given storage area. Because data does not need to be copied between processes, this is the fastest form of IPC.
 
-需要使用信号量用来同步对共享存储的访问。
+Semaphores are needed to synchronize access to shared storage.
 
-多个进程可以将同一个文件映射到它们的地址空间从而实现共享内存。另外 XSI 共享内存不是使用文件，而是使用内存的匿名段。
+Multiple processes can map the same file into their address spaces to implement shared memory. In addition, XSI shared memory does not use files; it uses anonymous memory segments.
 
 ### 6. Sockets
 
-与其它通信机制不同的是，它可用于不同机器间的进程通信。
+Unlike other communication mechanisms, sockets can be used for communication between processes on different machines.

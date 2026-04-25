@@ -1,48 +1,48 @@
 # Algorithms - Symbol Tables
 <!-- GFM-TOC -->
-* [算法 - 符号表](#algorithms---symbol-tables)
-    * [前言](#preface)
-    * [初级实现](#basic-implementations)
-        * [1. 链表实现无序符号表](#1-unordered-symbol-table-with-linked-list)
-        * [2. 二分查找实现有序符号表](#2-ordered-symbol-table-with-binary-search)
-    * [二叉查找树](#binary-search-trees)
+* [Algorithms - Symbol Tables](#algorithms---symbol-tables)
+    * [Preface](#preface)
+    * [Basic Implementations](#basic-implementations)
+        * [1. Unordered Symbol Table with Linked List](#1-unordered-symbol-table-with-linked-list)
+        * [2. Ordered Symbol Table with Binary Search](#2-ordered-symbol-table-with-binary-search)
+    * [Binary Search Trees](#binary-search-trees)
         * [1. get()](#1-get)
         * [2. put()](#2-put)
-        * [3. 分析](#3-analysis)
+        * [3. Analysis](#3-analysis)
         * [4. floor()](#4-floor)
         * [5. rank()](#5-rank)
         * [6. min()](#6-min)
         * [7. deleteMin()](#7-deletemin)
         * [8. delete()](#8-delete)
         * [9. keys()](#9-keys)
-        * [10. 分析](#10-analysis)
-    * [2-3 查找树](#2-3-search-trees)
-        * [1. 插入操作](#1-insertion)
-        * [2. 性质](#2-properties)
-    * [红黑树](#red-black-trees)
-        * [1. 左旋转](#1-left-rotation)
-        * [2. 右旋转](#2-right-rotation)
-        * [3. 颜色转换](#3-color-flip)
-        * [4. 插入](#4-insertion)
-        * [5. 分析](#5-analysis)
-    * [散列表](#hash-tables)
-        * [1. 散列函数](#1-hash-functions)
-        * [2. 拉链法](#2-separate-chaining)
-        * [3. 线性探测法](#3-linear-probing)
-    * [小结](#summary)
-        * [1. 符号表算法比较](#1-symbol-table-algorithm-comparison)
-        * [2. Java 的符号表实现](#2-java-symbol-table-implementations)
-        * [3. 稀疏向量乘法](#3-sparse-vector-multiplication)
+        * [10. Analysis](#10-analysis)
+    * [2-3 Search Trees](#2-3-search-trees)
+        * [1. Insertion](#1-insertion)
+        * [2. Properties](#2-properties)
+    * [Red-Black Trees](#red-black-trees)
+        * [1. Left Rotation](#1-left-rotation)
+        * [2. Right Rotation](#2-right-rotation)
+        * [3. Color Flip](#3-color-flip)
+        * [4. Insertion](#4-insertion)
+        * [5. Analysis](#5-analysis)
+    * [Hash Tables](#hash-tables)
+        * [1. Hash Functions](#1-hash-functions)
+        * [2. Separate Chaining](#2-separate-chaining)
+        * [3. Linear Probing](#3-linear-probing)
+    * [Summary](#summary)
+        * [1. Symbol Table Algorithm Comparison](#1-symbol-table-algorithm-comparison)
+        * [2. Java Symbol Table Implementations](#2-java-symbol-table-implementations)
+        * [3. Sparse Vector Multiplication](#3-sparse-vector-multiplication)
 <!-- GFM-TOC -->
 
 
 ## Preface
 
-符号表（Symbol Table）是一种存储键值对的数据结构，可以支持快速查找操作。
+A symbol table is a data structure that stores key-value pairs and supports fast lookup.
 
-符号表分为有序和无序两种，有序符号表主要指支持 min()、max() 等根据键的大小关系来实现的操作。
+Symbol tables are divided into ordered and unordered types. Ordered symbol tables mainly support operations such as min() and max(), which are implemented based on key ordering.
 
-有序符号表的键需要实现 Comparable 接口。
+Keys in an ordered symbol table need to implement the Comparable interface.
 
 ```java
 public interface UnorderedST<Key, Value> {
@@ -111,7 +111,7 @@ public class ListUnorderedST<Key, Value> implements UnorderedST<Key, Value> {
     @Override
     public void put(Key key, Value value) {
         Node cur = first;
-        // 如果在链表中找到节点的键等于 key 就更新这个节点的值为 value
+        // If a node whose key equals key is found in the list, update its value to value
         while (cur != null) {
             if (cur.key.equals(key)) {
                 cur.value = value;
@@ -119,7 +119,7 @@ public class ListUnorderedST<Key, Value> implements UnorderedST<Key, Value> {
             }
             cur = cur.next;
         }
-        // 否则使用头插法插入一个新节点
+        // Otherwise, insert a new node at the head
         first = new Node(key, value, first);
     }
 
@@ -155,11 +155,11 @@ public class ListUnorderedST<Key, Value> implements UnorderedST<Key, Value> {
 
 ### 2. Ordered Symbol Table with Binary Search
 
-使用一对平行数组，一个存储键一个存储值。
+Use a pair of parallel arrays: one stores keys and the other stores values.
 
-二分查找的 rank() 方法至关重要，当键在表中时，它能够知道该键的位置；当键不在表中时，它也能知道在何处插入新键。
+The rank() method of binary search is crucial. When a key is in the table, it can determine the key's position; when the key is not in the table, it can determine where to insert the new key.
 
-二分查找最多需要 logN+1 次比较，使用二分查找实现的符号表的查找操作所需要的时间最多是对数级别的。但是插入操作需要移动数组元素，是线性级别的。
+Binary search requires at most logN+1 comparisons. Lookup in a symbol table implemented with binary search takes at most logarithmic time. However, insertion requires moving array elements and is linear.
 
 ```java
 public class BinarySearchOrderedST<Key extends Comparable<Key>, Value> implements OrderedST<Key, Value> {
@@ -208,12 +208,12 @@ public class BinarySearchOrderedST<Key extends Comparable<Key>, Value> implement
     @Override
     public void put(Key key, Value value) {
         int index = rank(key);
-        // 如果找到已经存在的节点键为 key，就更新这个节点的值为 value
+        // If an existing node whose key is key is found, update its value to value
         if (index < N && keys[index].compareTo(key) == 0) {
             values[index] = value;
             return;
         }
-        // 否则在数组中插入新的节点，需要先将插入位置之后的元素都向后移动一个位置
+        // Otherwise, insert a new node into the array by first moving all elements after the insertion position one slot back
         for (int j = N; j > index; j--) {
             keys[j] = keys[j - 1];
             values[j] = values[j - 1];
@@ -245,17 +245,17 @@ public class BinarySearchOrderedST<Key extends Comparable<Key>, Value> implement
 
 ## Binary Search Trees
 
-**二叉树**   是一个空链接，或者是一个有左右两个链接的节点，每个链接都指向一颗子二叉树。
+A **binary tree**   is either an empty link or a node with left and right links, each pointing to a binary subtree.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c11528f6-fc71-4a2b-8d2f-51b8954c38f1.jpg" width="180"/> </div><br>
 
-**二叉查找树**  （BST）是一颗二叉树，并且每个节点的值都大于等于其左子树中的所有节点的值而小于等于右子树的所有节点的值。
+A **binary search tree**   (BST) is a binary tree in which each node's value is greater than or equal to all values in its left subtree and less than or equal to all values in its right subtree.
 
-BST 有一个重要性质，就是它的中序遍历结果递增排序。
+A BST has an important property: the result of its inorder traversal is sorted in increasing order.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ef552ae3-ae0d-4217-88e6-99cbe8163f0c.jpg" width="200"/> </div><br>
 
-基本数据结构：
+Basic data structure:
 
 ```java
 public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, Value> {
@@ -267,9 +267,9 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         Value val;
         Node left;
         Node right;
-        // 以该节点为根的子树节点总数
+        // Total number of nodes in the subtree rooted at this node
         int N;
-        // 红黑树中使用
+        // Used in red-black trees
         boolean color;
 
         Node(Key key, Value val, int N) {
@@ -296,13 +296,13 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
 }
 ```
 
-为了方便绘图，下文中二叉树的空链接不画出来。
+For easier diagrams, empty links in binary trees are not shown below.
 
 ### 1. get()
 
-- 如果树是空的，则查找未命中；
-- 如果被查找的键和根节点的键相等，查找命中；
-- 否则递归地在子树中查找：如果被查找的键较小就在左子树中查找，较大就在右子树中查找。
+- If the tree is empty, the lookup misses;
+- If the searched key equals the root key, the lookup hits;
+- Otherwise, recursively search the subtrees: if the searched key is smaller, search the left subtree; if it is larger, search the right subtree.
 
 ```java
 @Override
@@ -325,7 +325,7 @@ private Value get(Node x, Key key) {
 
 ### 2. put()
 
-当插入的键不存在于树中，需要创建一个新节点，并且更新上层节点的链接指向该节点，使得该节点正确地链接到树中。
+When the inserted key does not exist in the tree, create a new node and update the link in the parent node to point to it, so the new node is correctly linked into the tree.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/58b70113-3876-49af-85a9-68eb00a72d59.jpg" width="200"/> </div><br>
 
@@ -352,22 +352,22 @@ private Node put(Node x, Key key, Value value) {
 
 ### 3. Analysis
 
-二叉查找树的算法运行时间取决于树的形状，而树的形状又取决于键被插入的先后顺序。
+The running time of binary search tree algorithms depends on the shape of the tree, and the tree shape depends on the order in which keys are inserted.
 
-最好的情况下树是完全平衡的，每条空链接和根节点的距离都为 logN。
+In the best case, the tree is perfectly balanced, and the distance from each empty link to the root is logN.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c395a428-827c-405b-abd7-8a069316f583.jpg" width="200"/> </div><br>
 
-在最坏的情况下，树的高度为 N。
+In the worst case, the tree height is N.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5ea609cb-8ad4-4c4c-aee6-45a40a81794a.jpg" width="200"/> </div><br>
 
 ### 4. floor()
 
-floor(key)：小于等于键的最大键
+floor(key): the largest key less than or equal to key
 
-- 如果键小于根节点的键，那么 floor(key) 一定在左子树中；
-- 如果键大于根节点的键，需要先判断右子树中是否存在 floor(key)，如果存在就返回，否则根节点就是 floor(key)。
+- If the key is less than the root key, then floor(key) must be in the left subtree;
+- If the key is greater than the root key, first check whether floor(key) exists in the right subtree. If it exists, return it; otherwise, the root is floor(key).
 
 ```java
 public Key floor(Key key) {
@@ -392,11 +392,11 @@ private Node floor(Node x, Key key) {
 
 ### 5. rank()
 
-rank(key) 返回 key 的排名。
+rank(key) returns the rank of key.
 
-- 如果键和根节点的键相等，返回左子树的节点数；
-- 如果小于，递归计算在左子树中的排名；
-- 如果大于，递归计算在右子树中的排名，加上左子树的节点数，再加上 1（根节点）。
+- If the key equals the root key, return the number of nodes in the left subtree;
+- If it is smaller, recursively compute the rank in the left subtree;
+- If it is larger, recursively compute the rank in the right subtree, plus the number of nodes in the left subtree, plus 1 for the root.
 
 ```java
 @Override
@@ -436,7 +436,7 @@ private Node min(Node x) {
 
 ### 7. deleteMin()
 
-令指向最小节点的链接指向最小节点的右子树。
+Make the link pointing to the minimum node point to the minimum node's right subtree.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/31b7e8de-ed11-4f69-b5fd-ba454120ac31.jpg" width="450"/> </div><br>
 
@@ -456,8 +456,8 @@ public Node deleteMin(Node x) {
 
 ### 8. delete()
 
-- 如果待删除的节点只有一个子树，  那么只需要让指向待删除节点的链接指向唯一的子树即可；
-- 否则，让右子树的最小节点替换该节点。
+- If the node to be deleted has only one subtree, simply make the link pointing to the node point to that only subtree;
+- Otherwise, replace the node with the minimum node in its right subtree.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/23b9d625-ef28-42b5-bb22-d7aedd007e16.jpg" width="400"/> </div><br>
 
@@ -490,7 +490,7 @@ private Node delete(Node x, Key key) {
 
 ### 9. keys()
 
-利用二叉查找树中序遍历的结果为递增的特点。
+Use the property that inorder traversal of a binary search tree produces keys in increasing order.
 
 ```java
 @Override
@@ -516,46 +516,46 @@ private List<Key> keys(Node x, Key l, Key h) {
 
 ### 10. Analysis
 
-二叉查找树所有操作在最坏的情况下所需要的时间都和树的高度成正比。
+In the worst case, all operations on a binary search tree take time proportional to the tree height.
 
 ## 2-3 Search Trees
 
-2-3 查找树引入了 2- 节点和 3- 节点，目的是为了让树平衡。一颗完美平衡的 2-3 查找树的所有空链接到根节点的距离应该是相同的。
+A 2-3 search tree introduces 2-nodes and 3-nodes to keep the tree balanced. In a perfectly balanced 2-3 search tree, all empty links should be the same distance from the root.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1097658b-c0e6-4821-be9b-25304726a11c.jpg" width="160px"/> </div><br>
 
 ### 1. Insertion
 
-插入操作和 BST 的插入操作有很大区别，BST 的插入操作是先进行一次未命中的查找，然后再将节点插入到对应的空链接上。但是 2-3 查找树如果也这么做的话，那么就会破坏了平衡性。它是将新节点插入到叶子节点上。
+Insertion differs greatly from BST insertion. BST insertion first performs a missed search, then inserts the node at the corresponding empty link. If a 2-3 search tree did this, it would break balance. Instead, it inserts the new node into a leaf node.
 
-根据叶子节点的类型不同，有不同的处理方式：
+Different cases are handled according to the type of leaf node:
 
-- 如果插入到 2- 节点上，那么直接将新节点和原来的节点组成 3- 节点即可。
+- If inserting into a 2-node, directly combine the new node with the original node to form a 3-node.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0c6f9930-8704-4a54-af23-19f9ca3e48b0.jpg" width="350"/> </div><br>
 
-- 如果是插入到 3- 节点上，就会产生一个临时 4- 节点时，需要将 4- 节点分裂成 3 个 2- 节点，并将中间的 2- 节点移到上层节点中。如果上移操作继续产生临时 4- 节点则一直进行分裂上移，直到不存在临时 4- 节点。
+- If inserting into a 3-node, a temporary 4-node is created. The 4-node must be split into three 2-nodes, and the middle 2-node is moved up to the parent. If moving up continues to create a temporary 4-node, keep splitting and moving up until no temporary 4-node remains.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7002c01b-1ed5-475a-9e5f-5fc8a4cdbcc0.jpg" width="460"/> </div><br>
 
 ### 2. Properties
 
-2-3 查找树插入操作的变换都是局部的，除了相关的节点和链接之外不必修改或者检查树的其它部分，而这些局部变换不会影响树的全局有序性和平衡性。
+All transformations during insertion in a 2-3 search tree are local. Apart from the related nodes and links, no other part of the tree needs to be modified or checked, and these local transformations do not affect the tree's global ordering or balance.
 
-2-3 查找树的查找和插入操作复杂度和插入顺序无关，在最坏的情况下查找和插入操作访问的节点必然不超过 logN 个，含有 10 亿个节点的 2-3 查找树最多只需要访问 30 个节点就能进行任意的查找和插入操作。
+The complexity of lookup and insertion in a 2-3 search tree is independent of insertion order. In the worst case, lookup and insertion must visit no more than logN nodes. A 2-3 search tree with 1 billion nodes needs to visit at most 30 nodes for any lookup or insertion.
 
 ## Red-Black Trees
 
-红黑树是 2-3 查找树，但它不需要分别定义 2- 节点和 3- 节点，而是在普通的二叉查找树之上，为节点添加颜色。指向一个节点的链接颜色如果为红色，那么这个节点和上层节点表示的是一个 3- 节点，而黑色则是普通链接。
+A red-black tree is a 2-3 search tree, but it does not define 2-nodes and 3-nodes separately. Instead, it adds colors to nodes on top of an ordinary binary search tree. If the link pointing to a node is red, that node and its parent represent a 3-node; a black link is a normal link.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f1912ba6-6402-4321-9aa8-13d32fd121d1.jpg" width="240"/> </div><br>
 
-红黑树具有以下性质：
+Red-black trees have the following properties:
 
-- 红链接都为左链接；
-- 完美黑色平衡，即任意空链接到根节点的路径上的黑链接数量相同。
+- Red links are all left links;
+- Perfect black balance: every path from an empty link to the root has the same number of black links.
 
-画红黑树时可以将红链接画平。
+When drawing a red-black tree, red links can be drawn horizontally.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f5cb6028-425d-4939-91eb-cca9dd6b6c6c.jpg" width="220"/> </div><br>
 
@@ -575,7 +575,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> extends BST<Key, Va
 
 ### 1. Left Rotation
 
-因为合法的红链接都为左链接，如果出现右链接为红链接，那么就需要进行左旋转操作。
+Because valid red links are left links, if a right link is red, a left rotation is needed.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f4d534ab-0092-4a81-9e5b-ae889b9a72be.jpg" width="480"/> </div><br>
 
@@ -594,7 +594,7 @@ public Node rotateLeft(Node h) {
 
 ### 2. Right Rotation
 
-进行右旋转是为了转换两个连续的左红链接，这会在之后的插入过程中探讨。
+Right rotation is used to transform two consecutive left red links, which will be discussed in the insertion process.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/63c8ffea-a9f2-4ebe-97d1-d71be71246f9.jpg" width="480"/> </div><br>
 
@@ -613,7 +613,7 @@ public Node rotateRight(Node h) {
 
 ### 3. Color Flip
 
-一个 4- 节点在红黑树中表现为一个节点的左右子节点都是红色的。分裂 4- 节点除了需要将子节点的颜色由红变黑之外，同时需要将父节点的颜色由黑变红，从 2-3 树的角度看就是将中间节点移到上层节点。
+In a red-black tree, a 4-node appears as a node whose left and right children are both red. Splitting a 4-node requires changing the child nodes from red to black and changing the parent node from black to red. From the perspective of a 2-3 tree, this moves the middle node up to the parent level.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/094b279a-b2db-4be7-87a3-b2a039c7448e.jpg" width="270"/> </div><br>
 
@@ -627,11 +627,11 @@ void flipColors(Node h) {
 
 ### 4. Insertion
 
-先将一个节点按二叉查找树的方法插入到正确位置，然后再进行如下颜色操作：
+First insert a node into the correct position using the binary search tree method, then perform the following color operations:
 
-- 如果右子节点是红色的而左子节点是黑色的，进行左旋转；
-- 如果左子节点是红色的，而且左子节点的左子节点也是红色的，进行右旋转；
-- 如果左右子节点均为红色的，进行颜色转换。
+- If the right child is red and the left child is black, perform a left rotation;
+- If the left child is red and the left child's left child is also red, perform a right rotation;
+- If both left and right children are red, perform a color flip.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/4c457532-550b-4eca-b881-037b84b4934b.jpg" width="430"/> </div><br>
 
@@ -668,41 +668,41 @@ private Node put(Node x, Key key, Value value) {
 }
 ```
 
-可以看到该插入操作和二叉查找树的插入操作类似，只是在最后加入了旋转和颜色变换操作即可。
+This insertion operation is similar to binary search tree insertion, with rotations and color changes added at the end.
 
-根节点一定为黑色，因为根节点没有上层节点，也就没有上层节点的左链接指向根节点。flipColors() 有可能会使得根节点的颜色变为红色，每当根节点由红色变成黑色时树的黑链接高度加 1.
+The root node must be black because it has no parent node, so there is no left link from a parent node pointing to it. flipColors() may make the root node red. Each time the root changes from red to black, the tree's black-link height increases by 1.
 
 ### 5. Analysis
 
-一颗大小为 N 的红黑树的高度不会超过 2logN。最坏的情况下是它所对应的 2-3 树，构成最左边的路径节点全部都是 3- 节点而其余都是 2- 节点。
+The height of a red-black tree of size N does not exceed 2logN. The worst case occurs when, in the corresponding 2-3 tree, all nodes on the leftmost path are 3-nodes and the rest are 2-nodes.
 
-红黑树大多数的操作所需要的时间都是对数级别的。
+Most red-black tree operations take logarithmic time.
 
 ## Hash Tables
 
-散列表类似于数组，可以把散列表的散列值看成数组的索引值。访问散列表和访问数组元素一样快速，它可以在常数时间内实现查找和插入操作。
+A hash table is similar to an array. The hash value in a hash table can be viewed as an array index. Accessing a hash table is as fast as accessing array elements, and lookup and insertion can be implemented in constant time.
 
-由于无法通过散列值知道键的大小关系，因此散列表无法实现有序性操作。
+Because key ordering cannot be determined from hash values, hash tables cannot implement ordered operations.
 
 ### 1. Hash Functions
 
-对于一个大小为 M 的散列表，散列函数能够把任意键转换为 [0, M-1] 内的正整数，该正整数即为 hash 值。
+For a hash table of size M, a hash function can convert any key into a positive integer in [0, M-1]. This integer is the hash value.
 
-散列表存在冲突，也就是两个不同的键可能有相同的 hash 值。
+Hash tables have collisions, meaning two different keys may have the same hash value.
 
-散列函数应该满足以下三个条件：
+Hash functions should satisfy three conditions:
 
-- 一致性：相等的键应当有相等的 hash 值，两个键相等表示调用 equals() 返回的值相等。
-- 高效性：计算应当简便，有必要的话可以把 hash 值缓存起来，在调用 hash 函数时直接返回。
-- 均匀性：所有键的 hash 值应当均匀地分布到 [0, M-1] 之间，如果不能满足这个条件，有可能产生很多冲突，从而导致散列表的性能下降。
+- Consistency: equal keys should have equal hash values. Two keys are equal when equals() returns true.
+- Efficiency: computation should be simple. If necessary, cache the hash value and return it directly when the hash function is called.
+- Uniformity: hash values of all keys should be uniformly distributed in [0, M-1]. If this condition is not met, many collisions may occur, reducing hash table performance.
 
-除留余数法可以将整数散列到 [0, M-1] 之间，例如一个正整数 k，计算 k%M 既可得到一个 [0, M-1] 之间的 hash 值。注意 M 最好是一个素数，否则无法利用键包含的所有信息。例如 M 为 10<sup>k</sup>，那么只能利用键的后 k 位。
+The division method can hash integers into [0, M-1]. For example, for a positive integer k, k%M produces a hash value in [0, M-1]. Note that M is best chosen as a prime number; otherwise, not all information contained in the key can be used. For example, if M is 10<sup>k</sup>, only the last k digits of the key are used.
 
-对于其它数，可以将其转换成整数的形式，然后利用除留余数法。例如对于浮点数，可以将其的二进制形式转换成整数。
+For other numbers, convert them into integer form and then use the division method. For example, for floating-point numbers, convert their binary representation into an integer.
 
-对于多部分组合的类型，每个部分都需要计算 hash 值，这些 hash 值都具有同等重要的地位。为了达到这个目的，可以将该类型看成 R 进制的整数，每个部分都具有不同的权值。
+For composite types with multiple parts, each part needs a hash value, and all of these hash values should have equal importance. To achieve this, treat the type as an R-base integer, where each part has a different weight.
 
-例如，字符串的散列函数实现如下：
+For example, a string hash function is implemented as follows:
 
 ```java
 int hash = 0;
@@ -710,21 +710,21 @@ for (int i = 0; i < s.length(); i++)
     hash = (R * hash + s.charAt(i)) % M;
 ```
 
-再比如，拥有多个成员的自定义类的哈希函数如下：
+Similarly, the hash function for a custom class with multiple members is:
 
 ```java
 int hash = (((day * R + month) % M) * R + year) % M;
 ```
 
-R 通常取 31。
+R is usually 31.
 
-Java 中的 hashCode() 实现了哈希函数，但是默认使用对象的内存地址值。在使用 hashCode() 时，应当结合除留余数法来使用。因为内存地址是 32 位整数，我们只需要 31 位的非负整数，因此应当屏蔽符号位之后再使用除留余数法。
+Java's hashCode() implements a hash function, but by default it uses the object's memory address. When using hashCode(), combine it with the division method. Because memory addresses are 32-bit integers and we only need a 31-bit nonnegative integer, mask out the sign bit before applying the division method.
 
 ```java
 int hash = (x.hashCode() & 0x7fffffff) % M;
 ```
 
-使用 Java 的 HashMap 等自带的哈希表实现时，只需要去实现 Key 类型的 hashCode() 函数即可。Java 规定 hashCode() 能够将键均匀分布于所有的 32 位整数，Java 中的 String、Integer 等对象的 hashCode() 都能实现这一点。以下展示了自定义类型如何实现 hashCode()：
+When using Java's built-in hash table implementations such as HashMap, only the hashCode() function for the Key type needs to be implemented. Java requires hashCode() to distribute keys uniformly across all 32-bit integers. hashCode() implementations for objects such as String and Integer satisfy this. The following shows how to implement hashCode() for a custom type:
 
 ```java
 public class Transaction {
@@ -752,19 +752,19 @@ public class Transaction {
 
 ### 2. Separate Chaining
 
-拉链法使用链表来存储 hash 值相同的键，从而解决冲突。
+Separate chaining uses linked lists to store keys with the same hash value, resolving collisions.
 
-查找需要分两步，首先查找 Key 所在的链表，然后在链表中顺序查找。
+Lookup requires two steps: first find the linked list containing the key, then search sequentially within the list.
 
-对于 N 个键，M 条链表 (N\>M)，如果哈希函数能够满足均匀性的条件，每条链表的大小趋向于 N/M，因此未命中的查找和插入操作所需要的比较次数为 \~N/M。
+For N keys and M linked lists (N\>M), if the hash function satisfies uniformity, each linked list tends toward size N/M. Therefore, the number of comparisons required for missed lookups and insertions is about \~N/M.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/cbbfe06c-f0cb-47c4-bf7b-2780aebd98b2.png" width="330px"> </div><br>
 
 ### 3. Linear Probing
 
-线性探测法使用空位来解决冲突，当冲突发生时，向前探测一个空位来存储冲突的键。
+Linear probing uses empty slots to resolve collisions. When a collision occurs, it probes forward for an empty slot to store the colliding key.
 
-使用线性探测法，数组的大小 M 应当大于键的个数 N（M\>N)。
+When using linear probing, the array size M should be greater than the number of keys N (M\>N).
 
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0dbc4f7d-05c9-4aae-8065-7b7ea7e9709e.gif" width="350px"> </div><br>
@@ -833,7 +833,7 @@ private void putInternal(Key key, Value value) {
 
 ##### 3.3 Deletion
 
-删除操作应当将右侧所有相邻的键值对重新插入散列表中。
+Deletion should reinsert all adjacent key-value pairs to the right back into the hash table.
 
 ```java
 public void delete(Key key) {
@@ -841,14 +841,14 @@ public void delete(Key key) {
     while (keys[i] != null && !key.equals(keys[i]))
         i = (i + 1) % M;
 
-    // 不存在，直接返回
+    // Does not exist, return directly
     if (keys[i] == null)
         return;
 
     keys[i] = null;
     values[i] = null;
 
-    // 将之后相连的键值对重新插入
+    // Reinsert the following connected key-value pairs
     i = (i + 1) % M;
     while (keys[i] != null) {
         Key keyToRedo = keys[i];
@@ -866,12 +866,12 @@ public void delete(Key key) {
 
 ##### 3.5 Array Resizing
 
-线性探测法的成本取决于连续条目的长度，连续条目也叫聚簇。当聚簇很长时，在查找和插入时也需要进行很多次探测。例如下图中 2\~4 位置就是一个聚簇。
+The cost of linear probing depends on the length of contiguous entries, also called clusters. When a cluster is long, lookup and insertion require many probes. For example, positions 2\~4 in the figure below form a cluster.
 
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ace20410-f053-4c4a-aca4-2c603ff11bbe.png" width="340px"> </div><br>
 
-α = N/M，把 α 称为使用率。理论证明，当 α 小于 1/2 时探测的预计次数只在 1.5 到 2.5 之间。为了保证散列表的性能，应当调整数组的大小，使得 α 在 [1/4, 1/2] 之间。
+α = N/M, and α is called the load factor. Theory shows that when α is less than 1/2, the expected number of probes is only between 1.5 and 2.5. To ensure hash table performance, adjust the array size so that α stays between [1/4, 1/2].
 
 ```java
 private void resize() {
@@ -897,25 +897,25 @@ private void resize(int cap) {
 
 ### 1. Symbol Table Algorithm Comparison
 
-| 算法 | 插入 | 查找 | 是否有序 |
+| Algorithm | Insert | Search | Ordered |
 | :---: | :---: | :---: | :---: |
-| 链表实现的无序符号表 | N | N | yes |
-| 二分查找实现的有序符号表 | N | logN | yes |
-| 二叉查找树 | logN | logN | yes |
-| 2-3 查找树 | logN | logN | yes |
-| 拉链法实现的散列表 | N/M | N/M | no |
-| 线性探测法实现的散列表 | 1 | 1 | no |
+| Unordered symbol table implemented with linked list | N | N | yes |
+| Ordered symbol table implemented with binary search | N | logN | yes |
+| Binary search tree | logN | logN | yes |
+| 2-3 search tree | logN | logN | yes |
+| Hash table implemented with separate chaining | N/M | N/M | no |
+| Hash table implemented with linear probing | 1 | 1 | no |
 
-应当优先考虑散列表，当需要有序性操作时使用红黑树。
+Prefer hash tables first. Use red-black trees when ordered operations are needed.
 
 ### 2. Java Symbol Table Implementations
 
-- java.util.TreeMap：红黑树
-- java.util.HashMap：拉链法的散列表
+- java.util.TreeMap: red-black tree
+- java.util.HashMap: hash table with separate chaining
 
 ### 3. Sparse Vector Multiplication
 
-当向量为稀疏向量时，可以使用符号表来存储向量中的非 0 索引和值，使得乘法运算只需要对那些非 0 元素进行即可。
+When a vector is sparse, a symbol table can store the nonzero indexes and values in the vector, so multiplication only needs to process the nonzero elements.
 
 ```java
 public class SparseVector {

@@ -1,34 +1,34 @@
 # MySQL
 <!-- GFM-TOC -->
 * [MySQL](#mysql)
-    * [一、索引](#1-indexes)
-        * [B+ Tree 原理](#b-tree-principles)
-        * [MySQL 索引](#mysql-indexes)
-        * [索引优化](#index-optimization)
-        * [索引的优点](#index-advantages)
-        * [索引的使用条件](#index-usage-conditions)
-    * [二、查询性能优化](#2-query-performance-optimization)
-        * [使用 Explain 进行分析](#analyze-with-explain)
-        * [优化数据访问](#optimize-data-access)
-        * [重构查询方式](#refactor-query-patterns)
-    * [三、存储引擎](#3-storage-engines)
+    * [1. Indexes](#1-indexes)
+        * [B+ Tree Principles](#b-tree-principles)
+        * [MySQL Indexes](#mysql-indexes)
+        * [Index Optimization](#index-optimization)
+        * [Index Advantages](#index-advantages)
+        * [Index Usage Conditions](#index-usage-conditions)
+    * [2. Query Performance Optimization](#2-query-performance-optimization)
+        * [Analyze with Explain](#analyze-with-explain)
+        * [Optimize Data Access](#optimize-data-access)
+        * [Refactor Query Patterns](#refactor-query-patterns)
+    * [3. Storage Engines](#3-storage-engines)
         * [InnoDB](#innodb)
         * [MyISAM](#myisam)
-        * [比较](#comparison)
-    * [四、数据类型](#4-data-types)
-        * [整型](#integer-types)
-        * [浮点数](#floating-point-types)
-        * [字符串](#strings)
-        * [时间和日期](#time-and-date)
-    * [五、切分](#5-sharding)
-        * [水平切分](#horizontal-sharding)
-        * [垂直切分](#vertical-sharding)
-        * [Sharding 策略](#sharding-strategies)
-        * [Sharding 存在的问题](#sharding-issues)
-    * [六、复制](#6-replication)
-        * [主从复制](#master-slave-replication)
-        * [读写分离](#readwrite-splitting)
-    * [参考资料](#references)
+        * [Comparison](#comparison)
+    * [4. Data Types](#4-data-types)
+        * [Integer Types](#integer-types)
+        * [Floating-Point Types](#floating-point-types)
+        * [Strings](#strings)
+        * [Time and Date](#time-and-date)
+    * [5. Sharding](#5-sharding)
+        * [Horizontal Sharding](#horizontal-sharding)
+        * [Vertical Sharding](#vertical-sharding)
+        * [Sharding Strategies](#sharding-strategies)
+        * [Sharding Issues](#sharding-issues)
+    * [6. Replication](#6-replication)
+        * [Master-Slave Replication](#master-slave-replication)
+        * [Read/Write Splitting](#readwrite-splitting)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
@@ -38,94 +38,94 @@
 
 #### 1. Data Structures
 
-B Tree 指的是 Balance Tree，也就是平衡树。平衡树是一颗查找树，并且所有叶子节点位于同一层。
+B Tree means Balance Tree, or balanced tree. A balanced tree is a search tree, and all leaf nodes are on the same level.
 
-B+ Tree 是基于 B Tree 和叶子节点顺序访问指针进行实现，它具有 B Tree 的平衡性，并且通过顺序访问指针来提高区间查询的性能。
+B+ Tree is implemented based on B Tree plus sequential access pointers between leaf nodes. It has the balance property of B Tree and improves range-query performance through sequential access pointers.
 
-在 B+ Tree 中，一个节点中的 key 从左到右非递减排列，如果某个指针的左右相邻 key 分别是 key<sub>i</sub> 和 key<sub>i+1</sub>，且不为 null，则该指针指向节点的所有 key 大于等于 key<sub>i</sub> 且小于等于 key<sub>i+1</sub>。
+In a B+ Tree, keys in a node are arranged from left to right in nondecreasing order. If the adjacent keys to the left and right of a pointer are key<sub>i</sub> and key<sub>i+1</sub>, and the pointer is not null, then all keys in the node pointed to by that pointer are greater than or equal to key<sub>i</sub> and less than or equal to key<sub>i+1</sub>.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/33576849-9275-47bb-ada7-8ded5f5e7c73.png" width="350px"> </div><br>
 
 #### 2. Operations
 
-进行查找操作时，首先在根节点进行二分查找，找到一个 key 所在的指针，然后递归地在指针所指向的节点进行查找。直到查找到叶子节点，然后在叶子节点上进行二分查找，找出 key 所对应的 data。
+During lookup, first perform binary search in the root node to find the pointer where a key belongs, then recursively search the node pointed to by that pointer. Continue until reaching a leaf node, then perform binary search on the leaf node to find the data corresponding to the key.
 
-插入删除操作会破坏平衡树的平衡性，因此在进行插入删除操作之后，需要对树进行分裂、合并、旋转等操作来维护平衡性。
+Insertions and deletions can break the balance of the tree, so after insertion or deletion, operations such as splitting, merging, and rotation are needed to maintain balance.
 
 #### 3. Comparison with Red-Black Trees
 
-红黑树等平衡树也可以用来实现索引，但是文件系统及数据库系统普遍采用 B+ Tree 作为索引结构，这是因为使用 B+ 树访问磁盘数据有更高的性能。
+Balanced trees such as red-black trees can also implement indexes, but file systems and database systems commonly use B+ Tree as the index structure because it has better performance for accessing disk data.
 
-（一）B+ 树有更低的树高
+1. B+ Tree has lower tree height
 
-平衡树的树高 O(h)=O(log<sub>d</sub>N)，其中 d 为每个节点的出度。红黑树的出度为 2，而 B+ Tree 的出度一般都非常大，所以红黑树的树高 h 很明显比 B+ Tree 大非常多。
+The height of a balanced tree is O(h)=O(log<sub>d</sub>N), where d is the degree of each node. A red-black tree has degree 2, while the degree of a B+ Tree is generally very large, so the height h of a red-black tree is much larger than that of a B+ Tree.
 
-（二）磁盘访问原理
+2. Disk access principles
 
-操作系统一般将内存和磁盘分割成固定大小的块，每一块称为一页，内存与磁盘以页为单位交换数据。数据库系统将索引的一个节点的大小设置为页的大小，使得一次 I/O 就能完全载入一个节点。
+Operating systems usually divide memory and disk into fixed-size blocks. Each block is called a page, and memory and disk exchange data in page units. Database systems set the size of an index node to the page size, so one I/O can load an entire node.
 
-如果数据不在同一个磁盘块上，那么通常需要移动制动手臂进行寻道，而制动手臂因为其物理结构导致了移动效率低下，从而增加磁盘数据读取时间。B+ 树相对于红黑树有更低的树高，进行寻道的次数与树高成正比，在同一个磁盘块上进行访问只需要很短的磁盘旋转时间，所以 B+ 树更适合磁盘数据的读取。
+If data is not in the same disk block, the actuator arm usually needs to move to seek. Because of its physical structure, the actuator arm moves inefficiently, increasing disk read time. Compared with red-black trees, B+ Trees have lower height. The number of seeks is proportional to tree height, and accessing data within the same disk block requires only a short disk rotation time. Therefore, B+ Trees are more suitable for reading disk data.
 
-（三）磁盘预读特性
+3. Disk read-ahead
 
-为了减少磁盘 I/O 操作，磁盘往往不是严格按需读取，而是每次都会预读。预读过程中，磁盘进行顺序读取，顺序读取不需要进行磁盘寻道，并且只需要很短的磁盘旋转时间，速度会非常快。并且可以利用预读特性，相邻的节点也能够被预先载入。
+To reduce disk I/O, disks often do not read strictly on demand; they perform read-ahead each time. During read-ahead, the disk reads sequentially. Sequential reads do not require disk seeks and need only a short disk rotation time, so they are very fast. Read-ahead can also preload adjacent nodes.
 
 ### MySQL Indexes
 
-索引是在存储引擎层实现的，而不是在服务器层实现的，所以不同存储引擎具有不同的索引类型和实现。
+Indexes are implemented at the storage-engine layer, not at the server layer, so different storage engines have different index types and implementations.
 
 #### 1. B+Tree Indexes
 
-是大多数 MySQL 存储引擎的默认索引类型。
+B+Tree indexes are the default index type for most MySQL storage engines.
 
-因为不再需要进行全表扫描，只需要对树进行搜索即可，所以查找速度快很多。
+Because a full table scan is no longer required and only the tree needs to be searched, lookup is much faster.
 
-因为 B+ Tree 的有序性，所以除了用于查找，还可以用于排序和分组。
+Because B+ Tree is ordered, it can be used not only for lookup but also for sorting and grouping.
 
-可以指定多个列作为索引列，多个索引列共同组成键。
+Multiple columns can be specified as index columns, and together they form the key.
 
-适用于全键值、键值范围和键前缀查找，其中键前缀查找只适用于最左前缀查找。如果不是按照索引列的顺序进行查找，则无法使用索引。
+It supports full-key, key-range, and key-prefix lookups. Key-prefix lookup applies only to leftmost-prefix lookup. If the lookup does not follow the order of the index columns, the index cannot be used.
 
-InnoDB 的 B+Tree 索引分为主索引和辅助索引。主索引的叶子节点 data 域记录着完整的数据记录，这种索引方式被称为聚簇索引。因为无法把数据行存放在两个不同的地方，所以一个表只能有一个聚簇索引。
+InnoDB's B+Tree indexes are divided into primary indexes and secondary indexes. The data field of each leaf node in the primary index records the complete data row. This indexing method is called a clustered index. Because a data row cannot be stored in two different places, a table can have only one clustered index.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/45016e98-6879-4709-8569-262b2d6d60b9.png" width="350px"> </div><br>
 
-辅助索引的叶子节点的 data 域记录着主键的值，因此在使用辅助索引进行查找时，需要先查找到主键值，然后再到主索引中进行查找。
+The data field of each leaf node in a secondary index records the primary-key value. Therefore, when using a secondary index for lookup, MySQL first finds the primary-key value and then searches the primary index.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7c349b91-050b-4d72-a7f8-ec86320307ea.png" width="350px"> </div><br>
 
 #### 2. Hash Indexes
 
-哈希索引能以 O(1) 时间进行查找，但是失去了有序性：
+Hash indexes can perform lookups in O(1) time, but they lose ordering:
 
-- 无法用于排序与分组；
-- 只支持精确查找，无法用于部分查找和范围查找。
+- They cannot be used for sorting or grouping;
+- They support only exact lookup and cannot be used for partial or range lookup.
 
-InnoDB 存储引擎有一个特殊的功能叫“自适应哈希索引”，当某个索引值被使用的非常频繁时，会在 B+Tree 索引之上再创建一个哈希索引，这样就让 B+Tree 索引具有哈希索引的一些优点，比如快速的哈希查找。
+The InnoDB storage engine has a special feature called the adaptive hash index. When an index value is used very frequently, InnoDB creates a hash index on top of the B+Tree index, giving the B+Tree index some advantages of hash indexes, such as fast hash lookup.
 
 #### 3. Full-Text Indexes
 
-MyISAM 存储引擎支持全文索引，用于查找文本中的关键词，而不是直接比较是否相等。
+The MyISAM storage engine supports full-text indexes, which are used to find keywords in text rather than directly comparing equality.
 
-查找条件使用 MATCH AGAINST，而不是普通的 WHERE。
+The lookup condition uses MATCH AGAINST instead of a normal WHERE clause.
 
-全文索引使用倒排索引实现，它记录着关键词到其所在文档的映射。
+Full-text indexes are implemented using inverted indexes, which record mappings from keywords to the documents containing them.
 
-InnoDB 存储引擎在 MySQL 5.6.4 版本中也开始支持全文索引。
+The InnoDB storage engine also began supporting full-text indexes in MySQL 5.6.4.
 
 #### 4. Spatial Indexes
 
-MyISAM 存储引擎支持空间数据索引（R-Tree），可以用于地理数据存储。空间数据索引会从所有维度来索引数据，可以有效地使用任意维度来进行组合查询。
+The MyISAM storage engine supports spatial data indexes (R-Tree), which can be used for geographic data storage. Spatial indexes index data across all dimensions and can efficiently support combined queries using any dimension.
 
-必须使用 GIS 相关的函数来维护数据。
+GIS-related functions must be used to maintain the data.
 
 ### Index Optimization
 
 #### 1. Independent Columns
 
-在进行查询时，索引列不能是表达式的一部分，也不能是函数的参数，否则无法使用索引。
+During a query, an indexed column cannot be part of an expression or a function argument; otherwise, the index cannot be used.
 
-例如下面的查询不能使用 actor_id 列的索引：
+For example, the following query cannot use the index on the actor_id column:
 
 ```sql
 SELECT actor_id FROM sakila.actor WHERE actor_id + 1 = 5;
@@ -133,7 +133,7 @@ SELECT actor_id FROM sakila.actor WHERE actor_id + 1 = 5;
 
 #### 2. Multi-Column Indexes
 
-在需要使用多个列作为条件进行查询时，使用多列索引比使用多个单列索引性能更好。例如下面的语句中，最好把 actor_id 和 film_id 设置为多列索引。
+When multiple columns are used as query conditions, a multi-column index performs better than multiple single-column indexes. For example, in the following statement, it is better to define actor_id and film_id as a multi-column index.
 
 ```sql
 SELECT film_id, actor_ id FROM sakila.film_actor
@@ -142,11 +142,11 @@ WHERE actor_id = 1 AND film_id = 1;
 
 #### 3. Index Column Order
 
-让选择性最强的索引列放在前面。
+Put the most selective index column first.
 
-索引的选择性是指：不重复的索引值和记录总数的比值。最大值为 1，此时每个记录都有唯一的索引与其对应。选择性越高，每个记录的区分度越高，查询效率也越高。
+Index selectivity is the ratio of distinct index values to the total number of records. Its maximum value is 1, where each record has a unique corresponding index value. The higher the selectivity, the more distinguishable each record is, and the higher the query efficiency.
 
-例如下面显示的结果中 customer_id 的选择性比 staff_id 更高，因此最好把 customer_id 列放在多列索引的前面。
+For example, in the result shown below, customer_id is more selective than staff_id, so it is better to put customer_id before staff_id in the multi-column index.
 
 ```sql
 SELECT COUNT(DISTINCT staff_id)/COUNT(*) AS staff_id_selectivity,
@@ -163,65 +163,65 @@ customer_id_selectivity: 0.0373
 
 #### 4. Prefix Indexes
 
-对于 BLOB、TEXT 和 VARCHAR 类型的列，必须使用前缀索引，只索引开始的部分字符。
+For BLOB, TEXT, and VARCHAR columns, prefix indexes must be used, indexing only the initial portion of the string.
 
-前缀长度的选取需要根据索引选择性来确定。
+The prefix length should be selected based on index selectivity.
 
 #### 5. Covering Indexes
 
-索引包含所有需要查询的字段的值。
+The index contains the values of all fields needed by the query.
 
-具有以下优点：
+It has the following advantages:
 
-- 索引通常远小于数据行的大小，只读取索引能大大减少数据访问量。
-- 一些存储引擎（例如 MyISAM）在内存中只缓存索引，而数据依赖于操作系统来缓存。因此，只访问索引可以不使用系统调用（通常比较费时）。
-- 对于 InnoDB 引擎，若辅助索引能够覆盖查询，则无需访问主索引。
+- Indexes are usually much smaller than data rows, so reading only the index greatly reduces data access.
+- Some storage engines, such as MyISAM, cache only indexes in memory, while data relies on the operating system cache. Therefore, accessing only the index avoids system calls, which are usually time-consuming.
+- For the InnoDB engine, if a secondary index can cover the query, the primary index does not need to be accessed.
 
 ### Index Advantages
 
-- 大大减少了服务器需要扫描的数据行数。
+- Greatly reduces the number of rows the server needs to scan.
 
-- 帮助服务器避免进行排序和分组，以及避免创建临时表（B+Tree 索引是有序的，可以用于 ORDER BY 和 GROUP BY 操作。临时表主要是在排序和分组过程中创建，不需要排序和分组，也就不需要创建临时表）。
+- Helps the server avoid sorting and grouping, and avoid creating temporary tables. B+Tree indexes are ordered and can be used for ORDER BY and GROUP BY operations. Temporary tables are mainly created during sorting and grouping; if sorting and grouping are not needed, temporary tables are not needed either.
 
-- 将随机 I/O 变为顺序 I/O（B+Tree 索引是有序的，会将相邻的数据都存储在一起）。
+- Converts random I/O into sequential I/O. B+Tree indexes are ordered and store adjacent data together.
 
 ### Index Usage Conditions
 
-- 对于非常小的表、大部分情况下简单的全表扫描比建立索引更高效；
+- For very small tables, a simple full table scan is usually more efficient than building an index;
 
-- 对于中到大型的表，索引就非常有效；
+- For medium to large tables, indexes are very effective;
 
-- 但是对于特大型的表，建立和维护索引的代价将会随之增长。这种情况下，需要用到一种技术可以直接区分出需要查询的一组数据，而不是一条记录一条记录地匹配，例如可以使用分区技术。
+- For very large tables, however, the cost of creating and maintaining indexes increases. In this case, a technique is needed to directly identify the group of data to query instead of matching records one by one, such as partitioning.
 
 ## 2. Query Performance Optimization
 
 ### Analyze with Explain
 
-Explain 用来分析 SELECT 查询语句，开发人员可以通过分析 Explain 结果来优化查询语句。
+Explain is used to analyze SELECT queries. Developers can optimize queries by analyzing Explain results.
 
-比较重要的字段有：
+Important fields include:
 
-- select_type : 查询类型，有简单查询、联合查询、子查询等
-- key : 使用的索引
-- rows : 扫描的行数
+- select_type: query type, such as simple query, union query, or subquery
+- key: index used
+- rows: number of rows scanned
 
 ### Optimize Data Access
 
 #### 1. Reduce Requested Data Volume
 
-- 只返回必要的列：最好不要使用 SELECT * 语句。
-- 只返回必要的行：使用 LIMIT 语句来限制返回的数据。
-- 缓存重复查询的数据：使用缓存可以避免在数据库中进行查询，特别在要查询的数据经常被重复查询时，缓存带来的查询性能提升将会是非常明显的。
+- Return only necessary columns: avoid using SELECT *.
+- Return only necessary rows: use LIMIT to restrict returned data.
+- Cache repeatedly queried data: caching can avoid database queries. When the data is queried repeatedly, caching can provide a very noticeable performance improvement.
 
 #### 2. Reduce Server-Side Scanned Rows
 
-最有效的方式是使用索引来覆盖查询。
+The most effective approach is to use indexes to cover the query.
 
 ### Refactor Query Patterns
 
 #### 1. Split Large Queries
 
-一个大查询如果一次性执行的话，可能一次锁住很多数据、占满整个事务日志、耗尽系统资源、阻塞很多小的但重要的查询。
+If a large query is executed all at once, it may lock a large amount of data, fill the entire transaction log, exhaust system resources, and block many small but important queries.
 
 ```sql
 DELETE FROM messages WHERE create < DATE_SUB(NOW(), INTERVAL 3 MONTH);
@@ -237,13 +237,13 @@ do {
 
 #### 2. Decompose Large Join Queries
 
-将一个大连接查询分解成对每一个表进行一次单表查询，然后在应用程序中进行关联，这样做的好处有：
+Decompose a large join query into a single-table query for each table, then join the results in the application. Benefits include:
 
-- 让缓存更高效。对于连接查询，如果其中一个表发生变化，那么整个查询缓存就无法使用。而分解后的多个查询，即使其中一个表发生变化，对其它表的查询缓存依然可以使用。
-- 分解成多个单表查询，这些单表查询的缓存结果更可能被其它查询使用到，从而减少冗余记录的查询。
-- 减少锁竞争；
-- 在应用层进行连接，可以更容易对数据库进行拆分，从而更容易做到高性能和可伸缩。
-- 查询本身效率也可能会有所提升。例如下面的例子中，使用 IN() 代替连接查询，可以让 MySQL 按照 ID 顺序进行查询，这可能比随机的连接要更高效。
+- More efficient caching. For a join query, if one table changes, the entire query cache cannot be used. After decomposition, even if one table changes, the query cache for other tables can still be used.
+- After decomposition into multiple single-table queries, cached results from those queries are more likely to be reused by other queries, reducing redundant record lookups.
+- Reduced lock contention;
+- Joining at the application layer makes it easier to split the database, improving performance and scalability.
+- The query itself may also become more efficient. In the example below, using IN() instead of a join allows MySQL to query in ID order, which may be more efficient than a random join.
 
 ```sql
 SELECT * FROM tag
@@ -262,166 +262,166 @@ SELECT * FROM post WHERE post.id IN (123,456,567,9098,8904);
 
 ### InnoDB
 
-是 MySQL 默认的事务型存储引擎，只有在需要它不支持的特性时，才考虑使用其它存储引擎。
+InnoDB is MySQL's default transactional storage engine. Use another storage engine only when a required feature is not supported by InnoDB.
 
-实现了四个标准的隔离级别，默认级别是可重复读（REPEATABLE READ）。在可重复读隔离级别下，通过多版本并发控制（MVCC）+ Next-Key Locking 防止幻影读。
+It implements the four standard isolation levels, with REPEATABLE READ as the default. Under the repeatable read isolation level, phantom reads are prevented through multiversion concurrency control (MVCC) plus Next-Key Locking.
 
-主索引是聚簇索引，在索引中保存了数据，从而避免直接读取磁盘，因此对查询性能有很大的提升。
+The primary index is a clustered index, storing data in the index and avoiding direct disk reads, which greatly improves query performance.
 
-内部做了很多优化，包括从磁盘读取数据时采用的可预测性读、能够加快读操作并且自动创建的自适应哈希索引、能够加速插入操作的插入缓冲区等。
+It has many internal optimizations, including predictive reads when reading data from disk, automatically created adaptive hash indexes that speed up reads, and insert buffers that speed up insertions.
 
-支持真正的在线热备份。其它存储引擎不支持在线热备份，要获取一致性视图需要停止对所有表的写入，而在读写混合场景中，停止写入可能也意味着停止读取。
+It supports true online hot backup. Other storage engines do not support online hot backup. To obtain a consistent view, writes to all tables must be stopped, and in mixed read/write scenarios, stopping writes may also mean stopping reads.
 
 ### MyISAM
 
-设计简单，数据以紧密格式存储。对于只读数据，或者表比较小、可以容忍修复操作，则依然可以使用它。
+MyISAM has a simple design and stores data in a compact format. It can still be used for read-only data, or for small tables where repair operations are acceptable.
 
-提供了大量的特性，包括压缩表、空间数据索引等。
+It provides many features, including compressed tables and spatial data indexes.
 
-不支持事务。
+It does not support transactions.
 
-不支持行级锁，只能对整张表加锁，读取时会对需要读到的所有表加共享锁，写入时则对表加排它锁。但在表有读取操作的同时，也可以往表中插入新的记录，这被称为并发插入（CONCURRENT INSERT）。
+It does not support row-level locks and can only lock entire tables. Reads acquire shared locks on all tables that need to be read, while writes acquire exclusive locks on tables. However, new records can still be inserted while a table is being read; this is called concurrent insert.
 
-可以手工或者自动执行检查和修复操作，但是和事务恢复以及崩溃恢复不同，可能导致一些数据丢失，而且修复操作是非常慢的。
+Check and repair operations can be performed manually or automatically, but unlike transaction recovery and crash recovery, they may cause some data loss, and repair operations are very slow.
 
-如果指定了 DELAY_KEY_WRITE 选项，在每次修改执行完成时，不会立即将修改的索引数据写入磁盘，而是会写到内存中的键缓冲区，只有在清理键缓冲区或者关闭表的时候才会将对应的索引块写入磁盘。这种方式可以极大的提升写入性能，但是在数据库或者主机崩溃时会造成索引损坏，需要执行修复操作。
+If the DELAY_KEY_WRITE option is specified, modified index data is not immediately written to disk after each modification. Instead, it is written to the key buffer in memory, and the corresponding index blocks are written to disk only when the key buffer is flushed or the table is closed. This can greatly improve write performance, but if the database or host crashes, indexes may be corrupted and require repair.
 
 ### Comparison
 
-- 事务：InnoDB 是事务型的，可以使用 Commit 和 Rollback 语句。
+- Transactions: InnoDB is transactional and supports Commit and Rollback statements.
 
-- 并发：MyISAM 只支持表级锁，而 InnoDB 还支持行级锁。
+- Concurrency: MyISAM supports only table-level locks, while InnoDB also supports row-level locks.
 
-- 外键：InnoDB 支持外键。
+- Foreign keys: InnoDB supports foreign keys.
 
-- 备份：InnoDB 支持在线热备份。
+- Backup: InnoDB supports online hot backup.
 
-- 崩溃恢复：MyISAM 崩溃后发生损坏的概率比 InnoDB 高很多，而且恢复的速度也更慢。
+- Crash recovery: MyISAM is much more likely to be corrupted after a crash than InnoDB, and recovery is slower.
 
-- 其它特性：MyISAM 支持压缩表和空间数据索引。
+- Other features: MyISAM supports compressed tables and spatial data indexes.
 
 ## 4. Data Types
 
 ### Integer Types
 
-TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT 分别使用 8, 16, 24, 32, 64 位存储空间，一般情况下越小的列越好。
+TINYINT, SMALLINT, MEDIUMINT, INT, and BIGINT use 8, 16, 24, 32, and 64 bits of storage respectively. In general, smaller columns are better.
 
-INT(11) 中的数字只是规定了交互工具显示字符的个数，对于存储和计算来说是没有意义的。
+The number in INT(11) only specifies how many characters interactive tools display. It has no meaning for storage or computation.
 
 ### Floating-Point Types
 
-FLOAT 和 DOUBLE 为浮点类型，DECIMAL 为高精度小数类型。CPU 原生支持浮点运算，但是不支持 DECIMAl 类型的计算，因此 DECIMAL 的计算比浮点类型需要更高的代价。
+FLOAT and DOUBLE are floating-point types, while DECIMAL is a high-precision decimal type. CPUs natively support floating-point operations but do not support DECIMAL computation, so DECIMAL computation costs more than floating-point computation.
 
-FLOAT、DOUBLE 和 DECIMAL 都可以指定列宽，例如 DECIMAL(18, 9) 表示总共 18 位，取 9 位存储小数部分，剩下 9 位存储整数部分。
+FLOAT, DOUBLE, and DECIMAL can all specify column width. For example, DECIMAL(18, 9) means 18 digits total, with 9 digits used for the fractional part and the remaining 9 for the integer part.
 
 ### Strings
 
-主要有 CHAR 和 VARCHAR 两种类型，一种是定长的，一种是变长的。
+The main types are CHAR and VARCHAR. One is fixed length, and the other is variable length.
 
-VARCHAR 这种变长类型能够节省空间，因为只需要存储必要的内容。但是在执行 UPDATE 时可能会使行变得比原来长，当超出一个页所能容纳的大小时，就要执行额外的操作。MyISAM 会将行拆成不同的片段存储，而 InnoDB 则需要分裂页来使行放进页内。
+Variable-length types such as VARCHAR can save space because they store only the necessary content. However, UPDATE operations may make a row longer than before. When it exceeds the size that one page can hold, extra operations are required. MyISAM splits the row into different fragments for storage, while InnoDB needs to split pages to fit the row into a page.
 
-在进行存储和检索时，会保留 VARCHAR 末尾的空格，而会删除 CHAR 末尾的空格。
+During storage and retrieval, trailing spaces in VARCHAR are preserved, while trailing spaces in CHAR are removed.
 
 ### Time and Date
 
-MySQL 提供了两种相似的日期时间类型：DATETIME 和 TIMESTAMP。
+MySQL provides two similar date and time types: DATETIME and TIMESTAMP.
 
 #### 1. DATETIME
 
-能够保存从 1000 年到 9999 年的日期和时间，精度为秒，使用 8 字节的存储空间。
+It can store dates and times from the year 1000 to 9999, with second-level precision, using 8 bytes of storage.
 
-它与时区无关。
+It is independent of time zones.
 
-默认情况下，MySQL 以一种可排序的、无歧义的格式显示 DATETIME 值，例如“2008-01-16 22:37:08”，这是 ANSI 标准定义的日期和时间表示方法。
+By default, MySQL displays DATETIME values in a sortable and unambiguous format, such as "2008-01-16 22:37:08". This is the date and time representation defined by the ANSI standard.
 
 #### 2. TIMESTAMP
 
-和 UNIX 时间戳相同，保存从 1970 年 1 月 1 日午夜（格林威治时间）以来的秒数，使用 4 个字节，只能表示从 1970 年到 2038 年。
+Like a UNIX timestamp, it stores the number of seconds since midnight on January 1, 1970 (Greenwich Mean Time). It uses 4 bytes and can represent only dates from 1970 to 2038.
 
-它和时区有关，也就是说一个时间戳在不同的时区所代表的具体时间是不同的。
+It is time-zone dependent, meaning the same timestamp represents different concrete times in different time zones.
 
-MySQL 提供了 FROM_UNIXTIME() 函数把 UNIX 时间戳转换为日期，并提供了 UNIX_TIMESTAMP() 函数把日期转换为 UNIX 时间戳。
+MySQL provides the FROM_UNIXTIME() function to convert a UNIX timestamp to a date, and the UNIX_TIMESTAMP() function to convert a date to a UNIX timestamp.
 
-默认情况下，如果插入时没有指定 TIMESTAMP 列的值，会将这个值设置为当前时间。
+By default, if no value is specified for a TIMESTAMP column during insertion, it is set to the current time.
 
-应该尽量使用 TIMESTAMP，因为它比 DATETIME 空间效率更高。
+TIMESTAMP should be used whenever possible because it is more space-efficient than DATETIME.
 
 ## 5. Sharding
 
 ### Horizontal Sharding
 
-水平切分又称为 Sharding，它是将同一个表中的记录拆分到多个结构相同的表中。
+Horizontal sharding is also called sharding. It splits records from the same table into multiple tables with the same structure.
 
-当一个表的数据不断增多时，Sharding 是必然的选择，它可以将数据分布到集群的不同节点上，从而缓存单个数据库的压力。
+When the data in a table keeps growing, sharding becomes inevitable. It distributes data across different nodes in a cluster, reducing pressure on a single database.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/63c2909f-0c5f-496f-9fe5-ee9176b31aba.jpg" width=""> </div><br>
 
 ### Vertical Sharding
 
-垂直切分是将一张表按列切分成多个表，通常是按照列的关系密集程度进行切分，也可以利用垂直切分将经常被使用的列和不经常被使用的列切分到不同的表中。
+Vertical sharding splits one table into multiple tables by column. It is usually done according to how closely columns are related. It can also separate frequently used columns from infrequently used columns into different tables.
 
-在数据库的层面使用垂直切分将按数据库中表的密集程度部署到不同的库中，例如将原来的电商数据库垂直切分成商品数据库、用户数据库等。
+At the database level, vertical sharding deploys tables into different databases according to how closely the tables are related. For example, an e-commerce database can be vertically split into a product database, user database, and so on.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e130e5b8-b19a-4f1e-b860-223040525cf6.jpg" width=""> </div><br>
 
 ### Sharding Strategies
 
-- 哈希取模：hash(key) % N；
-- 范围：可以是 ID 范围也可以是时间范围；
-- 映射表：使用单独的一个数据库来存储映射关系。
+- Hash modulo: hash(key) % N;
+- Range: can be an ID range or a time range;
+- Mapping table: use a separate database to store the mapping relationship.
 
 ### Sharding Issues
 
 #### 1. Transaction Issues
 
-使用分布式事务来解决，比如 XA 接口。
+Use distributed transactions to solve this, such as the XA interface.
 
 #### 2. Joins
 
-可以将原来的连接分解成多个单表查询，然后在用户程序中进行连接。
+The original join can be decomposed into multiple single-table queries, then joined in the application.
 
 #### 3. ID Uniqueness
 
-- 使用全局唯一 ID（GUID）
-- 为每个分片指定一个 ID 范围
-- 分布式 ID 生成器 (如 Twitter 的 Snowflake 算法)
+- Use globally unique IDs (GUIDs)
+- Assign an ID range to each shard
+- Distributed ID generator, such as Twitter's Snowflake algorithm
 
 ## 6. Replication
 
 ### Master-Slave Replication
 
-主要涉及三个线程：binlog 线程、I/O 线程和 SQL 线程。
+It mainly involves three threads: the binlog thread, I/O thread, and SQL thread.
 
--   **binlog 线程**  ：负责将主服务器上的数据更改写入二进制日志（Binary log）中。
--   **I/O 线程**  ：负责从主服务器上读取二进制日志，并写入从服务器的中继日志（Relay log）。
--   **SQL 线程**  ：负责读取中继日志，解析出主服务器已经执行的数据更改并在从服务器中重放（Replay）。
+-   **binlog thread**  : responsible for writing data changes on the master server to the binary log.
+-   **I/O thread**  : responsible for reading the binary log from the master server and writing it to the slave server's relay log.
+-   **SQL thread**  : responsible for reading the relay log, parsing the data changes already executed by the master server, and replaying them on the slave server.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/master-slave.png" width=""> </div><br>
 
 ### Read/Write Splitting
 
-主服务器处理写操作以及实时性要求比较高的读操作，而从服务器处理读操作。
+The master server handles writes and reads with high freshness requirements, while slave servers handle reads.
 
-读写分离能提高性能的原因在于：
+Read/write splitting improves performance because:
 
-- 主从服务器负责各自的读和写，极大程度缓解了锁的争用；
-- 从服务器可以使用 MyISAM，提升查询性能以及节约系统开销；
-- 增加冗余，提高可用性。
+- Master and slave servers handle their own reads and writes, greatly reducing lock contention;
+- Slave servers can use MyISAM, improving query performance and saving system overhead;
+- Redundancy is increased, improving availability.
 
-读写分离常用代理方式来实现，代理服务器接收应用层传来的读写请求，然后决定转发到哪个服务器。
+Read/write splitting is commonly implemented with a proxy. The proxy server receives read and write requests from the application layer and decides which server to forward them to.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/master-slave-proxy.png" width=""> </div><br>
 
 ## References
 
-- BaronScbwartz, PeterZaitsev, VadimTkacbenko, 等. 高性能 MySQL[M]. 电子工业出版社, 2013.
-- 姜承尧. MySQL 技术内幕: InnoDB 存储引擎 [M]. 机械工业出版社, 2011.
-- [20+ 条 MySQL 性能优化的最佳经验](https://www.jfox.info/20-tiao-mysql-xing-nen-you-hua-de-zui-jia-jing-yan.html)
-- [服务端指南 数据存储篇 | MySQL（09） 分库与分表带来的分布式困境与应对之策](http://blog.720ui.com/2017/mysql_core_09_multi_db_table2/ "服务端指南 数据存储篇 | MySQL（09） 分库与分表带来的分布式困境与应对之策")
+- BaronScbwartz, PeterZaitsev, VadimTkacbenko, et al. High Performance MySQL[M]. Publishing House of Electronics Industry, 2013.
+- Jiang Chengyao. MySQL Internals: InnoDB Storage Engine[M]. China Machine Press, 2011.
+- [20+ best practices for MySQL performance optimization](https://www.jfox.info/20-tiao-mysql-xing-nen-you-hua-de-zui-jia-jing-yan.html)
+- [Server-side guide: data storage | MySQL (09), distributed difficulties and solutions caused by database and table sharding](http://blog.720ui.com/2017/mysql_core_09_multi_db_table2/ "Server-side guide: data storage | MySQL (09), distributed difficulties and solutions caused by database and table sharding")
 - [How to create unique row ID in sharded databases?](https://stackoverflow.com/questions/788829/how-to-create-unique-row-id-in-sharded-databases)
 - [SQL Azure Federation – Introduction](http://geekswithblogs.net/shaunxu/archive/2012/01/07/sql-azure-federation-ndash-introduction.aspx "Title of this entry.")
-- [MySQL 索引背后的数据结构及算法原理](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)
-- [MySQL 性能优化神器 Explain 使用分析](https://segmentfault.com/a/1190000008131735)
+- [Data structures and algorithm principles behind MySQL indexes](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)
+- [Using Explain for MySQL performance optimization](https://segmentfault.com/a/1190000008131735)
 - [How Sharding Works](https://medium.com/@jeeyoungk/how-sharding-works-b4dec46b3f6)
-- [大众点评订单系统分库分表实践](https://tech.meituan.com/dianping_order_db_sharding.html)
-- [B + 树](https://zh.wikipedia.org/wiki/B%2B%E6%A0%91)
+- [Dianping order system database and table sharding practice](https://tech.meituan.com/dianping_order_db_sharding.html)
+- [B+ tree](https://zh.wikipedia.org/wiki/B%2B%E6%A0%91)

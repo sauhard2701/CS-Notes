@@ -1,11 +1,11 @@
 # Algorithms - Sorting
 ## Conventions
 
-待排序的元素需要实现 Java 的 Comparable 接口，该接口有 compareTo() 方法，可以用它来判断两个元素的大小关系。
+Elements to be sorted need to implement Java's Comparable interface. This interface provides compareTo(), which can be used to compare two elements.
 
-使用辅助函数 less() 和 swap() 来进行比较和交换的操作，使得代码的可读性和可移植性更好。
+Use helper functions less() and swap() for comparison and exchange operations, making the code more readable and portable.
 
-排序算法的成本模型是比较和交换的次数。
+The cost model for sorting algorithms is the number of comparisons and exchanges.
 
 ```java
 public abstract class Sort<T extends Comparable<T>> {
@@ -26,9 +26,9 @@ public abstract class Sort<T extends Comparable<T>> {
 
 ## Selection Sort
 
-从数组中选择最小元素，将它与数组的第一个元素交换位置。再从数组剩下的元素中选择出最小的元素，将它与数组的第二个元素交换位置。不断进行这样的操作，直到将整个数组排序。
+Select the smallest element from the array and swap it with the first element. Then select the smallest element from the remaining elements and swap it with the second element. Repeat this process until the entire array is sorted.
 
-选择排序需要 \~N<sup>2</sup>/2 次比较和 \~N 次交换，它的运行时间与输入无关，这个特点使得它对一个已经排序的数组也需要这么多的比较和交换操作。
+Selection sort requires about \~N<sup>2</sup>/2 comparisons and \~N exchanges. Its running time is independent of the input, which means it performs the same number of comparisons and exchanges even on an already sorted array.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/bc6be2d0-ed5e-4def-89e5-3ada9afa811a.gif" width="230px"> </div><br>
 
@@ -53,9 +53,9 @@ public class Selection<T extends Comparable<T>> extends Sort<T> {
 
 ## Bubble Sort
 
-从左到右不断交换相邻逆序的元素，在一轮的循环之后，可以让未排序的最大元素上浮到右侧。
+Repeatedly swap adjacent inverted elements from left to right. After one pass, the largest unsorted element bubbles up to the right side.
 
-在一轮循环中，如果没有发生交换，那么说明数组已经是有序的，此时可以直接退出。
+If no exchange occurs in one pass, the array is already sorted and the algorithm can exit directly.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0f8d178b-52d8-491b-9dfd-41e05a952578.gif" width="200px"> </div><br>
 
@@ -81,15 +81,15 @@ public class Bubble<T extends Comparable<T>> extends Sort<T> {
 
 ## Insertion Sort
 
-每次都将当前元素插入到左侧已经排序的数组中，使得插入之后左侧数组依然有序。
+Each time, insert the current element into the already sorted array on the left, keeping the left-side array sorted after insertion.
 
-对于数组 {3, 5, 2, 4, 1}，它具有以下逆序：(3, 2), (3, 1), (5, 2), (5, 4), (5, 1), (2, 1), (4, 1)，插入排序每次只能交换相邻元素，令逆序数量减少 1，因此插入排序需要交换的次数为逆序数量。
+For the array {3, 5, 2, 4, 1}, the inversions are: (3, 2), (3, 1), (5, 2), (5, 4), (5, 1), (2, 1), and (4, 1). Insertion sort can only swap adjacent elements each time, reducing the number of inversions by 1, so the number of exchanges required by insertion sort equals the number of inversions.
 
-插入排序的时间复杂度取决于数组的初始顺序，如果数组已经部分有序了，那么逆序较少，需要的交换次数也就较少，时间复杂度较低。
+The time complexity of insertion sort depends on the initial order of the array. If the array is already partially ordered, there are fewer inversions, fewer exchanges are needed, and the time complexity is lower.
 
-- 平均情况下插入排序需要 \~N<sup>2</sup>/4 比较以及 \~N<sup>2</sup>/4 次交换；
-- 最坏的情况下需要 \~N<sup>2</sup>/2 比较以及 \~N<sup>2</sup>/2 次交换，最坏的情况是数组是倒序的；
-- 最好的情况下需要 N-1 次比较和 0 次交换，最好的情况就是数组已经有序了。
+- On average, insertion sort requires \~N<sup>2</sup>/4 comparisons and \~N<sup>2</sup>/4 exchanges;
+- In the worst case, it requires \~N<sup>2</sup>/2 comparisons and \~N<sup>2</sup>/2 exchanges. The worst case is when the array is in reverse order;
+- In the best case, it requires N-1 comparisons and 0 exchanges. The best case is when the array is already sorted.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/35253fa4-f60a-4e3b-aaec-8fc835aabdac.gif" width="200px"> </div><br>
 
@@ -110,9 +110,9 @@ public class Insertion<T extends Comparable<T>> extends Sort<T> {
 
 ## Shell Sort
 
-对于大规模的数组，插入排序很慢，因为它只能交换相邻的元素，每次只能将逆序数量减少 1。希尔排序的出现就是为了解决插入排序的这种局限性，它通过交换不相邻的元素，每次可以将逆序数量减少大于 1。
+For large arrays, insertion sort is slow because it can only swap adjacent elements, reducing the inversion count by only 1 each time. Shell sort addresses this limitation by swapping non-adjacent elements, reducing the inversion count by more than 1 each time.
 
-希尔排序使用插入排序对间隔 h 的序列进行排序。通过不断减小 h，最后令 h=1，就可以使得整个数组是有序的。
+Shell sort uses insertion sort to sort sequences with interval h. By continually decreasing h until h=1, the entire array becomes sorted.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7818c574-97a8-48db-8e62-8bfb030b02ba.png" width="450px"> </div><br>
 
@@ -142,17 +142,17 @@ public class Shell<T extends Comparable<T>> extends Sort<T> {
 
 ```
 
-希尔排序的运行时间达不到平方级别，使用递增序列 1, 4, 13, 40, ...  的希尔排序所需要的比较次数不会超过 N 的若干倍乘于递增序列的长度。后面介绍的高级排序算法只会比希尔排序快两倍左右。
+Shell sort's running time does not reach quadratic complexity. With the increment sequence 1, 4, 13, 40, ..., the number of comparisons does not exceed a small multiple of N times the length of the increment sequence. The advanced sorting algorithms introduced later are only about twice as fast as Shell sort.
 
 ## Merge Sort
 
-归并排序的思想是将数组分成两部分，分别进行排序，然后归并起来。
+The idea of merge sort is to divide the array into two parts, sort each part separately, and then merge them.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ec840967-d127-4da3-b6bb-186996c56746.png" width="300px"> </div><br>
 
 ### 1. Merge Procedure
 
-归并方法将数组中两个已经排序的部分归并成一个。
+The merge procedure merges two already sorted parts of an array into one.
 
 ```java
 public abstract class MergeSort<T extends Comparable<T>> extends Sort<T> {
@@ -165,7 +165,7 @@ public abstract class MergeSort<T extends Comparable<T>> extends Sort<T> {
         int i = l, j = m + 1;
 
         for (int k = l; k <= h; k++) {
-            aux[k] = nums[k]; // 将数据复制到辅助数组
+            aux[k] = nums[k]; // copy data to the auxiliary array
         }
 
         for (int k = l; k <= h; k++) {
@@ -176,7 +176,7 @@ public abstract class MergeSort<T extends Comparable<T>> extends Sort<T> {
                 nums[k] = aux[i++];
 
             } else if (aux[i].compareTo(aux[j]) <= 0) {
-                nums[k] = aux[i++]; // 先进行这一步，保证稳定性
+                nums[k] = aux[i++]; // do this first to preserve stability
 
             } else {
                 nums[k] = aux[j++];
@@ -188,9 +188,9 @@ public abstract class MergeSort<T extends Comparable<T>> extends Sort<T> {
 
 ### 2. Top-Down Merge Sort
 
-将一个大数组分成两个小数组去求解。
+Divide a large array into two smaller arrays and solve them.
 
-因为每次都将问题对半分成两个子问题，这种对半分的算法复杂度一般为 O(NlogN)。
+Because the problem is split in half into two subproblems each time, this divide-in-half algorithm usually has complexity O(NlogN).
 
 ```java
 public class Up2DownMergeSort<T extends Comparable<T>> extends MergeSort<T> {
@@ -216,7 +216,7 @@ public class Up2DownMergeSort<T extends Comparable<T>> extends MergeSort<T> {
 
 ### 3. Bottom-Up Merge Sort
 
-先归并那些微型数组，然后成对归并得到的微型数组。
+First merge tiny arrays, then merge the resulting tiny arrays pairwise.
 
 ```java
 public class Down2UpMergeSort<T extends Comparable<T>> extends MergeSort<T> {
@@ -241,8 +241,8 @@ public class Down2UpMergeSort<T extends Comparable<T>> extends MergeSort<T> {
 
 ### 1. Basic Algorithm
 
-- 归并排序将数组分为两个子数组分别排序，并将有序的子数组归并使得整个数组排序；
-- 快速排序通过一个切分元素将数组分为两个子数组，左子数组小于等于切分元素，右子数组大于等于切分元素，将这两个子数组排序也就将整个数组排序了。
+- Merge sort divides the array into two subarrays, sorts them separately, and merges the ordered subarrays so the entire array is sorted;
+- Quicksort divides the array into two subarrays using a pivot element. The left subarray is less than or equal to the pivot, and the right subarray is greater than or equal to the pivot. Sorting these two subarrays sorts the entire array.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/6234eb3d-ccf2-4987-a724-235aef6957b1.png" width="280px"> </div><br>
 
@@ -273,7 +273,7 @@ public class QuickSort<T extends Comparable<T>> extends Sort<T> {
 
 ### 2. Partitioning
 
-取 a[l] 作为切分元素，然后从数组的左端向右扫描直到找到第一个大于等于它的元素，再从数组的右端向左扫描找到第一个小于它的元素，交换这两个元素。不断进行这个过程，就可以保证左指针 i 的左侧元素都不大于切分元素，右指针 j 的右侧元素都不小于切分元素。当两个指针相遇时，将切分元素 a[l] 和 a[j] 交换位置。
+Use a[l] as the pivot. Scan from the left end of the array to the right until finding the first element greater than or equal to it, then scan from the right end to the left until finding the first element smaller than it, and swap these two elements. Repeating this process ensures that elements to the left of pointer i are not greater than the pivot and elements to the right of pointer j are not smaller than the pivot. When the two pointers meet, swap the pivot a[l] with a[j].
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c4859290-e27d-4f12-becf-e2a5c1f3a275.gif" width="320px"> </div><br>
 
@@ -295,27 +295,27 @@ private int partition(T[] nums, int l, int h) {
 
 ### 3. Performance Analysis
 
-快速排序是原地排序，不需要辅助数组，但是递归调用需要辅助栈。
+Quicksort is an in-place sort and does not need an auxiliary array, but recursive calls require an auxiliary stack.
 
-快速排序最好的情况下是每次都正好将数组对半分，这样递归调用次数才是最少的。这种情况下比较次数为 C<sub>N</sub>=2C<sub>N/2</sub>+N，复杂度为 O(NlogN)。
+In the best case, quicksort divides the array exactly in half every time, minimizing the number of recursive calls. In this case, the number of comparisons is C<sub>N</sub>=2C<sub>N/2</sub>+N, and the complexity is O(NlogN).
 
-最坏的情况下，第一次从最小的元素切分，第二次从第二小的元素切分，如此这般。因此最坏的情况下需要比较 N<sup>2</sup>/2。为了防止数组最开始就是有序的，在进行快速排序时需要随机打乱数组。
+In the worst case, the first partition uses the smallest element, the second partition uses the second smallest element, and so on. Therefore, the worst case requires N<sup>2</sup>/2 comparisons. To avoid the array being initially ordered, shuffle the array randomly before quicksort.
 
 ### 4. Algorithm Improvements
 
 ##### 4.1 Switch to Insertion Sort
 
-因为快速排序在小数组中也会递归调用自己，对于小数组，插入排序比快速排序的性能更好，因此在小数组中可以切换到插入排序。
+Because quicksort recursively calls itself even on small arrays, and insertion sort performs better on small arrays, the algorithm can switch to insertion sort for small arrays.
 
 ##### 4.2 Median-of-Three
 
-最好的情况下是每次都能取数组的中位数作为切分元素，但是计算中位数的代价很高。一种折中方法是取 3 个元素，并将大小居中的元素作为切分元素。
+The best case is choosing the median of the array as the pivot each time, but computing the median is expensive. A compromise is to take 3 elements and use the median among them as the pivot.
 
 ##### 4.3 3-Way Partitioning
 
-对于有大量重复元素的数组，可以将数组切分为三部分，分别对应小于、等于和大于切分元素。
+For arrays with many duplicate elements, partition the array into three parts corresponding to elements less than, equal to, and greater than the pivot.
 
-三向切分快速排序对于有大量重复元素的随机数组可以在线性时间内完成排序。
+Three-way partitioning quicksort can sort random arrays with many duplicate elements in linear time.
 
 ```java
 public class ThreeWayQuickSort<T extends Comparable<T>> extends QuickSort<T> {
@@ -345,11 +345,11 @@ public class ThreeWayQuickSort<T extends Comparable<T>> extends QuickSort<T> {
 
 ### 5. Partition-Based Quickselect
 
-快速排序的 partition() 方法，会返回一个整数 j 使得 a[l..j-1] 小于等于 a[j]，且 a[j+1..h] 大于等于 a[j]，此时 a[j] 就是数组的第 j 大元素。
+The partition() method in quicksort returns an integer j such that a[l..j-1] is less than or equal to a[j] and a[j+1..h] is greater than or equal to a[j]. At this point, a[j] is the jth largest element in the array.
 
-可以利用这个特性找出数组的第 k 个元素。
+This property can be used to find the kth element of the array.
 
-该算法是线性级别的，假设每次能将数组二分，那么比较的总次数为 (N+N/2+N/4+..)，直到找到第 k 个元素，这个和显然小于 2N。
+This algorithm is linear. Assuming the array can be split in half each time, the total number of comparisons is (N+N/2+N/4+...) until the kth element is found, and this sum is clearly less than 2N.
 
 ```java
 public T select(T[] nums, int k) {
@@ -375,9 +375,9 @@ public T select(T[] nums, int k) {
 
 ### 1. Heap
 
-堆中某个节点的值总是大于等于或小于等于其子节点的值，并且堆是一颗完全二叉树。
+In a heap, the value of a node is always greater than or equal to, or less than or equal to, the values of its child nodes, and the heap is a complete binary tree.
 
-堆可以用数组来表示，这是因为堆是完全二叉树，而完全二叉树很容易就存储在数组中。位置 k 的节点的父节点位置为 k/2，而它的两个子节点的位置分别为 2k 和 2k+1。这里不使用数组索引为 0 的位置，是为了更清晰地描述节点的位置关系。
+A heap can be represented with an array because it is a complete binary tree, and complete binary trees are easy to store in arrays. The parent of the node at position k is at k/2, and its two children are at 2k and 2k+1. Array index 0 is not used here to make the node position relationship clearer.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f48883c8-9d8a-494e-99a4-317d8ddb8552.png" width="170px"> </div><br>
 
@@ -413,7 +413,7 @@ public class Heap<T extends Comparable<T>> {
 
 ### 2. Swim and Sink
 
-在堆中，当一个节点比父节点大，那么需要交换这个两个节点。交换后还可能比它新的父节点大，因此需要不断地进行比较和交换操作，把这种操作称为上浮。
+In a heap, when a node is larger than its parent, the two nodes need to be swapped. After the swap, it may still be larger than its new parent, so comparison and exchange continue. This operation is called swim.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/99d5e84e-fc2a-49a3-8259-8de274617756.gif" width="270px"> </div><br>
 
@@ -426,7 +426,7 @@ private void swim(int k) {
 }
 ```
 
-类似地，当一个节点比子节点来得小，也需要不断地向下进行比较和交换操作，把这种操作称为下沉。一个节点如果有两个子节点，应当与两个子节点中最大那个节点进行交换。
+Similarly, when a node is smaller than its child, it needs to continue comparing and exchanging downward. This operation is called sink. If a node has two children, it should be swapped with the larger child.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/4bf5e3fb-a285-4138-b3b6-780956eb1df1.gif" width="270px"> </div><br>
 
@@ -446,7 +446,7 @@ private void sink(int k) {
 
 ### 3. Insert Element
 
-将新元素放到数组末尾，然后上浮到合适的位置。
+Place the new element at the end of the array and swim it to the appropriate position.
 
 ```java
 public void insert(Comparable v) {
@@ -457,7 +457,7 @@ public void insert(Comparable v) {
 
 ### 4. Delete Maximum
 
-从数组顶端删除最大的元素，并将数组的最后一个元素放到顶端，并让这个元素下沉到合适的位置。
+Delete the largest element from the top of the array, move the last element to the top, and sink this element to the appropriate position.
 
 ```java
 public T delMax() {
@@ -471,24 +471,24 @@ public T delMax() {
 
 ### 5. Heap Sort
 
-把最大元素和当前堆中数组的最后一个元素交换位置，并且不删除它，那么就可以得到一个从尾到头的递减序列，从正向来看就是一个递增序列，这就是堆排序。
+Swap the largest element with the last element in the current heap array without deleting it. This produces a decreasing sequence from back to front, which is an increasing sequence when viewed from front to back. This is heap sort.
 
 ##### 5.1 Build Heap
 
-无序数组建立堆最直接的方法是从左到右遍历数组进行上浮操作。一个更高效的方法是从右至左进行下沉操作，如果一个节点的两个节点都已经是堆有序，那么进行下沉操作可以使得这个节点为根节点的堆有序。叶子节点不需要进行下沉操作，可以忽略叶子节点的元素，因此只需要遍历一半的元素即可。
+The most direct way to build a heap from an unordered array is to traverse the array from left to right and perform swim operations. A more efficient approach is to traverse from right to left and perform sink operations. If a node's two children are already heap-ordered, sinking that node can make the heap rooted at that node heap-ordered. Leaf nodes do not need sinking, so leaf elements can be ignored and only half the elements need to be traversed.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c2ca8dd2-8d00-4a3e-bece-db7849ac9cfd.gif" width="210px"> </div><br>
 
 ##### 5.2 Swap Root with Last Element
 
-交换之后需要进行下沉操作维持堆的有序状态。
+After swapping, a sink operation is needed to maintain heap order.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/d156bcda-ac8d-4324-95e0-0c8df41567c9.gif" width="250px"> </div><br>
 
 ```java
 public class HeapSort<T extends Comparable<T>> extends Sort<T> {
     /**
-     * 数组第 0 个位置不能有元素
+     * Array position 0 must not contain an element
      */
     @Override
     public void sort(T[] nums) {
@@ -522,33 +522,33 @@ public class HeapSort<T extends Comparable<T>> extends Sort<T> {
 
 ### 6. Analysis
 
-一个堆的高度为 logN，因此在堆中插入元素和删除最大元素的复杂度都为 logN。
+The height of a heap is logN, so inserting an element into a heap and deleting the maximum element both have complexity logN.
 
-对于堆排序，由于要对 N 个节点进行下沉操作，因此复杂度为 NlogN。
+For heap sort, because N nodes need to be sunk, the complexity is NlogN.
 
-堆排序是一种原地排序，没有利用额外的空间。
+Heap sort is an in-place sort and does not use extra space.
 
-现代操作系统很少使用堆排序，因为它无法利用局部性原理进行缓存，也就是数组元素很少和相邻的元素进行比较和交换。
+Modern operating systems rarely use heap sort because it cannot take advantage of locality for caching; array elements are rarely compared and exchanged with adjacent elements.
 
 ## Summary
 
 ### 1. Sorting Algorithm Comparison
 
-| 算法 | 稳定性 | 时间复杂度 | 空间复杂度 | 备注 |
+| Algorithm | Stability | Time Complexity | Space Complexity | Notes |
 | :---: | :---: |:---: | :---: | :---: |
-| 选择排序 | × | N<sup>2</sup> | 1 | |
-| 冒泡排序 | √ |  N<sup>2</sup> | 1 | |
-| 插入排序 | √ |  N \~ N<sup>2</sup> | 1 | 时间复杂度和初始顺序有关 |
-| 希尔排序 | ×  |  N 的若干倍乘于递增序列的长度 | 1 | 改进版插入排序 |
-| 快速排序 | ×  | NlogN | logN | |
-| 三向切分快速排序 | ×  |  N \~ NlogN | logN | 适用于有大量重复主键|
-| 归并排序 | √ |  NlogN | N | |
-| 堆排序 | ×  |  NlogN | 1 | 无法利用局部性原理|
+| Selection sort | × | N<sup>2</sup> | 1 | |
+| Bubble sort | √ |  N<sup>2</sup> | 1 | |
+| Insertion sort | √ |  N \~ N<sup>2</sup> | 1 | Time complexity depends on the initial order |
+| Shell sort | ×  |  Several times N multiplied by the length of the increment sequence | 1 | Improved insertion sort |
+| Quicksort | ×  | NlogN | logN | |
+| Three-way partitioning quicksort | ×  |  N \~ NlogN | logN | Suitable for many duplicate keys |
+| Merge sort | √ |  NlogN | N | |
+| Heap sort | ×  |  NlogN | 1 | Cannot take advantage of locality |
 
-快速排序是最快的通用排序算法，它的内循环的指令很少，而且它还能利用缓存，因为它总是顺序地访问数据。它的运行时间近似为 \~cNlogN，这里的 c 比其它线性对数级别的排序算法都要小。
+Quicksort is the fastest general-purpose sorting algorithm. Its inner loop has very few instructions, and it can use the cache because it always accesses data sequentially. Its running time is approximately \~cNlogN, where c is smaller than in other linearithmic sorting algorithms.
 
-使用三向切分快速排序，实际应用中可能出现的某些分布的输入能够达到线性级别，而其它排序算法仍然需要线性对数时间。
+With three-way partitioning quicksort, some input distributions that may occur in real applications can be sorted in linear time, while other sorting algorithms still require linearithmic time.
 
 ### 2. Java Sorting Implementations
 
-Java 主要排序方法为 java.util.Arrays.sort()，对于原始数据类型使用三向切分的快速排序，对于引用类型使用归并排序。 
+Java's main sorting method is java.util.Arrays.sort(). It uses three-way partitioning quicksort for primitive data types and merge sort for reference types.

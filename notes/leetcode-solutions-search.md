@@ -1,71 +1,71 @@
 # LeetCode Solutions - Search / Backtracking
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 搜索](#leetcode-solutions---search--backtracking)
+* [LeetCode Solutions - Search / Backtracking](#leetcode-solutions---search--backtracking)
     * [BFS](#bfs)
-        * [1. 计算在网格中从原点到特定点的最短路径长度](#1-shortest-path-in-binary-matrix)
-        * [2. 组成整数的最小平方数数量](#2-perfect-squares)
-        * [3. 最短单词路径](#3-word-ladder)
+        * [1. Shortest Path in Binary Matrix](#1-shortest-path-in-binary-matrix)
+        * [2. Perfect Squares](#2-perfect-squares)
+        * [3. Word Ladder](#3-word-ladder)
     * [DFS](#dfs)
-        * [1. 查找最大的连通面积](#1-max-area-of-island)
-        * [2. 矩阵中的连通分量数目](#2-number-of-islands)
-        * [3. 好友关系的连通分量数目](#3-friend-circles)
-        * [4. 填充封闭区域](#4-surrounded-regions)
-        * [5. 能到达的太平洋和大西洋的区域](#5-pacific-atlantic-water-flow)
+        * [1. Max Area of Island](#1-max-area-of-island)
+        * [2. Number of Islands](#2-number-of-islands)
+        * [3. Friend Circles](#3-friend-circles)
+        * [4. Surrounded Regions](#4-surrounded-regions)
+        * [5. Pacific Atlantic Water Flow](#5-pacific-atlantic-water-flow)
     * [Backtracking](#backtracking)
-        * [1. 数字键盘组合](#1-letter-combinations-of-a-phone-number)
-        * [2. IP 地址划分](#2-restore-ip-addresses)
-        * [3. 在矩阵中寻找字符串](#3-word-search)
-        * [4. 输出二叉树中所有从根到叶子的路径](#4-binary-tree-paths)
-        * [5. 排列](#5-permutations)
-        * [6. 含有相同元素求排列](#6-permutations-ii)
-        * [7. 组合](#7-combinations)
-        * [8. 组合求和](#8-combination-sum)
-        * [9. 含有相同元素的组合求和](#9-combination-sum-ii)
-        * [10. 1-9 数字的组合求和](#10-combination-sum-iii)
-        * [11. 子集](#11-subsets)
-        * [12. 含有相同元素求子集](#12-subsets-ii)
-        * [13. 分割字符串使得每个部分都是回文数](#13-palindrome-partitioning)
-        * [14. 数独](#14-sudoku-solver)
-        * [15. N 皇后](#15-n-queens)
+        * [1. Letter Combinations of a Phone Number](#1-letter-combinations-of-a-phone-number)
+        * [2. Restore IP Addresses](#2-restore-ip-addresses)
+        * [3. Word Search](#3-word-search)
+        * [4. Binary Tree Paths](#4-binary-tree-paths)
+        * [5. Permutations](#5-permutations)
+        * [6. Permutations II](#6-permutations-ii)
+        * [7. Combinations](#7-combinations)
+        * [8. Combination Sum](#8-combination-sum)
+        * [9. Combination Sum II](#9-combination-sum-ii)
+        * [10. Combination Sum III](#10-combination-sum-iii)
+        * [11. Subsets](#11-subsets)
+        * [12. Subsets II](#12-subsets-ii)
+        * [13. Palindrome Partitioning](#13-palindrome-partitioning)
+        * [14. Sudoku Solver](#14-sudoku-solver)
+        * [15. N-Queens](#15-n-queens)
 <!-- GFM-TOC -->
 
 
-深度优先搜索和广度优先搜索广泛运用于树和图中，但是它们的应用远远不止如此。
+Depth-first search and breadth-first search are widely used in trees and graphs, but their applications go far beyond that.
 
 ## BFS
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/95903878-725b-4ed9-bded-bc4aae0792a9.jpg"/> </div><br>
 
-广度优先搜索一层一层地进行遍历，每层遍历都是以上一层遍历的结果作为起点，遍历一个距离能访问到的所有节点。需要注意的是，遍历过的节点不能再次被遍历。
+Breadth-first search traverses level by level. Each level starts from the result of the previous level and visits all nodes reachable within one more distance. Note that visited nodes must not be visited again.
 
-第一层：
+First level:
 
 - 0 -\> {6,2,1,5}
 
-第二层：
+Second level:
 
 - 6 -\> {4}
 - 2 -\> {}
 - 1 -\> {}
 - 5 -\> {3}
 
-第三层：
+Third level:
 
 - 4 -\> {}
 - 3 -\> {}
 
-每一层遍历的节点都与根节点距离相同。设 d<sub>i</sub> 表示第 i 个节点与根节点的距离，推导出一个结论：对于先遍历的节点 i 与后遍历的节点 j，有 d<sub>i</sub> <= d<sub>j</sub>。利用这个结论，可以求解最短路径等   **最优解**   问题：第一次遍历到目的节点，其所经过的路径为最短路径。应该注意的是，使用 BFS 只能求解无权图的最短路径，无权图是指从一个节点到另一个节点的代价都记为 1。
+Nodes traversed on the same level have the same distance from the root. Let d<sub>i</sub> denote the distance from the i-th node to the root. We can derive that for a node i visited earlier and a node j visited later, d<sub>i</sub> <= d<sub>j</sub>. Using this property, BFS can solve **optimal solution** problems such as shortest paths: the first path that reaches the target node is the shortest path. Note that BFS can solve shortest paths only in unweighted graphs, where the cost from one node to another is counted as 1.
 
-在程序实现 BFS 时需要考虑以下问题：
+When implementing BFS, consider the following:
 
-- 队列：用来存储每一轮遍历得到的节点；
-- 标记：对于遍历过的节点，应该将它标记，防止重复遍历。
+- Queue: stores the nodes obtained in each traversal round.
+- Marking: visited nodes should be marked to prevent repeated traversal.
 
 ### 1. Shortest Path in Binary Matrix
 
 1091\. Shortest Path in Binary Matrix(Medium)
 
-[Leetcode](https://leetcode.com/problems/shortest-path-in-binary-matrix/) / [力扣](https://leetcode-cn.com/problems/shortest-path-in-binary-matrix/)
+[Leetcode](https://leetcode.com/problems/shortest-path-in-binary-matrix/) / [LeetCode CN](https://leetcode-cn.com/problems/shortest-path-in-binary-matrix/)
 
 ```html
 [[1,1,0,1],
@@ -74,7 +74,7 @@
  [1,0,1,1]]
 ```
 
-题目描述：0 表示可以经过某个位置，求解从左上角到右下角的最短路径长度。
+Problem description: 0 indicates a passable cell. Find the length of the shortest path from the top-left corner to the bottom-right corner.
 
 ```java
 public int shortestPathBinaryMatrix(int[][] grids) {
@@ -98,7 +98,7 @@ public int shortestPathBinaryMatrix(int[][] grids) {
                 if (cr == m - 1 && cc == n - 1) {
                     return pathLength;
                 }
-                grids[cr][cc] = 1; // 标记
+                grids[cr][cc] = 1; // mark
                 for (int[] d : direction) {
                     int nr = cr + d[0], nc = cc + d[1];
                     if (nr < 0 || nr >= m || nc < 0 || nc >= n) {
@@ -116,17 +116,17 @@ public int shortestPathBinaryMatrix(int[][] grids) {
 
 279\. Perfect Squares (Medium)
 
-[Leetcode](https://leetcode.com/problems/perfect-squares/description/) / [力扣](https://leetcode-cn.com/problems/perfect-squares/description/)
+[Leetcode](https://leetcode.com/problems/perfect-squares/description/) / [LeetCode CN](https://leetcode-cn.com/problems/perfect-squares/description/)
 
 ```html
 For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
 ```
 
-可以将每个整数看成图中的一个节点，如果两个整数之差为一个平方数，那么这两个整数所在的节点就有一条边。
+Each integer can be viewed as a node in a graph. If the difference between two integers is a perfect square, there is an edge between the nodes for those two integers.
 
-要求解最小的平方数数量，就是求解从节点 n 到节点 0 的最短路径。
+Finding the minimum number of perfect squares is equivalent to finding the shortest path from node n to node 0.
 
-本题也可以用动态规划求解，在之后动态规划部分中会再次出现。
+This problem can also be solved with dynamic programming and appears again in the later dynamic programming section.
 
 ```java
 public int numSquares(int n) {
@@ -161,7 +161,7 @@ public int numSquares(int n) {
 }
 
 /**
- * 生成小于 n 的平方数序列
+ * Generate the sequence of perfect squares less than n.
  * @return 1,4,9,...
  */
 private List<Integer> generateSquares(int n) {
@@ -181,7 +181,7 @@ private List<Integer> generateSquares(int n) {
 
 127\. Word Ladder (Medium)
 
-[Leetcode](https://leetcode.com/problems/word-ladder/description/) / [力扣](https://leetcode-cn.com/problems/word-ladder/description/)
+[Leetcode](https://leetcode.com/problems/word-ladder/description/) / [LeetCode CN](https://leetcode-cn.com/problems/word-ladder/description/)
 
 ```html
 Input:
@@ -206,7 +206,7 @@ Output: 0
 Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.
 ```
 
-题目描述：找出一条从 beginWord 到 endWord 的最短路径，每次移动规定为改变一个字符，并且改变之后的字符串必须在 wordList 中。
+Problem description: Find the shortest path from beginWord to endWord. Each move changes exactly one character, and the changed string must be in wordList.
 
 ```java
 public int ladderLength(String beginWord, String endWord, List<String> wordList) {
@@ -279,22 +279,22 @@ private int getShortestPath(List<Integer>[] graphic, int start, int end) {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/74dc31eb-6baa-47ea-ab1c-d27a0ca35093.png"/> </div><br>
 
-广度优先搜索一层一层遍历，每一层得到的所有新节点，要用队列存储起来以备下一层遍历的时候再遍历。
+Breadth-first search traverses level by level. All new nodes obtained at each level are stored in a queue so they can be traversed at the next level.
 
-而深度优先搜索在得到一个新节点时立即对新节点进行遍历：从节点 0 出发开始遍历，得到到新节点 6 时，立马对新节点 6 进行遍历，得到新节点 4；如此反复以这种方式遍历新节点，直到没有新节点了，此时返回。返回到根节点 0 的情况是，继续对根节点 0 进行遍历，得到新节点 2，然后继续以上步骤。
+Depth-first search traverses a new node immediately after discovering it: starting from node 0, when new node 6 is found, DFS immediately traverses node 6 and finds new node 4. It repeats this process until no new nodes remain, then returns. After returning to root node 0, it continues traversing root node 0, finds new node 2, and repeats the process.
 
-从一个节点出发，使用 DFS 对一个图进行遍历时，能够遍历到的节点都是从初始节点可达的，DFS 常用来求解这种   **可达性**   问题。
+When DFS traverses a graph from one node, all nodes it can visit are reachable from the starting node. DFS is often used to solve this kind of **reachability** problem.
 
-在程序实现 DFS 时需要考虑以下问题：
+When implementing DFS, consider the following:
 
-- 栈：用栈来保存当前节点信息，当遍历新节点返回时能够继续遍历当前节点。可以使用递归栈。
-- 标记：和 BFS 一样同样需要对已经遍历过的节点进行标记。
+- Stack: use a stack to save information about the current node, so traversal can continue at the current node after returning from a new node. A recursion stack can be used.
+- Marking: as with BFS, visited nodes also need to be marked.
 
 ### 1. Max Area of Island
 
 695\. Max Area of Island (Medium)
 
-[Leetcode](https://leetcode.com/problems/max-area-of-island/description/) / [力扣](https://leetcode-cn.com/problems/max-area-of-island/description/)
+[Leetcode](https://leetcode.com/problems/max-area-of-island/description/) / [LeetCode CN](https://leetcode-cn.com/problems/max-area-of-island/description/)
 
 ```html
 [[0,0,1,0,0,0,0,1,0,0,0,0,0],
@@ -343,7 +343,7 @@ private int dfs(int[][] grid, int r, int c) {
 
 200\. Number of Islands (Medium)
 
-[Leetcode](https://leetcode.com/problems/number-of-islands/description/) / [力扣](https://leetcode-cn.com/problems/number-of-islands/description/)
+[Leetcode](https://leetcode.com/problems/number-of-islands/description/) / [LeetCode CN](https://leetcode-cn.com/problems/number-of-islands/description/)
 
 ```html
 Input:
@@ -355,7 +355,7 @@ Input:
 Output: 3
 ```
 
-可以将矩阵表示看成一张有向图。
+The matrix representation can be viewed as a directed graph.
 
 ```java
 private int m, n;
@@ -394,7 +394,7 @@ private void dfs(char[][] grid, int i, int j) {
 
 547\. Friend Circles (Medium)
 
-[Leetcode](https://leetcode.com/problems/friend-circles/description/) / [力扣](https://leetcode-cn.com/problems/friend-circles/description/)
+[Leetcode](https://leetcode.com/problems/friend-circles/description/) / [LeetCode CN](https://leetcode-cn.com/problems/friend-circles/description/)
 
 ```html
 Input:
@@ -408,7 +408,7 @@ Explanation:The 0th and 1st students are direct friends, so they are in a friend
 The 2nd student himself is in a friend circle. So return 2.
 ```
 
-题目描述：好友关系可以看成是一个无向图，例如第 0 个人与第 1 个人是好友，那么 M[0][1] 和 M[1][0] 的值都为 1。
+Problem description: Friend relationships can be viewed as an undirected graph. For example, if person 0 and person 1 are friends, then both M[0][1] and M[1][0] are 1.
 
 ```java
 private int n;
@@ -440,7 +440,7 @@ private void dfs(int[][] M, int i, boolean[] hasVisited) {
 
 130\. Surrounded Regions (Medium)
 
-[Leetcode](https://leetcode.com/problems/surrounded-regions/description/) / [力扣](https://leetcode-cn.com/problems/surrounded-regions/description/)
+[Leetcode](https://leetcode.com/problems/surrounded-regions/description/) / [LeetCode CN](https://leetcode-cn.com/problems/surrounded-regions/description/)
 
 ```html
 For example,
@@ -456,9 +456,9 @@ X X X X
 X O X X
 ```
 
-题目描述：使被 'X' 包围的 'O' 转换为 'X'。
+Problem description: Convert each 'O' surrounded by 'X' into 'X'.
 
-先填充最外侧，剩下的就是里侧了。
+Fill the outer border first; the remaining cells are inside.
 
 ```java
 private int[][] direction = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
@@ -507,7 +507,7 @@ private void dfs(char[][] board, int r, int c) {
 
 417\. Pacific Atlantic Water Flow (Medium)
 
-[Leetcode](https://leetcode.com/problems/pacific-atlantic-water-flow/description/) / [力扣](https://leetcode-cn.com/problems/pacific-atlantic-water-flow/description/)
+[Leetcode](https://leetcode.com/problems/pacific-atlantic-water-flow/description/) / [LeetCode CN](https://leetcode-cn.com/problems/pacific-atlantic-water-flow/description/)
 
 ```html
 Given the following 5x5 matrix:
@@ -524,7 +524,7 @@ Return:
 [[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (positions with parentheses in above matrix).
 ```
 
-左边和上边是太平洋，右边和下边是大西洋，内部的数字代表海拔，海拔高的地方的水能够流到低的地方，求解水能够流到太平洋和大西洋的所有位置。
+The left and top edges are the Pacific Ocean, and the right and bottom edges are the Atlantic Ocean. Numbers inside the matrix represent elevation. Water can flow from higher elevations to lower elevations. Find all positions from which water can flow to both the Pacific and Atlantic oceans.
 
 ```java
 private int m, n;
@@ -583,21 +583,21 @@ private void dfs(int r, int c, boolean[][] canReach) {
 
 ## Backtracking
 
-Backtracking（回溯）属于 DFS。
+Backtracking belongs to DFS.
 
-- 普通 DFS 主要用在   **可达性问题**  ，这种问题只需要执行到特点的位置然后返回即可。
-- 而 Backtracking 主要用于求解   **排列组合**   问题，例如有 { 'a','b','c' } 三个字符，求解所有由这三个字符排列得到的字符串，这种问题在执行到特定的位置返回之后还会继续执行求解过程。
+- Regular DFS is mainly used for **reachability problems**, where it only needs to execute until a specific position and then return.
+- Backtracking is mainly used to solve **permutation and combination** problems. For example, given three characters { 'a','b','c' }, find all strings formed by permuting them. In this kind of problem, after returning from a specific position, the solving process continues.
 
-因为 Backtracking 不是立即返回，而要继续求解，因此在程序实现时，需要注意对元素的标记问题：
+Because backtracking does not return immediately and must continue solving, pay attention to element marking in implementation:
 
-- 在访问一个新元素进入新的递归调用时，需要将新元素标记为已经访问，这样才能在继续递归调用时不用重复访问该元素；
-- 但是在递归返回时，需要将元素标记为未访问，因为只需要保证在一个递归链中不同时访问一个元素，可以访问已经访问过但是不在当前递归链中的元素。
+- When visiting a new element and entering a new recursive call, mark the new element as visited so it is not visited again during continued recursion.
+- When returning from recursion, mark the element as unvisited, because the only requirement is that the same element is not visited twice within one recursive chain. Elements that were visited before but are not in the current recursive chain can be visited.
 
 ### 1. Letter Combinations of a Phone Number
 
 17\. Letter Combinations of a Phone Number (Medium)
 
-[Leetcode](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/) / [力扣](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/description/)
+[Leetcode](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/) / [LeetCode CN](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/description/)
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9823768c-212b-4b1a-b69a-b3f59e07b977.jpg"/> </div><br>
 
@@ -626,9 +626,9 @@ private void doCombination(StringBuilder prefix, List<String> combinations, fina
     int curDigits = digits.charAt(prefix.length()) - '0';
     String letters = KEYS[curDigits];
     for (char c : letters.toCharArray()) {
-        prefix.append(c);                         // 添加
+        prefix.append(c);                         // add
         doCombination(prefix, combinations, digits);
-        prefix.deleteCharAt(prefix.length() - 1); // 删除
+        prefix.deleteCharAt(prefix.length() - 1); // delete
     }
 }
 ```
@@ -637,7 +637,7 @@ private void doCombination(StringBuilder prefix, List<String> combinations, fina
 
 93\. Restore IP Addresses(Medium)
 
-[Leetcode](https://leetcode.com/problems/restore-ip-addresses/description/) / [力扣](https://leetcode-cn.com/problems/restore-ip-addresses/description/)
+[Leetcode](https://leetcode.com/problems/restore-ip-addresses/description/) / [LeetCode CN](https://leetcode-cn.com/problems/restore-ip-addresses/description/)
 
 ```html
 Given "25525511135",
@@ -680,7 +680,7 @@ private void doRestore(int k, StringBuilder tempAddress, List<String> addresses,
 
 79\. Word Search (Medium)
 
-[Leetcode](https://leetcode.com/problems/word-search/description/) / [力扣](https://leetcode-cn.com/problems/word-search/description/)
+[Leetcode](https://leetcode.com/problems/word-search/description/) / [LeetCode CN](https://leetcode-cn.com/problems/word-search/description/)
 
 ```html
 For example,
@@ -751,7 +751,7 @@ private boolean backtracking(int curLen, int r, int c, boolean[][] visited, fina
 
 257\. Binary Tree Paths (Easy)
 
-[Leetcode](https://leetcode.com/problems/binary-tree-paths/description/) / [力扣](https://leetcode-cn.com/problems/binary-tree-paths/description/)
+[Leetcode](https://leetcode.com/problems/binary-tree-paths/description/) / [LeetCode CN](https://leetcode-cn.com/problems/binary-tree-paths/description/)
 
 ```html
   1
@@ -811,7 +811,7 @@ private String buildPath(List<Integer> values) {
 
 46\. Permutations (Medium)
 
-[Leetcode](https://leetcode.com/problems/permutations/description/) / [力扣](https://leetcode-cn.com/problems/permutations/description/)
+[Leetcode](https://leetcode.com/problems/permutations/description/) / [LeetCode CN](https://leetcode-cn.com/problems/permutations/description/)
 
 ```html
 [1,2,3] have the following permutations:
@@ -836,7 +836,7 @@ public List<List<Integer>> permute(int[] nums) {
 
 private void backtracking(List<Integer> permuteList, List<List<Integer>> permutes, boolean[] visited, final int[] nums) {
     if (permuteList.size() == nums.length) {
-        permutes.add(new ArrayList<>(permuteList)); // 重新构造一个 List
+        permutes.add(new ArrayList<>(permuteList)); // build a new List
         return;
     }
     for (int i = 0; i < visited.length; i++) {
@@ -856,22 +856,22 @@ private void backtracking(List<Integer> permuteList, List<List<Integer>> permute
 
 47\. Permutations II (Medium)
 
-[Leetcode](https://leetcode.com/problems/permutations-ii/description/) / [力扣](https://leetcode-cn.com/problems/permutations-ii/description/)
+[Leetcode](https://leetcode.com/problems/permutations-ii/description/) / [LeetCode CN](https://leetcode-cn.com/problems/permutations-ii/description/)
 
 ```html
 [1,1,2] have the following unique permutations:
 [[1,1,2], [1,2,1], [2,1,1]]
 ```
 
-数组元素可能含有相同的元素，进行排列时就有可能出现重复的排列，要求重复的排列只返回一个。
+Array elements may contain duplicates, so duplicate permutations may appear. Duplicate permutations should be returned only once.
 
-在实现上，和 Permutations 不同的是要先排序，然后在添加一个元素时，判断这个元素是否等于前一个元素，如果等于，并且前一个元素还未访问，那么就跳过这个元素。
+In implementation, unlike Permutations, sort first. Then, when adding an element, check whether it equals the previous element. If it does, and the previous element has not been visited, skip this element.
 
 ```java
 public List<List<Integer>> permuteUnique(int[] nums) {
     List<List<Integer>> permutes = new ArrayList<>();
     List<Integer> permuteList = new ArrayList<>();
-    Arrays.sort(nums);  // 排序
+    Arrays.sort(nums);  // sort
     boolean[] hasVisited = new boolean[nums.length];
     backtracking(permuteList, permutes, hasVisited, nums);
     return permutes;
@@ -885,7 +885,7 @@ private void backtracking(List<Integer> permuteList, List<List<Integer>> permute
 
     for (int i = 0; i < visited.length; i++) {
         if (i != 0 && nums[i] == nums[i - 1] && !visited[i - 1]) {
-            continue;  // 防止重复
+            continue;  // prevent duplicates
         }
         if (visited[i]){
             continue;
@@ -903,7 +903,7 @@ private void backtracking(List<Integer> permuteList, List<List<Integer>> permute
 
 77\. Combinations (Medium)
 
-[Leetcode](https://leetcode.com/problems/combinations/description/) / [力扣](https://leetcode-cn.com/problems/combinations/description/)
+[Leetcode](https://leetcode.com/problems/combinations/description/) / [LeetCode CN](https://leetcode-cn.com/problems/combinations/description/)
 
 ```html
 If n = 4 and k = 2, a solution is:
@@ -930,7 +930,7 @@ private void backtracking(List<Integer> combineList, List<List<Integer>> combina
         combinations.add(new ArrayList<>(combineList));
         return;
     }
-    for (int i = start; i <= n - k + 1; i++) {  // 剪枝
+    for (int i = start; i <= n - k + 1; i++) {  // pruning
         combineList.add(i);
         backtracking(combineList, combinations, i + 1, k - 1, n);
         combineList.remove(combineList.size() - 1);
@@ -942,7 +942,7 @@ private void backtracking(List<Integer> combineList, List<List<Integer>> combina
 
 39\. Combination Sum (Medium)
 
-[Leetcode](https://leetcode.com/problems/combination-sum/description/) / [力扣](https://leetcode-cn.com/problems/combination-sum/description/)
+[Leetcode](https://leetcode.com/problems/combination-sum/description/) / [LeetCode CN](https://leetcode-cn.com/problems/combination-sum/description/)
 
 ```html
 given candidate set [2, 3, 6, 7] and target 7,
@@ -978,7 +978,7 @@ private void backtracking(List<Integer> tempCombination, List<List<Integer>> com
 
 40\. Combination Sum II (Medium)
 
-[Leetcode](https://leetcode.com/problems/combination-sum-ii/description/) / [力扣](https://leetcode-cn.com/problems/combination-sum-ii/description/)
+[Leetcode](https://leetcode.com/problems/combination-sum-ii/description/) / [LeetCode CN](https://leetcode-cn.com/problems/combination-sum-ii/description/)
 
 ```html
 For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8,
@@ -1025,7 +1025,7 @@ private void backtracking(List<Integer> tempCombination, List<List<Integer>> com
 
 216\. Combination Sum III (Medium)
 
-[Leetcode](https://leetcode.com/problems/combination-sum-iii/description/) / [力扣](https://leetcode-cn.com/problems/combination-sum-iii/description/)
+[Leetcode](https://leetcode.com/problems/combination-sum-iii/description/) / [LeetCode CN](https://leetcode-cn.com/problems/combination-sum-iii/description/)
 
 ```html
 Input: k = 3, n = 9
@@ -1035,7 +1035,7 @@ Output:
 [[1,2,6], [1,3,5], [2,3,4]]
 ```
 
-从 1-9 数字中选出 k 个数不重复的数，使得它们的和为 n。
+Choose k distinct numbers from 1 through 9 such that their sum is n.
 
 ```java
 public List<List<Integer>> combinationSum3(int k, int n) {
@@ -1067,16 +1067,16 @@ private void backtracking(int k, int n, int start,
 
 78\. Subsets (Medium)
 
-[Leetcode](https://leetcode.com/problems/subsets/description/) / [力扣](https://leetcode-cn.com/problems/subsets/description/)
+[Leetcode](https://leetcode.com/problems/subsets/description/) / [LeetCode CN](https://leetcode-cn.com/problems/subsets/description/)
 
-找出集合的所有子集，子集不能重复，[1, 2] 和 [2, 1] 这种子集算重复
+Find all subsets of a set. Subsets cannot be duplicated; subsets such as [1, 2] and [2, 1] count as duplicates.
 
 ```java
 public List<List<Integer>> subsets(int[] nums) {
     List<List<Integer>> subsets = new ArrayList<>();
     List<Integer> tempSubset = new ArrayList<>();
     for (int size = 0; size <= nums.length; size++) {
-        backtracking(0, tempSubset, subsets, size, nums); // 不同的子集大小
+        backtracking(0, tempSubset, subsets, size, nums); // different subset sizes
     }
     return subsets;
 }
@@ -1100,7 +1100,7 @@ private void backtracking(int start, List<Integer> tempSubset, List<List<Integer
 
 90\. Subsets II (Medium)
 
-[Leetcode](https://leetcode.com/problems/subsets-ii/description/) / [力扣](https://leetcode-cn.com/problems/subsets-ii/description/)
+[Leetcode](https://leetcode.com/problems/subsets-ii/description/) / [LeetCode CN](https://leetcode-cn.com/problems/subsets-ii/description/)
 
 ```html
 For example,
@@ -1123,7 +1123,7 @@ public List<List<Integer>> subsetsWithDup(int[] nums) {
     List<Integer> tempSubset = new ArrayList<>();
     boolean[] hasVisited = new boolean[nums.length];
     for (int size = 0; size <= nums.length; size++) {
-        backtracking(0, tempSubset, subsets, hasVisited, size, nums); // 不同的子集大小
+        backtracking(0, tempSubset, subsets, hasVisited, size, nums); // different subset sizes
     }
     return subsets;
 }
@@ -1152,7 +1152,7 @@ private void backtracking(int start, List<Integer> tempSubset, List<List<Integer
 
 131\. Palindrome Partitioning (Medium)
 
-[Leetcode](https://leetcode.com/problems/palindrome-partitioning/description/) / [力扣](https://leetcode-cn.com/problems/palindrome-partitioning/description/)
+[Leetcode](https://leetcode.com/problems/palindrome-partitioning/description/) / [LeetCode CN](https://leetcode-cn.com/problems/palindrome-partitioning/description/)
 
 ```html
 For example, given s = "aab",
@@ -1200,7 +1200,7 @@ private boolean isPalindrome(String s, int begin, int end) {
 
 37\. Sudoku Solver (Hard)
 
-[Leetcode](https://leetcode.com/problems/sudoku-solver/description/) / [力扣](https://leetcode-cn.com/problems/sudoku-solver/description/)
+[Leetcode](https://leetcode.com/problems/sudoku-solver/description/) / [LeetCode CN](https://leetcode-cn.com/problems/sudoku-solver/description/)
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0e8fdc96-83c1-4798-9abe-45fc91d70b9d.png"/> </div><br>
 
@@ -1259,20 +1259,20 @@ private int cubeNum(int i, int j) {
 
 51\. N-Queens (Hard)
 
-[Leetcode](https://leetcode.com/problems/n-queens/description/) / [力扣](https://leetcode-cn.com/problems/n-queens/description/)
+[Leetcode](https://leetcode.com/problems/n-queens/description/) / [LeetCode CN](https://leetcode-cn.com/problems/n-queens/description/)
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/067b310c-6877-40fe-9dcf-10654e737485.jpg"/> </div><br>
 
-在 n\*n 的矩阵中摆放 n 个皇后，并且每个皇后不能在同一行，同一列，同一对角线上，求所有的 n 皇后的解。
+Place n queens on an n\*n matrix so that no two queens are in the same row, column, or diagonal. Find all solutions to the n-queens problem.
 
-一行一行地摆放，在确定一行中的那个皇后应该摆在哪一列时，需要用三个标记数组来确定某一列是否合法，这三个标记数组分别为：列标记数组、45 度对角线标记数组和 135 度对角线标记数组。
+Place queens row by row. When deciding which column to place the queen in for a row, use three marking arrays to determine whether a column is valid: a column marking array, a 45-degree diagonal marking array, and a 135-degree diagonal marking array.
 
-45 度对角线标记数组的长度为 2 \* n - 1，通过下图可以明确 (r, c) 的位置所在的数组下标为 r + c。
+The length of the 45-degree diagonal marking array is 2 \* n - 1. The figure below shows that the array index for position (r, c) is r + c.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9c422923-1447-4a3b-a4e1-97e663738187.jpg" width="300px"> </div><br>
 
 
-135 度对角线标记数组的长度也是 2 \* n - 1，(r, c) 的位置所在的数组下标为 n - 1 - (r - c)。
+The length of the 135-degree diagonal marking array is also 2 \* n - 1. The array index for position (r, c) is n - 1 - (r - c).
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7a85e285-e152-4116-b6dc-3fab27ba9437.jpg" width="300px"> </div><br>
 

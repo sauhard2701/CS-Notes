@@ -1,132 +1,132 @@
 # Distributed Systems
 <!-- GFM-TOC -->
-* [分布式](#distributed-systems)
-    * [一、分布式锁](#1-distributed-locks)
-        * [数据库的唯一索引](#database-unique-indexes)
-        * [Redis 的 SETNX 指令](#redis-setnx-command)
-        * [Redis 的 RedLock 算法](#redis-redlock-algorithm)
-        * [Zookeeper 的有序节点](#zookeeper-ordered-nodes)
-    * [二、分布式事务](#2-distributed-transactions)
+* [Distributed Systems](#distributed-systems)
+    * [1. Distributed Locks](#1-distributed-locks)
+        * [Database Unique Indexes](#database-unique-indexes)
+        * [Redis SETNX Command](#redis-setnx-command)
+        * [Redis RedLock Algorithm](#redis-redlock-algorithm)
+        * [Zookeeper Ordered Nodes](#zookeeper-ordered-nodes)
+    * [2. Distributed Transactions](#2-distributed-transactions)
         * [2PC](#2pc)
-        * [本地消息表](#local-message-table)
-    * [三、CAP](#3-cap)
-        * [一致性](#consistency)
-        * [可用性](#availability)
-        * [分区容忍性](#partition-tolerance)
-        * [权衡](#tradeoffs)
-    * [四、BASE](#4-base)
-        * [基本可用](#basically-available)
-        * [软状态](#soft-state)
-        * [最终一致性](#eventual-consistency)
-    * [五、Paxos](#5-paxos)
-        * [执行过程](#execution-process)
-        * [约束条件](#constraints)
-    * [六、Raft](#6-raft)
-        * [单个 Candidate 的竞选](#single-candidate-election)
-        * [多个 Candidate 竞选](#multiple-candidate-election)
-        * [数据同步](#data-synchronization)
-    * [参考](#references)
+        * [Local Message Table](#local-message-table)
+    * [3. CAP](#3-cap)
+        * [Consistency](#consistency)
+        * [Availability](#availability)
+        * [Partition Tolerance](#partition-tolerance)
+        * [Tradeoffs](#tradeoffs)
+    * [4. BASE](#4-base)
+        * [Basically Available](#basically-available)
+        * [Soft State](#soft-state)
+        * [Eventual Consistency](#eventual-consistency)
+    * [5. Paxos](#5-paxos)
+        * [Execution Process](#execution-process)
+        * [Constraints](#constraints)
+    * [6. Raft](#6-raft)
+        * [Single Candidate Election](#single-candidate-election)
+        * [Multiple Candidate Election](#multiple-candidate-election)
+        * [Data Synchronization](#data-synchronization)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
 ## 1. Distributed Locks
 
-在单机场景下，可以使用语言的内置锁来实现进程同步。但是在分布式场景下，需要同步的进程可能位于不同的节点上，那么就需要使用分布式锁。
+In a single-machine scenario, a language's built-in locks can be used for process synchronization. In a distributed scenario, however, processes that need synchronization may be on different nodes, so distributed locks are needed.
 
-阻塞锁通常使用互斥量来实现：
+Blocking locks are usually implemented with a mutex:
 
-- 互斥量为 0 表示有其它进程在使用锁，此时处于锁定状态；
-- 互斥量为 1 表示未锁定状态。
+- A mutex value of 0 means another process is using the lock, so it is locked;
+- A mutex value of 1 means it is unlocked.
 
-1 和 0 可以用一个整型值表示，也可以用某个数据是否存在表示。
+1 and 0 can be represented by an integer value or by whether some data exists.
 
 ### Database Unique Indexes
 
-获得锁时向表中插入一条记录，释放锁时删除这条记录。唯一索引可以保证该记录只被插入一次，那么就可以用这个记录是否存在来判断是否处于锁定状态。
+Insert a record into a table when acquiring the lock, and delete the record when releasing the lock. A unique index guarantees that the record can be inserted only once, so whether the record exists can indicate whether the lock is held.
 
-存在以下几个问题：
+This has the following problems:
 
-- 锁没有失效时间，解锁失败的话其它进程无法再获得该锁；
-- 只能是非阻塞锁，插入失败直接就报错了，无法重试；
-- 不可重入，已经获得锁的进程也必须重新获取锁。
+- The lock has no expiration time. If unlocking fails, other processes can no longer acquire the lock;
+- It can only be a non-blocking lock. If insertion fails, an error is returned directly and retry is impossible;
+- It is not reentrant. A process that already holds the lock must acquire it again.
 
 ### Redis SETNX Command
 
-使用 SETNX（set if not exist）指令插入一个键值对，如果 Key 已经存在，那么会返回 False，否则插入成功并返回 True。
+Use the SETNX (set if not exist) command to insert a key-value pair. If the key already exists, it returns False; otherwise, insertion succeeds and it returns True.
 
-SETNX 指令和数据库的唯一索引类似，保证了只存在一个 Key 的键值对，那么可以用一个 Key 的键值对是否存在来判断是否存于锁定状态。
+SETNX is similar to a database unique index. It guarantees that only one key-value pair for the key exists, so the existence of that key-value pair can indicate whether the lock is held.
 
-EXPIRE 指令可以为一个键值对设置一个过期时间，从而避免了数据库唯一索引实现方式中释放锁失败的问题。
+The EXPIRE command can set an expiration time for a key-value pair, avoiding the failed-lock-release problem in the database unique index approach.
 
 ### Redis RedLock Algorithm
 
-使用了多个 Redis 实例来实现分布式锁，这是为了保证在发生单点故障时仍然可用。
+This algorithm uses multiple Redis instances to implement distributed locks, ensuring availability even when a single point fails.
 
-- 尝试从 N 个互相独立 Redis 实例获取锁；
-- 计算获取锁消耗的时间，只有时间小于锁的过期时间，并且从大多数（N / 2 + 1）实例上获取了锁，才认为获取锁成功；
-- 如果获取锁失败，就到每个实例上释放锁。
+- Try to acquire the lock from N independent Redis instances;
+- Calculate the time spent acquiring the lock. The lock is considered acquired only if the time is less than the lock expiration time and the lock was acquired from a majority (N / 2 + 1) of instances;
+- If acquiring the lock fails, release the lock on each instance.
 
 ### Zookeeper Ordered Nodes
 
 #### 1. Zookeeper Abstract Model
 
-Zookeeper 提供了一种树形结构的命名空间，/app1/p_1 节点的父节点为 /app1。
+Zookeeper provides a tree-structured namespace. The parent node of /app1/p_1 is /app1.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/aefa8042-15fa-4e8b-9f50-20b282a2c624.png" width="320px"> </div><br>
 
 #### 2. Node Types
 
-- 永久节点：不会因为会话结束或者超时而消失；
-- 临时节点：如果会话结束或者超时就会消失；
-- 有序节点：会在节点名的后面加一个数字后缀，并且是有序的，例如生成的有序节点为 /lock/node-0000000000，它的下一个有序节点则为 /lock/node-0000000001，以此类推。
+- Persistent node: does not disappear when a session ends or times out;
+- Ephemeral node: disappears when a session ends or times out;
+- Sequential node: appends an ordered numeric suffix to the node name. For example, a generated sequential node may be /lock/node-0000000000, and the next sequential node is /lock/node-0000000001, and so on.
 
 #### 3. Listeners
 
-为一个节点注册监听器，在节点状态发生改变时，会给客户端发送消息。
+Register a listener for a node. When the node state changes, a message is sent to the client.
 
 #### 4. Distributed Lock Implementation
 
-- 创建一个锁目录 /lock；
-- 当一个客户端需要获取锁时，在 /lock 下创建临时的且有序的子节点；
--  客户端获取 /lock 下的子节点列表，判断自己创建的子节点是否为当前子节点列表中序号最小的子节点，如果是则认为获得锁；否则监听自己的前一个子节点，获得子节点的变更通知后重复此步骤直至获得锁；
-- 执行业务代码，完成后，删除对应的子节点。
+- Create a lock directory /lock;
+- When a client needs to acquire the lock, create an ephemeral sequential child node under /lock;
+- The client gets the child node list under /lock and checks whether the child node it created has the smallest sequence number in the current list. If so, it has acquired the lock. Otherwise, it listens to the previous child node and repeats this step after receiving a child-node change notification until it acquires the lock;
+- Execute business code, then delete the corresponding child node after completion.
 
 #### 5. Session Timeout
 
-如果一个已经获得锁的会话超时了，因为创建的是临时节点，所以该会话对应的临时节点会被删除，其它会话就可以获得锁了。可以看到，这种实现方式不会出现数据库的唯一索引实现方式释放锁失败的问题。
+If a session that has acquired the lock times out, the ephemeral node created by that session is deleted, so other sessions can acquire the lock. This implementation avoids the failed-lock-release problem of the database unique index approach.
 
 #### 6. Herd Effect
 
-一个节点未获得锁，只需要监听自己的前一个子节点，这是因为如果监听所有的子节点，那么任意一个子节点状态改变，其它所有子节点都会收到通知（羊群效应，一只羊动起来，其它羊也会一哄而上），而我们只希望它的后一个子节点收到通知。
+A node that has not acquired the lock only needs to listen to its previous child node. If it listened to all child nodes, then whenever any child node changed state, all other child nodes would receive notifications. This is the herd effect. We only want the next child node to receive the notification.
 
 ## 2. Distributed Transactions
 
-指事务的操作位于不同的节点上，需要保证事务的 ACID 特性。
+Distributed transactions refer to transaction operations located on different nodes, while still requiring the ACID properties.
 
-例如在下单场景下，库存和订单如果不在同一个节点上，就涉及分布式事务。
+For example, in an order placement scenario, if inventory and orders are not on the same node, distributed transactions are involved.
 
-分布式锁和分布式事务区别：
+Difference between distributed locks and distributed transactions:
 
-- 锁问题的关键在于进程操作的互斥关系，例如多个进程同时修改账户的余额，如果没有互斥关系则会导致该账户的余额不正确。
-- 而事务问题的关键则在于事务涉及的一系列操作需要满足 ACID 特性，例如要满足原子性操作则需要这些操作要么都执行，要么都不执行。
+- The key issue with locks is mutual exclusion between process operations. For example, if multiple processes modify an account balance at the same time and there is no mutual exclusion, the account balance may become incorrect.
+- The key issue with transactions is that a series of operations involved in the transaction must satisfy ACID. For example, to satisfy atomicity, these operations must either all execute or none execute.
 
 ### 2PC
 
-两阶段提交（Two-phase Commit，2PC），通过引入协调者（Coordinator）来协调参与者的行为，并最终决定这些参与者是否要真正执行事务。
+Two-phase commit (2PC) introduces a coordinator to coordinate participant behavior and ultimately decide whether the participants should actually execute the transaction.
 
 #### 1. Execution Process
 
 ##### 1.1. Prepare Phase
 
-协调者询问参与者事务是否执行成功，参与者发回事务执行结果。询问可以看成一种投票，需要参与者都同意才能执行。
+The coordinator asks participants whether the transaction executed successfully, and participants send back execution results. The query can be viewed as a vote, and execution requires all participants to agree.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/44d33643-1004-43a3-b99a-4d688a08d0a1.png" width="550px"> </div><br>
 
 ##### 1.2. Commit Phase
 
-如果事务在每个参与者上都执行成功，事务协调者发送通知让参与者提交事务；否则，协调者发送通知让参与者回滚事务。
+If the transaction succeeds on every participant, the transaction coordinator sends a notification telling participants to commit. Otherwise, the coordinator tells participants to roll back.
 
-需要注意的是，在准备阶段，参与者执行了事务，但是还未提交。只有在提交阶段接收到协调者发来的通知后，才进行提交或者回滚。
+Note that in the prepare phase, participants execute the transaction but have not committed it. They commit or roll back only after receiving the coordinator's notification in the commit phase.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/d2ae9932-e2b1-4191-8ee9-e573f36d3895.png" width="550px"> </div><br>
 
@@ -134,136 +134,136 @@ Zookeeper 提供了一种树形结构的命名空间，/app1/p_1 节点的父节
 
 ##### 2.1. Synchronous Blocking
 
-所有事务参与者在等待其它参与者响应的时候都处于同步阻塞等待状态，无法进行其它操作。
+All transaction participants are synchronously blocked while waiting for other participants to respond and cannot perform other operations.
 
 ##### 2.2. Single Point of Failure
 
-协调者在 2PC 中起到非常大的作用，发生故障将会造成很大影响。特别是在提交阶段发生故障，所有参与者会一直同步阻塞等待，无法完成其它操作。
+The coordinator plays a very important role in 2PC, so coordinator failure has a large impact. If failure occurs during the commit phase in particular, all participants remain synchronously blocked and cannot complete other operations.
 
 ##### 2.3. Data Inconsistency
 
-在提交阶段，如果协调者只发送了部分 Commit 消息，此时网络发生异常，那么只有部分参与者接收到 Commit 消息，也就是说只有部分参与者提交了事务，使得系统数据不一致。
+During the commit phase, if the coordinator sends only some Commit messages and then a network exception occurs, only some participants receive the Commit message. In other words, only some participants commit the transaction, making system data inconsistent.
 
 ##### 2.4. Overly Conservative
 
-任意一个节点失败就会导致整个事务失败，没有完善的容错机制。
+Failure of any node causes the entire transaction to fail, and there is no complete fault-tolerance mechanism.
 
 ### Local Message Table
 
-本地消息表与业务数据表处于同一个数据库中，这样就能利用本地事务来保证在对这两个表的操作满足事务特性，并且使用了消息队列来保证最终一致性。
+The local message table and business data table are in the same database, so local transactions can ensure that operations on the two tables satisfy transaction properties, while a message queue ensures eventual consistency.
 
-1. 在分布式事务操作的一方完成写业务数据的操作之后向本地消息表发送一个消息，本地事务能保证这个消息一定会被写入本地消息表中。
-2. 之后将本地消息表中的消息转发到消息队列中，如果转发成功则将消息从本地消息表中删除，否则继续重新转发。
-3. 在分布式事务操作的另一方从消息队列中读取一个消息，并执行消息中的操作。
+1. After one side of the distributed transaction writes business data, it sends a message to the local message table. The local transaction guarantees that this message is written to the local message table.
+2. Then forward messages from the local message table to the message queue. If forwarding succeeds, delete the message from the local message table; otherwise, keep retrying.
+3. The other side of the distributed transaction reads a message from the message queue and executes the operation in the message.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/476329d4-e2ef-4f7b-8ac9-a52a6f784600.png" width="740px"> </div><br>
 
 
 ## 3. CAP
 
-分布式系统不可能同时满足一致性（C：Consistency）、可用性（A：Availability）和分区容忍性（P：Partition Tolerance），最多只能同时满足其中两项。
+A distributed system cannot simultaneously satisfy consistency (C), availability (A), and partition tolerance (P). At most, it can satisfy two of them at the same time.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a14268b3-b937-4ffa-a34a-4cc53071686b.jpg" width="450px"> </div><br>
 
 ### Consistency
 
-一致性指的是多个数据副本是否能保持一致的特性，在一致性的条件下，系统在执行数据更新操作之后能够从一致性状态转移到另一个一致性状态。
+Consistency is the property that multiple data replicas remain consistent. Under consistency, after the system performs a data update, it can transition from one consistent state to another.
 
-对系统的一个数据更新成功之后，如果所有用户都能够读取到最新的值，该系统就被认为具有强一致性。
+After a data update succeeds in the system, if all users can read the latest value, the system is considered strongly consistent.
 
 ### Availability
 
-可用性指分布式系统在面对各种异常时可以提供正常服务的能力，可以用系统可用时间占总时间的比值来衡量，4 个 9 的可用性表示系统 99.99% 的时间是可用的。
+Availability is the ability of a distributed system to provide normal service when facing various exceptions. It can be measured by the ratio of system available time to total time. Four nines of availability means the system is available 99.99% of the time.
 
-在可用性条件下，要求系统提供的服务一直处于可用的状态，对于用户的每一个操作请求总是能够在有限的时间内返回结果。
+Under availability, the services provided by the system must always be available, and every user operation request must return a result within a finite amount of time.
 
 ### Partition Tolerance
 
-网络分区指分布式系统中的节点被划分为多个区域，每个区域内部可以通信，但是区域之间无法通信。
+Network partitioning means nodes in a distributed system are divided into multiple regions. Nodes within each region can communicate, but regions cannot communicate with each other.
 
-在分区容忍性条件下，分布式系统在遇到任何网络分区故障的时候，仍然需要能对外提供一致性和可用性的服务，除非是整个网络环境都发生了故障。
+Under partition tolerance, when a distributed system encounters any network partition failure, it must still provide consistency and availability externally unless the entire network environment fails.
 
 ### Tradeoffs
 
-在分布式系统中，分区容忍性必不可少，因为需要总是假设网络是不可靠的。因此，CAP 理论实际上是要在可用性和一致性之间做权衡。
+In distributed systems, partition tolerance is essential because the network must always be assumed unreliable. Therefore, CAP theory is essentially a trade-off between availability and consistency.
 
-可用性和一致性往往是冲突的，很难使它们同时满足。在多个节点之间进行数据同步时，
+Availability and consistency often conflict, making it difficult to satisfy both. When synchronizing data across multiple nodes:
 
-- 为了保证一致性（CP），不能访问未同步完成的节点，也就失去了部分可用性；
-- 为了保证可用性（AP），允许读取所有节点的数据，但是数据可能不一致。
+- To guarantee consistency (CP), nodes that have not completed synchronization cannot be accessed, so some availability is lost;
+- To guarantee availability (AP), data from all nodes can be read, but the data may be inconsistent.
 
 ## 4. BASE
 
-BASE 是基本可用（Basically Available）、软状态（Soft State）和最终一致性（Eventually Consistent）三个短语的缩写。
+BASE is the abbreviation of Basically Available, Soft State, and Eventually Consistent.
 
-BASE 理论是对 CAP 中一致性和可用性权衡的结果，它的核心思想是：即使无法做到强一致性，但每个应用都可以根据自身业务特点，采用适当的方式来使系统达到最终一致性。
+BASE theory is the result of the trade-off between consistency and availability in CAP. Its core idea is that even if strong consistency cannot be achieved, each application can use an appropriate approach based on its business characteristics to make the system eventually consistent.
 
 
 ### Basically Available
 
-指分布式系统在出现故障的时候，保证核心可用，允许损失部分可用性。
+This means that when a distributed system fails, core availability is guaranteed while partial availability loss is allowed.
 
-例如，电商在做促销时，为了保证购物系统的稳定性，部分消费者可能会被引导到一个降级的页面。
+For example, during an e-commerce promotion, to ensure shopping-system stability, some consumers may be guided to a degraded page.
 
 ### Soft State
 
-指允许系统中的数据存在中间状态，并认为该中间状态不会影响系统整体可用性，即允许系统不同节点的数据副本之间进行同步的过程存在时延。
+This means allowing data in the system to exist in an intermediate state and considering that this intermediate state does not affect overall system availability. In other words, synchronization between data replicas on different nodes may have delays.
 
 ### Eventual Consistency
 
-最终一致性强调的是系统中所有的数据副本，在经过一段时间的同步后，最终能达到一致的状态。
+Eventual consistency emphasizes that all data replicas in the system will eventually reach a consistent state after a period of synchronization.
 
-ACID 要求强一致性，通常运用在传统的数据库系统上。而 BASE 要求最终一致性，通过牺牲强一致性来达到可用性，通常运用在大型分布式系统中。
+ACID requires strong consistency and is usually used in traditional database systems. BASE requires eventual consistency and achieves availability by sacrificing strong consistency; it is usually used in large distributed systems.
 
-在实际的分布式场景中，不同业务单元和组件对一致性的要求是不同的，因此 ACID 和 BASE 往往会结合在一起使用。
+In real distributed scenarios, different business units and components have different consistency requirements, so ACID and BASE are often used together.
 
 ## 5. Paxos
 
-用于达成共识性问题，即对多个节点产生的值，该算法能保证只选出唯一一个值。
+Used to solve consensus problems. For values produced by multiple nodes, this algorithm guarantees that only one value is selected.
 
-主要有三类节点：
+There are three main types of nodes:
 
-- 提议者（Proposer）：提议一个值；
-- 接受者（Acceptor）：对每个提议进行投票；
-- 告知者（Learner）：被告知投票的结果，不参与投票过程。
+- Proposer: proposes a value;
+- Acceptor: votes on each proposal;
+- Learner: is informed of the voting result and does not participate in voting.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b988877c-0f0a-4593-916d-de2081320628.jpg"/> </div><br>
 
 ### Execution Process
 
-规定一个提议包含两个字段：[n, v]，其中 n 为序号（具有唯一性），v 为提议值。
+A proposal contains two fields: [n, v], where n is the sequence number (unique) and v is the proposed value.
 
 #### 1. Prepare Phase
 
-下图演示了两个 Proposer 和三个 Acceptor 的系统中运行该算法的初始过程，每个 Proposer 都会向所有 Acceptor 发送 Prepare 请求。
+The following figure shows the initial process of running the algorithm in a system with two Proposers and three Acceptors. Each Proposer sends a Prepare request to all Acceptors.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1a9977e4-2f5c-49a6-aec9-f3027c9f46a7.png"/> </div><br>
 
-当 Acceptor 接收到一个 Prepare 请求，包含的提议为 [n1, v1]，并且之前还未接收过 Prepare 请求，那么发送一个 Prepare 响应，设置当前接收到的提议为 [n1, v1]，并且保证以后不会再接受序号小于 n1 的提议。
+When an Acceptor receives a Prepare request containing proposal [n1, v1] and has not received a Prepare request before, it sends a Prepare response, sets the currently received proposal to [n1, v1], and promises not to accept proposals with sequence numbers smaller than n1 in the future.
 
-如下图，Acceptor X 在收到 [n=2, v=8] 的 Prepare 请求时，由于之前没有接收过提议，因此就发送一个 [no previous] 的 Prepare 响应，设置当前接收到的提议为 [n=2, v=8]，并且保证以后不会再接受序号小于 2 的提议。其它的 Acceptor 类似。
+As shown below, when Acceptor X receives the Prepare request [n=2, v=8], it has not previously received a proposal, so it sends a [no previous] Prepare response, sets the currently received proposal to [n=2, v=8], and promises not to accept proposals with sequence numbers less than 2 in the future. The other Acceptors behave similarly.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/fb44307f-8e98-4ff7-a918-31dacfa564b4.jpg"/> </div><br>
 
-如果 Acceptor 接收到一个 Prepare 请求，包含的提议为 [n2, v2]，并且之前已经接收过提议 [n1, v1]。如果 n1 \> n2，那么就丢弃该提议请求；否则，发送 Prepare 响应，该 Prepare 响应包含之前已经接收过的提议 [n1, v1]，设置当前接收到的提议为 [n2, v2]，并且保证以后不会再接受序号小于 n2 的提议。
+If an Acceptor receives a Prepare request containing proposal [n2, v2] and has previously received proposal [n1, v1], then if n1 \> n2, it discards the proposal request. Otherwise, it sends a Prepare response containing the previously received proposal [n1, v1], sets the currently received proposal to [n2, v2], and promises not to accept proposals with sequence numbers smaller than n2 in the future.
 
-如下图，Acceptor Z 收到 Proposer A 发来的 [n=2, v=8] 的 Prepare 请求，由于之前已经接收过 [n=4, v=5] 的提议，并且 n \> 2，因此就抛弃该提议请求；Acceptor X 收到 Proposer B 发来的 [n=4, v=5] 的 Prepare 请求，因为之前接收到的提议为 [n=2, v=8]，并且 2 \<= 4，因此就发送 [n=2, v=8] 的 Prepare 响应，设置当前接收到的提议为 [n=4, v=5]，并且保证以后不会再接受序号小于 4 的提议。Acceptor Y 类似。
+As shown below, Acceptor Z receives the Prepare request [n=2, v=8] from Proposer A. Because it has already received proposal [n=4, v=5] and n \> 2, it discards the proposal request. Acceptor X receives the Prepare request [n=4, v=5] from Proposer B. Because its previously received proposal is [n=2, v=8] and 2 \<= 4, it sends a Prepare response [n=2, v=8], sets the currently received proposal to [n=4, v=5], and promises not to accept proposals with sequence numbers less than 4 in the future. Acceptor Y behaves similarly.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2bcc58ad-bf7f-485c-89b5-e7cafc211ce2.jpg"/> </div><br>
 
 #### 2. Accept Phase
 
-当一个 Proposer 接收到超过一半 Acceptor 的 Prepare 响应时，就可以发送 Accept 请求。
+When a Proposer receives Prepare responses from more than half of the Acceptors, it can send an Accept request.
 
-Proposer A 接收到两个 Prepare 响应之后，就发送 [n=2, v=8] Accept 请求。该 Accept 请求会被所有 Acceptor 丢弃，因为此时所有 Acceptor 都保证不接受序号小于 4 的提议。
+After Proposer A receives two Prepare responses, it sends an Accept request [n=2, v=8]. This Accept request is discarded by all Acceptors because all Acceptors have promised not to accept proposals with sequence numbers less than 4.
 
-Proposer B 过后也收到了两个 Prepare 响应，因此也开始发送 Accept 请求。需要注意的是，Accept 请求的 v 需要取它收到的最大提议编号对应的 v 值，也就是 8。因此它发送 [n=4, v=8] 的 Accept 请求。
+Later, Proposer B also receives two Prepare responses and begins sending an Accept request. Note that the v value of the Accept request must be the v value corresponding to the largest proposal number it received, which is 8. Therefore, it sends an Accept request [n=4, v=8].
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9b838aee-0996-44a5-9b0f-3d1e3e2f5100.png"/> </div><br>
 
 #### 3. Learn Phase
 
-Acceptor 接收到 Accept 请求时，如果序号大于等于该 Acceptor 承诺的最小序号，那么就发送 Learn 提议给所有的 Learner。当 Learner 发现有大多数的 Acceptor 接收了某个提议，那么该提议的提议值就被 Paxos 选择出来。
+When an Acceptor receives an Accept request, if the sequence number is greater than or equal to the minimum sequence number promised by that Acceptor, it sends a Learn proposal to all Learners. When a Learner observes that a majority of Acceptors have accepted a proposal, the proposal value is chosen by Paxos.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/bf667594-bb4b-4634-bf9b-0596a45415ba.jpg"/> </div><br>
 
@@ -271,80 +271,79 @@ Acceptor 接收到 Accept 请求时，如果序号大于等于该 Acceptor 承�
 
 #### 1. Correctness
 
-指只有一个提议值会生效。
+Means only one proposal value can take effect.
 
-因为 Paxos 协议要求每个生效的提议被多数 Acceptor 接收，并且 Acceptor 不会接受两个不同的提议，因此可以保证正确性。
+Because the Paxos protocol requires every effective proposal to be accepted by a majority of Acceptors, and Acceptors do not accept two different proposals, correctness can be guaranteed.
 
 #### 2. Termination
 
-指最后总会有一个提议生效。
+Means a proposal will eventually take effect.
 
-Paxos 协议能够让 Proposer 发送的提议朝着能被大多数 Acceptor 接受的那个提议靠拢，因此能够保证可终止性。
+The Paxos protocol makes proposals sent by Proposers converge toward a proposal that can be accepted by a majority of Acceptors, thereby guaranteeing termination.
 
 ## 6. Raft
 
-Raft 也是分布式一致性协议，主要是用来竞选主节点。
+Raft is also a distributed consensus protocol, mainly used to elect a leader.
 
 - [Raft: Understandable Distributed Consensus](http://thesecretlivesofdata.com/raft)
 
 ### Single Candidate Election
 
-有三种节点：Follower、Candidate 和 Leader。Leader 会周期性的发送心跳包给 Follower。每个 Follower 都设置了一个随机的竞选超时时间，一般为 150ms\~300ms，如果在这个时间内没有收到 Leader 的心跳包，就会变成 Candidate，进入竞选阶段。
+There are three types of nodes: Follower, Candidate, and Leader. The Leader periodically sends heartbeats to Followers. Each Follower sets a random election timeout, usually 150ms\~300ms. If it does not receive a heartbeat from the Leader within this time, it becomes a Candidate and enters the election phase.
 
-- 下图展示一个分布式系统的最初阶段，此时只有 Follower 没有 Leader。Node A 等待一个随机的竞选超时时间之后，没收到 Leader 发来的心跳包，因此进入竞选阶段。
+- The following figure shows the initial stage of a distributed system, where there are only Followers and no Leader. After Node A waits for a random election timeout and receives no heartbeat from a Leader, it enters the election phase.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/111521118015898.gif"/> </div><br>
 
-- 此时 Node A 发送投票请求给其它所有节点。
+- At this point, Node A sends vote requests to all other nodes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/111521118445538.gif"/> </div><br>
 
-- 其它节点会对请求进行回复，如果超过一半的节点回复了，那么该 Candidate 就会变成 Leader。
+- Other nodes reply to the request. If more than half of the nodes reply, the Candidate becomes the Leader.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/111521118483039.gif"/> </div><br>
 
-- 之后 Leader 会周期性地发送心跳包给 Follower，Follower 接收到心跳包，会重新开始计时。
+- After that, the Leader periodically sends heartbeats to Followers. When a Follower receives a heartbeat, it restarts its timer.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/111521118640738.gif"/> </div><br>
 
 ### Multiple Candidate Election
 
-- 如果有多个 Follower 成为 Candidate，并且所获得票数相同，那么就需要重新开始投票。例如下图中 Node B 和 Node D 都获得两票，需要重新开始投票。
+- If multiple Followers become Candidates and receive the same number of votes, voting must restart. For example, in the figure below, Node B and Node D both receive two votes, so voting must restart.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/111521119203347.gif"/> </div><br>
 
-- 由于每个节点设置的随机竞选超时时间不同，因此下一次再次出现多个 Candidate 并获得同样票数的概率很低。
+- Because each node sets a different random election timeout, the probability that multiple Candidates appear again and receive the same number of votes in the next round is low.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/111521119368714.gif"/> </div><br>
 
 ### Data Synchronization
 
-- 来自客户端的修改都会被传入 Leader。注意该修改还未被提交，只是写入日志中。
+- Modifications from clients are sent to the Leader. Note that the modification has not yet been committed; it is only written to the log.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/71550414107576.gif"/> </div><br>
 
-- Leader 会把修改复制到所有 Follower。
+- The Leader replicates the modification to all Followers.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/91550414131331.gif"/> </div><br>
 
-- Leader 会等待大多数的 Follower 也进行了修改，然后才将修改提交。
+- The Leader waits until a majority of Followers have also applied the modification, then commits the modification.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/101550414151983.gif"/> </div><br>
 
-- 此时 Leader 会通知的所有 Follower 让它们也提交修改，此时所有节点的值达成一致。
+- At this point, the Leader notifies all Followers to commit the modification as well, and all nodes reach the same value.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/111550414182638.gif"/> </div><br>
 
 ## References
 
-- 倪超. 从 Paxos 到 ZooKeeper : 分布式一致性原理与实践 [M]. 电子工业出版社, 2015.
+- Ni Chao. From Paxos to ZooKeeper: Principles and Practice of Distributed Consistency[M]. Publishing House of Electronics Industry, 2015.
 - [Distributed locks with Redis](https://redis.io/topics/distlock)
-- [浅谈分布式锁](http://www.linkedkeeper.com/detail/blog.action?bid=1023)
-- [基于 Zookeeper 的分布式锁](http://www.dengshenyu.com/java/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/2017/10/23/zookeeper-distributed-lock.html)
-- [聊聊分布式事务，再说说解决方案](https://www.cnblogs.com/savorboard/p/distributed-system-transaction-consistency.html)
-- [分布式系统的事务处理](https://coolshell.cn/articles/10910.html)
-- [深入理解分布式事务](https://juejin.im/entry/577c6f220a2b5800573492be)
+- [A brief discussion of distributed locks](http://www.linkedkeeper.com/detail/blog.action?bid=1023)
+- [Zookeeper-based distributed locks](http://www.dengshenyu.com/java/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/2017/10/23/zookeeper-distributed-lock.html)
+- [Distributed transactions and solution patterns](https://www.cnblogs.com/savorboard/p/distributed-system-transaction-consistency.html)
+- [Transaction processing in distributed systems](https://coolshell.cn/articles/10910.html)
+- [Deep understanding of distributed transactions](https://juejin.im/entry/577c6f220a2b5800573492be)
 - [What is CAP theorem in distributed database system?](http://www.colooshiki.com/index.php/2017/04/20/what-is-cap-theorem-in-distributed-database-system/)
 - [NEAT ALGORITHMS - PAXOS](http://harry.me/blog/2014/12/27/neat-algorithms-paxos/)
 - [Paxos By Example](https://angus.nyc/2012/paxos-by-example/)
-
