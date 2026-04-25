@@ -21,22 +21,22 @@ Generated on 2026-04-26 from the current repository file tree using `git ls-file
 | Files excluded | 1748 |
 | Markdown files | 182 |
 | Asset/media files | 623 |
-| Files needing translation review | 181 |
+| Files needing translation review | 40 |
 | Files with Chinese filenames | 0 |
 | Assets with Chinese names | 0 |
-| Files with Chinese headings | 173 |
-| Chinese headings found | 1671 |
-| Files with Chinese Markdown body content | 175 |
-| Chinese Markdown body lines found | 5987 |
-| Files with Chinese Markdown/HTML links | 113 |
-| Chinese Markdown/HTML links found | 1523 |
-| Files with Chinese code comments | 57 |
-| Chinese code comments found | 244 |
-| Internal links mapped | 1472 |
+| Files with Chinese headings | 0 |
+| Chinese headings found | 0 |
+| Files with Chinese Markdown body content | 38 |
+| Chinese Markdown body lines found | 3780 |
+| Files with Chinese Markdown/HTML links | 39 |
+| Chinese Markdown/HTML links found | 893 |
+| Files with Chinese code comments | 18 |
+| Chinese code comments found | 127 |
+| Internal links mapped | 1461 |
 | Internal links to excluded targets | 0 |
 | Internal links needing path update | 0 |
-| Internal links needing content/anchor update | 1214 |
-| Anchor-only internal links | 1268 |
+| Internal links needing content/anchor update | 693 |
+| Anchor-only internal links | 1253 |
 | Broken internal file/directory links | 0 |
 
 ## Repository Shape
@@ -78,31 +78,28 @@ Generated on 2026-04-26 from the current repository file tree using `git ls-file
 ## Review Hotspots
 
 The files with the most remaining Chinese text surfaces are:
-- `notes/Linux.md` (395 heading/body/comment hits)
-- `notes/HTTP.md` (383 heading/body/comment hits)
-- `notes/java-concurrency.md` (316 heading/body/comment hits)
-- `notes/jvm.md` (294 heading/body/comment hits)
-- `notes/java-basics.md` (272 heading/body/comment hits)
-- `notes/sql-syntax.md` (264 heading/body/comment hits)
-- `notes/SQL.md` (262 heading/body/comment hits)
-- `notes/database-system-principles.md` (232 heading/body/comment hits)
-- `notes/design-patterns.md` (214 heading/body/comment hits)
-- `notes/leetcode-solutions-dynamic-programming.md` (214 heading/body/comment hits)
-- `notes/MySQL.md` (200 heading/body/comment hits)
-- `notes/Redis.md` (200 heading/body/comment hits)
-- `notes/java-collections.md` (181 heading/body/comment hits)
-- `notes/Java IO.md` (170 heading/body/comment hits)
-- `notes/distributed-systems.md` (170 heading/body/comment hits)
-- `notes/operating-systems-process-management.md` (157 heading/body/comment hits)
-- `notes/regular-expressions.md` (155 heading/body/comment hits)
-- `notes/algorithms-symbol-tables.md` (150 heading/body/comment hits)
-- `notes/leetcode-solutions-trees.md` (132 heading/body/comment hits)
-- `notes/computer-networking-network-layer.md` (121 heading/body/comment hits)
-- `notes/leetcode-solutions-search.md` (120 heading/body/comment hits)
-- `notes/object-oriented-programming.md` (111 heading/body/comment hits)
-- `notes/leetcode-solutions-math.md` (102 heading/body/comment hits)
-- `notes/caching.md` (97 heading/body/comment hits)
-- `notes/clustering.md` (96 heading/body/comment hits)
-
-Broken internal file/directory links sample:
-- None found.
+- `notes/Linux.md` (333 heading/body/comment hits)
+- `notes/java-concurrency.md` (261 heading/body/comment hits)
+- `notes/java-basics.md` (245 heading/body/comment hits)
+- `notes/SQL.md` (232 heading/body/comment hits)
+- `notes/sql-syntax.md` (232 heading/body/comment hits)
+- `notes/jvm.md` (230 heading/body/comment hits)
+- `notes/database-system-principles.md` (185 heading/body/comment hits)
+- `notes/leetcode-solutions-dynamic-programming.md` (174 heading/body/comment hits)
+- `notes/Redis.md` (162 heading/body/comment hits)
+- `notes/MySQL.md` (155 heading/body/comment hits)
+- `notes/java-collections.md` (147 heading/body/comment hits)
+- `notes/operating-systems-process-management.md` (133 heading/body/comment hits)
+- `notes/regular-expressions.md` (132 heading/body/comment hits)
+- `notes/distributed-systems.md` (126 heading/body/comment hits)
+- `notes/algorithms-symbol-tables.md` (121 heading/body/comment hits)
+- `notes/leetcode-solutions-trees.md` (97 heading/body/comment hits)
+- `notes/leetcode-solutions-search.md` (96 heading/body/comment hits)
+- `notes/object-oriented-programming.md` (86 heading/body/comment hits)
+- `notes/leetcode-solutions-math.md` (77 heading/body/comment hits)
+- `notes/leetcode-solutions-bit-manipulation.md` (74 heading/body/comment hits)
+- `notes/operating-systems-deadlocks.md` (64 heading/body/comment hits)
+- `notes/algorithms-sorting.md` (62 heading/body/comment hits)
+- `notes/sql-exercises.md` (57 heading/body/comment hits)
+- `notes/operating-systems-overview.md` (51 heading/body/comment hits)
+- `notes/leetcode-solutions-binary-search.md` (49 heading/body/comment hits)
