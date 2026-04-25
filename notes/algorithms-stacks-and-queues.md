@@ -1,10 +1,10 @@
 # Algorithms - Stacks and Queues
 <!-- GFM-TOC -->
-* [算法 - 栈和队列](#algorithms---stacks-and-queues)
-    * [栈](#stack)
-        * [1. 数组实现](#1-array-implementation)
-        * [2. 链表实现](#2-linked-list-implementation)
-    * [队列](#queue)
+* [Algorithms - Stacks and Queues](#algorithms---stacks-and-queues)
+    * [Stack](#stack)
+        * [1. Array Implementation](#1-array-implementation)
+        * [2. Linked List Implementation](#2-linked-list-implementation)
+    * [Queue](#queue)
 <!-- GFM-TOC -->
 
 
@@ -29,10 +29,10 @@ public interface MyStack<Item> extends Iterable<Item> {
 ```java
 public class ArrayStack<Item> implements MyStack<Item> {
 
-    // 栈元素数组，只能通过转型来创建泛型数组
+    // Stack element array; generic arrays can only be created through casting
     private Item[] a = (Item[]) new Object[1];
 
-    // 元素数量
+    // Number of elements
     private int N = 0;
 
 
@@ -55,7 +55,7 @@ public class ArrayStack<Item> implements MyStack<Item> {
 
         check();
 
-        // 避免对象游离
+        // Avoid loitering objects
         a[N] = null;
 
         return item;
@@ -74,7 +74,7 @@ public class ArrayStack<Item> implements MyStack<Item> {
 
 
     /**
-     * 调整数组大小，使得栈具有伸缩性
+     * Resize the array so the stack can grow and shrink
      */
     private void resize(int size) {
 
@@ -103,7 +103,7 @@ public class ArrayStack<Item> implements MyStack<Item> {
     @Override
     public Iterator<Item> iterator() {
 
-        // 返回逆序遍历的迭代器
+        // Return an iterator that traverses in reverse order
         return new Iterator<Item>() {
 
             private int i = N;
@@ -125,7 +125,7 @@ public class ArrayStack<Item> implements MyStack<Item> {
 
 ### 2. Linked List Implementation
 
-需要使用链表的头插法来实现，因为头插法中最后压入栈的元素在链表的开头，它的 next 指针指向前一个压入栈的元素，在弹出元素时就可以通过 next 指针遍历到前一个压入栈的元素从而让这个元素成为新的栈顶元素。
+Use head insertion on a linked list. With head insertion, the element pushed last is at the beginning of the linked list, and its next pointer points to the previously pushed element. When popping, the next pointer can traverse to the previously pushed element and make that element the new stack top.
 
 ```java
 public class ListStack<Item> implements MyStack<Item> {
@@ -212,9 +212,9 @@ public class ListStack<Item> implements MyStack<Item> {
 
 ## Queue
 
-下面是队列的链表实现，需要维护 first 和 last 节点指针，分别指向队首和队尾。
+Below is the linked-list implementation of a queue. It needs to maintain first and last node pointers, pointing to the queue head and tail respectively.
 
-这里需要考虑 first 和 last 指针哪个作为链表的开头。因为出队列操作需要让队首元素的下一个元素成为队首，所以需要容易获取下一个元素，而链表的头部节点的 next 指针指向下一个元素，因此可以让 first 指针链表的开头。
+Here we need to decide whether first or last should be the beginning of the linked list. Since dequeue needs the element after the queue head to become the new head, the next element must be easy to obtain. The next pointer of the head node points to the next element, so first can be used as the beginning of the linked list.
 
 ```java
 public interface MyQueue<Item> extends Iterable<Item> {

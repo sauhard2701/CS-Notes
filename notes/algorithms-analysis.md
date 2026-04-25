@@ -1,22 +1,22 @@
 # Algorithms - Algorithm Analysis
 <!-- GFM-TOC -->
-* [算法 - 算法分析](#algorithms---algorithm-analysis)
-    * [数学模型](#mathematical-model)
-        * [1. 近似](#1-approximation)
-        * [2. 增长数量级](#2-order-of-growth)
-        * [3. 内循环](#3-inner-loop)
-        * [4. 成本模型](#4-cost-model)
-    * [注意事项](#considerations)
-        * [1. 大常数](#1-large-constants)
-        * [2. 缓存](#2-cache)
-        * [3. 对最坏情况下的性能的保证](#3-worst-case-performance-guarantees)
-        * [4. 随机化算法](#4-randomized-algorithms)
-        * [5. 均摊分析](#5-amortized-analysis)
+* [Algorithms - Algorithm Analysis](#algorithms---algorithm-analysis)
+    * [Mathematical Model](#mathematical-model)
+        * [1. Approximation](#1-approximation)
+        * [2. Order of Growth](#2-order-of-growth)
+        * [3. Inner Loop](#3-inner-loop)
+        * [4. Cost Model](#4-cost-model)
+    * [Considerations](#considerations)
+        * [1. Large Constants](#1-large-constants)
+        * [2. Cache](#2-cache)
+        * [3. Worst-Case Performance Guarantees](#3-worst-case-performance-guarantees)
+        * [4. Randomized Algorithms](#4-randomized-algorithms)
+        * [5. Amortized Analysis](#5-amortized-analysis)
     * [ThreeSum](#threesum)
         * [1. ThreeSumSlow](#1-threesumslow)
         * [2. ThreeSumBinarySearch](#2-threesumbinarysearch)
         * [3. ThreeSumTwoPointer](#3-threesumtwopointer)
-    * [倍率实验](#doubling-test)
+    * [Doubling Test](#doubling-test)
 <!-- GFM-TOC -->
 
 
@@ -24,45 +24,45 @@
 
 ###  1. Approximation
 
-N<sup>3</sup>/6-N<sup>2</sup>/2+N/3 \~ N<sup>3</sup>/6。使用 \~f(N) 来表示所有随着 N 的增大除以 f(N) 的结果趋近于 1 的函数。
+N<sup>3</sup>/6-N<sup>2</sup>/2+N/3 \~ N<sup>3</sup>/6. Use \~f(N) to denote functions whose result divided by f(N) approaches 1 as N grows.
 
 ###  2. Order of Growth
 
-N<sup>3</sup>/6-N<sup>2</sup>/2+N/3 的增长数量级为 O(N<sup>3</sup>)。增长数量级将算法与它的具体实现隔离开来，一个算法的增长数量级为 O(N<sup>3</sup>) 与它是否用 Java 实现，是否运行于特定计算机上无关。
+The order of growth of N<sup>3</sup>/6-N<sup>2</sup>/2+N/3 is O(N<sup>3</sup>). Order of growth separates an algorithm from its specific implementation; an algorithm with order of growth O(N<sup>3</sup>) is independent of whether it is implemented in Java or runs on a particular computer.
 
 ###  3. Inner Loop
 
-执行最频繁的指令决定了程序执行的总时间，把这些指令称为程序的内循环。
+The instructions executed most frequently determine the total running time of a program; these instructions are called the program's inner loop.
 
 ###  4. Cost Model
 
-使用成本模型来评估算法，例如数组的访问次数就是一种成本模型。
+Use a cost model to evaluate algorithms. For example, the number of array accesses is a cost model.
 
 ## Considerations
 
 ###  1. Large Constants
 
-在求近似时，如果低级项的常数系数很大，那么近似的结果是错误的。
+When approximating, if the constant coefficient of a lower-order term is very large, the approximation can be wrong.
 
 ###  2. Cache
 
-计算机系统会使用缓存技术来组织内存，访问数组相邻的元素会比访问不相邻的元素快很多。
+Computer systems use caching to organize memory, so accessing adjacent array elements is much faster than accessing non-adjacent elements.
 
 ###  3. Worst-Case Performance Guarantees
 
-在核反应堆、心脏起搏器或者刹车控制器中的软件，最坏情况下的性能是十分重要的。
+For software in nuclear reactors, pacemakers, or brake controllers, worst-case performance is very important.
 
 ###  4. Randomized Algorithms
 
-通过打乱输入，去除算法对输入的依赖。
+Shuffle the input to remove the algorithm's dependence on input order.
 
 ###  5. Amortized Analysis
 
-将所有操作的总成本除于操作总数来将成本均摊。例如对一个空栈进行 N 次连续的 push() 调用需要访问数组的次数为 N+4+8+16+...+2N=5N-4（N 是向数组写入元素的次数，其余都是调整数组大小时进行复制需要的访问数组次数），均摊后访问数组的平均次数为常数。
+Amortize cost by dividing the total cost of all operations by the number of operations. For example, performing N consecutive push() calls on an empty stack requires N+4+8+16+...+2N=5N-4 array accesses. N is the number of writes to the array, and the rest are array accesses needed for copying during resizing. After amortization, the average number of array accesses is constant.
 
 ## ThreeSum
 
-ThreeSum 用于统计一个数组中和为 0 的三元组数量。
+ThreeSum counts the number of triples in an array whose sum is 0.
 
 ```java
 public interface ThreeSum {
@@ -72,7 +72,7 @@ public interface ThreeSum {
 
 ###  1. ThreeSumSlow
 
-该算法的内循环为 `if (nums[i] + nums[j] + nums[k] == 0)` 语句，总共执行的次数为 N(N-1)(N-2) = N<sup>3</sup>/6-N<sup>2</sup>/2+N/3，因此它的近似执行次数为 \~N<sup>3</sup>/6，增长数量级为 O(N<sup>3</sup>)。
+The inner loop of this algorithm is the `if (nums[i] + nums[j] + nums[k] == 0)` statement, which executes N(N-1)(N-2) = N<sup>3</sup>/6-N<sup>2</sup>/2+N/3 times in total. Therefore, its approximate execution count is \~N<sup>3</sup>/6, and its order of growth is O(N<sup>3</sup>).
 
 ```java
 public class ThreeSumSlow implements ThreeSum {
@@ -96,11 +96,11 @@ public class ThreeSumSlow implements ThreeSum {
 
 ###  2. ThreeSumBinarySearch
 
-将数组进行排序，对两个元素求和，并用二分查找方法查找是否存在该和的相反数，如果存在，就说明存在和为 0 的三元组。
+Sort the array, sum two elements, and use binary search to check whether the opposite of that sum exists. If it does, then there is a triple whose sum is 0.
 
-应该注意的是，只有数组不含有相同元素才能使用这种解法，否则二分查找的结果会出错。
+Note that this solution can only be used when the array contains no duplicate elements; otherwise, the binary search result will be wrong.
 
-该方法可以将 ThreeSum 算法增长数量级降低为 O(N<sup>2</sup>logN)。
+This method can reduce the order of growth of ThreeSum to O(N<sup>2</sup>logN).
 
 ```java
 public class ThreeSumBinarySearch implements ThreeSum {
@@ -114,7 +114,7 @@ public class ThreeSumBinarySearch implements ThreeSum {
             for (int j = i + 1; j < N; j++) {
                 int target = -nums[i] - nums[j];
                 int index = BinarySearch.search(nums, target);
-                // 应该注意这里的下标必须大于 j，否则会重复统计。
+                // Note that the index here must be greater than j, otherwise triples will be counted repeatedly.
                 if (index > j) {
                     cnt++;
                 }
@@ -147,9 +147,9 @@ public class BinarySearch {
 
 ###  3. ThreeSumTwoPointer
 
-更有效的方法是先将数组排序，然后使用双指针进行查找，时间复杂度为 O(N<sup>2</sup>)。
+A more efficient method is to sort the array first, then use two pointers for searching. The time complexity is O(N<sup>2</sup>).
 
-同样不适用与数组存在重复元素的情况。
+This also does not apply when the array contains duplicate elements.
 
 ```java
 public class ThreeSumTwoPointer implements ThreeSum {
@@ -181,9 +181,9 @@ public class ThreeSumTwoPointer implements ThreeSum {
 
 ## Doubling Test
 
-如果 T(N) \~ aN<sup>b</sup>logN，那么 T(2N)/T(N) \~ 2<sup>b</sup>。
+If T(N) \~ aN<sup>b</sup>logN, then T(2N)/T(N) \~ 2<sup>b</sup>.
 
-例如对于暴力的 ThreeSum 算法，近似时间为 \~N<sup>3</sup>/6。进行如下实验：多次运行该算法，每次取的 N 值为前一次的两倍，统计每次执行的时间，并统计本次运行时间与前一次运行时间的比值，得到如下结果：
+For example, for the brute-force ThreeSum algorithm, the approximate time is \~N<sup>3</sup>/6. Run the following experiment: run the algorithm multiple times, doubling N each time, record each running time, and compute the ratio between the current running time and the previous running time. The results are as follows:
 
 | N | Time(ms) | Ratio |
 | :---: | :---: | :---: |
@@ -194,7 +194,7 @@ public class ThreeSumTwoPointer implements ThreeSum {
 | 8000 | 33575 | 8.2 |
 | 16000 | 268909 | 8.0 |
 
-可以看到，T(2N)/T(N) \~ 2<sup>3</sup>，因此可以确定 T(N) \~ aN<sup>3</sup>logN。
+We can see that T(2N)/T(N) \~ 2<sup>3</sup>, so T(N) \~ aN<sup>3</sup>logN can be determined.
 
 ```java
 public class RatioTest {

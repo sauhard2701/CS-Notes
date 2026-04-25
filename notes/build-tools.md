@@ -1,30 +1,30 @@
 # Build Tools
 <!-- GFM-TOC -->
-* [构建工具](#build-tools)
-    * [一、构建工具的作用](#1-purpose-of-build-tools)
-    * [二、Java 主流构建工具](#2-mainstream-java-build-tools)
-    * [三、Maven](#3-maven)
-    * [参考资料](#references)
+* [Build Tools](#build-tools)
+    * [1. Purpose of Build Tools](#1-purpose-of-build-tools)
+    * [2. Mainstream Java Build Tools](#2-mainstream-java-build-tools)
+    * [3. Maven](#3-maven)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
 ## 1. Purpose of Build Tools
 
-构建一个项目通常包含了依赖管理、测试、编译、打包、发布等流程，构建工具可以自动化进行这些操作，从而为我们减少这些繁琐的工作。
+Building a project usually includes dependency management, testing, compilation, packaging, and release. Build tools can automate these operations, reducing this tedious work.
 
-其中构建工具提供的依赖管理能够可以自动处理依赖关系。例如一个项目需要用到依赖 A，A 又依赖于 B，那么构建工具就能帮我们导入 B，而不需要我们手动去寻找并导入。
+Dependency management provided by build tools can automatically handle dependency relationships. For example, if a project needs dependency A, and A depends on B, the build tool can import B for us without requiring us to find and import it manually.
 
-在 Java 项目中，打包流程通常是将项目打包成 Jar 包。在没有构建工具的情况下，我们需要使用命令行工具或者 IDE 手动打包。而发布流程通常是将 Jar 包上传到服务器上。
+In Java projects, packaging usually means packaging the project into a Jar file. Without build tools, we need to package manually with command-line tools or an IDE. The release process usually uploads the Jar file to a server.
 
 ## 2. Mainstream Java Build Tools
 
-Ant 具有编译、测试和打包功能，其后出现的 Maven 在 Ant 的功能基础上又新增了依赖管理功能，而最新的 Gradle 又在 Maven 的功能基础上新增了对 Groovy 语言的支持。
+Ant provides compilation, testing, and packaging. Maven later added dependency management on top of Ant's capabilities, and Gradle further added support for the Groovy language on top of Maven's capabilities.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208204118932.png"/> </div><br>
 
-Gradle 和 Maven 的区别是，它使用 Groovy 这种特定领域语言（DSL）来管理构建脚本，而不再使用 XML 这种标记性语言。因为项目如果庞大的话，XML 很容易就变得臃肿。
+The difference between Gradle and Maven is that Gradle uses Groovy, a domain-specific language (DSL), to manage build scripts instead of XML. For large projects, XML can easily become bloated.
 
-例如要在项目中引入 Junit，Maven 的代码如下：
+For example, to introduce JUnit into a project, the Maven code is as follows:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -47,7 +47,7 @@ Gradle 和 Maven 的区别是，它使用 Groovy 这种特定领域语言（DSL�
 </project>
 ```
 
-而 Gradle 只需要几行代码：
+With Gradle, only a few lines of code are needed:
 
 ```java
 dependencies {
@@ -59,19 +59,19 @@ dependencies {
 
 ### Overview
 
-提供了项目对象模型（POM）文件来管理项目的构建。
+It provides a Project Object Model (POM) file to manage project builds.
 
 ### Repository
 
-仓库的搜索顺序为：本地仓库、中央仓库、远程仓库。
+The repository search order is: local repository, central repository, remote repository.
 
-- 本地仓库用来存储项目的依赖库；
-- 中央仓库是下载依赖库的默认位置；
-- 远程仓库，因为并非所有的依赖库都在中央仓库，或者中央仓库访问速度很慢，远程仓库是中央仓库的补充。
+- The local repository stores project dependency libraries;
+- The central repository is the default location for downloading dependency libraries;
+- Remote repositories supplement the central repository because not all dependency libraries are in the central repository, or access to the central repository may be slow.
 
 ### POM
 
-POM 代表项目对象模型，它是一个 XML 文件，保存在项目根目录的 pom.xml 文件中。
+POM stands for Project Object Model. It is an XML file saved as pom.xml in the project root directory.
 
 ```xml
 <dependency>
@@ -82,12 +82,12 @@ POM 代表项目对象模型，它是一个 XML 文件，保存在项目根目�
 </dependency>
 ```
 
-[groupId, artifactId, version, packaging, classifier] 称为一个项目的坐标，其中 groupId、artifactId、version 必须定义，packaging 可选（默认为 Jar），classifier 不能直接定义的，需要结合插件使用。
+[groupId, artifactId, version, packaging, classifier] are called a project's coordinates. groupId, artifactId, and version must be defined; packaging is optional and defaults to Jar; classifier cannot be defined directly and must be used together with plugins.
 
-- groupId：项目组 Id，必须全球唯一；
-- artifactId：项目 Id，即项目名；
-- version：项目版本；
-- packaging：项目打包方式。
+- groupId: project group ID, which must be globally unique;
+- artifactId: project ID, namely the project name;
+- version: project version;
+- packaging: project packaging method.
 
 ### Dependency Principles
 
@@ -97,7 +97,7 @@ POM 代表项目对象模型，它是一个 XML 文件，保存在项目根目�
 A -> B -> C -> X(1.0)
 A -> D -> X(2.0)
 ```
-由于 X(2.0) 路径最短，所以使用 X(2.0)。
+Because the path to X(2.0) is shortest, X(2.0) is used.
 
 #### 2. Declaration Order First
 
@@ -106,15 +106,15 @@ A -> B -> X(1.0)
 A -> C -> X(2.0)
 ```
 
-在 POM 中最先声明的优先，上面的两个依赖如果先声明 B，那么最后使用 X(1.0)。
+The dependency declared first in the POM takes priority. For the two dependencies above, if B is declared first, X(1.0) is used in the end.
 
 #### 3. Override First
 
-子 POM 内声明的依赖优先于父 POM 中声明的依赖。
+Dependencies declared in a child POM take priority over dependencies declared in a parent POM.
 
 ### Resolve Dependency Conflicts
 
-找到 Maven 加载的 Jar 包版本，使用 `mvn dependency:tree` 查看依赖树，根据依赖原则来调整依赖在 POM 文件的声明顺序。
+Find the Jar version loaded by Maven, use `mvn dependency:tree` to view the dependency tree, and adjust the declaration order of dependencies in the POM file according to dependency rules.
 
 ## References
 
@@ -122,5 +122,4 @@ A -> C -> X(2.0)
 - [What is a build tool?](https://stackoverflow.com/questions/7249871/what-is-a-build-tool)
 - [Java Build Tools Comparisons: Ant vs Maven vs Gradle](https://programmingmitra.blogspot.com/2016/05/java-build-tools-comparisons-ant-vs.html)
 - [maven 2 gradle](http://sagioto.github.io/maven2gradle/)
-- [新一代构建工具 gradle](https://www.imooc.com/learn/833)
-
+- [Next-generation build tool Gradle](https://www.imooc.com/learn/833)

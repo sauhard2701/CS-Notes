@@ -1,1 +1,1 @@
-[算法](algorithms-index.md)
+[Algorithms](algorithms-index.md)

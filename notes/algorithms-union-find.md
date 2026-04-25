@@ -1,27 +1,27 @@
 # Algorithms - Union Find
 <!-- GFM-TOC -->
-* [算法 - 并查集](#algorithms---union-find)
-    * [前言](#preface)
+* [Algorithms - Union Find](#algorithms---union-find)
+    * [Preface](#preface)
     * [Quick Find](#quick-find)
     * [Quick Union](#quick-union)
-    * [加权 Quick Union](#weighted-quick-union)
-    * [路径压缩的加权 Quick Union](#weighted-quick-union-with-path-compression)
-    * [比较](#comparison)
+    * [Weighted Quick Union](#weighted-quick-union)
+    * [Weighted Quick Union with Path Compression](#weighted-quick-union-with-path-compression)
+    * [Comparison](#comparison)
 <!-- GFM-TOC -->
 
 
 ## Preface
 
-用于解决动态连通性问题，能动态连接两个点，并且判断两个点是否连通。
+Used to solve dynamic connectivity problems. It can dynamically connect two points and determine whether two points are connected.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/02943a90-7dd4-4e9a-9325-f8217d3cc54d.jpg" width="350"/> </div><br>
 
-| 方法 | 描述 |
+| Method | Description |
 | :---: | :---: |
-| UF(int N) | 构造一个大小为 N 的并查集 |
-| void union(int p, int q) | 连接 p 和 q 节点 |
-| int find(int p) | 查找 p 所在的连通分量编号 |
-| boolean connected(int p, int q) | 判断 p 和 q 节点是否连通 |
+| UF(int N) | Construct a union-find set of size N |
+| void union(int p, int q) | Connect nodes p and q |
+| int find(int p) | Find the connected component ID containing p |
+| boolean connected(int p, int q) | Determine whether p and q are connected |
 
 ```java
 public abstract class UF {
@@ -47,11 +47,11 @@ public abstract class UF {
 
 ## Quick Find
 
-可以快速进行 find 操作，也就是可以快速判断两个节点是否连通。
+find operations are fast, meaning connectivity between two nodes can be determined quickly.
 
-需要保证同一连通分量的所有节点的 id 值相等，就可以通过判断两个节点的 id 值是否相等从而判断其连通性。
+Ensure that all nodes in the same connected component have the same id value, then connectivity can be determined by checking whether two nodes have equal id values.
 
-但是 union 操作代价却很高，需要将其中一个连通分量中的所有节点 id 值都修改为另一个节点的 id 值。
+However, union operations are costly because the id values of all nodes in one connected component must be changed to the id value of another node.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0972501d-f854-4d26-8fce-babb27c267f6.jpg" width="320"/> </div><br>
 
@@ -89,9 +89,9 @@ public class QuickFindUF extends UF {
 
 ## Quick Union
 
-可以快速进行 union 操作，只需要修改一个节点的 id 值即可。
+union operations are fast because only one node's id value needs to be changed.
 
-但是 find 操作开销很大，因为同一个连通分量的节点 id 值不同，id 值只是用来指向另一个节点。因此需要一直向上查找操作，直到找到最上层的节点。
+However, find operations are expensive because nodes in the same connected component have different id values, and an id value only points to another node. Therefore, the search must keep moving upward until it reaches the top node.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/11b27de5-5a9d-45e4-95cc-417fa3ad1d38.jpg" width="280"/> </div><br>
 
@@ -124,22 +124,22 @@ public class QuickUnionUF extends UF {
 }
 ```
 
-这种方法可以快速进行 union 操作，但是 find 操作和树高成正比，最坏的情况下树的高度为节点的数目。
+This method makes union operations fast, but find operations are proportional to tree height. In the worst case, the tree height equals the number of nodes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/23e4462b-263f-4d15-8805-529e0ca7a4d1.jpg" width="100"/> </div><br>
 
 ## Weighted Quick Union
 
-为了解决 quick-union 的树通常会很高的问题，加权 quick-union 在 union 操作时会让较小的树连接较大的树上面。
+To solve the problem that quick-union trees are often tall, weighted quick-union connects the smaller tree to the larger tree during union operations.
 
-理论研究证明，加权 quick-union 算法构造的树深度最多不超过 logN。
+Theoretical research proves that the tree depth built by weighted quick-union is at most logN.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a9f18f8a-c1ea-422e-aa56-d91716b0f755.jpg" width="150"/> </div><br>
 
 ```java
 public class WeightedQuickUnionUF extends UF {
 
-    // 保存节点的数量信息
+    // Store node count information
     private int[] sz;
 
 
@@ -182,13 +182,13 @@ public class WeightedQuickUnionUF extends UF {
 
 ## Weighted Quick Union with Path Compression
 
-在检查节点的同时将它们直接链接到根节点，只需要在 find 中添加一个循环即可。
+While checking nodes, link them directly to the root node. This only requires adding one loop in find.
 
 ## Comparison
 
-| 算法 | union | find |
+| Algorithm | union | find |
 | :---: | :---: | :---: |
 | Quick Find | N | 1 |
-| Quick Union | 树高 | 树高 |
-| 加权 Quick Union | logN | logN |
-| 路径压缩的加权 Quick Union | 非常接近 1 | 非常接近 1 |
+| Quick Union | Tree height | Tree height |
+| Weighted Quick Union | logN | logN |
+| Weighted Quick Union with Path Compression | Very close to 1 | Very close to 1 |

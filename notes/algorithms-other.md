@@ -3,25 +3,25 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/69d6c38d-1dec-4f72-ae60-60dbc10e9d15.png" width="300"/> </div><br>
 
-有三个柱子，分别为 from、buffer、to。需要将 from 上的圆盘全部移动到 to 上，并且要保证小圆盘始终在大圆盘上。
+There are three pegs: from, buffer, and to. All disks on from need to be moved to to, while ensuring that smaller disks are always on top of larger disks.
 
-这是一个经典的递归问题，分为三步求解：
+This is a classic recursion problem, solved in three steps:
 
-① 将 n-1 个圆盘从 from -\> buffer
+① Move n-1 disks from from -\> buffer
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f9240aa1-8d48-4959-b28a-7ca45c3e4d91.png" width="300"/> </div><br>
 
-② 将 1 个圆盘从 from -\> to
+② Move 1 disk from from -\> to
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f579cab0-3d49-4d00-8e14-e9e1669d0f9f.png" width="300"/> </div><br>
 
-③ 将 n-1 个圆盘从 buffer -\> to
+③ Move n-1 disks from buffer -\> to
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/d02f74dd-8e33-4f3c-bf29-53203a06695a.png" width="300"/> </div><br>
 
-如果只有一个圆盘，那么只需要进行一次移动操作。
+If there is only one disk, only one move is needed.
 
-从上面的讨论可以知道，a<sub>n</sub> = 2 * a<sub>n-1</sub> + 1，显然 a<sub>n</sub> = 2<sup>n</sup> - 1，n 个圆盘需要移动 2<sup>n</sup> - 1 次。
+From the discussion above, a<sub>n</sub> = 2 * a<sub>n-1</sub> + 1. Clearly, a<sub>n</sub> = 2<sup>n</sup> - 1, so n disks require 2<sup>n</sup> - 1 moves.
 
 ```java
 public class Hanoi {
@@ -53,20 +53,20 @@ from H1 to H3
 
 ## Huffman Coding
 
-根据数据出现的频率对数据进行编码，从而压缩原始数据。
+Encode data according to the frequency with which it appears, thereby compressing the original data.
 
-例如对于一个文本文件，其中各种字符出现的次数如下：
+For example, in a text file, the occurrence counts of various characters are as follows:
 
 - a : 10
 - b : 20
 - c : 40
 - d : 80
 
-可以将每种字符转换成二进制编码，例如将 a 转换为 00，b 转换为 01，c 转换为 10，d 转换为 11。这是最简单的一种编码方式，没有考虑各个字符的权值（出现频率）。而哈夫曼编码采用了贪心策略，使出现频率最高的字符的编码最短，从而保证整体的编码长度最短。
+Each character can be converted into a binary code, for example a to 00, b to 01, c to 10, and d to 11. This is the simplest encoding method and does not consider each character's weight, meaning its occurrence frequency. Huffman coding uses a greedy strategy so that the most frequent characters have the shortest codes, ensuring the shortest overall encoded length.
 
-首先生成一颗哈夫曼树，每次生成过程中选取频率最少的两个节点，生成一个新节点作为它们的父节点，并且新节点的频率为两个节点的和。选取频率最少的原因是，生成过程使得先选取的节点位于树的更低层，那么需要的编码长度更长，频率更少可以使得总编码长度更少。
+First generate a Huffman tree. During each generation step, choose the two nodes with the lowest frequencies and create a new node as their parent, whose frequency is the sum of the two nodes. The reason for choosing the lowest frequencies is that nodes selected earlier are placed lower in the tree and therefore require longer codes; using lower-frequency nodes there reduces the total encoded length.
 
-生成编码时，从根节点出发，向左遍历则添加二进制位 0，向右则添加二进制位 1，直到遍历到叶子节点，叶子节点代表的字符的编码就是这个路径编码。
+When generating codes, start from the root. Add binary bit 0 when traversing left, and binary bit 1 when traversing right, until reaching a leaf node. The code for the character represented by that leaf node is the path code.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/8edc5164-810b-4cc5-bda8-2a2c98556377.jpg" width="300"/> </div><br>
 
