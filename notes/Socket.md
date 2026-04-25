@@ -1,48 +1,48 @@
 # Socket
 <!-- GFM-TOC -->
 * [Socket](#socket)
-    * [一、I/O 模型](#1-io-models)
-        * [阻塞式 I/O](#blocking-io)
-        * [非阻塞式 I/O](#non-blocking-io)
-        * [I/O 复用](#io-multiplexing)
-        * [信号驱动 I/O](#signal-driven-io)
-        * [异步 I/O](#asynchronous-io)
-        * [五大 I/O 模型比较](#five-io-model-comparison)
-    * [二、I/O 复用](#2-io-multiplexing)
+    * [1. I/O Models](#1-io-models)
+        * [Blocking I/O](#blocking-io)
+        * [Non-Blocking I/O](#non-blocking-io)
+        * [I/O Multiplexing](#io-multiplexing)
+        * [Signal-Driven I/O](#signal-driven-io)
+        * [Asynchronous I/O](#asynchronous-io)
+        * [Five I/O Model Comparison](#five-io-model-comparison)
+    * [2. I/O Multiplexing](#2-io-multiplexing)
         * [select](#select)
         * [poll](#poll)
-        * [比较](#comparison)
+        * [Comparison](#comparison)
         * [epoll](#epoll)
-        * [工作模式](#working-modes)
-        * [应用场景](#use-cases)
-    * [参考资料](#references)
+        * [Working Modes](#working-modes)
+        * [Use Cases](#use-cases)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
 ## 1. I/O Models
 
-一个输入操作通常包括两个阶段：
+An input operation usually includes two stages:
 
-- 等待数据准备好
-- 从内核向进程复制数据
+- Waiting for data to be ready
+- Copying data from the kernel to the process
 
-对于一个套接字上的输入操作，第一步通常涉及等待数据从网络中到达。当所等待数据到达时，它被复制到内核中的某个缓冲区。第二步就是把数据从内核缓冲区复制到应用进程缓冲区。
+For an input operation on a socket, the first step usually involves waiting for data to arrive from the network. When the awaited data arrives, it is copied into a buffer in the kernel. The second step is to copy the data from the kernel buffer into the application process buffer.
 
-Unix 有五种 I/O 模型：
+Unix has five I/O models:
 
-- 阻塞式 I/O
-- 非阻塞式 I/O
-- I/O 复用（select 和 poll）
-- 信号驱动式 I/O（SIGIO）
-- 异步 I/O（AIO）
+- Blocking I/O
+- Non-blocking I/O
+- I/O multiplexing (select and poll)
+- Signal-driven I/O (SIGIO)
+- Asynchronous I/O (AIO)
 
 ### Blocking I/O
 
-应用进程被阻塞，直到数据从内核缓冲区复制到应用进程缓冲区中才返回。
+The application process is blocked and returns only after data has been copied from the kernel buffer to the application process buffer.
 
-应该注意到，在阻塞的过程中，其它应用进程还可以执行，因此阻塞不意味着整个操作系统都被阻塞。因为其它应用进程还可以执行，所以不消耗 CPU 时间，这种模型的 CPU 利用率会比较高。
+Note that other application processes can still execute during the blocking period, so blocking does not mean the entire operating system is blocked. Because other application processes can still run, CPU time is not consumed by polling, so this model has relatively high CPU utilization.
 
-下图中，recvfrom() 用于接收 Socket 传来的数据，并复制到应用进程的缓冲区 buf 中。这里把 recvfrom() 当成系统调用。
+In the figure below, recvfrom() receives data from a Socket and copies it into the application process buffer buf. Here recvfrom() is treated as a system call.
 
 ```c
 ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen);
@@ -52,52 +52,52 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *
 
 ### Non-Blocking I/O
 
-应用进程执行系统调用之后，内核返回一个错误码。应用进程可以继续执行，但是需要不断的执行系统调用来获知 I/O 是否完成，这种方式称为轮询（polling）。
+After the application process executes the system call, the kernel returns an error code. The application process can continue running, but it must repeatedly execute system calls to determine whether I/O is complete. This approach is called polling.
 
-由于 CPU 要处理更多的系统调用，因此这种模型的 CPU 利用率比较低。
+Because the CPU has to handle more system calls, this model has relatively low CPU utilization.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1492929000361_5.png"/> </div><br>
 
 ### I/O Multiplexing
 
-使用 select 或者 poll 等待数据，并且可以等待多个套接字中的任何一个变为可读。这一过程会被阻塞，当某一个套接字可读时返回，之后再使用 recvfrom 把数据从内核复制到进程中。
+Use select or poll to wait for data, and wait until any one of multiple sockets becomes readable. This process blocks and returns when one socket is readable. Then recvfrom is used to copy the data from the kernel to the process.
 
-它可以让单个进程具有处理多个 I/O 事件的能力。又被称为 Event Driven I/O，即事件驱动 I/O。
+It allows a single process to handle multiple I/O events. It is also called Event Driven I/O.
 
-如果一个 Web 服务器没有 I/O 复用，那么每一个 Socket 连接都需要创建一个线程去处理。如果同时有几万个连接，那么就需要创建相同数量的线程。相比于多进程和多线程技术，I/O 复用不需要进程线程创建和切换的开销，系统开销更小。
+If a Web server does not use I/O multiplexing, each Socket connection needs a thread to handle it. If there are tens of thousands of simultaneous connections, the same number of threads must be created. Compared with multi-process and multi-thread techniques, I/O multiplexing avoids the overhead of process and thread creation and switching, so system overhead is lower.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1492929444818_6.png"/> </div><br>
 
 ### Signal-Driven I/O
 
-应用进程使用 sigaction 系统调用，内核立即返回，应用进程可以继续执行，也就是说等待数据阶段应用进程是非阻塞的。内核在数据到达时向应用进程发送 SIGIO 信号，应用进程收到之后在信号处理程序中调用 recvfrom 将数据从内核复制到应用进程中。
+The application process uses the sigaction system call, and the kernel returns immediately. The application process can continue running, so it is non-blocking during the data-waiting stage. When data arrives, the kernel sends a SIGIO signal to the application process. After receiving it, the application process calls recvfrom in the signal handler to copy data from the kernel to the application process.
 
-相比于非阻塞式 I/O 的轮询方式，信号驱动 I/O 的 CPU 利用率更高。
+Compared with polling in non-blocking I/O, signal-driven I/O has higher CPU utilization.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1492929553651_7.png"/> </div><br>
 
 ### Asynchronous I/O
 
-应用进程执行 aio_read 系统调用会立即返回，应用进程可以继续执行，不会被阻塞，内核会在所有操作完成之后向应用进程发送信号。
+When the application process executes the aio_read system call, it returns immediately. The application process can continue executing and is not blocked. The kernel sends a signal to the application process after all operations are complete.
 
-异步 I/O 与信号驱动 I/O 的区别在于，异步 I/O 的信号是通知应用进程 I/O 完成，而信号驱动 I/O 的信号是通知应用进程可以开始 I/O。
+The difference between asynchronous I/O and signal-driven I/O is that the signal in asynchronous I/O notifies the application process that I/O is complete, while the signal in signal-driven I/O notifies the application process that I/O can begin.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1492930243286_8.png"/> </div><br>
 
 ### Five I/O Model Comparison
 
-- 同步 I/O：将数据从内核缓冲区复制到应用进程缓冲区的阶段（第二阶段），应用进程会阻塞。
-- 异步 I/O：第二阶段应用进程不会阻塞。
+- Synchronous I/O: the application process blocks during the stage where data is copied from the kernel buffer to the application process buffer, which is the second stage.
+- Asynchronous I/O: the application process does not block during the second stage.
 
-同步 I/O 包括阻塞式 I/O、非阻塞式 I/O、I/O 复用和信号驱动 I/O ，它们的主要区别在第一个阶段。
+Synchronous I/O includes blocking I/O, non-blocking I/O, I/O multiplexing, and signal-driven I/O. Their main differences are in the first stage.
 
-非阻塞式 I/O 、信号驱动 I/O 和异步 I/O 在第一阶段不会阻塞。
+Non-blocking I/O, signal-driven I/O, and asynchronous I/O do not block in the first stage.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1492928105791_3.png"/> </div><br>
 
 ## 2. I/O Multiplexing
 
-select/poll/epoll 都是 I/O 多路复用的具体实现，select 出现的最早，之后是 poll，再是 epoll。
+select, poll, and epoll are concrete implementations of I/O multiplexing. select appeared first, followed by poll and then epoll.
 
 ### select
 
@@ -105,13 +105,13 @@ select/poll/epoll 都是 I/O 多路复用的具体实现，select 出现的最�
 int select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
 ```
 
-select 允许应用程序监视一组文件描述符，等待一个或者多个描述符成为就绪状态，从而完成 I/O 操作。
+select allows an application to monitor a set of file descriptors and wait until one or more descriptors become ready, thereby completing I/O operations.
 
-- fd_set 使用数组实现，数组大小使用 FD_SETSIZE 定义，所以只能监听少于 FD_SETSIZE 数量的描述符。有三种类型的描述符类型：readset、writeset、exceptset，分别对应读、写、异常条件的描述符集合。
+- fd_set is implemented with an array, and the array size is defined by FD_SETSIZE, so it can monitor only fewer than FD_SETSIZE descriptors. There are three descriptor sets: readset, writeset, and exceptset, corresponding to read, write, and exception conditions.
 
-- timeout 为超时参数，调用 select 会一直阻塞直到有描述符的事件到达或者等待的时间超过 timeout。
+- timeout is the timeout parameter. A select call blocks until a descriptor event arrives or the waiting time exceeds timeout.
 
-- 成功调用返回结果大于 0，出错返回结果为 -1，超时返回结果为 0。
+- A successful call returns a value greater than 0, an error returns -1, and a timeout returns 0.
 
 ```c
 fd_set fd_in, fd_out;
@@ -158,9 +158,9 @@ else
 int poll(struct pollfd *fds, unsigned int nfds, int timeout);
 ```
 
-poll 的功能与 select 类似，也是等待一组描述符中的一个成为就绪状态。
+poll is similar to select. It also waits for one descriptor in a set of descriptors to become ready.
 
-poll 中的描述符是 pollfd 类型的数组，pollfd 的定义如下：
+The descriptors in poll are an array of pollfd. pollfd is defined as follows:
 
 ```c
 struct pollfd {
@@ -207,20 +207,20 @@ else
 
 #### 1. Functionality
 
-select 和 poll 的功能基本相同，不过在一些实现细节上有所不同。
+select and poll have basically the same functionality, but differ in some implementation details.
 
-- select 会修改描述符，而 poll 不会；
-- select 的描述符类型使用数组实现，FD_SETSIZE 大小默认为 1024，因此默认只能监听少于 1024 个描述符。如果要监听更多描述符的话，需要修改 FD_SETSIZE 之后重新编译；而 poll 没有描述符数量的限制；
-- poll 提供了更多的事件类型，并且对描述符的重复利用上比 select 高。
-- 如果一个线程对某个描述符调用了 select 或者 poll，另一个线程关闭了该描述符，会导致调用结果不确定。
+- select modifies descriptors, while poll does not.
+- select uses an array for descriptor sets, and FD_SETSIZE defaults to 1024, so by default it can monitor fewer than 1024 descriptors. To monitor more descriptors, FD_SETSIZE must be modified and the program recompiled. poll has no descriptor count limit.
+- poll provides more event types and has better descriptor reuse than select.
+- If one thread calls select or poll on a descriptor and another thread closes that descriptor, the result is undefined.
 
 #### 2. Speed
 
-select 和 poll 速度都比较慢，每次调用都需要将全部描述符从应用进程缓冲区复制到内核缓冲区。
+select and poll are both relatively slow because every call needs to copy all descriptors from the application process buffer to the kernel buffer.
 
 #### 3. Portability
 
-几乎所有的系统都支持 select，但是只有比较新的系统支持 poll。
+Almost all systems support select, but only relatively newer systems support poll.
 
 ### epoll
 
@@ -230,15 +230,15 @@ int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；
 int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);
 ```
 
-epoll_ctl() 用于向内核注册新的描述符或者是改变某个文件描述符的状态。已注册的描述符在内核中会被维护在一棵红黑树上，通过回调函数内核会将 I/O 准备好的描述符加入到一个链表中管理，进程调用 epoll_wait() 便可以得到事件完成的描述符。
+epoll_ctl() registers new descriptors with the kernel or changes the state of a file descriptor. Registered descriptors are maintained in a red-black tree in the kernel. Through callbacks, the kernel adds descriptors whose I/O is ready to a linked list. The process can call epoll_wait() to obtain descriptors whose events have completed.
 
-从上面的描述可以看出，epoll 只需要将描述符从进程缓冲区向内核缓冲区拷贝一次，并且进程不需要通过轮询来获得事件完成的描述符。
+As the description above shows, epoll only needs to copy descriptors from the process buffer to the kernel buffer once, and the process does not need polling to obtain descriptors whose events have completed.
 
-epoll 仅适用于 Linux OS。
+epoll applies only to Linux OS.
 
-epoll 比 select 和 poll 更加灵活而且没有描述符数量限制。
+epoll is more flexible than select and poll and has no descriptor count limit.
 
-epoll 对多线程编程更有友好，一个线程调用了 epoll_wait() 另一个线程关闭了同一个描述符也不会产生像 select 和 poll 的不确定情况。
+epoll is friendlier to multithreaded programming. If one thread calls epoll_wait() and another thread closes the same descriptor, it does not produce the undefined behavior seen with select and poll.
 
 ```c
 // Create the epoll descriptor. Only one is needed per app, and is used to monitor all sockets.
@@ -290,39 +290,39 @@ else
 
 ### Working Modes
 
-epoll 的描述符事件有两种触发模式：LT（level trigger）和 ET（edge trigger）。
+epoll descriptor events have two trigger modes: LT (level trigger) and ET (edge trigger).
 
 #### 1. LT Mode
 
-当 epoll_wait() 检测到描述符事件到达时，将此事件通知进程，进程可以不立即处理该事件，下次调用 epoll_wait() 会再次通知进程。是默认的一种模式，并且同时支持 Blocking 和 No-Blocking。
+When epoll_wait() detects that a descriptor event has arrived, it notifies the process. The process does not have to handle the event immediately; the next epoll_wait() call will notify the process again. This is the default mode and supports both blocking and non-blocking behavior.
 
 #### 2. ET Mode
 
-和 LT 模式不同的是，通知之后进程必须立即处理事件，下次再调用 epoll_wait() 时不会再得到事件到达的通知。
+Unlike LT mode, the process must handle the event immediately after being notified. The next epoll_wait() call will not receive another notification for the same event arrival.
 
-很大程度上减少了 epoll 事件被重复触发的次数，因此效率要比 LT 模式高。只支持 No-Blocking，以避免由于一个文件句柄的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。
+This greatly reduces repeated triggering of epoll events, so it is more efficient than LT mode. It supports only non-blocking behavior to avoid starving the task that handles multiple file descriptors because of a blocking read or write on one file handle.
 
 ### Use Cases
 
-很容易产生一种错觉认为只要用 epoll 就可以了，select 和 poll 都已经过时了，其实它们都有各自的使用场景。
+It is easy to think that epoll is always enough and that select and poll are obsolete, but each has its own use cases.
 
 #### 1. select Use Cases
 
-select 的 timeout 参数精度为微秒，而 poll 和 epoll 为毫秒，因此 select 更加适用于实时性要求比较高的场景，比如核反应堆的控制。
+select's timeout parameter has microsecond precision, while poll and epoll use millisecond precision. Therefore, select is more suitable for scenarios with high real-time requirements, such as nuclear reactor control.
 
-select 可移植性更好，几乎被所有主流平台所支持。
+select has better portability and is supported by almost all mainstream platforms.
 
 #### 2. poll Use Cases
 
-poll 没有最大描述符数量的限制，如果平台支持并且对实时性要求不高，应该使用 poll 而不是 select。
+poll has no maximum descriptor count limit. If the platform supports it and real-time requirements are not high, use poll instead of select.
 
 #### 3. epoll Use Cases
 
-只需要运行在 Linux 平台上，有大量的描述符需要同时轮询，并且这些连接最好是长连接。
+Use epoll when the program only needs to run on Linux, many descriptors need to be polled at the same time, and these connections are preferably long-lived.
 
-需要同时监控小于 1000 个描述符，就没有必要使用 epoll，因为这个应用场景下并不能体现 epoll 的优势。
+If fewer than 1000 descriptors need to be monitored at the same time, epoll is unnecessary because its advantages do not show in this use case.
 
-需要监控的描述符状态变化多，而且都是非常短暂的，也没有必要使用 epoll。因为 epoll 中的所有描述符都存储在内核中，造成每次需要对描述符的状态改变都需要通过 epoll_ctl() 进行系统调用，频繁系统调用降低效率。并且 epoll 的描述符存储在内核，不容易调试。
+If the descriptors being monitored change state frequently and very briefly, epoll is also unnecessary. Because all descriptors in epoll are stored in the kernel, every descriptor state change requires an epoll_ctl() system call, and frequent system calls reduce efficiency. In addition, epoll descriptors are stored in the kernel, which makes debugging harder.
 
 ## References
 
@@ -331,7 +331,7 @@ poll 没有最大描述符数量的限制，如果平台支持并且对实时性
 - http://man7.org/linux/man-pages/man2/poll.2.html
 - [Boost application performance using asynchronous I/O](https://www.ibm.com/developerworks/linux/library/l-async/)
 - [Synchronous and Asynchronous I/O](https://msdn.microsoft.com/en-us/library/windows/desktop/aa365683(v=vs.85).aspx)
-- [Linux IO 模式及 select、poll、epoll 详解](https://segmentfault.com/a/1190000003063859)
+- [Linux IO Modes and Detailed Explanation of select, poll, and epoll](https://segmentfault.com/a/1190000003063859)
 - [poll vs select vs event-based](https://daniel.haxx.se/docs/poll-vs-select.html)
 - [select / poll / epoll: practical difference for system architects](http://www.ulduzsoft.com/2014/01/select-poll-epoll-practical-difference-for-system-architects/)
 - [Browse the source code of userspace/glibc/sysdeps/unix/sysv/linux/ online](https://code.woboq.org/userspace/glibc/sysdeps/unix/sysv/linux/)

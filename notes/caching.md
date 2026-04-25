@@ -1,14 +1,14 @@
 # Caching
 <!-- GFM-TOC -->
-* [缓存](#caching)
-    * [一、缓存特征](#1-cache-characteristics)
-    * [二、缓存位置](#2-cache-locations)
-    * [三、CDN](#3-cdn)
-    * [四、缓存问题](#4-cache-problems)
-    * [五、数据分布](#5-data-distribution)
-    * [六、一致性哈希](#6-consistent-hashing)
-    * [七、LRU](#7-lru)
-    * [参考资料](#references)
+* [Caching](#caching)
+    * [1. Cache Characteristics](#1-cache-characteristics)
+    * [2. Cache Locations](#2-cache-locations)
+    * [3. CDN](#3-cdn)
+    * [4. Cache Problems](#4-cache-problems)
+    * [5. Data Distribution](#5-data-distribution)
+    * [6. Consistent Hashing](#6-consistent-hashing)
+    * [7. LRU](#7-lru)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
@@ -16,69 +16,69 @@
 
 ### Hit Rate
 
-当某个请求能够通过访问缓存而得到响应时，称为缓存命中。
+When a request can be answered by accessing the cache, it is called a cache hit.
 
-缓存命中率越高，缓存的利用率也就越高。
+The higher the cache hit rate, the higher the cache utilization.
 
 ### Maximum Space
 
-缓存通常位于内存中，内存的空间通常比磁盘空间小的多，因此缓存的最大空间不可能非常大。
+Caches are usually located in memory, and memory space is usually much smaller than disk space, so the maximum cache space cannot be very large.
 
-当缓存存放的数据量超过最大空间时，就需要淘汰部分数据来存放新到达的数据。
+When the amount of data stored in the cache exceeds the maximum space, some data must be evicted to store newly arrived data.
 
 ### Eviction Policy
 
-- FIFO（First In First Out）：先进先出策略，在实时性的场景下，需要经常访问最新的数据，那么就可以使用 FIFO，使得最先进入的数据（最晚的数据）被淘汰。
+- FIFO (First In First Out): a first-in-first-out policy. In real-time scenarios where the newest data needs to be accessed frequently, FIFO can be used so that the earliest entered data, which is the oldest data, is evicted.
 
-- LRU（Least Recently Used）：最近最久未使用策略，优先淘汰最久未使用的数据，也就是上次被访问时间距离现在最久的数据。该策略可以保证内存中的数据都是热点数据，也就是经常被访问的数据，从而保证缓存命中率。
+- LRU (Least Recently Used): evicts the data that has not been used for the longest time, meaning the data whose last access time is farthest from now. This policy can keep hot data, that is, frequently accessed data, in memory and thus maintain the cache hit rate.
 
-- LFU（Least Frequently Used）：最不经常使用策略，优先淘汰一段时间内使用次数最少的数据。
+- LFU (Least Frequently Used): evicts the data used least often over a period of time.
 
 ## 2. Cache Locations
 
 ### Browser
 
-当 HTTP 响应允许进行缓存时，浏览器会将 HTML、CSS、JavaScript、图片等静态资源进行缓存。
+When an HTTP response allows caching, the browser caches static resources such as HTML, CSS, JavaScript, and images.
 
 ### ISP
 
-网络服务提供商（ISP）是网络访问的第一跳，通过将数据缓存在 ISP 中能够大大提高用户的访问速度。
+An Internet Service Provider (ISP) is the first hop for network access. Caching data in the ISP can greatly improve user access speed.
 
 ### Reverse Proxy
 
-反向代理位于服务器之前，请求与响应都需要经过反向代理。通过将数据缓存在反向代理，在用户请求反向代理时就可以直接使用缓存进行响应。
+A reverse proxy sits in front of the server, and both requests and responses pass through it. By caching data in the reverse proxy, cached responses can be used directly when users request the reverse proxy.
 
 ### Local Cache
 
-使用 Guava Cache 将数据缓存在服务器本地内存中，服务器代码可以直接读取本地内存中的缓存，速度非常快。
+Use Guava Cache to cache data in the server's local memory. Server code can directly read the cache from local memory, which is very fast.
 
 ### Distributed Cache
 
-使用 Redis、Memcache 等分布式缓存将数据缓存在分布式缓存系统中。
+Use distributed caches such as Redis and Memcache to cache data in a distributed cache system.
 
-相对于本地缓存来说，分布式缓存单独部署，可以根据需求分配硬件资源。不仅如此，服务器集群都可以访问分布式缓存，而本地缓存需要在服务器集群之间进行同步，实现难度和性能开销上都非常大。
+Compared with local cache, distributed cache is deployed separately and can allocate hardware resources according to demand. In addition, server clusters can all access the distributed cache, while local caches need to be synchronized between servers in the cluster, which is difficult to implement and has high performance overhead.
 
 ### Database Cache
 
-MySQL 等数据库管理系统具有自己的查询缓存机制来提高查询效率。
+Database management systems such as MySQL have their own query cache mechanisms to improve query efficiency.
 
 ### Java Internal Cache
 
-Java 为了优化空间，提高字符串、基本数据类型包装类的创建效率，设计了字符串常量池及 Byte、Short、Character、Integer、Long、Boolean 这六种包装类缓冲池。
+To optimize space and improve the creation efficiency of strings and primitive wrapper classes, Java designed the string constant pool and buffer pools for the six wrapper classes Byte, Short, Character, Integer, Long, and Boolean.
 
 ### CPU Multi-Level Cache
 
-CPU 为了解决运算速度与主存 IO 速度不匹配的问题，引入了多级缓存结构，同时使用 MESI 等缓存一致性协议来解决多核 CPU 缓存数据一致性的问题。
+To solve the mismatch between computation speed and main-memory IO speed, CPUs introduce multi-level cache structures and use cache consistency protocols such as MESI to solve cache data consistency problems in multi-core CPUs.
 
 ## 3. CDN
 
-内容分发网络（Content distribution network，CDN）是一种互连的网络系统，它利用更靠近用户的服务器从而更快更可靠地将 HTML、CSS、JavaScript、音乐、图片、视频等静态资源分发给用户。
+A Content Distribution Network (CDN) is an interconnected network system that uses servers closer to users to distribute static resources such as HTML, CSS, JavaScript, music, images, and videos faster and more reliably.
 
-CDN 主要有以下优点：
+CDN mainly has the following advantages:
 
-- 更快地将数据分发给用户；
-- 通过部署多台服务器，从而提高系统整体的带宽性能；
-- 多台服务器可以看成是一种冗余机制，从而具有高可用性。
+- Distributes data to users faster.
+- Improves overall system bandwidth performance by deploying multiple servers.
+- Multiple servers can be viewed as a redundancy mechanism, providing high availability.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/15313ed8-a520-4799-a300-2b6b36be314f.jpg"/> </div><br>
 
@@ -86,94 +86,94 @@ CDN 主要有以下优点：
 
 ### Cache Penetration
 
-指的是对某个一定不存在的数据进行请求，该请求将会穿透缓存到达数据库。
+This refers to requesting data that definitely does not exist. The request penetrates the cache and reaches the database.
 
-解决方案：
+Solutions:
 
-- 对这些不存在的数据缓存一个空数据；
-- 对这类请求进行过滤。
+- Cache empty data for these nonexistent entries.
+- Filter this type of request.
 
 ### Cache Avalanche
 
-指的是由于数据没有被加载到缓存中，或者缓存数据在同一时间大面积失效（过期），又或者缓存服务器宕机，导致大量的请求都到达数据库。
+This refers to a situation where a large number of requests reach the database because data has not been loaded into the cache, cached data expires over a large area at the same time, or cache servers go down.
 
-在有缓存的系统中，系统非常依赖于缓存，缓存分担了很大一部分的数据请求。当发生缓存雪崩时，数据库无法处理这么大的请求，导致数据库崩溃。
+In a system with caching, the system depends heavily on the cache, and the cache handles a large portion of data requests. When a cache avalanche occurs, the database cannot handle such a large number of requests, causing it to crash.
 
-解决方案：
+Solutions:
 
-- 为了防止缓存在同一时间大面积过期导致的缓存雪崩，可以通过观察用户行为，合理设置缓存过期时间来实现；
-- 为了防止缓存服务器宕机出现的缓存雪崩，可以使用分布式缓存，分布式缓存中每一个节点只缓存部分的数据，当某个节点宕机时可以保证其它节点的缓存仍然可用。
-- 也可以进行缓存预热，避免在系统刚启动不久由于还未将大量数据进行缓存而导致缓存雪崩。
+- To prevent a cache avalanche caused by large-scale cache expiration at the same time, observe user behavior and set reasonable cache expiration times.
+- To prevent a cache avalanche caused by cache server downtime, use distributed caching. Each node in a distributed cache stores only part of the data, so when one node goes down, caches on other nodes remain available.
+- Cache warming can also be performed to avoid a cache avalanche shortly after system startup, before large amounts of data have been cached.
 
 
 ### Cache Consistency
 
-缓存一致性要求数据更新的同时缓存数据也能够实时更新。
+Cache consistency requires cached data to be updated in real time when the data itself is updated.
 
-解决方案：
+Solutions:
 
-- 在数据更新的同时立即去更新缓存；
-- 在读缓存之前先判断缓存是否是最新的，如果不是最新的先进行更新。
+- Update the cache immediately when the data is updated.
+- Before reading the cache, first check whether it is up to date; if it is not, update it first.
 
-要保证缓存一致性需要付出很大的代价，缓存数据最好是那些对一致性要求不高的数据，允许缓存数据存在一些脏数据。
+Ensuring cache consistency has a high cost. Cached data is best suited for data with low consistency requirements, where some dirty data is acceptable.
 
 ### Cache Bottomless Pit
 
-指的是为了满足业务要求添加了大量缓存节点，但是性能不但没有好转反而下降了的现象。
+This refers to a situation where many cache nodes are added to meet business requirements, but performance decreases instead of improving.
 
-产生原因：缓存系统通常采用 hash 函数将 key 映射到对应的缓存节点，随着缓存节点数目的增加，键值分布到更多的节点上，导致客户端一次批量操作会涉及多次网络操作，这意味着批量操作的耗时会随着节点数目的增加而不断增大。此外，网络连接数变多，对节点的性能也有一定影响。
+Cause: cache systems usually use a hash function to map keys to corresponding cache nodes. As the number of cache nodes increases, keys are distributed across more nodes, causing one client batch operation to involve multiple network operations. This means the time consumed by batch operations increases as the number of nodes increases. In addition, more network connections also affect node performance.
 
-解决方案：
+Solutions:
 
-- 优化批量数据操作命令；
-- 减少网络通信次数；
-- 降低接入成本，使用长连接 / 连接池，NIO 等。
+- Optimize batch data operation commands.
+- Reduce the number of network communications.
+- Lower access costs by using long connections, connection pools, NIO, and similar techniques.
 
 ## 5. Data Distribution
 
 ### Hash Distribution
 
-哈希分布就是将数据计算哈希值之后，按照哈希值分配到不同的节点上。例如有 N 个节点，数据的主键为 key，则将该数据分配的节点序号为：hash(key)%N。
+Hash distribution calculates the hash value of data and assigns the data to different nodes based on that hash value. For example, if there are N nodes and the primary key of the data is key, the node number assigned to the data is: hash(key)%N.
 
-传统的哈希分布算法存在一个问题：当节点数量变化时，也就是 N 值变化，那么几乎所有的数据都需要重新分布，将导致大量的数据迁移。
+Traditional hash distribution has one problem: when the number of nodes changes, meaning N changes, almost all data must be redistributed, causing a large amount of data migration.
 
 ### Sequential Distribution
 
-将数据划分为多个连续的部分，按数据的 ID 或者时间分布到不同节点上。例如 User 表的 ID 范围为 1 \~ 7000，使用顺序分布可以将其划分成多个子表，对应的主键范围为 1 \~ 1000，1001 \~ 2000，...，6001 \~ 7000。
+Divide data into multiple continuous parts and distribute them to different nodes by data ID or time. For example, if the ID range of a User table is 1 \~ 7000, sequential distribution can divide it into multiple subtables with primary key ranges of 1 \~ 1000, 1001 \~ 2000, ..., and 6001 \~ 7000.
 
-顺序分布相比于哈希分布的主要优点如下：
+Compared with hash distribution, sequential distribution mainly has the following advantages:
 
-- 能保持数据原有的顺序；
-- 并且能够准确控制每台服务器存储的数据量，从而使得存储空间的利用率最大。
+- It can preserve the original order of the data.
+- It can accurately control the amount of data stored on each server, maximizing storage-space utilization.
 
 ## 6. Consistent Hashing
 
-Distributed Hash Table（DHT） 是一种哈希分布方式，其目的是为了克服传统哈希分布在服务器节点数量变化时大量数据迁移的问题。
+Distributed Hash Table (DHT) is a hash distribution method designed to overcome the large amount of data migration caused by changes in the number of server nodes in traditional hash distribution.
 
 ### Core Principles
 
-将哈希空间 [0, 2<sup>n</sup>-1] 看成一个哈希环，每个服务器节点都配置到哈希环上。每个数据对象通过哈希取模得到哈希值之后，存放到哈希环中顺时针方向第一个大于等于该哈希值的节点上。
+Treat the hash space [0, 2<sup>n</sup>-1] as a hash ring, and place each server node on the hash ring. After each data object obtains a hash value through hashing and modulo operations, it is stored on the first node clockwise on the hash ring whose value is greater than or equal to that hash value.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/68b110b9-76c6-4ee2-b541-4145e65adb3e.jpg"/> </div><br>
 
-一致性哈希在增加或者删除节点时只会影响到哈希环中相邻的节点，例如下图中新增节点 X，只需要将它前一个节点 C 上的数据重新进行分布即可，对于节点 A、B、D 都没有影响。
+When nodes are added or removed, consistent hashing only affects neighboring nodes on the hash ring. For example, when node X is added in the figure below, only the data on its previous node C needs to be redistributed; nodes A, B, and D are unaffected.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/66402828-fb2b-418f-83f6-82153491bcfe.jpg"/> </div><br>
 
 ### Virtual Nodes
 
-上面描述的一致性哈希存在数据分布不均匀的问题，节点存储的数据量有可能会存在很大的不同。
+The consistent hashing described above has the problem of uneven data distribution. The amount of data stored by different nodes may vary greatly.
 
-数据不均匀主要是因为节点在哈希环上分布的不均匀，这种情况在节点数量很少的情况下尤其明显。
+Uneven data distribution is mainly caused by uneven node distribution on the hash ring, which is especially obvious when there are few nodes.
 
-解决方式是通过增加虚拟节点，然后将虚拟节点映射到真实节点上。虚拟节点的数量比真实节点来得多，那么虚拟节点在哈希环上分布的均匀性就会比原来的真实节点好，从而使得数据分布也更加均匀。
+The solution is to add virtual nodes and map them to real nodes. Because there are many more virtual nodes than real nodes, virtual nodes are distributed more evenly on the hash ring than the original real nodes, making data distribution more even.
 
 ## 7. LRU
 
-以下是基于 双向链表 + HashMap 的 LRU 算法实现，对算法的解释如下：
+The following is an LRU implementation based on a doubly linked list plus HashMap. The algorithm is explained as follows:
 
-- 访问某个节点时，将其从原来的位置删除，并重新插入到链表头部。这样就能保证链表尾部存储的就是最近最久未使用的节点，当节点数量大于缓存最大空间时就淘汰链表尾部的节点。
-- 为了使删除操作时间复杂度为 O(1)，就不能采用遍历的方式找到某个节点。HashMap 存储着 Key 到节点的映射，通过 Key 就能以 O(1) 的时间得到节点，然后再以 O(1) 的时间将其从双向队列中删除。
+- When a node is accessed, remove it from its original position and insert it at the head of the linked list. This ensures that the tail of the linked list stores the least recently used node, and when the number of nodes exceeds the maximum cache space, the tail node is evicted.
+- To make deletion O(1), traversal cannot be used to find a node. The HashMap stores the mapping from Key to node. A node can be obtained by Key in O(1), then removed from the doubly linked list in O(1).
 
 ```java
 public class LRU<K, V> implements Iterable<K> {
@@ -303,8 +303,8 @@ public class LRU<K, V> implements Iterable<K> {
 
 ## References
 
-- 大规模分布式存储系统
-- [缓存那些事](https://tech.meituan.com/cache_about.html)
-- [一致性哈希算法](https://my.oschina.net/jayhu/blog/732849)
-- [内容分发网络](https://zh.wikipedia.org/wiki/%E5%85%A7%E5%AE%B9%E5%82%B3%E9%81%9E%E7%B6%B2%E8%B7%AF)
+- Large-Scale Distributed Storage Systems
+- [Things About Caching](https://tech.meituan.com/cache_about.html)
+- [Consistent Hashing Algorithm](https://my.oschina.net/jayhu/blog/732849)
+- [Content Distribution Network](https://zh.wikipedia.org/wiki/%E5%85%A7%E5%AE%B9%E5%82%B3%E9%81%9E%E7%B6%B2%E8%B7%AF)
 - [How Aspiration CDN helps to improve your website loading speed?](https://www.aspirationhosting.com/aspiration-cdn/)

@@ -1,21 +1,21 @@
 # Clustering
 <!-- GFM-TOC -->
-* [集群](#clustering)
-    * [一、负载均衡](#1-load-balancing)
-        * [负载均衡算法](#load-balancing-algorithms)
-            * [1. 轮询（Round Robin）](#1-round-robin)
-            * [2. 加权轮询（Weighted Round Robbin）](#2-weighted-round-robin)
-            * [3. 最少连接（least Connections）](#3-least-connections)
-            * [4. 加权最少连接（Weighted Least Connection）](#4-weighted-least-connections)
-            * [5. 随机算法（Random）](#5-random)
-            * [6. 源地址哈希法 (IP Hash)](#6-ip-hash)
-        * [转发实现](#forwarding-implementation)
-            * [1. HTTP 重定向](#1-http-redirect)
-            * [2. DNS 域名解析](#2-dns-resolution)
-            * [3. 反向代理服务器](#3-reverse-proxy-server)
-            * [4. 网络层](#4-network-layer)
-            * [5. 链路层](#5-link-layer)
-    * [二、集群下的 Session 管理](#2-session-management-in-clusters)
+* [Clustering](#clustering)
+    * [1. Load Balancing](#1-load-balancing)
+        * [Load Balancing Algorithms](#load-balancing-algorithms)
+            * [1. Round Robin](#1-round-robin)
+            * [2. Weighted Round Robin](#2-weighted-round-robin)
+            * [3. Least Connections](#3-least-connections)
+            * [4. Weighted Least Connections](#4-weighted-least-connections)
+            * [5. Random](#5-random)
+            * [6. IP Hash](#6-ip-hash)
+        * [Forwarding Implementation](#forwarding-implementation)
+            * [1. HTTP Redirect](#1-http-redirect)
+            * [2. DNS Resolution](#2-dns-resolution)
+            * [3. Reverse Proxy Server](#3-reverse-proxy-server)
+            * [4. Network Layer](#4-network-layer)
+            * [5. Link Layer](#5-link-layer)
+    * [2. Session Management in Clusters](#2-session-management-in-clusters)
         * [Sticky Session](#sticky-session)
         * [Session Replication](#session-replication)
         * [Session Server](#session-server)
@@ -24,74 +24,74 @@
 
 ## 1. Load Balancing
 
-集群中的应用服务器（节点）通常被设计成无状态，用户可以请求任何一个节点。
+Application servers (nodes) in a cluster are usually designed to be stateless, so users can request any node.
 
-负载均衡器会根据集群中每个节点的负载情况，将用户请求转发到合适的节点上。
+A load balancer forwards user requests to appropriate nodes based on the load of each node in the cluster.
 
-负载均衡器可以用来实现高可用以及伸缩性：
+A load balancer can be used to achieve high availability and scalability:
 
-- 高可用：当某个节点故障时，负载均衡器会将用户请求转发到另外的节点上，从而保证所有服务持续可用；
-- 伸缩性：根据系统整体负载情况，可以很容易地添加或移除节点。
+- High availability: when a node fails, the load balancer forwards user requests to another node, ensuring that all services remain available.
+- Scalability: nodes can be added or removed easily according to the overall system load.
 
-负载均衡器运行过程包含两个部分：
+The load balancer process includes two parts:
 
-1. 根据负载均衡算法得到转发的节点；
-2. 进行转发。
+1. Select the forwarding node according to the load balancing algorithm.
+2. Forward the request.
 
 ### Load Balancing Algorithms
 
 #### 1. Round Robin
 
-轮询算法把每个请求轮流发送到每个服务器上。
+The round-robin algorithm sends each request to each server in turn.
 
-下图中，一共有 6 个客户端产生了 6 个请求，这 6 个请求按 (1, 2, 3, 4, 5, 6) 的顺序发送。(1, 3, 5) 的请求会被发送到服务器 1，(2, 4, 6) 的请求会被发送到服务器 2。
+In the figure below, six clients generate six requests, and the requests are sent in the order (1, 2, 3, 4, 5, 6). Requests (1, 3, 5) are sent to server 1, and requests (2, 4, 6) are sent to server 2.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9daa3616-00a4-48c4-9146-792dc8499be3.jpg" width="500px"/> </div><br>
 
 
-该算法比较适合每个服务器的性能差不多的场景，如果有性能存在差异的情况下，那么性能较差的服务器可能无法承担过大的负载（下图的 Server 2）。
+This algorithm is suitable when each server has similar performance. If server performance differs, a weaker server may be unable to handle excessive load, such as Server 2 in the figure below.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/bfea8772-d01b-4a51-8adc-edfd7d3dce84.jpg" width="500px"/> </div><br>
 
 #### 2. Weighted Round Robin
 
-加权轮询是在轮询的基础上，根据服务器的性能差异，为服务器赋予一定的权值，性能高的服务器分配更高的权值。
+Weighted round robin assigns weights to servers based on their performance differences on top of round robin. Higher-performance servers receive higher weights.
 
-例如下图中，服务器 1 被赋予的权值为 5，服务器 2 被赋予的权值为 1，那么 (1, 2, 3, 4, 5) 请求会被发送到服务器 1，(6) 请求会被发送到服务器 2。
+For example, in the figure below, server 1 is assigned a weight of 5 and server 2 is assigned a weight of 1. Requests (1, 2, 3, 4, 5) are sent to server 1, and request (6) is sent to server 2.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/4ab87717-e264-4232-825d-8aaf08f14e8b.jpg" width="500px"/> </div><br>
 
 #### 3. Least Connections
 
-由于每个请求的连接时间不一样，使用轮询或者加权轮询算法的话，可能会让一台服务器当前连接数过大，而另一台服务器的连接过小，造成负载不均衡。
+Because each request has a different connection duration, using round robin or weighted round robin may cause one server to have too many current connections while another has too few, creating load imbalance.
 
-例如下图中，(1, 3, 5) 请求会被发送到服务器 1，但是 (1, 3) 很快就断开连接，此时只有 (5) 请求连接服务器 1；(2, 4, 6) 请求被发送到服务器 2，只有 (2) 的连接断开，此时 (6, 4) 请求连接服务器 2。该系统继续运行时，服务器 2 会承担过大的负载。
+For example, in the figure below, requests (1, 3, 5) are sent to server 1, but (1, 3) disconnect quickly, so only request (5) remains connected to server 1. Requests (2, 4, 6) are sent to server 2, and only connection (2) disconnects, so requests (6, 4) remain connected to server 2. As the system continues running, server 2 bears excessive load.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e98deb5a-d5d4-4294-aa9b-9220d4483403.jpg" width="500px"/> </div><br>
 
-最少连接算法就是将请求发送给当前最少连接数的服务器上。
+The least-connections algorithm sends the request to the server with the fewest current connections.
 
-例如下图中，服务器 1 当前连接数最小，那么新到来的请求 6 就会被发送到服务器 1 上。
+For example, in the figure below, server 1 currently has the fewest connections, so the newly arrived request 6 is sent to server 1.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/43d323ac-9f07-4e4a-a315-4eaf8c38766c.jpg" width="500px"/> </div><br>
 
 #### 4. Weighted Least Connections
 
-在最少连接的基础上，根据服务器的性能为每台服务器分配权重，再根据权重计算出每台服务器能处理的连接数。
+Based on least connections, each server is assigned a weight according to performance, and the number of connections each server can handle is calculated from that weight.
 
 #### 5. Random
 
-把请求随机发送到服务器上。
+Send requests to servers randomly.
 
-和轮询算法类似，该算法比较适合服务器性能差不多的场景。
+Like round robin, this algorithm is suitable when server performance is similar.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a42ad3a7-3574-4c48-a783-ed3d08a0688a.jpg" width="500px"/> </div><br>
 
 #### 6. IP Hash
 
-源地址哈希通过对客户端 IP 计算哈希值之后，再对服务器数量取模得到目标服务器的序号。
+Source address hashing calculates a hash value from the client IP and then takes the modulus by the number of servers to obtain the target server number.
 
-可以保证同一 IP 的客户端的请求会转发到同一台服务器上，用来实现会话粘滞（Sticky Session）
+It ensures that requests from clients with the same IP are forwarded to the same server, which is used to implement Sticky Session.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0f399a9f-1351-4b2d-b8a4-2ebe82b1a703.jpg" width="500px"/> </div><br>
 
@@ -99,116 +99,115 @@
 
 #### 1. HTTP Redirect
 
-HTTP 重定向负载均衡服务器使用某种负载均衡算法计算得到服务器的 IP 地址之后，将该地址写入 HTTP 重定向报文中，状态码为 302。客户端收到重定向报文之后，需要重新向服务器发起请求。
+An HTTP redirect load balancer uses a load balancing algorithm to calculate the server IP address, writes that address into an HTTP redirect response, and returns status code 302. After the client receives the redirect response, it needs to initiate a new request to the server.
 
-缺点：
+Disadvantages:
 
-- 需要两次请求，因此访问延迟比较高；
-- HTTP 负载均衡器处理能力有限，会限制集群的规模。
+- Two requests are required, so access latency is relatively high.
+- The processing capacity of an HTTP load balancer is limited, which restricts cluster size.
 
-该负载均衡转发的缺点比较明显，实际场景中很少使用它。
+The disadvantages of this load balancing and forwarding approach are obvious, so it is rarely used in real scenarios.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/02a1fbfd-7a9d-4114-95df-ca2445587a1f.jpg" width="500px"/> </div><br>
 
 #### 2. DNS Resolution
 
-在 DNS 解析域名的同时使用负载均衡算法计算服务器 IP 地址。
+When DNS resolves a domain name, it also uses a load balancing algorithm to calculate the server IP address.
 
-优点：
+Advantages:
 
-- DNS 能够根据地理位置进行域名解析，返回离用户最近的服务器 IP 地址。
+- DNS can resolve domain names based on geographic location and return the server IP address closest to the user.
 
-缺点：
+Disadvantages:
 
-- 由于 DNS 具有多级结构，每一级的域名记录都可能被缓存，当下线一台服务器需要修改 DNS 记录时，需要过很长一段时间才能生效。
+- Because DNS has a multi-level structure, domain records at each level may be cached. When a server is taken offline and DNS records need to be modified, it may take a long time for the change to take effect.
 
-大型网站基本使用了 DNS 做为第一级负载均衡手段，然后在内部使用其它方式做第二级负载均衡。也就是说，域名解析的结果为内部的负载均衡服务器 IP 地址。
+Large websites usually use DNS as the first level of load balancing and then use other methods internally as the second level of load balancing. In other words, domain resolution returns the IP address of an internal load balancing server.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/d2c072cc-8b17-480c-813e-18cdb3b4b51f.jpg" width="500px"/> </div><br>
 
 #### 3. Reverse Proxy Server
 
-反向代理服务器位于源服务器前面，用户的请求需要先经过反向代理服务器才能到达源服务器。反向代理可以用来进行缓存、日志记录等，同时也可以用来做为负载均衡服务器。
+A reverse proxy server sits in front of the origin server. User requests must pass through the reverse proxy before reaching the origin server. A reverse proxy can be used for caching, logging, and also as a load balancing server.
 
-在这种负载均衡转发方式下，客户端不直接请求源服务器，因此源服务器不需要外部 IP 地址，而反向代理需要配置内部和外部两套 IP 地址。
+With this load balancing and forwarding method, the client does not request the origin server directly, so the origin server does not need an external IP address. The reverse proxy needs both internal and external IP addresses.
 
-优点：
+Advantages:
 
-- 与其它功能集成在一起，部署简单。
+- It integrates with other functions and is simple to deploy.
 
-缺点：
+Disadvantages:
 
-- 所有请求和响应都需要经过反向代理服务器，它可能会成为性能瓶颈。
+- All requests and responses must pass through the reverse proxy server, which may become a performance bottleneck.
 
 #### 4. Network Layer
 
-在操作系统内核进程获取网络数据包，根据负载均衡算法计算源服务器的 IP 地址，并修改请求数据包的目的 IP 地址，最后进行转发。
+The operating system kernel process obtains network packets, calculates the origin server IP address according to the load balancing algorithm, modifies the destination IP address of the request packet, and then forwards it.
 
-源服务器返回的响应也需要经过负载均衡服务器，通常是让负载均衡服务器同时作为集群的网关服务器来实现。
+Responses returned by origin servers also need to pass through the load balancing server. This is usually implemented by making the load balancing server also act as the cluster's gateway server.
 
-优点：
+Advantages:
 
-- 在内核进程中进行处理，性能比较高。
+- Processing happens in the kernel process, so performance is relatively high.
 
-缺点：
+Disadvantages:
 
-- 和反向代理一样，所有的请求和响应都经过负载均衡服务器，会成为性能瓶颈。
+- As with reverse proxying, all requests and responses pass through the load balancing server, which can become a performance bottleneck.
 
 #### 5. Link Layer
 
-在链路层根据负载均衡算法计算源服务器的 MAC 地址，并修改请求数据包的目的 MAC 地址，并进行转发。
+At the link layer, the origin server's MAC address is calculated according to the load balancing algorithm, the destination MAC address of the request packet is modified, and the packet is forwarded.
 
-通过配置源服务器的虚拟 IP 地址和负载均衡服务器的 IP 地址一致，从而不需要修改 IP 地址就可以进行转发。也正因为 IP 地址一样，所以源服务器的响应不需要转发回负载均衡服务器，可以直接转发给客户端，避免了负载均衡服务器的成为瓶颈。
+By configuring the origin server's virtual IP address to be the same as the load balancing server's IP address, forwarding can be performed without modifying the IP address. Because the IP addresses are the same, the origin server's response does not need to be forwarded back to the load balancing server and can be sent directly to the client, preventing the load balancing server from becoming a bottleneck.
 
-这是一种三角传输模式，被称为直接路由。对于提供下载和视频服务的网站来说，直接路由避免了大量的网络传输数据经过负载均衡服务器。
+This is a triangular transmission mode called direct routing. For websites that provide download and video services, direct routing avoids sending large amounts of network data through the load balancing server.
 
-这是目前大型网站使用最广负载均衡转发方式，在 Linux 平台可以使用的负载均衡服务器为 LVS（Linux Virtual Server）。
+This is currently the most widely used load balancing forwarding method for large websites. On Linux, the available load balancing server is LVS (Linux Virtual Server).
 
-参考：
+References:
 
 - [Comparing Load Balancing Algorithms](http://www.jscape.com/blog/load-balancing-algorithms)
 - [Redirection and Load Balancing](http://slideplayer.com/slide/6599069/#)
 
 ## 2. Session Management in Clusters
 
-一个用户的 Session 信息如果存储在一个服务器上，那么当负载均衡器把用户的下一个请求转发到另一个服务器，由于服务器没有用户的 Session 信息，那么该用户就需要重新进行登录等操作。
+If a user's Session information is stored on one server, then when the load balancer forwards the user's next request to another server, that server does not have the user's Session information, so the user needs to log in again or perform similar operations.
 
 ### Sticky Session
 
-需要配置负载均衡器，使得一个用户的所有请求都路由到同一个服务器，这样就可以把用户的 Session 存放在该服务器中。
+The load balancer needs to be configured so that all requests from a user are routed to the same server. This allows the user's Session to be stored on that server.
 
-缺点：
+Disadvantages:
 
-- 当服务器宕机时，将丢失该服务器上的所有 Session。
+- When the server goes down, all Sessions on that server are lost.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1623f524-b011-40c8-b83f-eab38d538f76.png" width="400px"/> </div><br>
 
 ### Session Replication
 
-在服务器之间进行 Session 同步操作，每个服务器都有所有用户的 Session 信息，因此用户可以向任何一个服务器进行请求。
+Session synchronization is performed between servers. Each server has Session information for all users, so users can send requests to any server.
 
-缺点：
+Disadvantages:
 
-- 占用过多内存；
-- 同步过程占用网络带宽以及服务器处理器时间。
+- It consumes too much memory.
+- Synchronization consumes network bandwidth and server CPU time.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/40c6570d-c1d7-4c38-843e-ba991b2328c2.png" width="400px"/> </div><br>
 
 ### Session Server
 
-使用一个单独的服务器存储 Session 数据，可以使用传统的 MySQL，也使用 Redis 或者 Memcached 这种内存型数据库。
+Use a separate server to store Session data. Traditional MySQL can be used, or in-memory databases such as Redis or Memcached can be used.
 
-优点：
+Advantages:
 
-- 为了使得大型网站具有伸缩性，集群中的应用服务器通常需要保持无状态，那么应用服务器不能存储用户的会话信息。Session Server 将用户的会话信息单独进行存储，从而保证了应用服务器的无状态。
+- To make large websites scalable, application servers in a cluster usually need to remain stateless, so application servers cannot store user session information. A Session Server stores user session information separately, ensuring that application servers remain stateless.
 
-缺点：
+Disadvantages:
 
-- 需要去实现存取 Session 的代码。
+- Code for storing and retrieving Sessions needs to be implemented.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/fdc45a09-f838-4348-8959-d2c793727788.png" width="600px"/> </div><br>
 
-参考：
+References:
 
 - [Session Management using Spring Session with JDBC DataStore](https://sivalabs.in/2018/02/session-management-using-spring-session-jdbc-datastore/)
-

