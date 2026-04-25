@@ -4,23 +4,23 @@
 
 ## Problem Description
 
-一个链表中包含环，请找出该链表的环的入口结点。要求不能使用额外的空间。
+A linked list contains a cycle. Find the entry node of the cycle. Extra space must not be used.
 
 ## Solution
 
-使用双指针，一个快指针 fast 每次移动两个节点，一个慢指针 slow 每次移动一个节点。因为存在环，所以两个指针必定相遇在环中的某个节点上。
+Use two pointers: a fast pointer fast that moves two nodes at a time, and a slow pointer slow that moves one node at a time. Because a cycle exists, the two pointers must meet at some node in the cycle.
 
-假设环入口节点为 y1，相遇所在节点为 z1。
+Assume the cycle entry node is y1, and the meeting node is z1.
 
-假设快指针  fast  在圈内绕了 N 圈，则总路径长度为 x+Ny+(N-1)z。z 为 (N-1) 倍是因为快慢指针最后已经在 z1 节点相遇了，后面就不需要再走了。
+Assume the fast pointer fast loops around the cycle N times. Its total path length is x+Ny+(N-1)z. The multiplier of z is (N-1) because the fast and slow pointers finally meet at node z1, so no further distance after z1 is needed.
 
-而慢指针 slow 总路径长度为 x+y。
+The slow pointer slow has a total path length of x+y.
 
-因为快指针是慢指针的两倍，因此 x+Ny+(N-1)z = 2(x+y)。
+Because the fast pointer moves twice as fast as the slow pointer, x+Ny+(N-1)z = 2(x+y).
 
-我们要找的是环入口节点 y1，也可以看成寻找长度 x 的值，因此我们先将上面的等值分解为和 x 有关：x=(N-2)y+(N-1)z。
+The goal is to find the cycle entry node y1, which can also be viewed as finding the length x. First, rewrite the equation above in terms of x: x=(N-2)y+(N-1)z.
 
-上面的等值没有很强的规律，但是我们可以发现 y+z 就是圆环的总长度，因此我们将上面的等式再分解：x=(N-2)(y+z)+z。这个等式左边是从起点x1 到环入口节点 y1 的长度，而右边是在圆环中走过 (N-2) 圈，再从相遇点 z1 再走过长度为 z 的长度。此时我们可以发现如果让两个指针同时从起点 x1 和相遇点 z1 开始，每次只走过一个距离，那么最后他们会在环入口节点相遇。
+The equation above does not show a strong pattern, but y+z is the total length of the cycle. Rewrite it again as x=(N-2)(y+z)+z. The left side is the distance from the start point x1 to the cycle entry node y1. The right side is the distance of (N-2) full loops around the cycle plus another distance z from the meeting point z1. Therefore, if two pointers start at x1 and z1 at the same time and each moves one step at a time, they will finally meet at the cycle entry node.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/bb7fc182-98c2-4860-8ea3-630e27a5f29f.png" width="500"/> </div><br>
 

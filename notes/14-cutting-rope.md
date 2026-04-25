@@ -2,11 +2,11 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/57d85990ba5b440ab888fc72b0751bf8?tpId=13&tqId=33257&tab=answerKey&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/57d85990ba5b440ab888fc72b0751bf8?tpId=13&tqId=33257&tab=answerKey&from=cyc_github)
 
 ## Problem Description
 
-把一根绳子剪成多段，并且使得每段的长度乘积最大。
+Cut a rope into multiple segments so that the product of the segment lengths is maximized.
 
 ```html
 n = 2
@@ -20,21 +20,21 @@ return 36 (10 = 3 + 3 + 4)
 
 ### Greedy
 
-尽可能得多剪长度为 3 的绳子，并且不允许有长度为 1 的绳子出现。如果出现了，就从已经切好长度为 3 的绳子中拿出一段与长度为 1 的绳子重新组合，把它们切成两段长度为 2 的绳子。以下为证明过程。
+Cut as many segments of length 3 as possible, and do not allow a segment of length 1. If a length-1 segment appears, take one existing length-3 segment and combine it with the length-1 segment, then cut them into two length-2 segments. The proof is as follows.
 
-将绳子拆成 1 和 n-1，则 1(n-1)-n=-1\<0，即拆开后的乘积一定更小，所以不能出现长度为 1 的绳子。
+If the rope is split into 1 and n-1, then 1(n-1)-n=-1\<0, so the product after splitting is always smaller. Therefore, a length-1 segment should not appear.
 
-将绳子拆成 2 和 n-2，则 2(n-2)-n = n-4，在 n\>=4 时这样拆开能得到的乘积会比不拆更大。
+If the rope is split into 2 and n-2, then 2(n-2)-n = n-4. When n\>=4, this split gives a larger product than not splitting.
 
-将绳子拆成 3 和 n-3，则 3(n-3)-n = 2n-9，在 n\>=5 时效果更好。
+If the rope is split into 3 and n-3, then 3(n-3)-n = 2n-9, which is better when n\>=5.
 
-将绳子拆成 4 和 n-4，因为 4=2\*2，因此效果和拆成 2 一样。
+If the rope is split into 4 and n-4, since 4=2\*2, the effect is the same as splitting off 2.
 
-将绳子拆成 5 和 n-5，因为 5=2+3，而 5\<2\*3，所以不能出现 5 的绳子，而是尽可能拆成 2 和 3。
+If the rope is split into 5 and n-5, since 5=2+3 and 5\<2\*3, a length-5 segment should not appear; it should be split into 2 and 3 as much as possible.
 
-将绳子拆成 6 和 n-6，因为 6=3+3，而 6\<3\*3，所以不能出现 6 的绳子，而是拆成 3 和 3。这里 6 同样可以拆成 6=2+2+2，但是 3(n - 3) - 2(n - 2) = n - 5 \>= 0，在 n\>=5 的情况下将绳子拆成 3 比拆成 2 效果更好。
+If the rope is split into 6 and n-6, since 6=3+3 and 6\<3\*3, a length-6 segment should not appear; it should be split into 3 and 3. Here, 6 can also be split as 6=2+2+2, but 3(n - 3) - 2(n - 2) = n - 5 \>= 0, so when n\>=5, splitting off 3 is better than splitting off 2.
 
-继续拆成更大的绳子可以发现都比拆成 2 和 3 的效果更差，因此我们只考虑将绳子拆成 2 和 3，并且优先拆成 3，当拆到绳子长度 n 等于 4 时，也就是出现 3+1，此时只能拆成 2+2。
+Continuing to split into larger segments shows that they are all worse than splitting into 2 and 3. Therefore, only splits into 2 and 3 are considered, with priority given to 3. When the remaining rope length n is 4, meaning 3+1 would occur, it must be split into 2+2.
 
 ```java
 public int cutRope(int n) {

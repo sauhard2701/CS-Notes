@@ -2,15 +2,15 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/8ee967e43c2c4ec193b040ea7fbb10b8?tpId=13&tqId=11164&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/8ee967e43c2c4ec193b040ea7fbb10b8?tpId=13&tqId=11164&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
 ## Problem Description
 
-输入一个整数，输出该数二进制表示中 1 的个数。
+Given an integer, output the number of 1 bits in its binary representation.
 
 ### Solution
 
-n&(n-1) 位运算可以将 n 的位级表示中最低的那一位 1 设置为 0。不断将 1 设置为 0，直到 n 为 0。时间复杂度：O(M)，其中 M 表示 1 的个数。
+The bit operation n&(n-1) sets the lowest 1 bit in n's binary representation to 0. Keep setting 1 bits to 0 until n becomes 0. Time complexity: O(M), where M is the number of 1 bits.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20201105004127554.png" width="500px"> </div><br>
 

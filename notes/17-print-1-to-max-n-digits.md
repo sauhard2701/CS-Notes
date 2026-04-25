@@ -2,13 +2,13 @@
 
 ## Problem Description
 
-输入数字 n，按顺序打印出从 1 到最大的 n 位十进制数。比如输入 3，则打印出 1、2、3 一直到最大的 3 位数即 999。
+Given a number n, print the decimal numbers from 1 to the largest n-digit number in order. For example, if the input is 3, print 1, 2, 3, up to the largest 3-digit number, 999.
 
 ## Solution
 
-由于 n 可能会非常大，因此不能直接用 int 表示数字，而是用 char 数组进行存储。
+Because n may be very large, the numbers cannot be represented directly with int; instead, store them in a char array.
 
-使用回溯法得到所有的数。
+Use backtracking to generate all numbers.
 
 ```java
 public void print1ToMaxOfNDigits(int n) {

@@ -1,16 +1,16 @@
 # 19. Regular Expression Matching
 
-[牛客网](https://www.nowcoder.com/practice/28970c15befb4ff3a264189087b99ad4?tpId=13&tqId=11205&tab=answerKey&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/28970c15befb4ff3a264189087b99ad4?tpId=13&tqId=11205&tab=answerKey&from=cyc_github)
 
 ## Problem Description
 
-请实现一个函数用来匹配包括 '.' 和 '\*' 的正则表达式。模式中的字符 '.' 表示任意一个字符，而 '\*' 表示它前面的字符可以出现任意次（包含 0 次）。
+Implement a function to match regular expressions that include '.' and '\*'. In the pattern, '.' represents any single character, and '\*' means the preceding character can appear any number of times, including 0.
 
-在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串 "aaa" 与模式 "a.a" 和 "ab\*ac\*a" 匹配，但是与 "aa.a" 和 "ab\*a" 均不匹配。
+In this problem, matching means all characters in the string match the entire pattern. For example, the string "aaa" matches the patterns "a.a" and "ab\*ac\*a", but does not match either "aa.a" or "ab\*a".
 
 ## Solution
 
-应该注意到，'.' 是用来当做一个任意字符，而 '\*' 是用来重复前面的字符。这两个的作用不同，不能把 '.' 的作用和 '\*' 进行类比，从而把它当成重复前面字符一次。
+Note that '.' is used as any single character, while '\*' repeats the preceding character. They have different roles; do not compare '.' with '\*' and treat it as repeating the preceding character once.
 
 ```java
 public boolean match(String str, String pattern) {

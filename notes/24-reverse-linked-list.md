@@ -20,7 +20,7 @@ public ListNode ReverseList(ListNode head) {
 
 ### Iteration
 
-使用头插法。
+Use head insertion.
 
 ```java
 public ListNode ReverseList(ListNode head) {

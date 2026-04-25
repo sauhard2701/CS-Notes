@@ -2,21 +2,21 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/ef1f53ef31ca408cada5093c8780f44b?tpId=13&tqId=11166&tab=answerKey&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/ef1f53ef31ca408cada5093c8780f44b?tpId=13&tqId=11166&tab=answerKey&from=cyc_github)
 
 ## Problem Description
 
-需要保证奇数和奇数，偶数和偶数之间的相对位置不变，这和书本不太一样。例如对于 [1,2,3,4,5]，调整后得到 [1,3,5,2,4]，而不能是 {5,1,3,4,2} 这种相对位置改变的结果。
+The relative order among odd numbers and among even numbers must remain unchanged, which is somewhat different from the book. For example, for [1,2,3,4,5], the result after adjustment should be [1,3,5,2,4], not a result like {5,1,3,4,2} where the relative order changes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/d03a2efa-ef19-4c96-97e8-ff61df8061d3.png" width="200px"> </div><br>
 
 ## Solution
 
-方法一：创建一个新数组，时间复杂度 O(N)，空间复杂度 O(N)。
+Method 1: Create a new array. Time complexity O(N), space complexity O(N).
 
 ```java
 public int[] reOrderArray (int[] nums) {
-    // 奇数个数
+    // Number of odd values
     int oddCnt = 0;
     for (int x : nums)
         if (!isEven(x))
@@ -37,7 +37,7 @@ private boolean isEven(int x) {
 }
 ```
 
-方法二：使用冒泡思想，每次都将当前偶数上浮到当前最右边。时间复杂度 O(N<sup>2</sup>)，空间复杂度 O(1)，时间换空间。
+Method 2: Use the bubble-sort idea, moving the current even number to the current rightmost position each time. Time complexity O(N<sup>2</sup>), space complexity O(1), trading time for space.
 
 ```java
 public int[] reOrderArray(int[] nums) {

@@ -2,26 +2,26 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/9f3231a991af4f55b95579b44b7a01ba?tpId=13&tqId=11159&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/9f3231a991af4f55b95579b44b7a01ba?tpId=13&tqId=11159&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
 ## Problem Description
 
-把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。
+Moving several elements from the beginning of an array to the end is called rotating the array. Given a rotation of a non-decreasing sorted array, output the minimum element of the rotated array.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0038204c-4b8a-42a5-921d-080f6674f989.png" width="210px"> </div><br>
 
 ## Solution
 
-将旋转数组对半分可以得到一个包含最小元素的新旋转数组，以及一个非递减排序的数组。新的旋转数组的长度是原数组的一半，从而将问题规模减少了一半，这种折半性质的算法的时间复杂度为 O(log<sub>2</sub>N)。
+Splitting the rotated array in half produces a new rotated array that contains the minimum element, plus a non-decreasing sorted array. The new rotated array has half the length of the original array, reducing the problem size by half. This halving property gives the algorithm a time complexity of O(log<sub>2</sub>N).
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/424f34ab-a9fd-49a6-9969-d76b42251365.png" width="300px"> </div><br>
 
-此时问题的关键在于确定对半分得到的两个数组哪一个是旋转数组，哪一个是非递减数组。我们很容易知道非递减数组的第一个元素一定小于等于最后一个元素。
+The key is determining which of the two halves is the rotated array and which is the non-decreasing array. It is easy to see that the first element of a non-decreasing array must be less than or equal to its last element.
 
-通过修改二分查找算法进行求解（l 代表 low，m 代表 mid，h 代表 high）：
+Solve this by modifying binary search, where l represents low, m represents mid, and h represents high:
 
-- 当 nums[m] \<= nums[h] 时，表示 [m, h] 区间内的数组是非递减数组，[l, m] 区间内的数组是旋转数组，此时令 h = m；
-- 否则 [m + 1, h] 区间内的数组是旋转数组，令 l = m + 1。
+- When nums[m] \<= nums[h], the interval [m, h] is a non-decreasing array and [l, m] is the rotated array, so set h = m;
+- Otherwise, the interval [m + 1, h] is the rotated array, so set l = m + 1.
 
 ```java
 public int minNumberInRotateArray(int[] nums) {
@@ -39,7 +39,7 @@ public int minNumberInRotateArray(int[] nums) {
 }
 ```
 
-如果数组元素允许重复，会出现一个特殊的情况：nums[l] == nums[m] == nums[h]，此时无法确定解在哪个区间，需要切换到顺序查找。例如对于数组 {1,1,1,0,1}，l、m 和 h 指向的数都为 1，此时无法知道最小数字 0 在哪个区间。
+If duplicate array elements are allowed, a special case can occur: nums[l] == nums[m] == nums[h]. In this case, it is impossible to determine which interval contains the answer, so switch to linear search. For example, in the array {1,1,1,0,1}, l, m, and h all point to 1, so there is no way to know which interval contains the minimum value 0.
 
 ```java
 public int minNumberInRotateArray(int[] nums) {

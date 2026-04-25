@@ -1,6 +1,6 @@
 # 20. Numeric String Validation
 
-[牛客网](https://www.nowcoder.com/practice/e69148f8528c4039ad89bb2546fd4ff8?tpId=13&tqId=11206&tab=answerKey&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/e69148f8528c4039ad89bb2546fd4ff8?tpId=13&tqId=11206&tab=answerKey&from=cyc_github)
 
 ## Problem Description
 
@@ -27,17 +27,17 @@ false
 
 ## Solution
 
-使用正则表达式进行匹配。
+Use a regular expression for matching.
 
 ```html
-[]  ： 字符集合
-()  ： 分组
-?   ： 重复 0 ~ 1 次
-+   ： 重复 1 ~ n 次
-*   ： 重复 0 ~ n 次
-.   ： 任意字符
-\\. ： 转义后的 .
-\\d ： 数字
+[]  : character set
+()  : grouping
+?   : repeat 0 to 1 time
++   : repeat 1 to n times
+*   : repeat 0 to n times
+.   : any character
+\\. : escaped .
+\\d : digit
 ```
 
 ```java

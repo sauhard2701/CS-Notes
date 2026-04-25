@@ -1,6 +1,6 @@
 # 27. Mirror of Binary Tree
 
-[牛客网](https://www.nowcoder.com/practice/a9d0ecbacef9410ca97463e4a5c83be7?tpId=13&tqId=11171&tab=answerKey&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/a9d0ecbacef9410ca97463e4a5c83be7?tpId=13&tqId=11171&tab=answerKey&from=cyc_github)
 
 ## Problem Description
 
