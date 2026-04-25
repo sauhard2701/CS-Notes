@@ -84,7 +84,7 @@ public class OrExpression extends Expression {
 public class Client {
 
     /**
-     * 构建解析树
+     * Build the parse tree
      */
     public static Expression buildInterpreterTree() {
         // Literal

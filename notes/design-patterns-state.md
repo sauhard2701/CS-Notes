@@ -17,22 +17,22 @@ A gumball machine has multiple states. In each state, it behaves differently. St
 ```java
 public interface State {
     /**
-     * 投入 25 分钱
+     * Insert 25 cents
      */
     void insertQuarter();
 
     /**
-     * 退回 25 分钱
+     * Return 25 cents
      */
     void ejectQuarter();
 
     /**
-     * 转动曲柄
+     * Turn the crank
      */
     void turnCrank();
 
     /**
-     * 发放糖果
+     * Dispense candy
      */
     void dispense();
 }

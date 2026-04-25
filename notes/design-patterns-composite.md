@@ -83,7 +83,7 @@ public class Leaf extends Component {
 
     @Override
     public void add(Component component) {
-        throw new UnsupportedOperationException(); // 牺牲透明性换取单一职责原则，这样就不用考虑是叶子节点还是组合节点
+        throw new UnsupportedOperationException(); // Trade transparency for the Single Responsibility Principle, so callers do not need to distinguish leaf nodes from composite nodes
     }
 
     @Override

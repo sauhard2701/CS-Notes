@@ -153,7 +153,7 @@ public enum Singleton {
 
     public static void main(String[] args) {
 
-        // 单例测试
+        // Singleton test
         Singleton firstSingleton = Singleton.INSTANCE;
         firstSingleton.setObjName("firstName");
         System.out.println(firstSingleton.getObjName());
@@ -162,7 +162,7 @@ public enum Singleton {
         System.out.println(firstSingleton.getObjName());
         System.out.println(secondSingleton.getObjName());
 
-        // 反射获取实例测试
+        // Reflection-based instance retrieval test
         try {
             Singleton[] enumConstants = Singleton.class.getEnumConstants();
             for (Singleton enumConstant : enumConstants) {

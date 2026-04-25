@@ -1,142 +1,142 @@
 <!-- GFM-TOC -->
-* [一、概述](#1-overview)
-* [二、创建型](#2-creational-patterns)
-    * [1. 单例（Singleton）](#1-singleton)
+* [1. Overview](#1-overview)
+* [2. Creational Patterns](#2-creational-patterns)
+    * [1. Singleton](#1-singleton)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [Examples](#examples)
         * [JDK](#jdk)
-    * [2. 简单工厂（Simple Factory）](#2-simple-factory)
+    * [2. Simple Factory](#2-simple-factory)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
-    * [3. 工厂方法（Factory Method）](#3-factory-method)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-        * [JDK](#jdk)
-    * [4. 抽象工厂（Abstract Factory）](#4-abstract-factory)
+    * [3. Factory Method](#3-factory-method)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [5. 生成器（Builder）](#5-builder)
+    * [4. Abstract Factory](#4-abstract-factory)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [6. 原型模式（Prototype）](#6-prototype)
+    * [5. Builder](#5-builder)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-* [三、行为型](#3-behavioral-patterns)
-    * [1. 责任链（Chain Of Responsibility）](#1-chain-of-responsibility)
+    * [6. Prototype](#6-prototype)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [2. 命令（Command）](#2-command)
+* [3. Behavioral Patterns](#3-behavioral-patterns)
+    * [1. Chain of Responsibility](#1-chain-of-responsibility)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [3. 解释器（Interpreter）](#3-interpreter)
+    * [2. Command](#2-command)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [4. 迭代器（Iterator）](#4-iterator)
+    * [3. Interpreter](#3-interpreter)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [5. 中介者（Mediator）](#5-mediator)
+    * [4. Iterator](#4-iterator)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [6. 备忘录（Memento）](#6-memento)
+    * [5. Mediator](#5-mediator)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [7. 观察者（Observer）](#7-observer)
+    * [6. Memento](#6-memento)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [8. 状态（State）](#8-state)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-    * [9. 策略（Strategy）](#9-strategy)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [与状态模式的比较](#comparison-with-state-pattern)
-        * [Implementation](#implementation)
-        * [JDK](#jdk)
-    * [10. 模板方法（Template Method）](#10-template-method)
+    * [7. Observer](#7-observer)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [11. 访问者（Visitor）](#11-visitor)
+    * [8. State](#8-state)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+    * [9. Strategy](#9-strategy)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Comparison with State Pattern](#comparison-with-state-pattern)
+        * [Implementation](#implementation)
+        * [JDK](#jdk)
+    * [10. Template Method](#10-template-method)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [12. 空对象（Null）](#12-null-object)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-* [四、结构型](#4-structural-patterns)
-    * [1. 适配器（Adapter）](#1-adapter)
+    * [11. Visitor](#11-visitor)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [2. 桥接（Bridge）](#2-bridge)
+    * [12. Null Object](#12-null-object)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+* [4. Structural Patterns](#4-structural-patterns)
+    * [1. Adapter](#1-adapter)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [3. 组合（Composite）](#3-composite)
+    * [2. Bridge](#2-bridge)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [4. 装饰（Decorator）](#4-decorator)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-        * [设计原则](#design-principles)
-        * [JDK](#jdk)
-    * [5. 外观（Facade）](#5-facade)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-        * [设计原则](#design-principles)
-    * [6. 享元（Flyweight）](#6-flyweight)
+    * [3. Composite](#3-composite)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [7. 代理（Proxy）](#7-proxy)
+    * [4. Decorator](#4-decorator)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+        * [Design Principles](#design-principles)
+        * [JDK](#jdk)
+    * [5. Facade](#5-facade)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+        * [Design Principles](#design-principles)
+    * [6. Flyweight](#6-flyweight)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-* [参考资料](#references)
+    * [7. Proxy](#7-proxy)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+        * [JDK](#jdk)
+* [References](#references)
 <!-- GFM-TOC -->
 
 
 # 1. Overview
 
-设计模式是解决问题的方案，学习现有的设计模式可以做到经验复用。
+Design patterns are reusable solutions to common problems. Studying established patterns lets you reuse proven experience.
 
-拥有设计模式词汇，在沟通时就能用更少的词汇来讨论，并且不需要了解底层细节。
+A shared design pattern vocabulary makes technical discussions shorter and clearer without requiring everyone to revisit low-level details.
 
 # 2. Creational Patterns
 
@@ -144,13 +144,13 @@
 
 ### Intent
 
-确保一个类只有一个实例，并提供该实例的全局访问点。
+Ensure that a class has only one instance and provide a global access point to that instance.
 
 ### Class Diagram
 
-使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现。
+Implement this with a private constructor, a private static variable, and a public static method.
 
-私有构造函数保证了不能通过构造函数来创建对象实例，只能通过公有静态函数返回唯一的私有静态变量。
+The private constructor prevents object instances from being created directly through the constructor. The only instance is returned through the public static method.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/eca1f422-8381-409b-ad04-98ef39ae38ba.png"/> </div><br>
 
@@ -158,9 +158,9 @@
 
 #### I. Lazy Initialization - Not Thread Safe
 
-以下实现中，私有静态变量 uniqueInstance 被延迟实例化，这样做的好处是，如果没有用到该类，那么就不会实例化 uniqueInstance，从而节约资源。
+In the following implementation, the private static variable `uniqueInstance` is lazily instantiated. The benefit is that if the class is never used, `uniqueInstance` is never created, saving resources.
 
-这个实现在多线程环境下是不安全的，如果多个线程能够同时进入 `if (uniqueInstance == null)` ，并且此时 uniqueInstance 为 null，那么会有多个线程执行 `uniqueInstance = new Singleton();` 语句，这将导致实例化多次 uniqueInstance。
+This implementation is unsafe in a multithreaded environment. If multiple threads enter `if (uniqueInstance == null)` at the same time while `uniqueInstance` is null, multiple threads may execute `uniqueInstance = new Singleton();`, causing `uniqueInstance` to be instantiated more than once.
 
 ```java
 public class Singleton {
@@ -181,9 +181,9 @@ public class Singleton {
 
 #### II. Eager Initialization - Thread Safe
 
-线程不安全问题主要是由于 uniqueInstance 被实例化多次，采取直接实例化 uniqueInstance 的方式就不会产生线程不安全问题。
+The thread-safety issue mainly comes from `uniqueInstance` being instantiated multiple times. Directly instantiating `uniqueInstance` avoids this issue.
 
-但是直接实例化的方式也丢失了延迟实例化带来的节约资源的好处。
+However, direct instantiation loses the resource-saving benefit of lazy initialization.
 
 ```java
 private static Singleton uniqueInstance = new Singleton();
@@ -191,9 +191,9 @@ private static Singleton uniqueInstance = new Singleton();
 
 #### III. Lazy Initialization - Thread Safe
 
-只需要对 getUniqueInstance() 方法加锁，那么在一个时间点只能有一个线程能够进入该方法，从而避免了实例化多次 uniqueInstance。
+Locking the `getUniqueInstance()` method ensures that only one thread can enter it at a time, preventing `uniqueInstance` from being instantiated multiple times.
 
-但是当一个线程进入该方法之后，其它试图进入该方法的线程都必须等待，即使 uniqueInstance 已经被实例化了。这会让线程阻塞时间过长，因此该方法有性能问题，不推荐使用。
+However, once one thread enters the method, every other thread attempting to enter it must wait, even if `uniqueInstance` has already been instantiated. This can block threads for too long, so this approach has performance problems and is not recommended.
 
 ```java
 public static synchronized Singleton getUniqueInstance() {
@@ -206,9 +206,9 @@ public static synchronized Singleton getUniqueInstance() {
 
 #### IV. Double-Checked Locking - Thread Safe
 
-uniqueInstance 只需要被实例化一次，之后就可以直接使用了。加锁操作只需要对实例化那部分的代码进行，只有当 uniqueInstance 没有被实例化时，才需要进行加锁。
+`uniqueInstance` only needs to be instantiated once and can then be used directly. Locking is only needed around the instantiation code, and only when `uniqueInstance` has not yet been created.
 
-双重校验锁先判断 uniqueInstance 是否已经被实例化，如果没有被实例化，那么才对实例化语句进行加锁。
+Double-checked locking first checks whether `uniqueInstance` has already been instantiated. If not, it locks around the instantiation statement.
 
 ```java
 public class Singleton {
@@ -231,7 +231,7 @@ public class Singleton {
 }
 ```
 
-考虑下面的实现，也就是只使用了一个 if 语句。在 uniqueInstance == null 的情况下，如果两个线程都执行了 if 语句，那么两个线程都会进入 if 语句块内。虽然在 if 语句块内有加锁操作，但是两个线程都会执行 `uniqueInstance = new Singleton();` 这条语句，只是先后的问题，那么就会进行两次实例化。因此必须使用双重校验锁，也就是需要使用两个 if 语句：第一个 if 语句用来避免 uniqueInstance 已经被实例化之后的加锁操作，而第二个 if 语句进行了加锁，所以只能有一个线程进入，就不会出现 uniqueInstance == null 时两个线程同时进行实例化操作。
+Consider the implementation below, which uses only one `if` statement. When `uniqueInstance == null`, if two threads both execute the `if` statement, both enter the `if` block. Although the block contains a lock, both threads will still execute `uniqueInstance = new Singleton();`; the only difference is order, so instantiation happens twice. Therefore, double-checked locking is required, using two `if` statements: the first avoids locking after `uniqueInstance` has already been instantiated, and the second is protected by the lock so only one thread can enter it. This prevents two threads from instantiating `uniqueInstance` at the same time when it is null.
 
 ```java
 if (uniqueInstance == null) {
@@ -241,21 +241,21 @@ if (uniqueInstance == null) {
 }
 ```
 
-uniqueInstance 采用 volatile 关键字修饰也是很有必要的， `uniqueInstance = new Singleton();` 这段代码其实是分为三步执行：
+It is also necessary to declare `uniqueInstance` with the `volatile` keyword. The statement `uniqueInstance = new Singleton();` is actually executed in three steps:
 
-1. 为 uniqueInstance 分配内存空间
-2. 初始化 uniqueInstance
-3. 将 uniqueInstance 指向分配的内存地址
+1. Allocate memory for `uniqueInstance`.
+2. Initialize `uniqueInstance`.
+3. Point `uniqueInstance` to the allocated memory address.
 
-但是由于 JVM 具有指令重排的特性，执行顺序有可能变成 1>3>2。指令重排在单线程环境下不会出现问题，但是在多线程环境下会导致一个线程获得还没有初始化的实例。例如，线程 T<sub>1</sub> 执行了 1 和 3，此时 T<sub>2</sub> 调用 getUniqueInstance() 后发现 uniqueInstance 不为空，因此返回 uniqueInstance，但此时 uniqueInstance 还未被初始化。
+Because the JVM can reorder instructions, the execution order may become 1 > 3 > 2. Instruction reordering is not a problem in a single-threaded environment, but in a multithreaded environment it can let one thread obtain an instance that has not been initialized yet. For example, thread T<sub>1</sub> executes steps 1 and 3. Then T<sub>2</sub> calls `getUniqueInstance()`, sees that `uniqueInstance` is not null, and returns it, even though it has not yet been initialized.
 
-使用 volatile 可以禁止 JVM 的指令重排，保证在多线程环境下也能正常运行。
+Using `volatile` prevents JVM instruction reordering and ensures correct behavior in a multithreaded environment.
 
 #### V. Static Inner Class
 
-当 Singleton 类被加载时，静态内部类 SingletonHolder 没有被加载进内存。只有当调用 `getUniqueInstance()` 方法从而触发 `SingletonHolder.INSTANCE` 时 SingletonHolder 才会被加载，此时初始化 INSTANCE 实例，并且 JVM 能确保 INSTANCE 只被实例化一次。
+When the `Singleton` class is loaded, the static inner class `SingletonHolder` is not loaded into memory. Only when `getUniqueInstance()` is called and triggers `SingletonHolder.INSTANCE` is `SingletonHolder` loaded. At that point, the `INSTANCE` object is initialized, and the JVM guarantees that `INSTANCE` is instantiated only once.
 
-这种方式不仅具有延迟初始化的好处，而且由 JVM 提供了对线程安全的支持。
+This approach provides lazy initialization and relies on the JVM for thread-safety guarantees.
 
 ```java
 public class Singleton {
@@ -295,7 +295,7 @@ public enum Singleton {
 
     public static void main(String[] args) {
 
-        // 单例测试
+        // Singleton test
         Singleton firstSingleton = Singleton.INSTANCE;
         firstSingleton.setObjName("firstName");
         System.out.println(firstSingleton.getObjName());
@@ -304,7 +304,7 @@ public enum Singleton {
         System.out.println(firstSingleton.getObjName());
         System.out.println(secondSingleton.getObjName());
 
-        // 反射获取实例测试
+        // Reflection-based instance retrieval test
         try {
             Singleton[] enumConstants = Singleton.class.getEnumConstants();
             for (Singleton enumConstant : enumConstants) {
@@ -324,9 +324,9 @@ secondName
 secondName
 ```
 
-该实现可以防止反射攻击。在其它实现中，通过 setAccessible() 方法可以将私有构造函数的访问级别设置为 public，然后调用构造函数从而实例化对象，如果要防止这种攻击，需要在构造函数中添加防止多次实例化的代码。该实现是由 JVM 保证只会实例化一次，因此不会出现上述的反射攻击。
+This implementation prevents reflection attacks. In other implementations, `setAccessible()` can change a private constructor to public, allowing the constructor to be called and a new object to be instantiated. To prevent that attack, the constructor must include code that blocks multiple instantiations. This implementation relies on the JVM to guarantee a single instantiation, so the reflection attack above does not occur.
 
-该实现在多次序列化和序列化之后，不会得到多个实例。而其它实现需要使用 transient 修饰所有字段，并且实现序列化和反序列化的方法。
+This implementation will not produce multiple instances after repeated serialization and deserialization. Other implementations need to mark all fields with `transient` and implement serialization and deserialization methods.
 
 ### Examples
 
@@ -345,13 +345,13 @@ secondName
 
 ### Intent
 
-在创建一个对象时不向客户暴露内部细节，并提供一个创建对象的通用接口。
+Provide a common interface for creating objects without exposing creation details to clients.
 
 ### Class Diagram
 
-简单工厂把实例化的操作单独放到一个类中，这个类就成为简单工厂类，让简单工厂类来决定应该用哪个具体子类来实例化。
+Simple Factory places instantiation logic in a separate class. That class becomes the simple factory and decides which concrete subclass should be instantiated.
 
-这样做能把客户类和具体子类的实现解耦，客户类不再需要知道有哪些子类以及应当实例化哪个子类。客户类往往有多个，如果不使用简单工厂，那么所有的客户类都要知道所有子类的细节。而且一旦子类发生改变，例如增加子类，那么所有的客户类都要进行修改。
+This decouples client classes from concrete subclass implementations. Clients no longer need to know which subclasses exist or which one should be instantiated. There are often many clients; without Simple Factory, every client must know the details of every subclass. If a subclass changes, such as when a new subclass is added, all client classes would need to be modified.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/40c0c17e-bba6-4493-9857-147c0044a018.png"/> </div><br>
 
@@ -377,7 +377,7 @@ public class ConcreteProduct2 implements Product {
 }
 ```
 
-以下的 Client 类包含了实例化的代码，这是一种错误的实现。如果在客户类中存在这种实例化代码，就需要考虑将代码放到简单工厂中。
+The following Client class contains instantiation code, which is a poor implementation. If this kind of instantiation code appears in a client class, consider moving it into a simple factory.
 
 ```java
 public class Client {
@@ -397,7 +397,7 @@ public class Client {
 }
 ```
 
-以下的 SimpleFactory 是简单工厂实现，它被所有需要进行实例化的客户类调用。
+The following `SimpleFactory` is a simple factory implementation. It is called by all client classes that need instantiation.
 
 ```java
 public class SimpleFactory {
@@ -428,13 +428,13 @@ public class Client {
 
 ### Intent
 
-定义了一个创建对象的接口，但由子类决定要实例化哪个类。工厂方法把实例化操作推迟到子类。
+Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method defers instantiation to subclasses.
 
 ### Class Diagram
 
-在简单工厂中，创建对象的是另一个类，而在工厂方法中，是由子类来创建对象。
+In Simple Factory, another class creates the object. In Factory Method, subclasses create the object.
 
-下图中，Factory 有一个 doSomething() 方法，这个方法需要用到一个产品对象，这个产品对象由 factoryMethod() 方法创建。该方法是抽象的，需要由子类去实现。
+In the diagram below, `Factory` has a `doSomething()` method that needs a product object. The product object is created by `factoryMethod()`, which is abstract and must be implemented by subclasses.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f4d0afd0-8e78-4914-9e60-4366eaf065b5.png"/> </div><br>
 
@@ -488,17 +488,17 @@ public class ConcreteFactory2 extends Factory {
 
 ### Intent
 
-提供一个接口，用于创建   **相关的对象家族**  。
+Provide an interface for creating **families of related objects**.
 
 ### Class Diagram
 
-抽象工厂模式创建的是对象家族，也就是很多对象而不是一个对象，并且这些对象是相关的，也就是说必须一起创建出来。而工厂方法模式只是用于创建一个对象，这和抽象工厂模式有很大不同。
+The Abstract Factory pattern creates a family of objects: multiple related objects that must be created together. By contrast, Factory Method creates a single object, which is a major difference from Abstract Factory.
 
-抽象工厂模式用到了工厂方法模式来创建单一对象，AbstractFactory 中的 createProductA() 和 createProductB() 方法都是让子类来实现，这两个方法单独来看就是在创建一个对象，这符合工厂方法模式的定义。
+Abstract Factory uses Factory Method to create individual objects. In `AbstractFactory`, both `createProductA()` and `createProductB()` are implemented by subclasses; viewed separately, each method creates one object, which matches the definition of Factory Method.
 
-至于创建对象的家族这一概念是在 Client 体现，Client 要通过 AbstractFactory 同时调用两个方法来创建出两个对象，在这里这两个对象就有很大的相关性，Client 需要同时创建出这两个对象。
+The idea of creating a family of objects appears in the Client. The Client calls two methods on `AbstractFactory` to create two objects at the same time; these objects are strongly related, so the Client needs to create them together.
 
-从高层次来看，抽象工厂使用了组合，即 Cilent 组合了 AbstractFactory，而工厂方法模式使用了继承。
+At a high level, Abstract Factory uses composition: the Client composes an `AbstractFactory`. Factory Method uses inheritance.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e2190c36-8b27-4690-bde5-9911020a1294.png"/> </div><br>
 
@@ -586,7 +586,7 @@ public class Client {
 
 ### Intent
 
-封装一个对象的构造过程，并允许按步骤构造。
+Encapsulate the construction process of an object and allow it to be built step by step.
 
 ### Class Diagram
 
@@ -594,7 +594,7 @@ public class Client {
 
 ### Implementation
 
-以下是一个简易的 StringBuilder 实现，参考了 JDK 1.8 源码。
+The following is a simplified `StringBuilder` implementation based on the JDK 1.8 source code.
 
 ```java
 public class AbstractStringBuilder {
@@ -676,7 +676,7 @@ abcdefghijklmnopqrstuvwxyz
 
 ### Intent
 
-使用原型实例指定要创建对象的类型，通过复制这个原型来创建新对象。
+Specify the type of object to create using a prototype instance, then create new objects by copying that prototype.
 
 ### Class Diagram
 
@@ -735,11 +735,11 @@ abc
 
 ### Intent
 
-使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链发送该请求，直到有一个对象处理它为止。
+Give multiple objects a chance to handle a request, avoiding coupling between the sender and receiver. Chain these objects together and pass the request along the chain until one object handles it.
 
 ### Class Diagram
 
-- Handler：定义处理请求的接口，并且实现后继链（successor）
+- Handler: defines the interface for handling requests and maintains the successor chain.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ca9f23bf-55a4-47b2-9534-a28e35397988.png"/> </div><br>
 
@@ -865,25 +865,25 @@ request2 is handle by ConcreteHandler2
 
 ### Intent
 
-将命令封装成对象中，具有以下作用：
+Encapsulate a command as an object, which enables the following:
 
-- 使用命令来参数化其它对象
-- 将命令放入队列中进行排队
-- 将命令的操作记录到日志中
-- 支持可撤销的操作
+- Parameterize other objects with commands.
+- Put commands into a queue.
+- Log command operations.
+- Support undoable operations.
 
 ### Class Diagram
 
-- Command：命令
-- Receiver：命令接收者，也就是命令真正的执行者
-- Invoker：通过它来调用命令
-- Client：可以设置命令与命令的接收者
+- Command: the command.
+- Receiver: receives the command and performs the actual work.
+- Invoker: calls the command.
+- Client: configures commands and their receivers.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c44a0342-f405-4f17-b750-e27cf4aadde2.png"/> </div><br>
 
 ### Implementation
 
-设计一个遥控器，可以控制电灯开关。
+Design a remote control that can switch a light on and off.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e6bded8e-41a0-489a-88a6-638e88ab7666.jpg"/> </div><br>
 
@@ -938,7 +938,7 @@ public class Light {
 
 ```java
 /**
- * 遥控器
+ * Remote control
  */
 public class Invoker {
     private Command[] onCommands;
@@ -993,22 +993,22 @@ public class Client {
 
 ### Intent
 
-为语言创建解释器，通常由语言的语法和语法分析来定义。
+Create an interpreter for a language, usually defined by the language grammar and parser.
 
 ### Class Diagram
 
-- TerminalExpression：终结符表达式，每个终结符都需要一个 TerminalExpression。
-- Context：上下文，包含解释器之外的一些全局信息。
+- TerminalExpression: a terminal expression. Each terminal symbol requires a TerminalExpression.
+- Context: holds global information outside the interpreter.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2b125bcd-1b36-43be-9b78-d90b076be549.png"/> </div><br>
 
 ### Implementation
 
-以下是一个规则检验器实现，具有 and 和 or 规则，通过规则可以构建一颗解析树，用来检验一个文本是否满足解析树定义的规则。
+The following is a rule validator with `and` and `or` rules. Rules can be used to build a parse tree that checks whether a text satisfies the rules defined by that tree.
 
-例如一颗解析树为 D And (A Or (B C))，文本 "D A" 满足该解析树定义的规则。
+For example, given the parse tree `D And (A Or (B C))`, the text `"D A"` satisfies the rules defined by that tree.
 
-这里的 Context 指的是 String。
+Here, Context refers to `String`.
 
 ```java
 public abstract class Expression {
@@ -1075,7 +1075,7 @@ public class OrExpression extends Expression {
 public class Client {
 
     /**
-     * 构建解析树
+     * Build the parse tree
      */
     public static Expression buildInterpreterTree() {
         // Literal
@@ -1117,13 +1117,13 @@ false
 
 ### Intent
 
-提供一种顺序访问聚合对象元素的方法，并且不暴露聚合对象的内部表示。
+Provide a way to access the elements of an aggregate object sequentially without exposing its internal representation.
 
 ### Class Diagram
 
-- Aggregate 是聚合类，其中 createIterator() 方法可以产生一个 Iterator；
-- Iterator 主要定义了 hasNext() 和 next() 方法。
-- Client 组合了 Aggregate，为了迭代遍历 Aggregate，也需要组合 Iterator。
+- Aggregate is the aggregate class, whose `createIterator()` method produces an Iterator.
+- Iterator mainly defines the `hasNext()` and `next()` methods.
+- Client composes Aggregate; to iterate over Aggregate, it also needs to compose Iterator.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/89292ae1-5f13-44dc-b508-3f035e80bf89.png"/> </div><br>
 
@@ -1207,22 +1207,22 @@ public class Client {
 
 ### Intent
 
-集中相关对象之间复杂的沟通和控制方式。
+Centralize complex communication and control among related objects.
 
 ### Class Diagram
 
-- Mediator：中介者，定义一个接口用于与各同事（Colleague）对象通信。
-- Colleague：同事，相关对象
+- Mediator: defines an interface for communicating with each Colleague object.
+- Colleague: a related object that communicates through the Mediator.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/30d6e95c-2e3c-4d32-bf4f-68128a70bc05.png"/> </div><br>
 
 ### Implementation
 
-Alarm（闹钟）、CoffeePot（咖啡壶）、Calendar（日历）、Sprinkler（喷头）是一组相关的对象，在某个对象的事件产生时需要去操作其它对象，形成了下面这种依赖结构：
+Alarm, CoffeePot, Calendar, and Sprinkler are a group of related objects. When one object raises an event, it needs to operate on the others, creating the dependency structure below:
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/82cfda3b-b53b-4c89-9fdb-26dd2db0cd02.jpg"/> </div><br>
 
-使用中介者模式可以将复杂的依赖结构变成星形结构：
+The Mediator pattern can turn this complex dependency structure into a star-shaped structure:
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5359cbf5-5a79-4874-9b17-f23c53c2cb80.jpg"/> </div><br>
 
@@ -1351,7 +1351,7 @@ public class Client {
         Calender calender = new Calender();
         Sprinkler sprinkler = new Sprinkler();
         Mediator mediator = new ConcreteMediator(alarm, coffeePot, calender, sprinkler);
-        // 闹钟事件到达，调用中介者就可以操作相关对象
+        // When the alarm event arrives, call the mediator to operate on related objects
         alarm.onEvent(mediator);
     }
 }
@@ -1376,21 +1376,21 @@ doSprinkler()
 
 ### Intent
 
-在不违反封装的情况下获得对象的内部状态，从而在需要时可以将对象恢复到最初状态。
+Capture an object's internal state without violating encapsulation, so the object can be restored to that state later.
 
 ### Class Diagram
 
-- Originator：原始对象
-- Caretaker：负责保存好备忘录
-- Menento：备忘录，存储原始对象的的状态。备忘录实际上有两个接口，一个是提供给 Caretaker 的窄接口：它只能将备忘录传递给其它对象；一个是提供给 Originator 的宽接口，允许它访问到先前状态所需的所有数据。理想情况是只允许 Originator 访问本备忘录的内部状态。
+- Originator: the original object whose state is saved.
+- Caretaker: responsible for storing the memento.
+- Memento: stores the Originator's state. A memento effectively exposes two interfaces: a narrow interface for the Caretaker, which can only pass the memento to other objects, and a wider interface for the Originator, which can access all data needed to restore a previous state. Ideally, only the Originator can access the memento's internal state.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/50678f34-694f-45a4-91c6-34d985c83fee.png"/> </div><br>
 
 ### Implementation
 
-以下实现了一个简单计算器程序，可以输入两个值，然后计算这两个值的和。备忘录模式允许将这两个值存储起来，然后在某个时刻用存储的状态进行恢复。
+The following example implements a simple calculator that accepts two values and returns their sum. The Memento pattern lets the calculator store those values and later restore them from the saved state.
 
-实现参考：[Memento Pattern - Calculator Example - Java Sourcecode](https://www.oodesign.com/memento-pattern-calculator-example-java-sourcecode.html)
+Implementation reference: [Memento Pattern - Calculator Example - Java Sourcecode](https://www.oodesign.com/memento-pattern-calculator-example-java-sourcecode.html)
 
 ```java
 /**
@@ -1553,23 +1553,23 @@ public class Client {
 
 ### Intent
 
-定义对象之间的一对多依赖，当一个对象状态改变时，它的所有依赖都会收到通知并且自动更新状态。
+Define a one-to-many dependency between objects so that when one object changes state, all of its dependents are notified and update automatically.
 
-主题（Subject）是被观察的对象，而其所有依赖者（Observer）称为观察者。
+The Subject is the observed object, and all of its dependents are Observers.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7a3c6a30-c735-4edb-8115-337288a4f0f2.jpg" width="600"/> </div><br>
 
 ### Class Diagram
 
-主题（Subject）具有注册和移除观察者、并通知所有观察者的功能，主题是通过维护一张观察者列表来实现这些操作的。
+The Subject can register observers, remove observers, and notify all observers. It implements these operations by maintaining a list of observers.
 
-观察者（Observer）的注册功能需要调用主题的 registerObserver() 方法。
+An Observer registers by calling the Subject's `registerObserver()` method.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a8c8f894-a712-447c-9906-5caef6a016e3.png"/> </div><br>
 
 ### Implementation
 
-天气数据布告板会在天气信息发生改变时更新其内容，布告板有多个，并且在将来会继续增加。
+Weather data displays update their content when weather information changes. There are multiple displays, and more may be added later.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b1df9732-86ce-4d69-9f06-fba1db7b3b5a.jpg"/> </div><br>
 
@@ -1688,7 +1688,7 @@ StatisticsDisplay.update: 1.0 1.0 1.0
 
 ### Intent
 
-允许对象在内部状态改变时改变它的行为，对象看起来好像修改了它所属的类。
+Allow an object to change its behavior when its internal state changes, making it appear as if the object changed its class.
 
 ### Class Diagram
 
@@ -1696,29 +1696,29 @@ StatisticsDisplay.update: 1.0 1.0 1.0
 
 ### Implementation
 
-糖果销售机有多种状态，每种状态下销售机有不同的行为，状态可以发生转移，使得销售机的行为也发生改变。
+A gumball machine has multiple states. In each state, it behaves differently. State transitions change the machine's behavior as well.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/396be981-3f2c-4fd9-8101-dbf9c841504b.jpg" width="600"/> </div><br>
 
 ```java
 public interface State {
     /**
-     * 投入 25 分钱
+     * Insert 25 cents
      */
     void insertQuarter();
 
     /**
-     * 退回 25 分钱
+     * Return 25 cents
      */
     void ejectQuarter();
 
     /**
-     * 转动曲柄
+     * Turn the crank
      */
     void turnCrank();
 
     /**
-     * 发放糖果
+     * Dispense candy
      */
     void dispense();
 }
@@ -1990,26 +1990,26 @@ No gumball dispensed
 
 ### Intent
 
-定义一系列算法，封装每个算法，并使它们可以互换。
+Define a family of algorithms, encapsulate each one, and make them interchangeable.
 
-策略模式可以让算法独立于使用它的客户端。
+The Strategy pattern lets algorithms vary independently from the clients that use them.
 
 ### Class Diagram
 
-- Strategy 接口定义了一个算法族，它们都实现了  behavior() 方法。
-- Context 是使用到该算法族的类，其中的 doSomething() 方法会调用 behavior()，setStrategy(Strategy) 方法可以动态地改变 strategy 对象，也就是说能动态地改变 Context 所使用的算法。
+- The Strategy interface defines a family of algorithms, all of which implement the `behavior()` method.
+- Context is the class that uses this algorithm family. Its `doSomething()` method calls `behavior()`, and `setStrategy(Strategy)` can dynamically change the `strategy` object, which means it can dynamically change the algorithm used by Context.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/cd1be8c2-755a-4a66-ad92-2e30f8f47922.png"/> </div><br>
 
 ### Comparison with State Pattern
 
-状态模式的类图和策略模式类似，并且都是能够动态改变对象的行为。但是状态模式是通过状态转移来改变 Context 所组合的 State 对象，而策略模式是通过 Context 本身的决策来改变组合的 Strategy 对象。所谓的状态转移，是指 Context 在运行过程中由于一些条件发生改变而使得 State 对象发生改变，注意必须要是在运行过程中。
+The State pattern has a class diagram similar to Strategy, and both can dynamically change object behavior. However, State changes the State object composed by Context through state transitions, while Strategy changes the Strategy object composed by Context through Context's own decision. A state transition means that, while Context is running, some condition changes and causes its State object to change.
 
-状态模式主要是用来解决状态转移的问题，当状态发生转移了，那么 Context 对象就会改变它的行为；而策略模式主要是用来封装一组可以互相替代的算法族，并且可以根据需要动态地去替换 Context 使用的算法。
+State mainly solves state transition problems: when the state changes, the Context object changes its behavior. Strategy mainly encapsulates a group of interchangeable algorithms and dynamically replaces the algorithm used by Context as needed.
 
 ### Implementation
 
-设计一个鸭子，它可以动态地改变叫声。这里的算法族是鸭子的叫声行为。
+Design a duck that can dynamically change its call. Here, the algorithm family is the duck calling behavior.
 
 ```java
 public interface QuackBehavior {
@@ -2080,9 +2080,9 @@ quack!
 
 ### Intent
 
-定义算法框架，并将一些步骤的实现延迟到子类。
+Define the skeleton of an algorithm and defer some steps to subclasses.
 
-通过模板方法，子类可以重新定义算法的某些步骤，而不用改变算法的结构。
+With Template Method, subclasses can redefine certain steps of an algorithm without changing its structure.
 
 ### Class Diagram
 
@@ -2090,7 +2090,7 @@ quack!
 
 ### Implementation
 
-冲咖啡和冲茶都有类似的流程，但是某些步骤会有点不一样，要求复用那些相同步骤的代码。
+Making coffee and tea follows similar processes, but some steps differ. Reuse the code for the shared steps.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/11236498-1417-46ce-a1b0-e10054256955.png"/> </div><br>
 
@@ -2181,13 +2181,13 @@ Tea.addCondiments
 
 ### Intent
 
-为一个对象结构（比如组合结构）增加新能力。
+Add new capabilities to an object structure, such as a composite structure.
 
 ### Class Diagram
 
-- Visitor：访问者，为每一个 ConcreteElement 声明一个 visit 操作
-- ConcreteVisitor：具体访问者，存储遍历过程中的累计结果
-- ObjectStructure：对象结构，可以是组合结构，或者是一个集合。
+- Visitor: declares a `visit` operation for each ConcreteElement.
+- ConcreteVisitor: stores accumulated results during traversal.
+- ObjectStructure: an object structure, which may be a composite structure or a collection.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/79c6f036-bde6-4393-85a3-ef36a0327bd2.png"/> </div><br>
 
@@ -2388,9 +2388,9 @@ Number of items:     6
 
 ### Intent
 
-使用什么都不做的空对象来代替 NULL。
+Use a null object that does nothing instead of NULL.
 
-一个方法返回 NULL，意味着方法的调用端需要去检查返回值是否是 NULL，这么做会导致非常多的冗余的检查代码。并且如果某一个调用端忘记了做这个检查返回值，而直接使用返回的对象，那么就有可能抛出空指针异常。
+When a method returns NULL, callers must check whether the return value is NULL. This creates a lot of redundant checking code. If a caller forgets the check and directly uses the returned object, a null pointer exception may be thrown.
 
 ### Class Diagram
 
@@ -2444,7 +2444,7 @@ public class Client {
 
 ### Intent
 
-把一个类接口转换成另一个用户需要的接口。
+Convert the interface of a class into another interface that clients expect.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/3d5b828e-5c4d-48d8-a440-281e4a8e1c92.png"/> </div><br>
 
@@ -2454,9 +2454,9 @@ public class Client {
 
 ### Implementation
 
-鸭子（Duck）和火鸡（Turkey）拥有不同的叫声，Duck 的叫声调用 quack() 方法，而 Turkey 调用 gobble() 方法。
+Duck and Turkey have different calls: Duck calls `quack()`, while Turkey calls `gobble()`.
 
-要求将 Turkey 的 gobble() 方法适配成 Duck 的 quack() 方法，从而让火鸡冒充鸭子！
+Adapt Turkey's `gobble()` method to Duck's `quack()` method so a turkey can pretend to be a duck.
 
 ```java
 public interface Duck {
@@ -2515,22 +2515,22 @@ public class Client {
 
 ### Intent
 
-将抽象与实现分离开来，使它们可以独立变化。
+Separate an abstraction from its implementation so the two can vary independently.
 
 ### Class Diagram
 
-- Abstraction：定义抽象类的接口
-- Implementor：定义实现类接口
+- Abstraction: defines the interface of the abstraction.
+- Implementor: defines the interface for implementation classes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2a1f8b0f-1dd7-4409-b177-a381c58066ad.png"/> </div><br>
 
 ### Implementation
 
-RemoteControl 表示遥控器，指代 Abstraction。
+`RemoteControl` represents the remote control and corresponds to the Abstraction.
 
-TV 表示电视，指代 Implementor。
+`TV` represents the television and corresponds to the Implementor.
 
-桥接模式将遥控器和电视分离开来，从而可以独立改变遥控器或者电视的实现。
+The Bridge pattern separates the remote control from the television, allowing either side to change independently.
 
 ```java
 public abstract class TV {
@@ -2672,13 +2672,13 @@ public class Client {
 
 ### Intent
 
-将对象组合成树形结构来表示“整体/部分”层次关系，允许用户以相同的方式处理单独对象和组合对象。
+Compose objects into tree structures to represent whole-part hierarchies, allowing clients to treat individual objects and composite objects uniformly.
 
 ### Class Diagram
 
-组件（Component）类是组合类（Composite）和叶子类（Leaf）的父类，可以把组合类看成是树的中间节点。
+The Component class is the parent of both Composite and Leaf. A Composite can be viewed as an internal node in the tree.
 
-组合对象拥有一个或者多个组件对象，因此组合对象的操作可以委托给组件对象去处理，而组件对象可以是另一个组合对象或者叶子对象。
+A composite object owns one or more component objects, so its operations can be delegated to those components. Each component may itself be another composite object or a leaf object.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2b8bfd57-b4d1-4a75-bfb0-bcf1fba4014a.png"/> </div><br>
 
@@ -2753,7 +2753,7 @@ public class Leaf extends Component {
 
     @Override
     public void add(Component component) {
-        throw new UnsupportedOperationException(); // 牺牲透明性换取单一职责原则，这样就不用考虑是叶子节点还是组合节点
+        throw new UnsupportedOperationException(); // Trade transparency for the Single Responsibility Principle, so callers do not need to distinguish leaf nodes from composite nodes
     }
 
     @Override
@@ -2806,19 +2806,19 @@ Composite:root
 
 ### Intent
 
-为对象动态添加功能。
+Add responsibilities to an object dynamically.
 
 ### Class Diagram
 
-装饰者（Decorator）和具体组件（ConcreteComponent）都继承自组件（Component），具体组件的方法实现不需要依赖于其它对象，而装饰者组合了一个组件，这样它可以装饰其它装饰者或者具体组件。所谓装饰，就是把这个装饰者套在被装饰者之上，从而动态扩展被装饰者的功能。装饰者的方法有一部分是自己的，这属于它的功能，然后调用被装饰者的方法实现，从而也保留了被装饰者的功能。可以看到，具体组件应当是装饰层次的最低层，因为只有具体组件的方法实现不需要依赖于其它对象。
+Decorator and ConcreteComponent both inherit from Component. A ConcreteComponent implementation does not depend on other objects, while a Decorator composes a Component, allowing it to wrap either another Decorator or a ConcreteComponent. Decoration means wrapping the decorated object to extend its behavior dynamically. Part of a Decorator method belongs to the Decorator itself, and then it calls the decorated object's method to preserve the original behavior. Therefore, ConcreteComponent should sit at the bottom of the decoration hierarchy, because only its implementation does not depend on another object.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/6b833bc2-517a-4270-8a5e-0a5f6df8cd96.png"/> </div><br>
 
 ### Implementation
 
-设计不同种类的饮料，饮料可以添加配料，比如可以添加牛奶，并且支持动态添加新配料。每增加一种配料，该饮料的价格就会增加，要求计算一种饮料的价格。
+Design different kinds of beverages. A beverage can have condiments added, such as milk, and new condiments should be addable dynamically. Each condiment increases the beverage price, so the final beverage cost must be calculated.
 
-下图表示在 DarkRoast 饮料上新增新添加 Mocha 配料，之后又添加了 Whip 配料。DarkRoast 被 Mocha 包裹，Mocha 又被 Whip 包裹。它们都继承自相同父类，都有 cost() 方法，外层类的 cost() 方法调用了内层类的 cost() 方法。
+The diagram below shows adding Mocha to a DarkRoast beverage, then adding Whip. DarkRoast is wrapped by Mocha, and Mocha is wrapped by Whip. They all inherit from the same parent class and expose a `cost()` method; the outer class's `cost()` method calls the inner class's `cost()` method.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c9cfd600-bc91-4f3a-9f99-b42f88a5bb24.jpg" width="600"/> </div><br>
 
@@ -2898,9 +2898,9 @@ public class Client {
 
 ### Design Principles
 
-类应该对扩展开放，对修改关闭：也就是添加新功能时不需要修改代码。饮料可以动态添加新的配料，而不需要去修改饮料的代码。
+Classes should be open for extension and closed for modification: adding new functionality should not require changing existing code. Beverages can dynamically receive new condiments without modifying the beverage code.
 
-不可能把所有的类设计成都满足这一原则，应当把该原则应用于最有可能发生改变的地方。
+It is unrealistic to design every class around this principle. Apply it where change is most likely.
 
 ### JDK
 
@@ -2914,7 +2914,7 @@ public class Client {
 
 ### Intent
 
-提供了一个统一的接口，用来访问子系统中的一群接口，从而让子系统更容易使用。
+Provide a unified interface to a set of interfaces in a subsystem, making the subsystem easier to use.
 
 ### Class Diagram
 
@@ -2922,7 +2922,7 @@ public class Client {
 
 ### Implementation
 
-观看电影需要操作很多电器，使用外观模式实现一键看电影功能。
+Watching a movie requires operating many devices. Use the Facade pattern to implement a one-click movie mode.
 
 ```java
 public class SubSystem {
@@ -2963,19 +2963,19 @@ public class Client {
 
 ### Design Principles
 
-最少知识原则：只和你的密友谈话。也就是说客户对象所需要交互的对象应当尽可能少。
+Principle of Least Knowledge: talk only to your close friends. In other words, a client object should interact with as few objects as possible.
 
 ## 6. Flyweight
 
 ### Intent
 
-利用共享的方式来支持大量细粒度的对象，这些对象一部分内部状态是相同的。
+Use sharing to support large numbers of fine-grained objects whose internal state is partly identical.
 
 ### Class Diagram
 
-- Flyweight：享元对象
-- IntrinsicState：内部状态，享元对象共享内部状态
-- ExtrinsicState：外部状态，每个享元对象的外部状态不同
+- Flyweight: the shared object.
+- IntrinsicState: internal state shared by flyweight objects.
+- ExtrinsicState: external state that differs for each flyweight object.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5f5c22d5-9c0e-49e1-b5b0-6cc7032724d4.png"/> </div><br>
 
@@ -3044,7 +3044,7 @@ ExtrinsicState: y
 
 ### JDK
 
-Java 利用缓存来加速大量小对象的访问时间。
+Java uses caches to speed up access to large numbers of small objects.
 
 - java.lang.Integer#valueOf(int)
 - java.lang.Boolean#valueOf(boolean)
@@ -3055,22 +3055,22 @@ Java 利用缓存来加速大量小对象的访问时间。
 
 ### Intent
 
-控制对其它对象的访问。
+Control access to another object.
 
 ### Class Diagram
 
-代理有以下四类：
+There are four common kinds of proxy:
 
-- 远程代理（Remote Proxy）：控制对远程对象（不同地址空间）的访问，它负责将请求及其参数进行编码，并向不同地址空间中的对象发送已经编码的请求。
-- 虚拟代理（Virtual Proxy）：根据需要创建开销很大的对象，它可以缓存实体的附加信息，以便延迟对它的访问，例如在网站加载一个很大图片时，不能马上完成，可以用虚拟代理缓存图片的大小信息，然后生成一张临时图片代替原始图片。
-- 保护代理（Protection Proxy）：按权限控制对象的访问，它负责检查调用者是否具有实现一个请求所必须的访问权限。
-- 智能代理（Smart Reference）：取代了简单的指针，它在访问对象时执行一些附加操作：记录对象的引用次数；当第一次引用一个对象时，将它装入内存；在访问一个实际对象前，检查是否已经锁定了它，以确保其它对象不能改变它。
+- Remote Proxy: controls access to a remote object in another address space. It encodes requests and parameters, then sends the encoded request to the object in the other address space.
+- Virtual Proxy: creates expensive objects on demand. It can cache additional information about the real object to defer access to it. For example, when a website loads a large image that cannot be completed immediately, a virtual proxy can cache the image size and generate a temporary placeholder for the original image.
+- Protection Proxy: controls access to an object based on permissions. It checks whether the caller has the access rights required to perform a request.
+- Smart Reference: replaces a simple pointer and performs extra operations when accessing an object, such as counting references, loading the object into memory on first reference, and checking whether the real object is locked before access so other objects cannot modify it.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9b679ff5-94c6-48a7-b9b7-2ea868e828ed.png"/> </div><br>
 
 ### Implementation
 
-以下是一个虚拟代理的实现，模拟了图片延迟加载的情况下使用与图片大小相等的临时内容去替换原始图片，直到图片加载完成才将图片显示出来。
+The following is a Virtual Proxy implementation. It simulates delayed image loading by using temporary content with the same size as the image until the image finishes loading.
 
 ```java
 public interface Image {
@@ -3102,7 +3102,7 @@ public class HighResolutionImage implements Image {
     }
 
     public boolean isLoad() {
-        // 模拟图片加载，延迟 3s 加载完成
+        // Simulate image loading, delayed by 3 seconds
         long endTime = System.currentTimeMillis();
         return endTime - startTime > 3000;
     }
@@ -3158,8 +3158,8 @@ public class ImageViewer {
 
 # References
 
-- 弗里曼. Head First 设计模式 [M]. 中国电力出版社, 2007.
-- Gamma E. 设计模式: 可复用面向对象软件的基础 [M]. 机械工业出版社, 2007.
+- Freeman. Head First Design Patterns [M]. China Electric Power Press, 2007.
+- Gamma E. Design Patterns: Elements of Reusable Object-Oriented Software [M]. China Machine Press, 2007.
 - Bloch J. Effective java[M]. Addison-Wesley Professional, 2017.
 - [Design Patterns](http://www.oodesign.com/)
 - [Design patterns implemented in Java](http://java-design-patterns.com/)

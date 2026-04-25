@@ -75,7 +75,7 @@ public class Light {
 
 ```java
 /**
- * 遥控器
+ * Remote control
  */
 public class Invoker {
     private Command[] onCommands;

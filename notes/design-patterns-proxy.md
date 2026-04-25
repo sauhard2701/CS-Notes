@@ -49,7 +49,7 @@ public class HighResolutionImage implements Image {
     }
 
     public boolean isLoad() {
-        // 模拟图片加载，延迟 3s 加载完成
+        // Simulate image loading, delayed by 3 seconds
         long endTime = System.currentTimeMillis();
         return endTime - startTime > 3000;
     }
