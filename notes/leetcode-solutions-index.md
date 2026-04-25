@@ -6,25 +6,25 @@
 
 ## 算法思想
 
-- [双指针](Leetcode%20题解%20-%20双指针.md)
-- [排序](Leetcode%20题解%20-%20排序.md)
-- [贪心思想](Leetcode%20题解%20-%20贪心思想.md)
-- [二分查找](Leetcode%20题解%20-%20二分查找.md)
-- [分治](Leetcode%20题解%20-%20分治.md)
-- [搜索](Leetcode%20题解%20-%20搜索.md)
-- [动态规划](Leetcode%20题解%20-%20动态规划.md)
-- [数学](Leetcode%20题解%20-%20数学.md)
+- [双指针](leetcode-solutions-two-pointers.md)
+- [排序](leetcode-solutions-sorting.md)
+- [贪心思想](leetcode-solutions-greedy.md)
+- [二分查找](leetcode-solutions-binary-search.md)
+- [分治](leetcode-solutions-divide-and-conquer.md)
+- [搜索](leetcode-solutions-search.md)
+- [动态规划](leetcode-solutions-dynamic-programming.md)
+- [数学](leetcode-solutions-math.md)
 
 ## 数据结构相关
 
-- [链表](Leetcode%20题解%20-%20链表.md)
-- [树](Leetcode%20题解%20-%20树.md)
-- [栈和队列](Leetcode%20题解%20-%20栈和队列.md)
-- [哈希表](Leetcode%20题解%20-%20哈希表.md)
-- [字符串](Leetcode%20题解%20-%20字符串.md)
-- [数组与矩阵](Leetcode%20题解%20-%20数组与矩阵.md)
-- [图](Leetcode%20题解%20-%20图.md)
-- [位运算](Leetcode%20题解%20-%20位运算.md)
+- [链表](leetcode-solutions-linked-list.md)
+- [树](leetcode-solutions-trees.md)
+- [栈和队列](leetcode-solutions-stacks-and-queues.md)
+- [哈希表](leetcode-solutions-hash-table.md)
+- [字符串](leetcode-solutions-string.md)
+- [数组与矩阵](leetcode-solutions-arrays-and-matrices.md)
+- [图](leetcode-solutions-graph.md)
+- [位运算](leetcode-solutions-bit-manipulation.md)
 
 ## 参考资料
 

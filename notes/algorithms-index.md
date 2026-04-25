@@ -1,11 +1,11 @@
 # 算法目录
 
-- [算法分析](算法%20-%20算法分析.md)
-- [排序](算法%20-%20排序.md)
-- [并查集](算法%20-%20并查集.md)
-- [栈和队列](算法%20-%20栈和队列.md)
-- [符号表](算法%20-%20符号表.md)
-- [其它](算法%20-%20其它.md)
+- [算法分析](algorithms-analysis.md)
+- [排序](algorithms-sorting.md)
+- [并查集](algorithms-union-find.md)
+- [栈和队列](algorithms-stacks-and-queues.md)
+- [符号表](algorithms-symbol-tables.md)
+- [其它](algorithms-other.md)
 
 ## 参考资料
 

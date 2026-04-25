@@ -1,11 +1,11 @@
 # 计算机操作系统
 
-- [概述](计算机操作系统%20-%20概述.md)
-- [进程管理](计算机操作系统%20-%20进程管理.md)
-- [死锁](计算机操作系统%20-%20死锁.md)
-- [内存管理](计算机操作系统%20-%20内存管理.md)
-- [设备管理](计算机操作系统%20-%20设备管理.md)
-- [链接](计算机操作系统%20-%20链接.md)
+- [概述](operating-systems-overview.md)
+- [进程管理](operating-systems-process-management.md)
+- [死锁](operating-systems-deadlocks.md)
+- [内存管理](operating-systems-memory-management.md)
+- [设备管理](operating-systems-device-management.md)
+- [链接](operating-systems-linking.md)
 
 ## 参考资料
 

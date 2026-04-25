@@ -1,11 +1,11 @@
 # 计算机网络
 
-- [概述](计算机网络%20-%20概述.md)
-- [物理层](计算机网络%20-%20物理层.md)
-- [链路层](计算机网络%20-%20链路层.md)
-- [网络层](计算机网络%20-%20网络层.md)
-- [传输层](计算机网络%20-%20传输层.md)
-- [应用层](计算机网络%20-%20应用层.md)
+- [概述](computer-networking-overview.md)
+- [物理层](computer-networking-physical-layer.md)
+- [链路层](computer-networking-link-layer.md)
+- [网络层](computer-networking-network-layer.md)
+- [传输层](computer-networking-transport-layer.md)
+- [应用层](computer-networking-application-layer.md)
 
 ## 参考链接
 

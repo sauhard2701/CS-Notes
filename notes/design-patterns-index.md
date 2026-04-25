@@ -6,37 +6,37 @@
 
 ## 二、创建型
 
-- [单例.md](设计模式%20%20-%20单例.md)
-- [简单工厂.md](设计模式%20-%20简单工厂.md)
-- [工厂方法.md](设计模式%20-%20工厂方法.md)
-- [抽象工厂.md](设计模式%20-%20抽象工厂.md)
-- [生成器.md](设计模式%20-%20生成器.md)
-- [原型模式.md](设计模式%20-%20原型模式.md)
+- [单例.md](design-patterns-singleton.md)
+- [简单工厂.md](design-patterns-simple-factory.md)
+- [工厂方法.md](design-patterns-factory-method.md)
+- [抽象工厂.md](design-patterns-abstract-factory.md)
+- [生成器.md](design-patterns-builder.md)
+- [原型模式.md](design-patterns-prototype.md)
 
 ## 三、行为型
 
-- [责任链.md](设计模式%20-%20责任链.md)
-- [命令.md](设计模式%20-%20命令.md)
-- [解释器.md](设计模式%20-%20解释器.md)
-- [迭代器.md](设计模式%20-%20迭代器.md)
-- [中介者.md](设计模式%20-%20中介者.md)
-- [备忘录.md](设计模式%20-%20备忘录.md)
-- [观察者.md](设计模式%20-%20观察者.md)
-- [状态.md](设计模式%20-%20状态.md)
-- [策略.md](设计模式%20-%20策略.md)
-- [模板方法.md](设计模式%20-%20模板方法.md)
-- [访问者.md](设计模式%20-%20访问者.md)
-- [空对象.md](设计模式%20-%20空对象.md)
+- [责任链.md](design-patterns-chain-of-responsibility.md)
+- [命令.md](design-patterns-command.md)
+- [解释器.md](design-patterns-interpreter.md)
+- [迭代器.md](design-patterns-iterator.md)
+- [中介者.md](design-patterns-mediator.md)
+- [备忘录.md](design-patterns-memento.md)
+- [观察者.md](design-patterns-observer.md)
+- [状态.md](design-patterns-state.md)
+- [策略.md](design-patterns-strategy.md)
+- [模板方法.md](design-patterns-template-method.md)
+- [访问者.md](design-patterns-visitor.md)
+- [空对象.md](design-patterns-null-object.md)
 
 ## 四、结构型
 
-- [适配器.md](设计模式%20-%20适配器.md)
-- [桥接.md](设计模式%20-%20桥接.md)
-- [组合.md](设计模式%20-%20组合.md)
-- [装饰.md](设计模式%20-%20装饰.md)
-- [外观.md](设计模式%20-%20外观.md)
-- [享元.md](设计模式%20-%20享元.md)
-- [代理.md](设计模式%20-%20代理.md)
+- [适配器.md](design-patterns-adapter.md)
+- [桥接.md](design-patterns-bridge.md)
+- [组合.md](design-patterns-composite.md)
+- [装饰.md](design-patterns-decorator.md)
+- [外观.md](design-patterns-facade.md)
+- [享元.md](design-patterns-flyweight.md)
+- [代理.md](design-patterns-proxy.md)
 
 ## 参考资料
 
