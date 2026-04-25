@@ -1,142 +1,133 @@
-<div align="center">
-    <a href="https://www.cyc2018.xyz"> <img src="https://badgen.net/badge/CyC/%E5%9C%A8%E7%BA%BF%E9%98%85%E8%AF%BB?icon=sourcegraph&color=4ab8a1"></a>
-    <a href="https://gitstar-ranking.com/repositories"> <img src="https://badgen.net/badge/Rank/13?icon=github&color=4ab8a1"></a>
-    <a href="https://github.com/CyC2018/CS-Notes"> <img src="https://badgen.net/github/stars/CyC2018/CS-Notes?icon=github&color=4ab8a1"></a>
-    <a href="https://github.com/CyC2018/CS-Notes"> <img src="https://badgen.net/github/forks/CyC2018/CS-Notes?icon=github&color=4ab8a1"></a>
-    <!-- <a href="assets/download.md"> <img src="https://badgen.net/badge/OvO/%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD?icon=telegram&color=4ab8a1"></a> -->
-    <!-- <a href="assets/download.md"> <img src="https://badgen.net/badge/%e5%85%ac%e4%bc%97%e5%8f%b7/CyC2018?icon=rss&color=4ab8a1"></a> -->
-</div>
-<br>
+# CS Notes (English Edition)
 
-| 算法&nbsp; | 操作系统 | 网络&nbsp;|面向对象| &nbsp;数据库&nbsp;&nbsp;|&nbsp;Java&nbsp;&nbsp;|系统设计| &nbsp;&nbsp;工具&nbsp;&nbsp; |编码实践| &nbsp;&nbsp;后记&nbsp;&nbsp; |
-| :---: | :----: | :---: | :----: | :----: | :----: | :----: | :----: | :----: | :----: |
-| [:pencil2:](#pencil2-算法) | [:computer:](#computer-操作系统) | [:cloud:](#cloud-网络) | [:art:](#art-面向对象) | [:floppy_disk:](#floppy_disk-数据库) |[:coffee:](#coffee-java)| [:bulb:](#bulb-系统设计) |[:wrench:](#wrench-工具)| [:watermelon:](#watermelon-编码实践) |[:memo:](#memo-后记)|
+A structured, interview-focused knowledge base covering core Computer Science topics for software engineers.
 
-<br>
+This repository is designed to help you:
+- Build strong DSA fundamentals
+- Understand core CS subjects deeply
+- Prepare for technical interviews (Google / Amazon / top MNCs)
 
-<div align="center">
-    <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/githubio/LogoMakr_0zpEzN.png" width="200px">
-</div>
+---
 
-<br>
+## 📚 Topics
 
-## :pencil2: 算法
+| Algorithms | OS | Networking | OOP | Databases | Java | System Design | Tools | Coding Practices |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 🧠 | 💻 | 🌐 | 🎨 | 🗄️ | ☕ | 💡 | 🔧 | 🍉 |
 
-- [剑指 Offer 题解](notes/sword-offer-solutions-index.md)
-- [Leetcode 题解](notes/leetcode-solutions-index.md)
-- [算法](notes/algorithms-index.md)
-- [字节跳动内推](assets/referral.md)
+---
 
-## :computer: 操作系统
+## 🧠 Algorithms
 
-- [计算机操作系统](notes/operating-systems-index.md)
-- [Linux](https://github.com/CyC2018/CS-Notes/blob/master/notes/Linux.md)
+Core data structures, problem-solving patterns, and interview questions.
 
-## :cloud: 网络 
+- [Sword Offer Solutions](notes/sword-offer-solutions-index.md)
+- [LeetCode Solutions](notes/leetcode-solutions-index.md)
+- [Algorithms](notes/algorithms-index.md)
 
-- [计算机网络](notes/computer-networking-index.md)
-- [HTTP](https://github.com/CyC2018/CS-Notes/blob/master/notes/HTTP.md)
-- [Socket](https://github.com/CyC2018/CS-Notes/blob/master/notes/Socket.md)
+---
 
-## :floppy_disk: 数据库
+## 💻 Operating Systems
 
-- [数据库系统原理](notes/database-system-principles.md)
-- [SQL 语法](notes/sql-syntax.md)
-- [SQL 练习](notes/sql-exercises.md)
-- [MySQL](https://github.com/CyC2018/CS-Notes/blob/master/notes/MySQL.md)
-- [Redis](https://github.com/CyC2018/CS-Notes/blob/master/notes/Redis.md)
+Processes, memory management, concurrency, and Linux fundamentals.
 
-## :coffee: Java
+- [Operating Systems](notes/operating-systems-index.md)
+- [Linux](notes/linux.md)
 
-- [Java 基础](notes/java-basics.md)
-- [Java 容器](notes/java-collections.md)
-- [Java 并发](notes/java-concurrency.md)
-- [Java 虚拟机](notes/jvm.md)
-- [Java I/O](https://github.com/CyC2018/CS-Notes/blob/master/notes/Java%20IO.md)
+---
 
-## :bulb: 系统设计 
+## 🌐 Networking
 
-- [系统设计基础](notes/system-design-basics.md)
-- [分布式](notes/distributed-systems.md)
-- [集群](notes/clustering.md)
-- [攻击技术](notes/attack-techniques.md)
-- [缓存](notes/caching.md)
-- [消息队列](notes/message-queues.md)
+TCP/IP, HTTP, sockets, and real-world network behavior.
 
-## :art: 面向对象
+- [Computer Networking](notes/computer-networking-index.md)
+- [HTTP](notes/http.md)
+- [Socket Programming](notes/socket.md)
 
-- [面向对象思想](notes/object-oriented-programming.md)
-- [设计模式](notes/design-patterns-index.md)
+---
 
-## :wrench: 工具 
+## 🗄️ Databases
 
-- [Git](https://github.com/CyC2018/CS-Notes/blob/master/notes/Git.md)
-- [Docker](https://github.com/CyC2018/CS-Notes/blob/master/notes/Docker.md)
-- [构建工具](notes/build-tools.md)
-- [正则表达式](notes/regular-expressions.md)
+Relational databases, SQL, MySQL, and Redis.
 
-## :watermelon: 编码实践 
+- [Database System Principles](notes/database-system-principles.md)
+- [SQL](notes/sql-syntax.md)
+- [SQL Practice](notes/sql-exercises.md)
+- [MySQL](notes/mysql.md)
+- [Redis](notes/redis.md)
 
-- [代码可读性](notes/code-readability.md)
-- [代码风格规范](notes/code-style-guidelines.md)
+---
 
-## :memo: 后记
+## ☕ Java
 
-### 排版
+Java fundamentals, collections, concurrency, JVM, and I/O.
 
-笔记内容按照 [中文文案排版指北](https://github.com/sparanoid/chinese-copywriting-guidelines/blob/master/README.zh-CN.md) 进行排版，以保证内容的可读性。
+- [Java Basics](notes/java-basics.md)
+- [Java Collections](notes/java-collections.md)
+- [Java Concurrency](notes/java-concurrency.md)
+- [JVM](notes/jvm.md)
+- [Java IO](notes/java-io.md)
 
-不使用 `![]()` 这种方式来引用图片，而是用 `<img>` 标签。一方面是为了能够控制图片以合适的大小显示，另一方面是因为 [GFM](https://github.github.com/gfm/) 不支持 `<center> ![]() </center>` 这种方法让图片居中显示，只能使用 `<div align="center"> <img src=""/> </div>` 达到居中的效果。
+---
 
-在线排版工具：[Text-Typesetting](https://github.com/CyC2018/Text-Typesetting)。
+## 💡 System Design
 
-### License
+Scalable systems, distributed systems, caching, and messaging.
 
-本仓库的内容不是将网上的资料随意拼凑而来，除了少部分引用书上和技术文档的原文（这部分内容都在末尾的参考链接中加了出处），其余都是我的原创。在您引用本仓库内容或者对内容进行修改演绎时，请署名并以相同方式共享，谢谢。
+- [System Design Basics](notes/system-design-basics.md)
+- [Distributed Systems](notes/distributed-systems.md)
+- [Clustering](notes/clustering.md)
+- [Caching](notes/caching.md)
+- [Message Queues](notes/message-queues.md)
+- [Attack Techniques](notes/attack-techniques.md)
 
-转载文章请在开头明显处标明该页面地址，公众号等其它转载请联系 zhengyc101@163.com。
+---
 
-Logo：[logomakr](https://logomakr.com/)
+## 🎨 OOP
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+Object-oriented design and design patterns.
 
-### 致谢
+- [Object-Oriented Programming](notes/object-oriented-programming.md)
+- [Design Patterns](notes/design-patterns-index.md)
 
-感谢以下人员对本仓库做出的贡献，当然不仅仅只有这些贡献者，这里就不一一列举了。如果你希望被添加到这个名单中，并且提交过 Issue 或者 PR，请与我联系。
+---
 
-<a href="https://github.com/linw7">
-    <img src="https://avatars3.githubusercontent.com/u/21679154?s=400&v=4" width="50px">
-</a> 
-<a href="https://github.com/g10guang">
-    <img src="https://avatars1.githubusercontent.com/u/18458140?s=400&v=4" width="50px">
-</a>
-<a href="https://github.com/Sctwang">
-    <img src="https://avatars3.githubusercontent.com/u/33345444?s=400&v=4" width="50px">
-</a> 
-<a href="https://github.com/ResolveWang">
-    <img src="https://avatars1.githubusercontent.com/u/8018776?s=400&v=4" width="50px">
-</a>
-<a href="https://github.com/crossoverJie">
-    <img src="https://avatars1.githubusercontent.com/u/15684156?s=400&v=4" width="50px">
-</a> 
-<a href="https://github.com/jy03078584">
-    <img src="https://avatars2.githubusercontent.com/u/7719370?s=400&v=4" width="50px">
-</a>
-<a href="https://github.com/kwongtailau">
-    <img src="https://avatars0.githubusercontent.com/u/22954582?s=400&v=4" width="50px">
-</a>
-<a href="https://github.com/xiangflight">
-    <img src="https://avatars2.githubusercontent.com/u/10072416?s=400&v=4" width="50px">
-</a>
-<a href="https://github.com/mafulong">
-    <img src="https://avatars1.githubusercontent.com/u/24795000?s=400&v=4" width="50px">
-</a>
-<a href="https://github.com/yanglbme">
-    <img src="https://avatars1.githubusercontent.com/u/21008209?s=400&v=4" width="50px">
-</a>
-<a href="https://github.com/OOCZC">
-    <img src="https://avatars1.githubusercontent.com/u/11623828?s=400&v=4" width="50px">
-</a>
-<a href="https://github.com/5renyuebing">
-    <img src="https://avatars1.githubusercontent.com/u/32872430?s=400&v=4" width="50px">
-</a>
+## 🔧 Tools
+
+Essential engineering tools and utilities.
+
+- [Git](notes/git.md)
+- [Docker](notes/docker.md)
+- [Build Tools](notes/build-tools.md)
+- [Regular Expressions](notes/regular-expressions.md)
+
+---
+
+## 🍉 Coding Practices
+
+Write clean, maintainable, and readable code.
+
+- [Code Readability](notes/code-readability.md)
+- [Code Style Guidelines](notes/code-style-guidelines.md)
+
+---
+
+## 📝 Notes
+
+### Formatting
+
+- Markdown follows consistent formatting guidelines
+- Images use `<img>` for better control
+- Centering uses `<div align="center">`
+
+---
+
+## 📄 License
+
+This project is based on original work with referenced materials.
+
+Please:
+- Provide attribution
+- Share under the same license
+
+License: CC BY-NC-SA 4.0
