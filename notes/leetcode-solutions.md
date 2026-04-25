@@ -1,1 +1,1 @@
-[Leetcode 题解](leetcode-solutions-index.md)
+[LeetCode Solutions](leetcode-solutions-index.md)

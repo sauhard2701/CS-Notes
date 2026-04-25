@@ -1,74 +1,74 @@
 # Operating Systems - Memory Management
 <!-- GFM-TOC -->
-* [计算机操作系统 - 内存管理](#operating-systems---memory-management)
-    * [虚拟内存](#virtual-memory)
-    * [分页系统地址映射](#paged-address-translation)
-    * [页面置换算法](#page-replacement-algorithms)
-        * [1. 最佳](#1-optimal)
-        * [2. 最近最久未使用](#2-least-recently-used)
-        * [3. 最近未使用](#3-not-recently-used)
-        * [4. 先进先出](#4-first-in-first-out)
-        * [5. 第二次机会算法](#5-second-chance-algorithm)
-        * [6. 时钟](#6-clock)
-    * [分段](#segmentation)
-    * [段页式](#segmented-paging)
-    * [分页与分段的比较](#paging-vs-segmentation)
+* [Operating Systems - Memory Management](#operating-systems---memory-management)
+    * [Virtual Memory](#virtual-memory)
+    * [Paged Address Translation](#paged-address-translation)
+    * [Page Replacement Algorithms](#page-replacement-algorithms)
+        * [1. Optimal](#1-optimal)
+        * [2. Least Recently Used](#2-least-recently-used)
+        * [3. Not Recently Used](#3-not-recently-used)
+        * [4. First-In First-Out](#4-first-in-first-out)
+        * [5. Second-Chance Algorithm](#5-second-chance-algorithm)
+        * [6. Clock](#6-clock)
+    * [Segmentation](#segmentation)
+    * [Segmented Paging](#segmented-paging)
+    * [Paging vs Segmentation](#paging-vs-segmentation)
 <!-- GFM-TOC -->
 
 
 ## Virtual Memory
 
-虚拟内存的目的是为了让物理内存扩充成更大的逻辑内存，从而让程序获得更多的可用内存。
+The purpose of virtual memory is to extend physical memory into a larger logical memory space, giving programs more usable memory.
 
-为了更好的管理内存，操作系统将内存抽象成地址空间。每个程序拥有自己的地址空间，这个地址空间被分割成多个块，每一块称为一页。这些页被映射到物理内存，但不需要映射到连续的物理内存，也不需要所有页都必须在物理内存中。当程序引用到不在物理内存中的页时，由硬件执行必要的映射，将缺失的部分装入物理内存并重新执行失败的指令。
+To manage memory better, the operating system abstracts memory as an address space. Each program has its own address space, which is divided into multiple blocks called pages. These pages are mapped to physical memory, but they do not need to map to contiguous physical memory, and not all pages need to be in physical memory. When a program references a page that is not in physical memory, hardware performs the necessary mapping, loads the missing page into physical memory, and re-executes the failed instruction.
 
-从上面的描述中可以看出，虚拟内存允许程序不用将地址空间中的每一页都映射到物理内存，也就是说一个程序不需要全部调入内存就可以运行，这使得有限的内存运行大程序成为可能。例如有一台计算机可以产生 16 位地址，那么一个程序的地址空间范围是 0\~64K。该计算机只有 32KB 的物理内存，虚拟内存技术允许该计算机运行一个 64K 大小的程序。
+As the description above shows, virtual memory allows a program to run without mapping every page in its address space to physical memory. In other words, a program does not need to be loaded entirely into memory to run, making it possible to run large programs with limited memory. For example, if a computer can generate 16-bit addresses, a program's address space ranges from 0\~64K. If the computer has only 32KB of physical memory, virtual memory allows it to run a 64K program.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7b281b1e-0595-402b-ae35-8c91084c33c1.png"/> </div><br>
 
 ## Paged Address Translation
 
-内存管理单元（MMU）管理着地址空间和物理内存的转换，其中的页表（Page table）存储着页（程序地址空间）和页框（物理内存空间）的映射表。
+The memory management unit (MMU) manages translation between address space and physical memory. The page table stores mappings between pages, which belong to the program address space, and page frames, which belong to physical memory.
 
-一个虚拟地址分成两个部分，一部分存储页面号，一部分存储偏移量。
+A virtual address is divided into two parts: one stores the page number, and the other stores the offset.
 
-下图的页表存放着 16 个页，这 16 个页需要用 4 个比特位来进行索引定位。例如对于虚拟地址（0010 000000000100），前 4 位是存储页面号 2，读取表项内容为（110 1），页表项最后一位表示是否存在于内存中，1 表示存在。后 12 位存储偏移量。这个页对应的页框的地址为 （110 000000000100）。
+The page table below stores 16 pages, which require 4 bits for indexing. For example, for the virtual address (0010 000000000100), the first 4 bits store page number 2. The page table entry is (110 1), where the last bit indicates whether the page is present in memory; 1 means present. The last 12 bits store the offset. The address of this page's corresponding page frame is (110 000000000100).
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/cf4386a1-58c9-4eca-a17f-e12b1e9770eb.png" width="500"/> </div><br>
 
 ## Page Replacement Algorithms
 
-在程序运行过程中，如果要访问的页面不在内存中，就发生缺页中断从而将该页调入内存中。此时如果内存已无空闲空间，系统必须从内存中调出一个页面到磁盘对换区中来腾出空间。
+During program execution, if the page to be accessed is not in memory, a page fault occurs and the page is loaded into memory. If there is no free memory at that time, the system must swap one page out of memory to disk swap space to make room.
 
-页面置换算法和缓存淘汰策略类似，可以将内存看成磁盘的缓存。在缓存系统中，缓存的大小有限，当有新的缓存到达时，需要淘汰一部分已经存在的缓存，这样才有空间存放新的缓存数据。
+Page replacement algorithms are similar to cache eviction policies. Memory can be viewed as a cache for the disk. In a cache system, cache size is limited. When new cached data arrives, some existing cached data must be evicted to make room.
 
-页面置换算法的主要目标是使页面置换频率最低（也可以说缺页率最低）。
+The main goal of page replacement algorithms is to minimize the page replacement rate, or equivalently the page fault rate.
 
 ### 1. Optimal
 
 > OPT, Optimal replacement algorithm
 
-所选择的被换出的页面将是最长时间内不再被访问，通常可以保证获得最低的缺页率。
+The selected page to evict is the one that will not be accessed for the longest time, which usually guarantees the lowest page fault rate.
 
-是一种理论上的算法，因为无法知道一个页面多长时间不再被访问。
+This is a theoretical algorithm because it is impossible to know how long it will be before a page is accessed again.
 
-举例：一个系统为某进程分配了三个物理块，并有如下页面引用序列：
+Example: a system allocates three physical frames to a process and has the following page reference sequence:
 
 ```html
 7，0，1，2，0，3，0，4，2，3，0，3，2，1，2，0，1，7，0，1
 ```
 
-开始运行时，先将 7, 0, 1 三个页面装入内存。当进程要访问页面 2 时，产生缺页中断，会将页面 7 换出，因为页面 7 再次被访问的时间最长。
+At the start, pages 7, 0, and 1 are loaded into memory. When the process accesses page 2, a page fault occurs, and page 7 is swapped out because it will be accessed again farthest in the future.
 
 ### 2. Least Recently Used
 
 > LRU, Least Recently Used
 
-虽然无法知道将来要使用的页面情况，但是可以知道过去使用页面的情况。LRU 将最近最久未使用的页面换出。
+Although future page usage cannot be known, past page usage can be observed. LRU evicts the page that has not been used for the longest time.
 
-为了实现 LRU，需要在内存中维护一个所有页面的链表。当一个页面被访问时，将这个页面移到链表表头。这样就能保证链表表尾的页面是最近最久未访问的。
+To implement LRU, maintain a linked list of all pages in memory. When a page is accessed, move it to the head of the list. This ensures that the page at the tail is the least recently used.
 
-因为每次访问都需要更新链表，因此这种方式实现的 LRU 代价很高。
+Because every access requires updating the linked list, this implementation of LRU is expensive.
 
 ```html
 4，7，0，7，1，0，1，2，1，2，6
@@ -79,30 +79,30 @@
 
 > NRU, Not Recently Used
 
-每个页面都有两个状态位：R 与 M，当页面被访问时设置页面的 R=1，当页面被修改时设置 M=1。其中 R 位会定时被清零。可以将页面分成以下四类：
+Each page has two status bits: R and M. When a page is accessed, R is set to 1; when a page is modified, M is set to 1. The R bit is cleared periodically. Pages can be divided into the following four classes:
 
 - R=0，M=0
 - R=0，M=1
 - R=1，M=0
 - R=1，M=1
 
-当发生缺页中断时，NRU 算法随机地从类编号最小的非空类中挑选一个页面将它换出。
+When a page fault occurs, the NRU algorithm randomly selects a page from the non-empty class with the smallest class number and evicts it.
 
-NRU 优先换出已经被修改的脏页面（R=0，M=1），而不是被频繁使用的干净页面（R=1，M=0）。
+NRU prefers to evict modified dirty pages (R=0, M=1) instead of frequently used clean pages (R=1, M=0).
 
 ### 4. First-In First-Out
 
 > FIFO, First In First Out
 
-选择换出的页面是最先进入的页面。
+The selected page to evict is the one that entered first.
 
-该算法会将那些经常被访问的页面换出，导致缺页率升高。
+This algorithm may evict frequently accessed pages, increasing the page fault rate.
 
 ### 5. Second-Chance Algorithm
 
-FIFO 算法可能会把经常使用的页面置换出去，为了避免这一问题，对该算法做一个简单的修改：
+FIFO may replace frequently used pages. To avoid this problem, make a simple modification:
 
-当页面被访问 (读或写) 时设置该页面的 R 位为 1。需要替换的时候，检查最老页面的 R 位。如果 R 位是 0，那么这个页面既老又没有被使用，可以立刻置换掉；如果是 1，就将 R 位清 0，并把该页面放到链表的尾端，修改它的装入时间使它就像刚装入的一样，然后继续从链表的头部开始搜索。
+When a page is accessed, either read or written, set its R bit to 1. When replacement is needed, check the R bit of the oldest page. If R is 0, the page is both old and unused, so it can be replaced immediately. If R is 1, clear R to 0, move the page to the tail of the list, update its load time as if it had just been loaded, and continue searching from the head of the list.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ecf8ad5d-5403-48b9-b6e7-f2e20ffe8fca.png"/> </div><br>
 
@@ -110,32 +110,32 @@ FIFO 算法可能会把经常使用的页面置换出去，为了避免这一问
 
 > Clock
 
-第二次机会算法需要在链表中移动页面，降低了效率。时钟算法使用环形链表将页面连接起来，再使用一个指针指向最老的页面。
+The second-chance algorithm needs to move pages in a linked list, reducing efficiency. The clock algorithm connects pages with a circular linked list and uses a pointer to refer to the oldest page.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5f5ef0b6-98ea-497c-a007-f6c55288eab1.png"/> </div><br>
 
 ## Segmentation
 
-虚拟内存采用的是分页技术，也就是将地址空间划分成固定大小的页，每一页再与内存进行映射。
+Virtual memory uses paging, which divides the address space into fixed-size pages and maps each page to memory.
 
-下图为一个编译器在编译过程中建立的多个表，有 4 个表是动态增长的，如果使用分页系统的一维地址空间，动态增长的特点会导致覆盖问题的出现。
+The figure below shows multiple tables created by a compiler during compilation. Four of these tables grow dynamically. If a one-dimensional address space from a paging system is used, dynamic growth can cause overlap problems.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/22de0538-7c6e-4365-bd3b-8ce3c5900216.png"/> </div><br>
 
-分段的做法是把每个表分成段，一个段构成一个独立的地址空间。每个段的长度可以不同，并且可以动态增长。
+Segmentation divides each table into segments. Each segment forms an independent address space. Segment lengths can differ and can grow dynamically.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e0900bb2-220a-43b7-9aa9-1d5cd55ff56e.png"/> </div><br>
 
 ## Segmented Paging
 
-程序的地址空间划分成多个拥有独立地址空间的段，每个段上的地址空间划分成大小相同的页。这样既拥有分段系统的共享和保护，又拥有分页系统的虚拟内存功能。
+A program's address space is divided into multiple segments with independent address spaces, and each segment's address space is divided into pages of equal size. This provides both the sharing and protection of segmentation and the virtual memory capability of paging.
 
 ## Paging vs Segmentation
 
-- 对程序员的透明性：分页透明，但是分段需要程序员显式划分每个段。
+- Transparency to programmers: paging is transparent, while segmentation requires programmers to explicitly divide each segment.
 
-- 地址空间的维度：分页是一维地址空间，分段是二维的。
+- Address-space dimensions: paging uses a one-dimensional address space, while segmentation is two-dimensional.
 
-- 大小是否可以改变：页的大小不可变，段的大小可以动态改变。
+- Whether size can change: page size is fixed, while segment size can change dynamically.
 
-- 出现的原因：分页主要用于实现虚拟内存，从而获得更大的地址空间；分段主要是为了使程序和数据可以被划分为逻辑上独立的地址空间并且有助于共享和保护。
+- Reason for existence: paging is mainly used to implement virtual memory and obtain a larger address space; segmentation is mainly used to divide programs and data into logically independent address spaces and helps with sharing and protection.

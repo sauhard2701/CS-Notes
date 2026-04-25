@@ -1,50 +1,50 @@
 # Operating Systems - Device Management
 <!-- GFM-TOC -->
-* [计算机操作系统 - 设备管理](#operating-systems---device-management)
-    * [磁盘结构](#disk-structure)
-    * [磁盘调度算法](#disk-scheduling-algorithms)
-        * [1. 先来先服务](#1-first-come-first-served)
-        * [2. 最短寻道时间优先](#2-shortest-seek-time-first)
-        * [3. 电梯算法](#3-elevator-algorithm)
+* [Operating Systems - Device Management](#operating-systems---device-management)
+    * [Disk Structure](#disk-structure)
+    * [Disk Scheduling Algorithms](#disk-scheduling-algorithms)
+        * [1. First-Come First-Served](#1-first-come-first-served)
+        * [2. Shortest Seek Time First](#2-shortest-seek-time-first)
+        * [3. Elevator Algorithm](#3-elevator-algorithm)
 <!-- GFM-TOC -->
 
 
 ## Disk Structure
 
-- 盘面（Platter）：一个磁盘有多个盘面；
-- 磁道（Track）：盘面上的圆形带状区域，一个盘面可以有多个磁道；
-- 扇区（Track Sector）：磁道上的一个弧段，一个磁道可以有多个扇区，它是最小的物理储存单位，目前主要有 512 bytes 与 4 K 两种大小；
-- 磁头（Head）：与盘面非常接近，能够将盘面上的磁场转换为电信号（读），或者将电信号转换为盘面的磁场（写）；
-- 制动手臂（Actuator arm）：用于在磁道之间移动磁头；
-- 主轴（Spindle）：使整个盘面转动。
+- Platter: a disk contains multiple platters.
+- Track: a circular band on a platter; one platter can contain multiple tracks.
+- Sector: an arc segment on a track. One track can contain multiple sectors. It is the smallest physical storage unit, currently mainly in sizes of 512 bytes and 4 KB.
+- Head: located very close to the platter. It converts magnetic fields on the platter into electrical signals for reads, or converts electrical signals into magnetic fields on the platter for writes.
+- Actuator arm: moves the head between tracks.
+- Spindle: rotates the entire platter.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/014fbc4d-d873-4a12-b160-867ddaed9807.jpg"/> </div><br>
 
 ## Disk Scheduling Algorithms
 
-读写一个磁盘块的时间的影响因素有：
+The time to read or write a disk block is affected by:
 
-- 旋转时间（主轴转动盘面，使得磁头移动到适当的扇区上）
-- 寻道时间（制动手臂移动，使得磁头移动到适当的磁道上）
-- 实际的数据传输时间
+- Rotational latency, where the spindle rotates the platter so the head reaches the proper sector.
+- Seek time, where the actuator arm moves the head to the proper track.
+- Actual data transfer time.
 
-其中，寻道时间最长，因此磁盘调度的主要目标是使磁盘的平均寻道时间最短。
+Among these, seek time is the longest, so the main goal of disk scheduling is to minimize the average seek time.
 
 ### 1. First-Come First-Served
 
 > FCFS, First Come First Served
 
-按照磁盘请求的顺序进行调度。
+Schedule disk requests in their arrival order.
 
-优点是公平和简单。缺点也很明显，因为未对寻道做任何优化，使平均寻道时间可能较长。
+The advantages are fairness and simplicity. The drawback is also clear: because it does not optimize seeks, the average seek time can be relatively long.
 
 ### 2. Shortest Seek Time First
 
 > SSTF, Shortest Seek Time First
 
-优先调度与当前磁头所在磁道距离最近的磁道。
+Prioritize the track closest to the current head position.
 
-虽然平均寻道时间比较低，但是不够公平。如果新到达的磁道请求总是比一个在等待的磁道请求近，那么在等待的磁道请求会一直等待下去，也就是出现饥饿现象。具体来说，两端的磁道请求更容易出现饥饿现象。
+Although the average seek time is lower, it is not fair enough. If newly arriving track requests are always closer than a waiting request, the waiting request may keep waiting forever, causing starvation. In particular, requests at the two ends of the disk are more likely to starve.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/4e2485e4-34bd-4967-9f02-0c093b797aaa.png"/> </div><br>
 
@@ -52,10 +52,10 @@
 
 > SCAN
 
-电梯总是保持一个方向运行，直到该方向没有请求为止，然后改变运行方向。
+An elevator keeps moving in one direction until there are no requests in that direction, then changes direction.
 
-电梯算法（扫描算法）和电梯的运行过程类似，总是按一个方向来进行磁盘调度，直到该方向上没有未完成的磁盘请求，然后改变方向。
+The elevator algorithm, also called the SCAN algorithm, is similar to how an elevator runs. Disk requests are always scheduled in one direction until there are no pending requests in that direction, then the direction changes.
 
-因为考虑了移动方向，因此所有的磁盘请求都会被满足，解决了 SSTF 的饥饿问题。
+Because movement direction is considered, all disk requests will eventually be served, solving SSTF's starvation problem.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/271ce08f-c124-475f-b490-be44fedc6d2e.png"/> </div><br>

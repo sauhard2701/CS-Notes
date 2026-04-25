@@ -1,17 +1,17 @@
 # Operating Systems - Linking
 <!-- GFM-TOC -->
-* [计算机操作系统 - 链接](#operating-systems---linking)
-    * [编译系统](#compilation-system)
-    * [静态链接](#static-linking)
-    * [目标文件](#object-files)
-    * [动态链接](#dynamic-linking)
+* [Operating Systems - Linking](#operating-systems---linking)
+    * [Compilation System](#compilation-system)
+    * [Static Linking](#static-linking)
+    * [Object Files](#object-files)
+    * [Dynamic Linking](#dynamic-linking)
 <!-- GFM-TOC -->
 
 
 ## Compilation System
 
 
-以下是一个 hello.c 程序：
+The following is a `hello.c` program:
 
 ```c
 #include <stdio.h>
@@ -23,46 +23,46 @@ int main()
 }
 ```
 
-在 Unix 系统上，由编译器把源文件转换为目标文件。
+On Unix systems, the compiler converts the source file into an object file.
 
 ```bash
 gcc -o hello hello.c
 ```
 
-这个过程大致如下：
+The process is roughly as follows:
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b396d726-b75f-4a32-89a2-03a7b6e19f6f.jpg" width="800"/> </div><br>
 
-- 预处理阶段：处理以 # 开头的预处理命令；
-- 编译阶段：翻译成汇编文件；
-- 汇编阶段：将汇编文件翻译成可重定位目标文件；
-- 链接阶段：将可重定位目标文件和 printf.o 等单独预编译好的目标文件进行合并，得到最终的可执行目标文件。
+- Preprocessing phase: handles preprocessing directives that start with `#`.
+- Compilation phase: translates the code into an assembly file.
+- Assembly phase: translates the assembly file into a relocatable object file.
+- Linking phase: combines relocatable object files with separately precompiled object files such as `printf.o` to produce the final executable object file.
 
 ## Static Linking
 
-静态链接器以一组可重定位目标文件为输入，生成一个完全链接的可执行目标文件作为输出。链接器主要完成以下两个任务：
+A static linker takes a set of relocatable object files as input and produces a fully linked executable object file as output. The linker mainly performs two tasks:
 
-- 符号解析：每个符号对应于一个函数、一个全局变量或一个静态变量，符号解析的目的是将每个符号引用与一个符号定义关联起来。
-- 重定位：链接器通过把每个符号定义与一个内存位置关联起来，然后修改所有对这些符号的引用，使得它们指向这个内存位置。
+- Symbol resolution: each symbol corresponds to a function, global variable, or static variable. Symbol resolution associates each symbol reference with a symbol definition.
+- Relocation: the linker associates each symbol definition with a memory location, then modifies all references to those symbols so they point to that memory location.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/47d98583-8bb0-45cc-812d-47eefa0a4a40.jpg"/> </div><br>
 
 ## Object Files
 
-- 可执行目标文件：可以直接在内存中执行；
-- 可重定位目标文件：可与其它可重定位目标文件在链接阶段合并，创建一个可执行目标文件；
-- 共享目标文件：这是一种特殊的可重定位目标文件，可以在运行时被动态加载进内存并链接；
+- Executable object file: can be executed directly in memory.
+- Relocatable object file: can be combined with other relocatable object files during linking to create an executable object file.
+- Shared object file: a special type of relocatable object file that can be dynamically loaded into memory and linked at runtime.
 
 ## Dynamic Linking
 
-静态库有以下两个问题：
+Static libraries have two problems:
 
-- 当静态库更新时那么整个程序都要重新进行链接；
-- 对于 printf 这种标准函数库，如果每个程序都要有代码，这会极大浪费资源。
+- When a static library is updated, the entire program must be relinked.
+- For standard library functions such as `printf`, including code in every program wastes a large amount of resources.
 
-共享库是为了解决静态库的这两个问题而设计的，在 Linux 系统中通常用 .so 后缀来表示，Windows 系统上它们被称为 DLL。它具有以下特点：
+Shared libraries are designed to solve these two problems with static libraries. On Linux systems they usually use the `.so` suffix; on Windows systems they are called DLLs. They have the following characteristics:
 
-- 在给定的文件系统中一个库只有一个文件，所有引用该库的可执行目标文件都共享这个文件，它不会被复制到引用它的可执行文件中；
-- 在内存中，一个共享库的 .text 节（已编译程序的机器代码）的一个副本可以被不同的正在运行的进程共享。
+- In a given file system, a library has only one file. All executable object files that reference the library share this file; it is not copied into the executables that reference it.
+- In memory, one copy of a shared library's `.text` section, the compiled machine code, can be shared by different running processes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/76dc7769-1aac-4888-9bea-064f1caa8e77.jpg"/> </div><br>

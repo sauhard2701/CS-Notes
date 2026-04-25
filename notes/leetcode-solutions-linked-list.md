@@ -1,28 +1,28 @@
 # LeetCode Solutions - Linked List
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 链表](#leetcode-solutions---linked-list)
-    * [1. 找出两个链表的交点](#1-intersection-of-two-linked-lists)
-    * [2. 链表反转](#2-reverse-linked-list)
-    * [3. 归并两个有序的链表](#3-merge-two-sorted-lists)
-    * [4. 从有序链表中删除重复节点](#4-remove-duplicates-from-sorted-list)
-    * [5. 删除链表的倒数第 n 个节点](#5-remove-nth-node-from-end-of-list)
-    * [6. 交换链表中的相邻结点](#6-swap-nodes-in-pairs)
-    * [7. 链表求和](#7-add-two-numbers-ii)
-    * [8. 回文链表](#8-palindrome-linked-list)
-    * [9. 分隔链表](#9-split-linked-list-in-parts)
-    * [10. 链表元素按奇偶聚集](#10-odd-even-linked-list)
+* [LeetCode Solutions - Linked List](#leetcode-solutions---linked-list)
+    * [1. Intersection of Two Linked Lists](#1-intersection-of-two-linked-lists)
+    * [2. Reverse Linked List](#2-reverse-linked-list)
+    * [3. Merge Two Sorted Lists](#3-merge-two-sorted-lists)
+    * [4. Remove Duplicates from Sorted List](#4-remove-duplicates-from-sorted-list)
+    * [5. Remove Nth Node From End of List](#5-remove-nth-node-from-end-of-list)
+    * [6. Swap Nodes in Pairs](#6-swap-nodes-in-pairs)
+    * [7. Add Two Numbers II](#7-add-two-numbers-ii)
+    * [8. Palindrome Linked List](#8-palindrome-linked-list)
+    * [9. Split Linked List in Parts](#9-split-linked-list-in-parts)
+    * [10. Odd Even Linked List](#10-odd-even-linked-list)
 <!-- GFM-TOC -->
 
 
-链表是空节点，或者有一个值和一个指向下一个链表的指针，因此很多链表问题可以用递归来处理。
+A linked list is either an empty node or a node with a value and a pointer to the next node, so many linked-list problems can be handled recursively.
 
 ##  1. Intersection of Two Linked Lists
 
 160\. Intersection of Two Linked Lists (Easy)
 
-[Leetcode](https://leetcode.com/problems/intersection-of-two-linked-lists/description/) / [力扣](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/description/)
+[Leetcode](https://leetcode.com/problems/intersection-of-two-linked-lists/description/) / [LeetCode China](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/description/)
 
-例如以下示例中 A 和 B 两个链表相交于 c1：
+For example, in the following example, linked lists A and B intersect at c1:
 
 ```html
 A:          a1 → a2
@@ -32,7 +32,7 @@ A:          a1 → a2
 B:    b1 → b2 → b3
 ```
 
-但是不会出现以下相交的情况，因为每个节点只有一个 next 指针，也就只能有一个后继节点，而以下示例中节点 c 有两个后继节点。
+The following type of intersection cannot occur, because each node has only one `next` pointer and therefore only one successor. In this example, node c has two successors.
 
 ```html
 A:          a1 → a2       d1 → d2
@@ -44,13 +44,13 @@ B:    b1 → b2 → b3        e1 → e2
 
 
 
-要求时间复杂度为 O(N)，空间复杂度为 O(1)。如果不存在交点则返回 null。
+Required time complexity is O(N), and space complexity is O(1). Return `null` if no intersection exists.
 
-设 A 的长度为 a + c，B 的长度为 b + c，其中 c 为尾部公共部分长度，可知 a + c + b = b + c + a。
+Let the length of A be a + c and the length of B be b + c, where c is the length of the shared tail. Then a + c + b = b + c + a.
 
-当访问 A 链表的指针访问到链表尾部时，令它从链表 B 的头部开始访问链表 B；同样地，当访问 B 链表的指针访问到链表尾部时，令它从链表 A 的头部开始访问链表 A。这样就能控制访问 A 和 B 两个链表的指针能同时访问到交点。
+When the pointer traversing list A reaches the end, let it start traversing list B from B's head. Similarly, when the pointer traversing list B reaches the end, let it start traversing list A from A's head. This makes the two pointers reach the intersection at the same time.
 
-如果不存在交点，那么 a + b = b + a，以下实现代码中 l1 和 l2 会同时为 null，从而退出循环。
+If no intersection exists, then a + b = b + a. In the implementation below, `l1` and `l2` become `null` at the same time, so the loop exits.
 
 ```java
 public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
@@ -63,18 +63,18 @@ public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
 }
 ```
 
-如果只是判断是否存在交点，那么就是另一个问题，即 [编程之美 3.6]() 的问题。有两种解法：
+If the task is only to determine whether an intersection exists, it becomes another problem, namely the problem from [The Beauty of Programming 3.6](). There are two solutions:
 
-- 把第一个链表的结尾连接到第二个链表的开头，看第二个链表是否存在环；
-- 或者直接比较两个链表的最后一个节点是否相同。
+- Connect the end of the first linked list to the head of the second linked list and check whether the second list contains a cycle.
+- Or directly compare whether the last nodes of the two linked lists are the same.
 
 ##  2. Reverse Linked List
 
 206\. Reverse Linked List (Easy)
 
-[Leetcode](https://leetcode.com/problems/reverse-linked-list/description/) / [力扣](https://leetcode-cn.com/problems/reverse-linked-list/description/)
+[Leetcode](https://leetcode.com/problems/reverse-linked-list/description/) / [LeetCode China](https://leetcode-cn.com/problems/reverse-linked-list/description/)
 
-递归
+Recursion
 
 ```java
 public ListNode reverseList(ListNode head) {
@@ -89,7 +89,7 @@ public ListNode reverseList(ListNode head) {
 }
 ```
 
-头插法
+Head insertion
 
 ```java
 public ListNode reverseList(ListNode head) {
@@ -108,7 +108,7 @@ public ListNode reverseList(ListNode head) {
 
 21\. Merge Two Sorted Lists (Easy)
 
-[Leetcode](https://leetcode.com/problems/merge-two-sorted-lists/description/) / [力扣](https://leetcode-cn.com/problems/merge-two-sorted-lists/description/)
+[Leetcode](https://leetcode.com/problems/merge-two-sorted-lists/description/) / [LeetCode China](https://leetcode-cn.com/problems/merge-two-sorted-lists/description/)
 
 ```java
 public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
@@ -128,7 +128,7 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 
 83\. Remove Duplicates from Sorted List (Easy)
 
-[Leetcode](https://leetcode.com/problems/remove-duplicates-from-sorted-list/description/) / [力扣](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/description/)
+[Leetcode](https://leetcode.com/problems/remove-duplicates-from-sorted-list/description/) / [LeetCode China](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/description/)
 
 ```html
 Given 1->1->2, return 1->2.
@@ -147,7 +147,7 @@ public ListNode deleteDuplicates(ListNode head) {
 
 19\. Remove Nth Node From End of List (Medium)
 
-[Leetcode](https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/) / [力扣](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/description/)
+[Leetcode](https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/) / [LeetCode China](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/description/)
 
 ```html
 Given linked list: 1->2->3->4->5, and n = 2.
@@ -175,13 +175,13 @@ public ListNode removeNthFromEnd(ListNode head, int n) {
 
 24\. Swap Nodes in Pairs (Medium)
 
-[Leetcode](https://leetcode.com/problems/swap-nodes-in-pairs/description/) / [力扣](https://leetcode-cn.com/problems/swap-nodes-in-pairs/description/)
+[Leetcode](https://leetcode.com/problems/swap-nodes-in-pairs/description/) / [LeetCode China](https://leetcode-cn.com/problems/swap-nodes-in-pairs/description/)
 
 ```html
 Given 1->2->3->4, you should return the list as 2->1->4->3.
 ```
 
-题目要求：不能修改结点的 val 值，O(1) 空间复杂度。
+Problem requirement: do not modify node `val` values; use O(1) space.
 
 ```java
 public ListNode swapPairs(ListNode head) {
@@ -205,14 +205,14 @@ public ListNode swapPairs(ListNode head) {
 
 445\. Add Two Numbers II (Medium)
 
-[Leetcode](https://leetcode.com/problems/add-two-numbers-ii/description/) / [力扣](https://leetcode-cn.com/problems/add-two-numbers-ii/description/)
+[Leetcode](https://leetcode.com/problems/add-two-numbers-ii/description/) / [LeetCode China](https://leetcode-cn.com/problems/add-two-numbers-ii/description/)
 
 ```html
 Input: (7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)
 Output: 7 -> 8 -> 0 -> 7
 ```
 
-题目要求：不能修改原始链表。
+Problem requirement: do not modify the original linked lists.
 
 ```java
 public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -246,11 +246,11 @@ private Stack<Integer> buildStack(ListNode l) {
 
 234\. Palindrome Linked List (Easy)
 
-[Leetcode](https://leetcode.com/problems/palindrome-linked-list/description/) / [力扣](https://leetcode-cn.com/problems/palindrome-linked-list/description/)
+[Leetcode](https://leetcode.com/problems/palindrome-linked-list/description/) / [LeetCode China](https://leetcode-cn.com/problems/palindrome-linked-list/description/)
 
-题目要求：以 O(1) 的空间复杂度来求解。
+Problem requirement: solve it with O(1) space complexity.
 
-切成两半，把后半段反转，然后比较两半是否相等。
+Cut the list into two halves, reverse the second half, and compare whether the two halves are equal.
 
 ```java
 public boolean isPalindrome(ListNode head) {
@@ -260,8 +260,8 @@ public boolean isPalindrome(ListNode head) {
         slow = slow.next;
         fast = fast.next.next;
     }
-    if (fast != null) slow = slow.next;  // 偶数节点，让 slow 指向下一个节点
-    cut(head, slow);                     // 切成两个链表
+    if (fast != null) slow = slow.next;  // even number of nodes; move slow to the next node
+    cut(head, slow);                     // split into two linked lists
     return isEqual(head, reverse(slow));
 }
 
@@ -297,7 +297,7 @@ private boolean isEqual(ListNode l1, ListNode l2) {
 
 725\. Split Linked List in Parts(Medium)
 
-[Leetcode](https://leetcode.com/problems/split-linked-list-in-parts/description/) / [力扣](https://leetcode-cn.com/problems/split-linked-list-in-parts/description/)
+[Leetcode](https://leetcode.com/problems/split-linked-list-in-parts/description/) / [LeetCode China](https://leetcode-cn.com/problems/split-linked-list-in-parts/description/)
 
 ```html
 Input:
@@ -307,7 +307,7 @@ Explanation:
 The input has been split into consecutive parts with size difference at most 1, and earlier parts are a larger size than the later parts.
 ```
 
-题目描述：把链表分隔成 k 部分，每部分的长度都应该尽可能相同，排在前面的长度应该大于等于后面的。
+Problem description: split the linked list into `k` parts. The length of each part should be as equal as possible, and earlier parts should be at least as long as later parts.
 
 ```java
 public ListNode[] splitListToParts(ListNode root, int k) {
@@ -339,7 +339,7 @@ public ListNode[] splitListToParts(ListNode root, int k) {
 
 328\. Odd Even Linked List (Medium)
 
-[Leetcode](https://leetcode.com/problems/odd-even-linked-list/description/) / [力扣](https://leetcode-cn.com/problems/odd-even-linked-list/description/)
+[Leetcode](https://leetcode.com/problems/odd-even-linked-list/description/) / [LeetCode China](https://leetcode-cn.com/problems/odd-even-linked-list/description/)
 
 ```html
 Example:

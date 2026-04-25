@@ -1,38 +1,38 @@
 # LeetCode Solutions - Two Pointers
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 双指针](#leetcode-solutions---two-pointers)
-    * [1. 有序数组的 Two Sum](#1-two-sum-ii-input-array-is-sorted)
-    * [2. 两数平方和](#2-sum-of-square-numbers)
-    * [3. 反转字符串中的元音字符](#3-reverse-vowels-of-a-string)
-    * [4. 回文字符串](#4-valid-palindrome-ii)
-    * [5. 归并两个有序数组](#5-merge-sorted-array)
-    * [6. 判断链表是否存在环](#6-linked-list-cycle)
-    * [7. 最长子序列](#7-longest-word-in-dictionary-through-deleting)
+* [LeetCode Solutions - Two Pointers](#leetcode-solutions---two-pointers)
+    * [1. Two Sum II: Input Array Is Sorted](#1-two-sum-ii-input-array-is-sorted)
+    * [2. Sum of Square Numbers](#2-sum-of-square-numbers)
+    * [3. Reverse Vowels of a String](#3-reverse-vowels-of-a-string)
+    * [4. Valid Palindrome II](#4-valid-palindrome-ii)
+    * [5. Merge Sorted Array](#5-merge-sorted-array)
+    * [6. Linked List Cycle](#6-linked-list-cycle)
+    * [7. Longest Word in Dictionary through Deleting](#7-longest-word-in-dictionary-through-deleting)
 <!-- GFM-TOC -->
 
 
-双指针主要用于遍历数组，两个指针指向不同的元素，从而协同完成任务。
+Two pointers are mainly used to traverse arrays. The two pointers point to different elements and work together to complete the task.
 
 ## 1. Two Sum II: Input Array Is Sorted
 
 167\. Two Sum II - Input array is sorted (Easy)
 
-[Leetcode](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/) / [力扣](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)
+[Leetcode](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/) / [LeetCode China](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)
 
 ```html
 Input: numbers={2, 7, 11, 15}, target=9
 Output: index1=1, index2=2
 ```
 
-题目描述：在有序数组中找出两个数，使它们的和为 target。
+Problem description: find two numbers in a sorted array whose sum equals `target`.
 
-使用双指针，一个指针指向值较小的元素，一个指针指向值较大的元素。指向较小元素的指针从头向尾遍历，指向较大元素的指针从尾向头遍历。
+Use two pointers: one points to the smaller element, and the other points to the larger element. The pointer to the smaller element traverses from front to back, while the pointer to the larger element traverses from back to front.
 
-- 如果两个指针指向元素的和 sum == target，那么得到要求的结果；
-- 如果 sum \> target，移动较大的元素，使 sum 变小一些；
-- 如果 sum \< target，移动较小的元素，使 sum 变大一些。
+- If the sum of the two pointed elements is `sum == target`, the required result has been found.
+- If `sum \> target`, move the larger element so `sum` becomes smaller.
+- If `sum \< target`, move the smaller element so `sum` becomes larger.
 
-数组中的元素最多遍历一次，时间复杂度为 O(N)。只使用了两个额外变量，空间复杂度为  O(1)。
+Each array element is traversed at most once, so the time complexity is O(N). Only two extra variables are used, so the space complexity is O(1).
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/437cb54c-5970-4ba9-b2ef-2541f7d6c81e.gif" width="200px"> </div><br>
 
@@ -58,7 +58,7 @@ public int[] twoSum(int[] numbers, int target) {
 
 633\. Sum of Square Numbers (Easy)
 
-[Leetcode](https://leetcode.com/problems/sum-of-square-numbers/description/) / [力扣](https://leetcode-cn.com/problems/sum-of-square-numbers/description/)
+[Leetcode](https://leetcode.com/problems/sum-of-square-numbers/description/) / [LeetCode China](https://leetcode-cn.com/problems/sum-of-square-numbers/description/)
 
 ```html
 Input: 5
@@ -66,15 +66,15 @@ Output: True
 Explanation: 1 * 1 + 2 * 2 = 5
 ```
 
-题目描述：判断一个非负整数是否为两个整数的平方和。
+Problem description: determine whether a non-negative integer is the sum of squares of two integers.
 
-可以看成是在元素为 0\~target 的有序数组中查找两个数，使得这两个数的平方和为 target，如果能找到，则返回 true，表示 target 是两个整数的平方和。
+This can be viewed as searching for two numbers in the sorted array 0\~target such that the sum of their squares is `target`. If such numbers are found, return `true`, meaning `target` is the sum of squares of two integers.
 
-本题和 167\. Two Sum II - Input array is sorted 类似，只有一个明显区别：一个是和为 target，一个是平方和为 target。本题同样可以使用双指针得到两个数，使其平方和为 target。
+This problem is similar to 167. Two Sum II - Input array is sorted, with one clear difference: one asks for a sum of `target`, while this one asks for a square sum of `target`. Two pointers can likewise be used to find the two numbers.
 
-本题的关键是右指针的初始化，实现剪枝，从而降低时间复杂度。设右指针为 x，左指针固定为 0，为了使 0<sup>2</sup> + x<sup>2</sup> 的值尽可能接近 target，我们可以将 x 取为 sqrt(target)。
+The key is initializing the right pointer to prune the search and reduce time complexity. Let the right pointer be `x` and the left pointer be fixed at 0. To make 0<sup>2</sup> + x<sup>2</sup> as close to `target` as possible, choose `x` as sqrt(target).
 
-因为最多只需要遍历一次 0\~sqrt(target)，所以时间复杂度为 O(sqrt(target))。又因为只使用了两个额外的变量，因此空间复杂度为 O(1)。
+Because only 0\~sqrt(target) needs to be traversed at most once, the time complexity is O(sqrt(target)). Since only two extra variables are used, the space complexity is O(1).
 
 ```java
  public boolean judgeSquareSum(int target) {
@@ -98,7 +98,7 @@ Explanation: 1 * 1 + 2 * 2 = 5
 
 345\. Reverse Vowels of a String (Easy)
 
-[Leetcode](https://leetcode.com/problems/reverse-vowels-of-a-string/description/) / [力扣](https://leetcode-cn.com/problems/reverse-vowels-of-a-string/description/)
+[Leetcode](https://leetcode.com/problems/reverse-vowels-of-a-string/description/) / [LeetCode China](https://leetcode-cn.com/problems/reverse-vowels-of-a-string/description/)
 
 ```html
 Given s = "leetcode", return "leotcede".
@@ -106,12 +106,12 @@ Given s = "leetcode", return "leotcede".
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a7cb8423-895d-4975-8ef8-662a0029c772.png" width="400px"> </div><br>
 
-使用双指针，一个指针从头向尾遍历，一个指针从尾到头遍历，当两个指针都遍历到元音字符时，交换这两个元音字符。
+Use two pointers: one traverses from front to back, and the other traverses from back to front. When both pointers reach vowels, swap the two vowels.
 
-为了快速判断一个字符是不是元音字符，我们将全部元音字符添加到集合 HashSet 中，从而以 O(1) 的时间复杂度进行该操作。
+To quickly determine whether a character is a vowel, add all vowels to a `HashSet`, allowing the check to run in O(1) time.
 
-- 时间复杂度为 O(N)：只需要遍历所有元素一次
-- 空间复杂度 O(1)：只需要使用两个额外变量
+- Time complexity is O(N): all elements are traversed only once.
+- Space complexity is O(1): only two extra variables are used.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ef25ff7c-0f63-420d-8b30-eafbeea35d11.gif" width="400px"> </div><br>
 
@@ -143,7 +143,7 @@ public String reverseVowels(String s) {
 
 680\. Valid Palindrome II (Easy)
 
-[Leetcode](https://leetcode.com/problems/valid-palindrome-ii/description/) / [力扣](https://leetcode-cn.com/problems/valid-palindrome-ii/description/)
+[Leetcode](https://leetcode.com/problems/valid-palindrome-ii/description/) / [LeetCode China](https://leetcode-cn.com/problems/valid-palindrome-ii/description/)
 
 ```html
 Input: "abca"
@@ -151,19 +151,19 @@ Output: True
 Explanation: You could delete the character 'c'.
 ```
 
-题目描述：可以删除一个字符，判断是否能构成回文字符串。
+Problem description: determine whether a palindrome can be formed by deleting one character.
 
-所谓的回文字符串，是指具有左右对称特点的字符串，例如 "abcba" 就是一个回文字符串。
+A palindrome is a string with left-right symmetry; for example, `"abcba"` is a palindrome.
 
-使用双指针可以很容易判断一个字符串是否是回文字符串：令一个指针从左到右遍历，一个指针从右到左遍历，这两个指针同时移动一个位置，每次都判断两个指针指向的字符是否相同，如果都相同，字符串才是具有左右对称性质的回文字符串。
+Two pointers can easily determine whether a string is a palindrome: one pointer traverses from left to right, and the other from right to left. The two pointers move one position at a time, checking whether the characters they point to are the same. Only if all pairs match does the string have palindrome symmetry.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/fcc941ec-134b-4dcd-bc86-1702fd305300.gif" width="250px"> </div><br>
 
-本题的关键是处理删除一个字符。在使用双指针遍历字符串时，如果出现两个指针指向的字符不相等的情况，我们就试着删除一个字符，再判断删除完之后的字符串是否是回文字符串。
+The key is handling the deletion of one character. When using two pointers to traverse the string, if the two pointed characters differ, try deleting one character and then check whether the remaining string is a palindrome.
 
-在判断是否为回文字符串时，我们不需要判断整个字符串，因为左指针左边和右指针右边的字符之前已经判断过具有对称性质，所以只需要判断中间的子字符串即可。
+When checking whether it is a palindrome, there is no need to check the entire string, because the characters to the left of the left pointer and to the right of the right pointer have already been verified as symmetric. Only the middle substring needs to be checked.
 
-在试着删除字符时，我们既可以删除左指针指向的字符，也可以删除右指针指向的字符。
+When trying to delete a character, either the character pointed to by the left pointer or the character pointed to by the right pointer can be deleted.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/db5f30a7-8bfa-4ecc-ab5d-747c77818964.gif" width="300px"> </div><br>
 
@@ -191,7 +191,7 @@ private boolean isPalindrome(String s, int i, int j) {
 
 88\. Merge Sorted Array (Easy)
 
-[Leetcode](https://leetcode.com/problems/merge-sorted-array/description/) / [力扣](https://leetcode-cn.com/problems/merge-sorted-array/description/)
+[Leetcode](https://leetcode.com/problems/merge-sorted-array/description/) / [LeetCode China](https://leetcode-cn.com/problems/merge-sorted-array/description/)
 
 ```html
 Input:
@@ -201,9 +201,9 @@ nums2 = [2,5,6],       n = 3
 Output: [1,2,2,3,5,6]
 ```
 
-题目描述：把归并结果存到第一个数组上。
+Problem description: store the merged result in the first array.
 
-需要从尾开始遍历，否则在 nums1 上归并得到的值会覆盖还未进行归并比较的值。
+Traverse from the end; otherwise, values merged into `nums1` may overwrite values that have not yet been compared.
 
 ```java
 public void merge(int[] nums1, int m, int[] nums2, int n) {
@@ -227,9 +227,9 @@ public void merge(int[] nums1, int m, int[] nums2, int n) {
 
 141\. Linked List Cycle (Easy)
 
-[Leetcode](https://leetcode.com/problems/linked-list-cycle/description/) / [力扣](https://leetcode-cn.com/problems/linked-list-cycle/description/)
+[Leetcode](https://leetcode.com/problems/linked-list-cycle/description/) / [LeetCode China](https://leetcode-cn.com/problems/linked-list-cycle/description/)
 
-使用双指针，一个指针每次移动一个节点，一个指针每次移动两个节点，如果存在环，那么这两个指针一定会相遇。
+Use two pointers: one moves one node at a time, and the other moves two nodes at a time. If a cycle exists, the two pointers will eventually meet.
 
 ```java
 public boolean hasCycle(ListNode head) {
@@ -252,7 +252,7 @@ public boolean hasCycle(ListNode head) {
 
 524\. Longest Word in Dictionary through Deleting (Medium)
 
-[Leetcode](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/description/) / [力扣](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/description/)
+[Leetcode](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/description/) / [LeetCode China](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/description/)
 
 ```
 Input:
@@ -262,9 +262,9 @@ Output:
 "apple"
 ```
 
-题目描述：删除 s 中的一些字符，使得它构成字符串列表 d 中的一个字符串，找出能构成的最长字符串。如果有多个相同长度的结果，返回字典序的最小字符串。
+Problem description: delete some characters from `s` so it becomes a string in list `d`, and find the longest string that can be formed. If multiple results have the same length, return the lexicographically smallest one.
 
-通过删除字符串 s 中的一个字符能得到字符串 t，可以认为 t 是 s 的子序列，我们可以使用双指针来判断一个字符串是否为另一个字符串的子序列。
+If string `t` can be obtained by deleting characters from string `s`, then `t` is a subsequence of `s`. Two pointers can be used to determine whether one string is a subsequence of another.
 
 ```java
 public String findLongestWord(String s, List<String> d) {

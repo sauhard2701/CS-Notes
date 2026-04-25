@@ -1,24 +1,24 @@
 # Operating Systems - Overview
 <!-- GFM-TOC -->
-* [计算机操作系统 - 概述](#operating-systems---overview)
-    * [基本特征](#basic-characteristics)
-        * [1. 并发](#1-concurrency)
-        * [2. 共享](#2-sharing)
-        * [3. 虚拟](#3-virtualization)
-        * [4. 异步](#4-asynchrony)
-    * [基本功能](#basic-functions)
-        * [1. 进程管理](#1-process-management)
-        * [2. 内存管理](#2-memory-management)
-        * [3. 文件管理](#3-file-management)
-        * [4. 设备管理](#4-device-management)
-    * [系统调用](#system-calls)
-    * [宏内核和微内核](#monolithic-kernel-and-microkernel)
-        * [1. 宏内核](#1-monolithic-kernel)
-        * [2. 微内核](#2-microkernel)
-    * [中断分类](#interrupt-classification)
-        * [1. 外中断](#1-external-interrupts)
-        * [2. 异常](#2-exceptions)
-        * [3. 陷入](#3-trap)
+* [Operating Systems - Overview](#operating-systems---overview)
+    * [Basic Characteristics](#basic-characteristics)
+        * [1. Concurrency](#1-concurrency)
+        * [2. Sharing](#2-sharing)
+        * [3. Virtualization](#3-virtualization)
+        * [4. Asynchrony](#4-asynchrony)
+    * [Basic Functions](#basic-functions)
+        * [1. Process Management](#1-process-management)
+        * [2. Memory Management](#2-memory-management)
+        * [3. File Management](#3-file-management)
+        * [4. Device Management](#4-device-management)
+    * [System Calls](#system-calls)
+    * [Monolithic Kernel and Microkernel](#monolithic-kernel-and-microkernel)
+        * [1. Monolithic Kernel](#1-monolithic-kernel)
+        * [2. Microkernel](#2-microkernel)
+    * [Interrupt Classification](#interrupt-classification)
+        * [1. External Interrupts](#1-external-interrupts)
+        * [2. Exceptions](#2-exceptions)
+        * [3. Trap](#3-trap)
 <!-- GFM-TOC -->
 
 
@@ -26,86 +26,86 @@
 
 ### 1. Concurrency
 
-并发是指宏观上在一段时间内能同时运行多个程序，而并行则指同一时刻能运行多个指令。
+Concurrency means multiple programs can run during the same period from a macroscopic view, while parallelism means multiple instructions can run at the same instant.
 
-并行需要硬件支持，如多流水线、多核处理器或者分布式计算系统。
+Parallelism requires hardware support, such as multiple pipelines, multicore processors, or distributed computing systems.
 
-操作系统通过引入进程和线程，使得程序能够并发运行。
+Operating systems introduce processes and threads so programs can run concurrently.
 
 ### 2. Sharing
 
-共享是指系统中的资源可以被多个并发进程共同使用。
+Sharing means resources in the system can be used by multiple concurrent processes.
 
-有两种共享方式：互斥共享和同时共享。
+There are two sharing modes: mutually exclusive sharing and simultaneous sharing.
 
-互斥共享的资源称为临界资源，例如打印机等，在同一时刻只允许一个进程访问，需要用同步机制来实现互斥访问。
+Resources shared mutually exclusively are called critical resources, such as printers. Only one process can access them at a time, so synchronization mechanisms are needed to enforce mutual exclusion.
 
 ### 3. Virtualization
 
-虚拟技术把一个物理实体转换为多个逻辑实体。
+Virtualization turns one physical entity into multiple logical entities.
 
-主要有两种虚拟技术：时（时间）分复用技术和空（空间）分复用技术。
+There are two main virtualization techniques: time-division multiplexing and space-division multiplexing.
 
-多个进程能在同一个处理器上并发执行使用了时分复用技术，让每个进程轮流占用处理器，每次只执行一小个时间片并快速切换。
+Multiple processes can execute concurrently on the same processor using time-division multiplexing. Each process takes turns occupying the processor, executing for only a small time slice before quickly switching.
 
-虚拟内存使用了空分复用技术，它将物理内存抽象为地址空间，每个进程都有各自的地址空间。地址空间的页被映射到物理内存，地址空间的页并不需要全部在物理内存中，当使用到一个没有在物理内存的页时，执行页面置换算法，将该页置换到内存中。
+Virtual memory uses space-division multiplexing. It abstracts physical memory as address spaces, with each process having its own address space. Pages in the address space are mapped to physical memory, but not all pages need to reside in physical memory. When a page not in physical memory is used, a page replacement algorithm brings that page into memory.
 
 ### 4. Asynchrony
 
-异步指进程不是一次性执行完毕，而是走走停停，以不可知的速度向前推进。
+Asynchrony means a process does not execute to completion all at once; instead, it progresses intermittently at an unpredictable speed.
 
 ## Basic Functions
 
 ### 1. Process Management
 
-进程控制、进程同步、进程通信、死锁处理、处理机调度等。
+Process control, process synchronization, process communication, deadlock handling, processor scheduling, and so on.
 
 ### 2. Memory Management
 
-内存分配、地址映射、内存保护与共享、虚拟内存等。
+Memory allocation, address mapping, memory protection and sharing, virtual memory, and so on.
 
 ### 3. File Management
 
-文件存储空间的管理、目录管理、文件读写管理和保护等。
+File storage-space management, directory management, file read/write management, protection, and so on.
 
 ### 4. Device Management
 
-完成用户的 I/O 请求，方便用户使用各种设备，并提高设备的利用率。
+Completes user I/O requests, makes devices easier for users to use, and improves device utilization.
 
-主要包括缓冲管理、设备分配、设备处理、虛拟设备等。
+It mainly includes buffer management, device allocation, device handling, virtual devices, and so on.
 
 ## System Calls
 
-如果一个进程在用户态需要使用内核态的功能，就进行系统调用从而陷入内核，由操作系统代为完成。
+If a process in user mode needs kernel-mode functionality, it makes a system call to trap into the kernel, and the operating system completes the operation on its behalf.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/tGPV0.png" width="600"/> </div><br>
 
-Linux 的系统调用主要有以下这些：
+Linux system calls mainly include the following:
 
 | Task | Commands |
 | :---: | --- |
-| 进程控制 | fork(); exit(); wait(); |
-| 进程通信 | pipe(); shmget(); mmap(); |
-| 文件操作 | open(); read(); write(); |
-| 设备操作 | ioctl(); read(); write(); |
-| 信息维护 | getpid(); alarm(); sleep(); |
-| 安全 | chmod(); umask(); chown(); |
+| Process control | fork(); exit(); wait(); |
+| Process communication | pipe(); shmget(); mmap(); |
+| File operations | open(); read(); write(); |
+| Device operations | ioctl(); read(); write(); |
+| Information maintenance | getpid(); alarm(); sleep(); |
+| Security | chmod(); umask(); chown(); |
 
 ## Monolithic Kernel and Microkernel
 
 ### 1. Monolithic Kernel
 
-宏内核是将操作系统功能作为一个紧密结合的整体放到内核。
+A monolithic kernel places operating system functionality in the kernel as a tightly integrated whole.
 
-由于各模块共享信息，因此有很高的性能。
+Because modules share information, performance is high.
 
 ### 2. Microkernel
 
-由于操作系统不断复杂，因此将一部分操作系统功能移出内核，从而降低内核的复杂性。移出的部分根据分层的原则划分成若干服务，相互独立。
+As operating systems become increasingly complex, some operating system functionality is moved out of the kernel to reduce kernel complexity. The moved-out parts are divided into independent services according to layering principles.
 
-在微内核结构下，操作系统被划分成小的、定义良好的模块，只有微内核这一个模块运行在内核态，其余模块运行在用户态。
+In a microkernel architecture, the operating system is divided into small, well-defined modules. Only the microkernel itself runs in kernel mode; the remaining modules run in user mode.
 
-因为需要频繁地在用户态和核心态之间进行切换，所以会有一定的性能损失。
+Because frequent switching between user mode and kernel mode is required, there is some performance loss.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2_14_microkernelArchitecture.jpg"/> </div><br>
 
@@ -113,12 +113,12 @@ Linux 的系统调用主要有以下这些：
 
 ### 1. External Interrupts
 
-由 CPU 执行指令以外的事件引起，如 I/O 完成中断，表示设备输入/输出处理已经完成，处理器能够发送下一个输入/输出请求。此外还有时钟中断、控制台中断等。
+Caused by events other than CPU instruction execution, such as an I/O completion interrupt, which indicates that device input/output processing has completed and the processor can send the next input/output request. Other examples include clock interrupts and console interrupts.
 
 ### 2. Exceptions
 
-由 CPU 执行指令的内部事件引起，如非法操作码、地址越界、算术溢出等。
+Caused by internal events during CPU instruction execution, such as illegal opcodes, address out-of-bounds errors, arithmetic overflow, and so on.
 
 ### 3. Trap
 
-在用户程序中使用系统调用。
+Using a system call in a user program.

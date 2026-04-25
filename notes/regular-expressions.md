@@ -1,67 +1,67 @@
 # Regular Expressions
 <!-- GFM-TOC -->
-* [正则表达式](#regular-expressions)
-    * [一、概述](#1-overview)
-    * [二、匹配单个字符](#2-match-single-characters)
-    * [三、匹配一组字符](#3-match-character-sets)
-    * [四、使用元字符](#4-use-metacharacters)
-    * [五、重复匹配](#5-repeated-matching)
-    * [六、位置匹配](#6-position-matching)
-    * [七、使用子表达式](#7-use-subexpressions)
-    * [八、回溯引用](#8-backreferences)
-    * [九、前后查找](#9-lookaround)
-    * [十、嵌入条件](#10-embedded-conditions)
-    * [参考资料](#references)
+* [Regular Expressions](#regular-expressions)
+    * [1. Overview](#1-overview)
+    * [2. Match Single Characters](#2-match-single-characters)
+    * [3. Match Character Sets](#3-match-character-sets)
+    * [4. Use Metacharacters](#4-use-metacharacters)
+    * [5. Repeated Matching](#5-repeated-matching)
+    * [6. Position Matching](#6-position-matching)
+    * [7. Use Subexpressions](#7-use-subexpressions)
+    * [8. Backreferences](#8-backreferences)
+    * [9. Lookaround](#9-lookaround)
+    * [10. Embedded Conditions](#10-embedded-conditions)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
 ## 1. Overview
 
-正则表达式用于文本内容的查找和替换。
+Regular expressions are used to search and replace text content.
 
-正则表达式内置于其它语言或者软件产品中，它本身不是一种语言或者软件。
+Regular expressions are built into other languages or software products; they are not themselves a language or software product.
 
-[正则表达式在线工具](https://regexr.com/)
+[Online Regular Expression Tool](https://regexr.com/)
 
 ## 2. Match Single Characters
 
-**.**   可以用来匹配任何的单个字符，但是在绝大多数实现里面，不能匹配换行符；
+**.** can match any single character, but in most implementations it cannot match newline characters.
 
-**.**   是元字符，表示它有特殊的含义，而不是字符本身的含义。如果需要匹配 . ，那么要用 \ 进行转义，即在 . 前面加上 \ 。
+**.** is a metacharacter, meaning it has special meaning rather than representing the literal character. To match a literal `.`, escape it with `\`, placing `\` before `.`.
 
-正则表达式一般是区分大小写的，但也有些实现不区分。
+Regular expressions are generally case-sensitive, though some implementations are not.
 
-**正则表达式**  
+**Regular Expression**  
 
 ```
 C.C2018
 ```
 
-**匹配结果**  
+**Match Result**  
 
 My name is   **CyC2018**  .
 
 ## 3. Match Character Sets
 
-**[ ]**   定义一个字符集合；
+**[ ]** defines a character set.
 
-0-9、a-z 定义了一个字符区间，区间使用 ASCII 码来确定，字符区间在 [ ] 中使用。
+`0-9` and `a-z` define character ranges. Ranges are determined by ASCII codes and are used inside `[ ]`.
 
-**-**   只有在 [ ] 之间才是元字符，在 [ ] 之外就是一个普通字符；
+**-** is a metacharacter only inside `[ ]`; outside `[ ]`, it is a normal character.
 
-**^**   在 [ ] 中是取非操作。
+**^** inside `[ ]` means negation.
 
-**应用**  
+**Application**  
 
-匹配以 abc 为开头，并且最后一个字母不为数字的字符串：
+Match strings that start with `abc` and whose last character is not a digit:
 
-**正则表达式**  
+**Regular Expression**  
 
 ```
 abc[^0-9]
 ```
 
-**匹配结果**  
+**Match Result**  
 
 1.   **abcd**  
 2. abc1
@@ -71,105 +71,105 @@ abc[^0-9]
 
 ### Match Whitespace Characters
 
-|  元字符 | 说明  |
+| Metacharacter | Description |
 | :---: | :---: |
-|  [\b] | 回退（删除）一个字符   |
-|  \f |  换页符 |
-|  \n |  换行符 |
-|  \r |  回车符 |
-|  \t |  制表符 |
-|  \v |  垂直制表符 |
+|  [\b] | Backspace, deleting one character |
+|  \f | Form feed |
+|  \n | Newline |
+|  \r | Carriage return |
+|  \t | Tab |
+|  \v | Vertical tab |
 
-\r\n 是 Windows 中的文本行结束标签，在 Unix/Linux 则是 \n。
+`\r\n` is the text line-ending marker in Windows, while Unix/Linux uses `\n`.
 
-\r\n\r\n 可以匹配 Windows 下的空白行，因为它匹配两个连续的行尾标签，而这正是两条记录之间的空白行；
+`\r\n\r\n` can match blank lines on Windows because it matches two consecutive line-ending markers, which is exactly the blank line between two records.
 
 ### Match Specific Characters
 
 #### 1. Digit Metacharacters
 
-|  元字符 | 说明  |
+| Metacharacter | Description |
 | :---: | :---: |
-| \d  | 数字字符，等价于 [0-9]  |
-| \D  | 非数字字符，等价于 [^0-9]   |
+| \d  | Digit character, equivalent to [0-9] |
+| \D  | Non-digit character, equivalent to [^0-9] |
 
 #### 2. Alphanumeric Metacharacters
 
-|  元字符 | 说明  |
+| Metacharacter | Description |
 | :---: | :---: |
-| \w  |  大小写字母，下划线和数字，等价于 [a-zA-Z0-9\_] |
-|  \W |  对 \w 取非 |
+| \w  | Uppercase letters, lowercase letters, underscores, and digits; equivalent to [a-zA-Z0-9\_] |
+|  \W | Negation of \w |
 
 #### 3. Whitespace Metacharacters
 
-| 元字符  | 说明  |
+| Metacharacter | Description |
 | :---: | :---: |
-|  \s | 任何一个空白字符，等价于 [\f\n\r\t\v]  |
-| \S  |  对 \s 取非  |
+|  \s | Any whitespace character, equivalent to [\f\n\r\t\v] |
+| \S  | Negation of \s |
 
-\x 匹配十六进制字符，\0 匹配八进制，例如 \xA 对应值为 10 的 ASCII 字符 ，即 \n。
+`\x` matches hexadecimal characters, and `\0` matches octal. For example, `\xA` corresponds to ASCII value 10, namely `\n`.
 
 ## 5. Repeated Matching
 
--   **\+**   匹配 1 个或者多个字符
--   **\**  * 匹配 0 个或者多个字符
--   **?**   匹配 0 个或者 1 个字符
+-   **\+** matches 1 or more characters.
+-   **\**  * matches 0 or more characters.
+-   **?** matches 0 or 1 character.
 
-**应用**  
+**Application**  
 
-匹配邮箱地址。
+Match an email address.
 
-**正则表达式**  
+**Regular Expression**  
 
 ```
 [\w.]+@\w+\.\w+
 ```
 
-[\w.] 匹配的是字母数字或者 . ，在其后面加上 + ，表示匹配多次。在字符集合 [ ] 里，. 不是元字符；
+`[\w.]` matches an alphanumeric character or `.`, and adding `+` after it means matching one or more times. Inside a character set `[ ]`, `.` is not a metacharacter.
 
-**匹配结果**  
+**Match Result**  
 
 **abc.def\<span\>@\</span\>qq.com**  
 
--   **{n}**   匹配 n 个字符
--   **{m,n}**   匹配 m\~n 个字符
--   **{m,}**   至少匹配 m 个字符
+-   **{n}** matches n characters.
+-   **{m,n}** matches m\~n characters.
+-   **{m,}** matches at least m characters.
 
-\* 和 + 都是贪婪型元字符，会匹配尽可能多的内容。在后面加 ? 可以转换为懒惰型元字符，例如 \*?、+? 和 {m,n}? 。
+`*` and `+` are greedy metacharacters and match as much content as possible. Adding `?` after them converts them into lazy metacharacters, such as `*?`, `+?`, and `{m,n}?`.
 
-**正则表达式**  
+**Regular Expression**  
 
 ```
 a.+c
 ```
 
-**匹配结果**  
+**Match Result**  
 
 **abcabcabc**  
 
-由于 + 是贪婪型的，因此 .+ 会匹配更可能多的内容，所以会把整个 abcabcabc 文本都匹配，而不是只匹配前面的 abc 文本。用懒惰型可以实现匹配前面的。
+Because `+` is greedy, `.+` matches as much content as possible, so it matches the entire `abcabcabc` text rather than only the first `abc`. A lazy form can match only the first part.
 
 ## 6. Position Matching
 
 ### Word Boundaries
 
-**\b**   可以匹配一个单词的边界，边界是指位于 \w 和 \W 之间的位置；**\B** 匹配一个不是单词边界的位置。
+**\b** can match a word boundary, which is the position between `\w` and `\W`; **\B** matches a position that is not a word boundary.
 
-\b 只匹配位置，不匹配字符，因此 \babc\b 匹配出来的结果为 3 个字符。
+`\b` matches only a position, not a character, so `\babc\b` matches 3 characters.
 
 ### String Boundaries
 
-**^**   匹配整个字符串的开头，**$** 匹配结尾。
+**^** matches the beginning of the entire string, and **$** matches the end.
 
-^ 元字符在字符集合中用作求非，在字符集合外用作匹配字符串的开头。
+The `^` metacharacter is used for negation inside a character set and for matching the start of a string outside a character set.
 
-分行匹配模式（multiline）下，换行被当做字符串的边界。
+In multiline mode, line breaks are treated as string boundaries.
 
-**应用**  
+**Application**  
 
-匹配代码中以 // 开始的注释行
+Match comment lines in code that start with `//`.
 
-**正则表达式**  
+**Regular Expression**  
 
 ```
 ^\s*\/\/.*$
@@ -177,65 +177,65 @@ a.+c
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/600e9c75-5033-4dad-ae2b-930957db638e.png"/> </div><br>
 
-**匹配结果**  
+**Match Result**  
 
 1. public void fun() {
-2. &nbsp;&nbsp;&nbsp;&nbsp;      **// 注释 1**  
+2. &nbsp;&nbsp;&nbsp;&nbsp;      **// comment 1**  
 3. &nbsp;&nbsp;&nbsp;&nbsp;    int a = 1;
 4. &nbsp;&nbsp;&nbsp;&nbsp;    int b = 2;
-5. &nbsp;&nbsp;&nbsp;&nbsp;      **// 注释 2**  
+5. &nbsp;&nbsp;&nbsp;&nbsp;      **// comment 2**  
 6. &nbsp;&nbsp;&nbsp;&nbsp;    int c = a + b;
 7. }
 
 ## 7. Use Subexpressions
 
-使用   **( )**   定义一个子表达式。子表达式的内容可以当成一个独立元素，即可以将它看成一个字符，并且使用 * 等元字符。
+Use **( )** to define a subexpression. The contents of a subexpression can be treated as an independent element, like a character, and can use metacharacters such as `*`.
 
-子表达式可以嵌套，但是嵌套层次过深会变得很难理解。
+Subexpressions can be nested, but deeply nested expressions become hard to understand.
 
-**正则表达式**  
+**Regular Expression**  
 
 ```
 (ab){2,}
 ```
 
-**匹配结果**  
+**Match Result**  
 
 **ababab**  
 
-**|**   是或元字符，它把左边和右边所有的部分都看成单独的两个部分，两个部分只要有一个匹配就行。
+**|** is the OR metacharacter. It treats all content on the left and right as two separate parts; a match succeeds if either part matches.
 
-**正则表达式**  
+**Regular Expression**  
 
 ```
 (19|20)\d{2}
 ```
 
-**匹配结果**  
+**Match Result**  
 
 1.   **1900**  
 2.   **2010**  
 3. 1020
 
-**应用**  
+**Application**  
 
-匹配 IP 地址。
+Match an IP address.
 
-IP 地址中每部分都是 0-255 的数字，用正则表达式匹配时以下情况是合法的：
+Each part of an IP address is a number from 0 to 255. When matching with a regular expression, the following cases are valid:
 
-- 一位数字
-- 不以 0 开头的两位数字
-- 1 开头的三位数
-- 2 开头，第 2 位是 0-4 的三位数
-- 25 开头，第 3 位是 0-5 的三位数
+- One digit
+- Two digits that do not start with 0
+- Three digits starting with 1
+- Three digits starting with 2, where the second digit is 0-4
+- Three digits starting with 25, where the third digit is 0-5
 
-**正则表达式**  
+**Regular Expression**  
 
 ```
 ((25[0-5]|(2[0-4]\d)|(1\d{2})|([1-9]\d)|(\d))\.){3}(25[0-5]|(2[0-4]\d)|(1\d{2})|([1-9]\d)|(\d))
 ```
 
-**匹配结果**  
+**Match Result**  
 
 1.   **192.168.0.1**  
 2. 00.00.00.00
@@ -243,21 +243,21 @@ IP 地址中每部分都是 0-255 的数字，用正则表达式匹配时以下�
 
 ## 8. Backreferences
 
-回溯引用使用   **\n**   来引用某个子表达式，其中 n 代表的是子表达式的序号，从 1 开始。它和子表达式匹配的内容一致，比如子表达式匹配到 abc，那么回溯引用部分也需要匹配 abc 。
+Backreferences use **\n** to refer to a subexpression, where n is the subexpression number starting from 1. It must match the same content as the subexpression. For example, if the subexpression matches `abc`, the backreference must also match `abc`.
 
-**应用**  
+**Application**  
 
-匹配 HTML 中合法的标题元素。
+Match valid heading elements in HTML.
 
-**正则表达式**  
+**Regular Expression**  
 
-\1 将回溯引用子表达式 (h[1-6]) 匹配的内容，也就是说必须和子表达式匹配的内容一致。
+`\1` backreferences the content matched by subexpression `(h[1-6])`, meaning it must match the same content as that subexpression.
 
 ```
 <(h[1-6])>\w*?<\/\1>
 ```
 
-**匹配结果**  
+**Match Result**  
 
 1.   **&lt;h1\>x&lt;/h1\>**  
 2.   **&lt;h2\>x&lt;/h2\>**  
@@ -265,105 +265,105 @@ IP 地址中每部分都是 0-255 的数字，用正则表达式匹配时以下�
 
 ### Replacement
 
-需要用到两个正则表达式。
+Two regular expressions are needed.
 
-**应用**  
+**Application**  
 
-修改电话号码格式。
+Modify a phone number format.
 
-**文本**  
+**Text**  
 
 313-555-1234
 
-**查找正则表达式**  
+**Search Regular Expression**  
 
 ```
 (\d{3})(-)(\d{3})(-)(\d{4})
 ```
 
-**替换正则表达式**  
+**Replacement Regular Expression**  
 
-在第一个子表达式查找的结果加上 () ，然后加一个空格，在第三个和第五个字表达式查找的结果中间加上 - 进行分隔。
+Add `()` around the result found by the first subexpression, then add a space, and separate the results from the third and fifth subexpressions with `-`.
 
 ```
 ($1) $3-$5
 ```
 
-**结果**  
+**Result**  
 
 (313) 555-1234
 
 ### Case Conversion
 
-|  元字符 | 说明  |
+| Metacharacter | Description |
 | :---: | :---: |
-|  \l | 把下个字符转换为小写  |
-|   \u| 把下个字符转换为大写  |
-|  \L | 把\L 和\E 之间的字符全部转换为小写  |
-|  \U | 把\U 和\E 之间的字符全部转换为大写  |
-|  \E | 结束\L 或者\U  |
+|  \l | Convert the next character to lowercase |
+|   \u| Convert the next character to uppercase |
+|  \L | Convert all characters between `\L` and `\E` to lowercase |
+|  \U | Convert all characters between `\U` and `\E` to uppercase |
+|  \E | End `\L` or `\U` |
 
-**应用**  
+**Application**  
 
-把文本的第二个和第三个字符转换为大写。
+Convert the second and third characters of the text to uppercase.
 
-**文本**  
+**Text**  
 
 abcd
 
-**查找**  
+**Search**  
 
 ```
 (\w)(\w{2})(\w)
 ```
 
-**替换**  
+**Replacement**  
 
 ```
 $1\U$2\E$3
 ```
 
-**结果**  
+**Result**  
 
 aBCd
 
 ## 9. Lookaround
 
-前后查找规定了匹配的内容首尾应该匹配的内容，但是又不包含首尾匹配的内容。
+Lookaround specifies what should match before or after the matched content, while excluding that surrounding content from the match.
 
-向前查找使用   **?=**   定义，它规定了尾部匹配的内容，这个匹配的内容在 ?= 之后定义。所谓向前查找，就是规定了一个匹配的内容，然后以这个内容为尾部向前面查找需要匹配的内容。向后匹配用 ?\<= 定义（注: JavaScript 不支持向后匹配，Java 对其支持也不完善）。
+Lookahead is defined with **?=**. It specifies the content that must match after the current content, and that content is defined after `?=`. Lookbehind is defined with `?\<=`. Note: JavaScript does not support lookbehind, and Java's support is also incomplete.
 
-**应用**  
+**Application**  
 
-查找出邮件地址 @ 字符前面的部分。
+Find the part before the `@` character in an email address.
 
-**正则表达式**  
+**Regular Expression**  
 
 ```
 \w+(?=@)
 ```
 
-**结果**  
+**Result**  
 
 **abc**  @qq.com
 
-对向前和向后查找取非，只要把 = 替换成 ! 即可，比如 (?=) 替换成 (?!) 。取非操作使得匹配那些首尾不符合要求的内容。
+To negate lookahead or lookbehind, replace `=` with `!`, for example replacing `(?=)` with `(?!)`. Negation matches content whose surrounding text does not meet the requirement.
 
 ## 10. Embedded Conditions
 
 ### Backreference Conditions
 
-条件为某个子表达式是否匹配，如果匹配则需要继续匹配条件表达式后面的内容。
+The condition is whether a certain subexpression matched. If it matched, the content after the conditional expression must continue to match.
 
-**正则表达式**  
+**Regular Expression**  
 
-子表达式 (\\() 匹配一个左括号，其后的 ? 表示匹配 0 个或者 1 个。 ?(1) 为条件，当子表达式 1 匹配时条件成立，需要执行 \) 匹配，也就是匹配右括号。
+The subexpression `(\\()` matches a left parenthesis, and the following `?` means matching 0 or 1 occurrence. `?(1)` is the condition. When subexpression 1 matches, the condition is true and `\)` must be matched, meaning the right parenthesis must be matched.
 
 ```
 (\()?abc(?(1)\))
 ```
 
-**结果**  
+**Result**  
 
 1.   **(abc)**  
 2.   **abc**  
@@ -371,17 +371,17 @@ aBCd
 
 ### Lookaround Conditions
 
-条件为定义的首尾是否匹配，如果匹配，则继续执行后面的匹配。注意，首尾不包含在匹配的内容中。
+The condition is whether the defined surrounding content matches. If it matches, matching continues. Note that the surrounding content is not included in the matched content.
 
-**正则表达式**  
+**Regular Expression**  
 
- ?(?=-) 为前向查找条件，只有在以 - 为前向查找的结尾能匹配 \d{5} ，才继续匹配 -\d{4} 。
+`?(?=-)` is a lookahead condition. Only when `\d{5}` can match with `-` as the lookahead suffix does matching continue with `-\d{4}`.
 
 ```
 \d{5}(?(?=-)-\d{4})
 ```
 
-**结果**  
+**Result**  
 
 1.   **11111**  
 2. 22222-
@@ -389,4 +389,4 @@ aBCd
 
 ## References
 
-- BenForta. 正则表达式必知必会 [M]. 人民邮电出版社, 2007.
+- Ben Forta. Regular Expressions: 10 Minute Tutorial [M]. People's Posts and Telecommunications Press, 2007.

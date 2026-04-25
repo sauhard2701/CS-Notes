@@ -1,12 +1,12 @@
 # System Design Basics
 <!-- GFM-TOC -->
-* [系统设计基础](#system-design-basics)
-    * [一、性能](#1-performance)
-    * [二、伸缩性](#2-scalability)
-    * [三、扩展性](#3-extensibility)
-    * [四、可用性](#4-availability)
-    * [五、安全性](#5-security)
-    * [参考资料](#references)
+* [System Design Basics](#system-design-basics)
+    * [1. Performance](#1-performance)
+    * [2. Scalability](#2-scalability)
+    * [3. Extensibility](#3-extensibility)
+    * [4. Availability](#4-availability)
+    * [5. Security](#5-security)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
@@ -16,96 +16,96 @@
 
 #### 1. Response Time
 
-指某个请求从发出到接收到响应消耗的时间。
+The time consumed from when a request is sent until its response is received.
 
-在对响应时间进行测试时，通常采用重复请求的方式，然后计算平均响应时间。
+When testing response time, repeated requests are usually sent and the average response time is calculated.
 
 #### 2. Throughput
 
-指系统在单位时间内可以处理的请求数量，通常使用每秒的请求数来衡量。
+The number of requests the system can process per unit of time, usually measured in requests per second.
 
 #### 3. Concurrent Users
 
-指系统能同时处理的并发用户请求数量。
+The number of concurrent user requests the system can handle at the same time.
 
-在没有并发存在的系统中，请求被顺序执行，此时响应时间为吞吐量的倒数。例如系统支持的吞吐量为 100 req/s，那么平均响应时间应该为 0.01s。
+In a system without concurrency, requests are executed sequentially, so response time is the reciprocal of throughput. For example, if the system supports 100 req/s, the average response time should be 0.01s.
 
-目前的大型系统都支持多线程来处理并发请求，多线程能够提高吞吐量以及缩短响应时间，主要有两个原因：
+Modern large-scale systems all support multithreading to handle concurrent requests. Multithreading can improve throughput and reduce response time mainly for two reasons:
 
-- 多 CPU
-- IO 等待时间
+- Multiple CPUs
+- I/O wait time
 
-使用 IO 多路复用等方式，系统在等待一个 IO 操作完成的这段时间内不需要被阻塞，可以去处理其它请求。通过将这个等待时间利用起来，使得 CPU 利用率大大提高。
+With techniques such as I/O multiplexing, the system does not need to block while waiting for one I/O operation to complete and can process other requests instead. Using this waiting time greatly improves CPU utilization.
 
-并发用户数不是越高越好，因为如果并发用户数太高，系统来不及处理这么多的请求，会使得过多的请求需要等待，那么响应时间就会大大提高。
+A higher concurrent user count is not always better. If concurrency is too high, the system cannot process all requests in time, too many requests have to wait, and response time increases sharply.
 
 ### Performance Optimization
 
 #### 1. Clustering
 
-将多台服务器组成集群，使用负载均衡将请求转发到集群中，避免单一服务器的负载压力过大导致性能降低。
+Group multiple servers into a cluster and use load balancing to forward requests to the cluster, avoiding performance degradation caused by excessive load on a single server.
 
 #### 2. Caching
 
-缓存能够提高性能的原因如下：
+Caching improves performance for the following reasons:
 
-- 缓存数据通常位于内存等介质中，这种介质对于读操作特别快；
-- 缓存数据可以位于靠近用户的地理位置上；
-- 可以将计算结果进行缓存，从而避免重复计算。
+- Cached data is usually stored in media such as memory, which is especially fast for reads.
+- Cached data can be located geographically closer to users.
+- Computation results can be cached to avoid repeated computation.
 
 #### 3. Asynchronous
 
-某些流程可以将操作转换为消息，将消息发送到消息队列之后立即返回，之后这个操作会被异步处理。
+Some workflows can convert operations into messages, send them to a message queue, and return immediately. The operation is then processed asynchronously.
 
 ## 2. Scalability
 
-指不断向集群中添加服务器来缓解不断上升的用户并发访问压力和不断增长的数据存储需求。
+Scalability means continuously adding servers to a cluster to relieve rising concurrent user access pressure and growing data storage requirements.
 
 ### Scalability and Performance
 
-如果系统存在性能问题，那么单个用户的请求总是很慢的；
+If a system has performance problems, a single user's request is always slow.
 
-如果系统存在伸缩性问题，那么单个用户的请求可能会很快，但是在并发数很高的情况下系统会很慢。
+If a system has scalability problems, a single user's request may be fast, but the system becomes slow under high concurrency.
 
 ### Implement Scalability
 
-应用服务器只要不具有状态，那么就可以很容易地通过负载均衡器向集群中添加新的服务器。
+As long as application servers are stateless, new servers can be easily added to the cluster through a load balancer.
 
-关系型数据库的伸缩性通过 Sharding 来实现，将数据按一定的规则分布到不同的节点上，从而解决单台存储服务器的存储空间限制。
+Relational database scalability is implemented through sharding, which distributes data across different nodes according to certain rules, solving the storage-space limit of a single storage server.
 
-对于非关系型数据库，它们天生就是为海量数据而诞生，对伸缩性的支持特别好。
+Non-relational databases are designed for massive data from the start and usually provide strong scalability support.
 
 ## 3. Extensibility
 
-指的是添加新功能时对现有系统的其它应用无影响，这就要求不同应用具备低耦合的特点。
+Extensibility means adding new features without affecting other applications in the existing system, which requires low coupling between applications.
 
-实现可扩展主要有两种方式：
+There are two main ways to implement extensibility:
 
-- 使用消息队列进行解耦，应用之间通过消息传递进行通信；
-- 使用分布式服务将业务和可复用的服务分离开来，业务使用分布式服务框架调用可复用的服务。新增的产品可以通过调用可复用的服务来实现业务逻辑，对其它产品没有影响。
+- Use message queues for decoupling, so applications communicate by passing messages.
+- Use distributed services to separate business logic from reusable services. Business applications call reusable services through a distributed service framework. New products can implement business logic by calling reusable services without affecting other products.
 
 ## 4. Availability
 
 ### Redundancy
 
-保证高可用的主要手段是使用冗余，当某个服务器故障时就请求其它服务器。
+The main way to ensure high availability is redundancy: when one server fails, requests are sent to other servers.
 
-应用服务器的冗余比较容易实现，只要保证应用服务器不具有状态，那么某个应用服务器故障时，负载均衡器将该应用服务器原先的用户请求转发到另一个应用服务器上，不会对用户有任何影响。
+Application-server redundancy is relatively easy to implement. As long as application servers are stateless, when one application server fails, the load balancer forwards that server's original user requests to another application server without affecting users.
 
-存储服务器的冗余需要使用主从复制来实现，当主服务器故障时，需要提升从服务器为主服务器，这个过程称为切换。
+Storage-server redundancy requires master-slave replication. When the master server fails, a slave server must be promoted to master; this process is called failover.
 
 ### Monitoring
 
-对 CPU、内存、磁盘、网络等系统负载信息进行监控，当某个信息达到一定阈值时通知运维人员，从而在系统发生故障之前及时发现问题。
+Monitor system load information such as CPU, memory, disk, and network. When a metric reaches a threshold, notify operations staff so problems can be discovered before the system fails.
 
 ### Service Degradation
 
-服务降级是系统为了应对大量的请求，主动关闭部分功能，从而保证核心功能可用。
+Service degradation means the system proactively disables some features to handle a large number of requests while keeping core features available.
 
 ## 5. Security
 
-要求系统在应对各种攻击手段时能够有可靠的应对措施。
+Security requires the system to have reliable countermeasures against various attack techniques.
 
 ## References
 
-- 大型网站技术架构：核心原理与案例分析
+- Technical Architecture of Large Websites: Core Principles and Case Studies

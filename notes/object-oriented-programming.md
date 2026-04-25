@@ -1,21 +1,21 @@
 # Object-Oriented Programming
 <!-- GFM-TOC -->
-* [面向对象思想](#object-oriented-programming)
-    * [一、三大特性](#1-three-core-features)
-        * [封装](#encapsulation)
-        * [继承](#inheritance)
-        * [多态](#polymorphism)
-    * [二、类图](#2-class-diagrams)
-        * [泛化关系 (Generalization)](#generalization)
-        * [实现关系 (Realization)](#realization)
-        * [聚合关系 (Aggregation)](#aggregation)
-        * [组合关系 (Composition)](#composition)
-        * [关联关系 (Association)](#association)
-        * [依赖关系 (Dependency)](#dependency)
-    * [三、设计原则](#3-design-principles)
+* [Object-Oriented Programming](#object-oriented-programming)
+    * [1. Three Core Features](#1-three-core-features)
+        * [Encapsulation](#encapsulation)
+        * [Inheritance](#inheritance)
+        * [Polymorphism](#polymorphism)
+    * [2. Class Diagrams](#2-class-diagrams)
+        * [Generalization](#generalization)
+        * [Realization](#realization)
+        * [Aggregation](#aggregation)
+        * [Composition](#composition)
+        * [Association](#association)
+        * [Dependency](#dependency)
+    * [3. Design Principles](#3-design-principles)
         * [S.O.L.I.D](#solid)
-        * [其他常见原则](#other-common-principles)
-    * [参考资料](#references)
+        * [Other Common Principles](#other-common-principles)
+    * [References](#references)
 <!-- GFM-TOC -->
 
 
@@ -23,19 +23,19 @@
 
 ### Encapsulation
 
-利用抽象数据类型将数据和基于数据的操作封装在一起，使其构成一个不可分割的独立实体。数据被保护在抽象数据类型的内部，尽可能地隐藏内部的细节，只保留一些对外的接口使其与外部发生联系。用户无需关心对象内部的细节，但可以通过对象对外提供的接口来访问该对象。
+Encapsulation uses abstract data types to wrap data together with operations based on that data, forming an indivisible independent entity. Data is protected inside the abstract data type, internal details are hidden as much as possible, and only a few external interfaces are exposed for interaction. Users do not need to care about an object's internal details, but can access the object through its public interface.
 
-优点：
+Advantages:
 
-- 减少耦合：可以独立地开发、测试、优化、使用、理解和修改
-- 减轻维护的负担：可以更容易被理解，并且在调试的时候可以不影响其他模块
-- 有效地调节性能：可以通过剖析来确定哪些模块影响了系统的性能
-- 提高软件的可重用性
-- 降低了构建大型系统的风险：即使整个系统不可用，但是这些独立的模块却有可能是可用的
+- Reduces coupling: modules can be developed, tested, optimized, used, understood, and modified independently.
+- Reduces maintenance burden: modules are easier to understand, and debugging can avoid affecting other modules.
+- Improves performance tuning: profiling can identify which modules affect system performance.
+- Improves software reuse.
+- Reduces the risk of building large systems: even if the whole system is unavailable, these independent modules may still be usable.
 
-以下 Person 类封装 name、gender、age 等属性，外界只能通过 get() 方法获取一个 Person 对象的 name 属性和 gender 属性，而无法获取 age 属性，但是 age 属性可以供 work() 方法使用。
+The following `Person` class encapsulates attributes such as `name`, `gender`, and `age`. External code can only use `get()` methods to access a `Person` object's `name` and `gender`, but cannot access `age`; however, `age` can be used by the `work()` method.
 
-注意到 gender 属性使用 int 数据类型进行存储，封装使得用户注意不到这种实现细节。并且在需要修改 gender 属性使用的数据类型时，也可以在不影响客户端代码的情况下进行。
+Notice that the `gender` attribute is stored as an `int`. Encapsulation hides this implementation detail from users. If the data type used by `gender` needs to change later, it can be changed without affecting client code.
 
 ```java
 public class Person {
@@ -64,11 +64,11 @@ public class Person {
 
 ### Inheritance
 
-继承实现了   **IS-A**   关系，例如 Cat 和 Animal 就是一种 IS-A 关系，因此 Cat 可以继承自 Animal，从而获得 Animal 非 private 的属性和方法。
+Inheritance implements an **IS-A** relationship. For example, Cat and Animal form an IS-A relationship, so Cat can inherit from Animal and obtain Animal's non-private attributes and methods.
 
-继承应该遵循里氏替换原则，子类对象必须能够替换掉所有父类对象。
+Inheritance should follow the Liskov Substitution Principle: subclass objects must be able to replace all superclass objects.
 
-Cat 可以当做 Animal 来使用，也就是说可以使用 Animal 引用 Cat 对象。父类引用指向子类对象称为   **向上转型**  。
+Cat can be used as an Animal, meaning an Animal reference can refer to a Cat object. A superclass reference pointing to a subclass object is called **upcasting**.
 
 ```java
 Animal animal = new Cat();
@@ -76,18 +76,18 @@ Animal animal = new Cat();
 
 ### Polymorphism
 
-多态分为编译时多态和运行时多态：
+Polymorphism is divided into compile-time polymorphism and runtime polymorphism:
 
-- 编译时多态主要指方法的重载
-- 运行时多态指程序中定义的对象引用所指向的具体类型在运行期间才确定
+- Compile-time polymorphism mainly refers to method overloading.
+- Runtime polymorphism means the concrete type referenced by an object reference in the program is determined only during runtime.
 
-运行时多态有三个条件：
+Runtime polymorphism has three requirements:
 
-- 继承
-- 覆盖（重写）
-- 向上转型
+- Inheritance
+- Overriding
+- Upcasting
 
-下面的代码中，乐器类（Instrument）有两个子类：Wind 和 Percussion，它们都覆盖了父类的 play() 方法，并且在 main() 方法中使用父类 Instrument 来引用 Wind 和 Percussion 对象。在 Instrument 引用调用 play() 方法时，会执行实际引用对象所在类的 play() 方法，而不是 Instrument 类的方法。
+In the code below, the Instrument class has two subclasses: Wind and Percussion. Both override the superclass `play()` method, and the `main()` method uses the superclass Instrument to reference Wind and Percussion objects. When the Instrument reference calls `play()`, the `play()` method of the actual referenced object's class is executed, not the method from Instrument.
 
 ```java
 public class Instrument {
@@ -137,11 +137,11 @@ Percussion is playing...
 
 ## 2. Class Diagrams
 
-以下类图使用 [PlantUML](https://www.planttext.com/) 绘制，更多语法及使用请参考：http://plantuml.com/ 。
+The following class diagrams are drawn with [PlantUML](https://www.planttext.com/). For more syntax and usage, see: http://plantuml.com/ .
 
 ### Generalization
 
-用来描述继承关系，在 Java 中使用 extends 关键字。
+Used to describe inheritance relationships. In Java, this uses the `extends` keyword.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c0874e0a-dba3-467e-9c86-dd9313e0843e.jpg" width="180px"> </div><br>
 
@@ -162,7 +162,7 @@ Vihical <|-- Trunck
 
 ### Realization
 
-用来实现一个接口，在 Java 中使用 implements 关键字。
+Used to implement an interface. In Java, this uses the `implements` keyword.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/83d466bd-946b-4430-854a-cf7b0696d4c8.jpg" width="170px"> </div><br>
 
@@ -183,7 +183,7 @@ MoveBehavior <|.. Run
 
 ### Aggregation
 
-表示整体由部分组成，但是整体和部分不是强依赖的，整体不存在了部分还是会存在。
+Indicates that the whole is composed of parts, but the whole and parts are not strongly dependent. If the whole no longer exists, the parts can still exist.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a0ce43b7-afa8-4397-a96e-5c12a070f2ae.jpg" width="300px"> </div><br>
 
@@ -206,7 +206,7 @@ Computer o-- Screen
 
 ### Composition
 
-和聚合不同，组合中整体和部分是强依赖的，整体不存在了部分也不存在了。比如公司和部门，公司没了部门就不存在了。但是公司和员工就属于聚合关系了，因为公司没了员工还在。
+Unlike aggregation, composition has a strong dependency between the whole and its parts. If the whole no longer exists, the parts no longer exist either. For example, a company and its departments form composition: if the company is gone, the departments are gone. But a company and its employees form aggregation, because employees still exist if the company is gone.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/6a88a398-c494-41f5-bb62-9f7fb811df7c.jpg" width="280px"> </div><br>
 
@@ -227,7 +227,7 @@ Company *-- DepartmentB
 
 ### Association
 
-表示不同类对象之间有关联，这是一种静态关系，与运行过程的状态无关，在最开始就可以确定。因此也可以用 1 对 1、多对 1、多对多这种关联关系来表示。比如学生和学校就是一种关联关系，一个学校可以有很多学生，但是一个学生只属于一个学校，因此这是一种多对一的关系，在运行开始之前就可以确定。
+Indicates an association between objects of different classes. This is a static relationship, independent of runtime state, and can be determined from the beginning. It can also represent one-to-one, many-to-one, and many-to-many relationships. For example, students and schools form an association: one school can have many students, but one student belongs to only one school, so this is a many-to-one relationship that can be determined before runtime.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a3e4dc62-0da5-4d22-94f2-140078281812.jpg" width="200px"> </div><br>
 
@@ -246,11 +246,11 @@ School "1" - "n" Student
 
 ### Dependency
 
-和关联关系不同的是，依赖关系是在运行过程中起作用的。A 类和 B 类是依赖关系主要有三种形式：
+Unlike association, dependency takes effect during runtime. A dependency between class A and class B mainly appears in three forms:
 
-- A 类是 B 类方法的局部变量；
-- A 类是 B 类方法的参数；
-- A 类向 B 类发送消息，从而影响 B 类发生变化。
+- Class A is a local variable in a method of class B.
+- Class A is a parameter of a method of class B.
+- Class A sends a message to class B, causing class B to change.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/379444c9-f1d1-45cd-b7aa-b0c18427d388.jpg" width="330px"> </div><br>
 
@@ -280,93 +280,93 @@ Vihicle .. N
 
 ### S.O.L.I.D
 
-| 简写 | 全拼 | 中文翻译 |
+| Abbreviation | Full Name | English Name |
 | :---: | :---: | :---: |
-| SRP | The Single Responsibility Principle    | 单一责任原则 |
-| OCP | The Open Closed Principle              | 开放封闭原则 |
-| LSP | The Liskov Substitution Principle      | 里氏替换原则 |
-| ISP | The Interface Segregation Principle    | 接口分离原则 |
-| DIP | The Dependency Inversion Principle     | 依赖倒置原则 |
+| SRP | The Single Responsibility Principle    | Single Responsibility Principle |
+| OCP | The Open Closed Principle              | Open Closed Principle |
+| LSP | The Liskov Substitution Principle      | Liskov Substitution Principle |
+| ISP | The Interface Segregation Principle    | Interface Segregation Principle |
+| DIP | The Dependency Inversion Principle     | Dependency Inversion Principle |
 
 #### 1. Single Responsibility Principle
 
-> 修改一个类的原因应该只有一个。
+> There should be only one reason to modify a class.
 
-换句话说就是让一个类只负责一件事，当这个类需要做过多事情的时候，就需要分解这个类。
+In other words, a class should be responsible for only one thing. When a class needs to do too many things, it should be decomposed.
 
-如果一个类承担的职责过多，就等于把这些职责耦合在了一起，一个职责的变化可能会削弱这个类完成其它职责的能力。
+If a class takes on too many responsibilities, those responsibilities become coupled. A change in one responsibility may weaken the class's ability to fulfill its other responsibilities.
 
 #### 2. Open Closed Principle
 
-> 类应该对扩展开放，对修改关闭。
+> Classes should be open for extension and closed for modification.
 
-扩展就是添加新功能的意思，因此该原则要求在添加新功能时不需要修改代码。
+Extension means adding new functionality, so this principle requires new functionality to be added without modifying existing code.
 
-符合开闭原则最典型的设计模式是装饰者模式，它可以动态地将责任附加到对象上，而不用去修改类的代码。
+The most typical design pattern that follows the Open Closed Principle is the Decorator pattern. It can dynamically attach responsibilities to objects without modifying class code.
 
 #### 3. Liskov Substitution Principle
 
-> 子类对象必须能够替换掉所有父类对象。
+> Subclass objects must be able to replace all superclass objects.
 
-继承是一种 IS-A 关系，子类需要能够当成父类来使用，并且需要比父类更特殊。
+Inheritance is an IS-A relationship. A subclass must be usable as its superclass and should be more specific than its superclass.
 
-如果不满足这个原则，那么各个子类的行为上就会有很大差异，增加继承体系的复杂度。
+If this principle is not satisfied, subclass behavior can differ greatly, increasing the complexity of the inheritance hierarchy.
 
 #### 4. Interface Segregation Principle
 
-> 不应该强迫客户依赖于它们不用的方法。
+> Clients should not be forced to depend on methods they do not use.
 
-因此使用多个专门的接口比使用单一的总接口要好。
+Therefore, multiple specialized interfaces are better than one general-purpose interface.
 
 #### 5. Dependency Inversion Principle
 
-> 高层模块不应该依赖于低层模块，二者都应该依赖于抽象；</br>抽象不应该依赖于细节，细节应该依赖于抽象。
+> High-level modules should not depend on low-level modules; both should depend on abstractions.</br>Abstractions should not depend on details; details should depend on abstractions.
 
-高层模块包含一个应用程序中重要的策略选择和业务模块，如果高层模块依赖于低层模块，那么低层模块的改动就会直接影响到高层模块，从而迫使高层模块也需要改动。
+High-level modules contain important policy choices and business modules in an application. If high-level modules depend on low-level modules, changes in low-level modules directly affect high-level modules and force them to change as well.
 
-依赖于抽象意味着：
+Depending on abstractions means:
 
-- 任何变量都不应该持有一个指向具体类的指针或者引用；
-- 任何类都不应该从具体类派生；
-- 任何方法都不应该覆写它的任何基类中的已经实现的方法。
+- No variable should hold a pointer or reference to a concrete class.
+- No class should derive from a concrete class.
+- No method should override an already implemented method from any base class.
 
 ### Other Common Principles
 
-除了上述的经典原则，在实际开发中还有下面这些常见的设计原则。
+In addition to the classic principles above, the following design principles are also common in real development.
 
-| 简写    | 全拼    | 中文翻译 |
+| Abbreviation | Full Name | English Name |
 | :---: | :---: | :---: |
-|LOD|    The Law of Demeter                   | 迪米特法则   |
-|CRP|    The Composite Reuse Principle        | 合成复用原则 |
-|CCP|    The Common Closure Principle         | 共同封闭原则 |
-|SAP|    The Stable Abstractions Principle    | 稳定抽象原则 |
-|SDP|    The Stable Dependencies Principle    | 稳定依赖原则 |
+|LOD|    The Law of Demeter                   | Law of Demeter |
+|CRP|    The Composite Reuse Principle        | Composite Reuse Principle |
+|CCP|    The Common Closure Principle         | Common Closure Principle |
+|SAP|    The Stable Abstractions Principle    | Stable Abstractions Principle |
+|SDP|    The Stable Dependencies Principle    | Stable Dependencies Principle |
 
 #### 1. Law of Demeter
 
-迪米特法则又叫作最少知识原则（Least Knowledge Principle，简写 LKP），就是说一个对象应当对其他对象有尽可能少的了解，不和陌生人说话。
+The Law of Demeter is also called the Least Knowledge Principle, abbreviated LKP. It means an object should know as little as possible about other objects: do not talk to strangers.
 
 #### 2. Composite Reuse Principle
 
-尽量使用对象组合，而不是通过继承来达到复用的目的。
+Prefer object composition over inheritance for reuse.
 
 #### 3. Common Closure Principle
 
-一起修改的类，应该组合在一起（同一个包里）。如果必须修改应用程序里的代码，我们希望所有的修改都发生在一个包里（修改关闭），而不是遍布在很多包里。
+Classes that change together should be grouped together, in the same package. If application code must be modified, we want all changes to happen in one package, rather than being scattered across many packages.
 
 #### 4. Stable Abstractions Principle
 
-最稳定的包应该是最抽象的包，不稳定的包应该是具体的包，即包的抽象程度跟它的稳定性成正比。
+The most stable packages should be the most abstract packages, and unstable packages should be concrete. In other words, a package's level of abstraction should be proportional to its stability.
 
 #### 5. Stable Dependencies Principle
 
-包之间的依赖关系都应该是稳定方向依赖的，包要依赖的包要比自己更具有稳定性。
+Dependencies between packages should point in the direction of stability. A package should depend on packages that are more stable than itself.
 
 ## References
 
-- Java 编程思想
-- 敏捷软件开发：原则、模式与实践
-- [面向对象设计的 SOLID 原则](http://www.cnblogs.com/shanyou/archive/2009/09/21/1570716.html)
-- [看懂 UML 类图和时序图](http://design-patterns.readthedocs.io/zh_CN/latest/read_uml.html#generalization)
-- [UML 系列——时序图（顺序图）sequence diagram](http://www.cnblogs.com/wolf-sun/p/UML-Sequence-diagram.html)
-- [面向对象编程三大特性 ------ 封装、继承、多态](http://blog.csdn.net/jianyuerensheng/article/details/51602015)
+- Thinking in Java
+- Agile Software Development: Principles, Patterns, and Practices
+- [SOLID Principles of Object-Oriented Design](http://www.cnblogs.com/shanyou/archive/2009/09/21/1570716.html)
+- [Understanding UML Class Diagrams and Sequence Diagrams](http://design-patterns.readthedocs.io/zh_CN/latest/read_uml.html#generalization)
+- [UML Series: Sequence Diagrams](http://www.cnblogs.com/wolf-sun/p/UML-Sequence-diagram.html)
+- [Three Core Features of Object-Oriented Programming: Encapsulation, Inheritance, and Polymorphism](http://blog.csdn.net/jianyuerensheng/article/details/51602015)

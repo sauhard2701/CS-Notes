@@ -1,22 +1,22 @@
 # Operating Systems - Deadlocks
 <!-- GFM-TOC -->
-* [计算机操作系统 - 死锁](#operating-systems---deadlocks)
-    * [必要条件](#necessary-conditions)
-    * [处理方法](#handling-methods)
-    * [鸵鸟策略](#ostrich-strategy)
-    * [死锁检测与死锁恢复](#deadlock-detection-and-recovery)
-        * [1. 每种类型一个资源的死锁检测](#1-deadlock-detection-with-one-resource-per-type)
-        * [2. 每种类型多个资源的死锁检测](#2-deadlock-detection-with-multiple-resources-per-type)
-        * [3. 死锁恢复](#3-deadlock-recovery)
-    * [死锁预防](#deadlock-prevention)
-        * [1. 破坏互斥条件](#1-break-mutual-exclusion)
-        * [2. 破坏占有和等待条件](#2-break-hold-and-wait)
-        * [3. 破坏不可抢占条件](#3-break-no-preemption)
-        * [4. 破坏环路等待](#4-break-circular-wait)
-    * [死锁避免](#deadlock-avoidance)
-        * [1. 安全状态](#1-safe-state)
-        * [2. 单个资源的银行家算法](#2-banker-algorithm-for-single-resource)
-        * [3. 多个资源的银行家算法](#3-banker-algorithm-for-multiple-resources)
+* [Operating Systems - Deadlocks](#operating-systems---deadlocks)
+    * [Necessary Conditions](#necessary-conditions)
+    * [Handling Methods](#handling-methods)
+    * [Ostrich Strategy](#ostrich-strategy)
+    * [Deadlock Detection and Recovery](#deadlock-detection-and-recovery)
+        * [1. Deadlock Detection with One Resource per Type](#1-deadlock-detection-with-one-resource-per-type)
+        * [2. Deadlock Detection with Multiple Resources per Type](#2-deadlock-detection-with-multiple-resources-per-type)
+        * [3. Deadlock Recovery](#3-deadlock-recovery)
+    * [Deadlock Prevention](#deadlock-prevention)
+        * [1. Break Mutual Exclusion](#1-break-mutual-exclusion)
+        * [2. Break Hold and Wait](#2-break-hold-and-wait)
+        * [3. Break No Preemption](#3-break-no-preemption)
+        * [4. Break Circular Wait](#4-break-circular-wait)
+    * [Deadlock Avoidance](#deadlock-avoidance)
+        * [1. Safe State](#1-safe-state)
+        * [2. Banker Algorithm for Single Resource](#2-banker-algorithm-for-single-resource)
+        * [3. Banker Algorithm for Multiple Resources](#3-banker-algorithm-for-multiple-resources)
 <!-- GFM-TOC -->
 
 
@@ -24,121 +24,121 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c037c901-7eae-4e31-a1e4-9d41329e5c3e.png"/> </div><br>
 
-- 互斥：每个资源要么已经分配给了一个进程，要么就是可用的。
-- 占有和等待：已经得到了某个资源的进程可以再请求新的资源。
-- 不可抢占：已经分配给一个进程的资源不能强制性地被抢占，它只能被占有它的进程显式地释放。
-- 环路等待：有两个或者两个以上的进程组成一条环路，该环路中的每个进程都在等待下一个进程所占有的资源。
+- Mutual exclusion: each resource is either assigned to one process or available.
+- Hold and wait: a process that already holds one resource can request new resources.
+- No preemption: a resource assigned to a process cannot be forcibly preempted; it can only be explicitly released by the process holding it.
+- Circular wait: two or more processes form a cycle, and each process in the cycle waits for a resource held by the next process.
 
 ## Handling Methods
 
-主要有以下四种方法：
+There are mainly four methods:
 
-- 鸵鸟策略
-- 死锁检测与死锁恢复
-- 死锁预防
-- 死锁避免
+- Ostrich strategy
+- Deadlock detection and recovery
+- Deadlock prevention
+- Deadlock avoidance
 
 ## Ostrich Strategy
 
-把头埋在沙子里，假装根本没发生问题。
+Bury your head in the sand and pretend the problem never happened.
 
-因为解决死锁问题的代价很高，因此鸵鸟策略这种不采取任务措施的方案会获得更高的性能。
+Because solving deadlocks is expensive, the ostrich strategy, which takes no action, can achieve higher performance.
 
-当发生死锁时不会对用户造成多大影响，或发生死锁的概率很低，可以采用鸵鸟策略。
+The ostrich strategy can be used when deadlocks have little impact on users or when the probability of deadlock is very low.
 
-大多数操作系统，包括 Unix，Linux 和 Windows，处理死锁问题的办法仅仅是忽略它。
+Most operating systems, including Unix, Linux, and Windows, handle deadlocks simply by ignoring them.
 
 ## Deadlock Detection and Recovery
 
-不试图阻止死锁，而是当检测到死锁发生时，采取措施进行恢复。
+This approach does not try to prevent deadlocks. Instead, when a deadlock is detected, it takes measures to recover.
 
 ### 1. Deadlock Detection with One Resource per Type
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b1fa0453-a4b0-4eae-a352-48acca8fff74.png"/> </div><br>
 
-上图为资源分配图，其中方框表示资源，圆圈表示进程。资源指向进程表示该资源已经分配给该进程，进程指向资源表示进程请求获取该资源。
+The figure above is a resource allocation graph. Rectangles represent resources, and circles represent processes. An edge from a resource to a process means the resource has been allocated to that process; an edge from a process to a resource means the process is requesting that resource.
 
-图 a 可以抽取出环，如图 b，它满足了环路等待条件，因此会发生死锁。
+Figure a contains a cycle, extracted as figure b. It satisfies the circular-wait condition, so a deadlock occurs.
 
-每种类型一个资源的死锁检测算法是通过检测有向图是否存在环来实现，从一个节点出发进行深度优先搜索，对访问过的节点进行标记，如果访问了已经标记的节点，就表示有向图存在环，也就是检测到死锁的发生。
+The deadlock detection algorithm for one resource per type works by detecting whether a directed graph contains a cycle. Starting from one node, perform depth-first search and mark visited nodes. If an already marked node is visited, the directed graph contains a cycle, which means a deadlock has been detected.
 
 ### 2. Deadlock Detection with Multiple Resources per Type
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e1eda3d5-5ec8-4708-8e25-1a04c5e11f48.png"/> </div><br>
 
-上图中，有三个进程四个资源，每个数据代表的含义如下：
+In the figure above, there are three processes and four resources. Each data item means:
 
-- E 向量：资源总量
-- A 向量：资源剩余量
-- C 矩阵：每个进程所拥有的资源数量，每一行都代表一个进程拥有资源的数量
-- R 矩阵：每个进程请求的资源数量
+- E vector: total amount of resources.
+- A vector: remaining amount of resources.
+- C matrix: number of resources held by each process; each row represents the resources held by one process.
+- R matrix: number of resources requested by each process.
 
-进程 P<sub>1</sub> 和 P<sub>2</sub> 所请求的资源都得不到满足，只有进程 P<sub>3</sub> 可以，让 P<sub>3</sub> 执行，之后释放 P<sub>3</sub> 拥有的资源，此时 A = (2 2 2 0)。P<sub>2</sub> 可以执行，执行后释放 P<sub>2</sub> 拥有的资源，A = (4 2 2 1) 。P<sub>1</sub> 也可以执行。所有进程都可以顺利执行，没有死锁。
+The requests of processes P<sub>1</sub> and P<sub>2</sub> cannot be satisfied, but process P<sub>3</sub> can run. Let P<sub>3</sub> execute and then release its resources; at this point A = (2 2 2 0). P<sub>2</sub> can then execute and release its resources, making A = (4 2 2 1). P<sub>1</sub> can then execute as well. All processes can complete successfully, so there is no deadlock.
 
-算法总结如下：
+The algorithm is summarized as follows:
 
-每个进程最开始时都不被标记，执行过程有可能被标记。当算法结束时，任何没有被标记的进程都是死锁进程。
+Initially, no process is marked. A process may be marked during execution. When the algorithm ends, any unmarked process is a deadlocked process.
 
-1. 寻找一个没有标记的进程 P<sub>i</sub>，它所请求的资源小于等于 A。
-2. 如果找到了这样一个进程，那么将 C 矩阵的第 i 行向量加到 A 中，标记该进程，并转回 1。
-3. 如果没有这样一个进程，算法终止。
+1. Find an unmarked process P<sub>i</sub> whose requested resources are less than or equal to A.
+2. If such a process is found, add row `i` of matrix C to A, mark the process, and return to step 1.
+3. If no such process exists, the algorithm terminates.
 
 ### 3. Deadlock Recovery
 
-- 利用抢占恢复
-- 利用回滚恢复
-- 通过杀死进程恢复
+- Recover by preemption.
+- Recover by rollback.
+- Recover by killing processes.
 
 ## Deadlock Prevention
 
-在程序运行之前预防发生死锁。
+Prevent deadlocks before the program runs.
 
 ### 1. Break Mutual Exclusion
 
-例如假脱机打印机技术允许若干个进程同时输出，唯一真正请求物理打印机的进程是打印机守护进程。
+For example, printer spooling allows several processes to output at the same time; the only process that actually requests the physical printer is the printer daemon.
 
 ### 2. Break Hold and Wait
 
-一种实现方式是规定所有进程在开始执行前请求所需要的全部资源。
+One implementation is to require every process to request all resources it needs before it starts executing.
 
 ### 3. Break No Preemption
 
 ### 4. Break Circular Wait
 
-给资源统一编号，进程只能按编号顺序来请求资源。
+Assign a global order to resources, and require processes to request resources only in that order.
 
 ## Deadlock Avoidance
 
-在程序运行时避免发生死锁。
+Avoid deadlocks while the program is running.
 
 ### 1. Safe State
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ed523051-608f-4c3f-b343-383e2d194470.png"/> </div><br>
 
-图 a 的第二列 Has 表示已拥有的资源数，第三列 Max 表示总共需要的资源数，Free 表示还有可以使用的资源数。从图 a 开始出发，先让 B 拥有所需的所有资源（图 b），运行结束后释放 B，此时 Free 变为 5（图 c）；接着以同样的方式运行 C 和 A，使得所有进程都能成功运行，因此可以称图 a 所示的状态时安全的。
+In figure a, the second column, Has, indicates the number of resources already held; the third column, Max, indicates the total number of resources needed; Free indicates the number of resources still available. Starting from figure a, first let B obtain all required resources, as in figure b. After B finishes, it releases its resources, making Free become 5, as in figure c. Then run C and A in the same way so all processes can complete. Therefore, the state shown in figure a is safe.
 
-定义：如果没有死锁发生，并且即使所有进程突然请求对资源的最大需求，也仍然存在某种调度次序能够使得每一个进程运行完毕，则称该状态是安全的。
+Definition: a state is safe if no deadlock has occurred and, even if all processes suddenly request their maximum resource needs, there still exists some scheduling order that allows every process to complete.
 
-安全状态的检测与死锁的检测类似，因为安全状态必须要求不能发生死锁。下面的银行家算法与死锁检测算法非常类似，可以结合着做参考对比。
+Safe-state detection is similar to deadlock detection because a safe state must not lead to deadlock. The Banker's algorithm below is very similar to the deadlock detection algorithm, so they can be compared together.
 
 ### 2. Banker Algorithm for Single Resource
 
-一个小城镇的银行家，他向一群客户分别承诺了一定的贷款额度，算法要做的是判断对请求的满足是否会进入不安全状态，如果是，就拒绝请求；否则予以分配。
+Consider a banker in a small town who has promised each customer a certain loan limit. The algorithm determines whether satisfying a request would enter an unsafe state. If so, the request is rejected; otherwise, resources are allocated.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/d160ec2e-cfe2-4640-bda7-62f53e58b8c0.png"/> </div><br>
 
-上图 c 为不安全状态，因此算法会拒绝之前的请求，从而避免进入图 c 中的状态。
+Figure c above is an unsafe state, so the algorithm rejects the preceding request and avoids entering the state shown in figure c.
 
 ### 3. Banker Algorithm for Multiple Resources
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/62e0dd4f-44c3-43ee-bb6e-fedb9e068519.png"/> </div><br>
 
-上图中有五个进程，四个资源。左边的图表示已经分配的资源，右边的图表示还需要分配的资源。最右边的 E、P 以及 A 分别表示：总资源、已分配资源以及可用资源，注意这三个为向量，而不是具体数值，例如 A=(1020)，表示 4 个资源分别还剩下 1/0/2/0。
+The figure above has five processes and four resources. The left diagram shows allocated resources, and the right diagram shows resources still needed. On the far right, E, P, and A represent total resources, allocated resources, and available resources respectively. Note that these are vectors, not single values. For example, A=(1020) means the four resources have 1/0/2/0 remaining.
 
-检查一个状态是否安全的算法如下：
+The algorithm for checking whether a state is safe is as follows:
 
-- 查找右边的矩阵是否存在一行小于等于向量 A。如果不存在这样的行，那么系统将会发生死锁，状态是不安全的。
-- 假若找到这样一行，将该进程标记为终止，并将其已分配资源加到 A 中。
-- 重复以上两步，直到所有进程都标记为终止，则状态时安全的。
+- Check whether the right-side matrix has a row less than or equal to vector A. If no such row exists, the system will deadlock and the state is unsafe.
+- If such a row is found, mark that process as terminated and add its allocated resources to A.
+- Repeat the two steps above until all processes are marked as terminated; then the state is safe.
 
-如果一个状态不是安全的，需要拒绝进入这个状态。
+If a state is not safe, the system must refuse to enter it.
