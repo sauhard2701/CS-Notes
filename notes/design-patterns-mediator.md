@@ -2,24 +2,24 @@
 
 ### Intent
 
-集中相关对象之间复杂的沟通和控制方式。
+Centralize complex communication and control among related objects.
 
 ### Class Diagram
 
 
 
-- Mediator：中介者，定义一个接口用于与各同事（Colleague）对象通信。
-- Colleague：同事，相关对象
+- Mediator: defines an interface for communicating with each Colleague object.
+- Colleague: a related object that communicates through the Mediator.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/30d6e95c-2e3c-4d32-bf4f-68128a70bc05.png"/> </div><br>
 
 ### Implementation
 
-Alarm（闹钟）、CoffeePot（咖啡壶）、Calendar（日历）、Sprinkler（喷头）是一组相关的对象，在某个对象的事件产生时需要去操作其它对象，形成了下面这种依赖结构：
+Alarm, CoffeePot, Calendar, and Sprinkler are a group of related objects. When one object raises an event, it needs to operate on the others, creating the dependency structure below:
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/82cfda3b-b53b-4c89-9fdb-26dd2db0cd02.jpg"/> </div><br>
 
-使用中介者模式可以将复杂的依赖结构变成星形结构：
+The Mediator pattern can turn this complex dependency structure into a star-shaped structure:
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5359cbf5-5a79-4874-9b17-f23c53c2cb80.jpg"/> </div><br>
 

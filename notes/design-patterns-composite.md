@@ -2,13 +2,13 @@
 
 ### Intent
 
-将对象组合成树形结构来表示“整体/部分”层次关系，允许用户以相同的方式处理单独对象和组合对象。
+Compose objects into tree structures to represent whole-part hierarchies, allowing clients to treat individual objects and composite objects uniformly.
 
 ### Class Diagram
 
-组件（Component）类是组合类（Composite）和叶子类（Leaf）的父类，可以把组合类看成是树的中间节点。
+The Component class is the parent of both Composite and Leaf. A Composite can be viewed as an internal node in the tree.
 
-组合对象拥有一个或者多个组件对象，因此组合对象的操作可以委托给组件对象去处理，而组件对象可以是另一个组合对象或者叶子对象。
+A composite object owns one or more component objects, so its operations can be delegated to those components. Each component may itself be another composite object or a leaf object.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2b8bfd57-b4d1-4a75-bfb0-bcf1fba4014a.png"/> </div><br>
 
