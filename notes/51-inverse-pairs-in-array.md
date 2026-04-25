@@ -4,13 +4,13 @@
 
 ## Problem Description
 
-在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
+In an array, if a preceding number is greater than a following number, the two numbers form an inverse pair. Given an array, find the total number of inverse pairs in it.
 
 ## Solution
 
 ```java
 private long cnt = 0;
-private int[] tmp;  // 在这里声明辅助数组，而不是在 merge() 递归函数中声明
+private int[] tmp;  // Declare the helper array here, not inside the recursive merge() function
 
 public int InversePairs(int[] nums) {
     tmp = new int[nums.length];
@@ -38,7 +38,7 @@ private void merge(int[] nums, int l, int m, int h) {
             tmp[k] = nums[i++];
         else {
             tmp[k] = nums[j++];
-            this.cnt += m - i + 1;  // nums[i] > nums[j]，说明 nums[i...mid] 都大于 nums[j]
+            this.cnt += m - i + 1;  // nums[i] > nums[j], so nums[i...mid] are all greater than nums[j]
         }
         k++;
     }

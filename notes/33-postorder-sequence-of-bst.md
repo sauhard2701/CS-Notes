@@ -4,9 +4,9 @@
 
 ## Problem Description
 
-输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。假设输入的数组的任意两个数字都互不相同。
+Given an integer array, determine whether it is the result of a postorder traversal of some binary search tree. Assume any two numbers in the input array are distinct.
 
-例如，下图是后序遍历序列 1,3,2 所对应的二叉搜索树。
+For example, the diagram below is the binary search tree corresponding to the postorder traversal sequence 1,3,2.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/13454fa1-23a8-4578-9663-2b13a6af564a.jpg" width="150"/> </div><br>
 

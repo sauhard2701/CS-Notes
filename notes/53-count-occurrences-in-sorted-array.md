@@ -2,7 +2,7 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&tqId=11190&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&tqId=11190&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
 ## Problem Description
 
@@ -17,9 +17,9 @@ Output:
 
 ## Solution
 
-只要能找出给定的数字 k 在有序数组第一个位置和最后一个位置，就能知道该数字出现的次数。
+If the first and last positions of the given number k in the sorted array can be found, the number of occurrences can be known.
 
-先考虑如何实现寻找数字在有序数组的第一个位置。正常的二分查找如下，在查找到给定元素 k 之后，立即返回当前索引下标。
+First consider how to find the first position of a number in a sorted array. A normal binary search is shown below; after finding the given element k, it immediately returns the current index.
 
 ```java
 public int binarySearch(int[] nums, int K) {
@@ -38,7 +38,7 @@ public int binarySearch(int[] nums, int K) {
 }
 ```
 
-但是在查找第一个位置时，找到元素之后应该继续往前找。也就是当 nums[m]\>=k 时，在左区间继续查找，左区间应该包含 m 位置。
+However, when searching for the first position, after finding the element, the search should continue to the left. That is, when nums[m]\>=k, continue searching in the left interval, and the left interval should include position m.
 
 ```java
 private int binarySearch(int[] nums, int K) {
@@ -54,7 +54,7 @@ private int binarySearch(int[] nums, int K) {
 }
 ```
 
-查找最后一个位置可以转换成寻找 k+1 的第一个位置，并再往前移动一个位置。
+Finding the last position can be converted into finding the first position of k+1, then moving one position backward.
 
 ```java
 public int GetNumberOfK(int[] nums, int K) {
@@ -64,10 +64,10 @@ public int GetNumberOfK(int[] nums, int K) {
 }
 ```
 
-需要注意以上实现的查找第一个位置的 binarySearch 方法，h 的初始值为 nums.length，而不是 nums.length - 1。先看以下示例：
+Note that in the binarySearch method above for finding the first position, the initial value of h is nums.length, not nums.length - 1. Consider the following example:
 
 ```
 nums = [2,2], k = 2
 ```
 
-如果 h 的取值为 nums.length - 1，那么在查找最后一个位置时，binarySearch(nums, k + 1) - 1 = 1 - 1 = 0。这是因为 binarySearch 只会返回 [0, nums.length - 1] 范围的值，对于 binarySearch([2,2], 3) ，我们希望返回 3 插入 nums 中的位置，也就是数组最后一个位置再往后一个位置，即 nums.length。所以我们需要将 h 取值为 nums.length，从而使得 binarySearch 返回的区间更大，能够覆盖 k 大于 nums 最后一个元素的情况。
+If h is nums.length - 1, then when finding the last position, binarySearch(nums, k + 1) - 1 = 1 - 1 = 0. This is because binarySearch can only return values in the range [0, nums.length - 1]. For binarySearch([2,2], 3), the desired return value is the insertion position of 3 in nums, which is one position after the last array index, namely nums.length. Therefore, h must be set to nums.length so that binarySearch returns a larger range and can cover the case where k is greater than the last element of nums.

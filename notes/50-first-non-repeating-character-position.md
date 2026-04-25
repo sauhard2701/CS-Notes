@@ -2,11 +2,11 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/1c82e8cf713b4bbeb2a5b31cf5b0417c?tpId=13&tqId=11187&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/1c82e8cf713b4bbeb2a5b31cf5b0417c?tpId=13&tqId=11187&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
 ## Problem Description
 
-在一个字符串中找到第一个只出现一次的字符，并返回它的位置。字符串只包含 ASCII 码字符。
+Find the first character that appears only once in a string and return its position. The string contains only ASCII characters.
 
 ```
 Input: abacc
@@ -15,9 +15,9 @@ Output: b
 
 ## Solution
 
-最直观的解法是使用 HashMap 对出现次数进行统计：字符做为 key，出现次数作为 value，遍历字符串每次都将 key 对应的 value 加 1。最后再遍历这个 HashMap 就可以找出出现次数为 1 的字符。
+The most intuitive solution is to use a HashMap to count occurrences: the character is the key, and the occurrence count is the value. Each time the string is traversed, increment the value corresponding to the key by 1. Finally, traverse the HashMap again to find the character whose occurrence count is 1.
 
-考虑到要统计的字符范围有限，也可以使用整型数组代替 HashMap。ASCII 码只有 128 个字符，因此可以使用长度为 128 的整型数组来存储每个字符出现的次数。
+Because the range of characters to count is limited, an integer array can also be used instead of a HashMap. ASCII has only 128 characters, so an integer array of length 128 can store the occurrence count of each character.
 
 ```java
 public int FirstNotRepeatingChar(String str) {
@@ -31,7 +31,7 @@ public int FirstNotRepeatingChar(String str) {
 }
 ```
 
-以上实现的空间复杂度还不是最优的。考虑到只需要找到只出现一次的字符，那么需要统计的次数信息只有 0,1,更大，使用两个比特位就能存储这些信息。
+The space complexity of the implementation above is not optimal. Since only the character that appears once needs to be found, the required count information is only 0, 1, or greater, and two bits are enough to store this information.
 
 ```java
 public int FirstNotRepeatingChar2(String str) {

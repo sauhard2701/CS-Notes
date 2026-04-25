@@ -4,9 +4,9 @@
 
 ## Solution
 
-多数投票问题，可以利用 Boyer-Moore Majority Vote Algorithm 来解决这个问题，使得时间复杂度为 O(N)。
+This is a majority voting problem. The Boyer-Moore Majority Vote Algorithm can solve it with O(N) time complexity.
 
-使用 cnt 来统计一个元素出现的次数，当遍历到的元素和统计元素相等时，令 cnt++，否则令 cnt--。如果前面查找了 i 个元素，且 cnt == 0，说明前 i 个元素没有 majority，或者有 majority，但是出现的次数少于 i / 2 ，因为如果多于 i / 2 的话 cnt 就一定不会为 0 。此时剩下的 n - i 个元素中，majority 的数目依然多于 (n - i) / 2，因此继续查找就能找出 majority。
+Use cnt to count occurrences of an element. When the traversed element equals the counted element, increment cnt; otherwise, decrement cnt. If the first i elements have been checked and cnt == 0, then the first i elements either have no majority element, or they have one whose count is less than i / 2, because cnt would not be 0 if the count were greater than i / 2. At this point, in the remaining n - i elements, the majority element still appears more than (n - i) / 2 times, so continuing the search can still find the majority element.
 
 ```java
 public int MoreThanHalfNum_Solution(int[] nums) {

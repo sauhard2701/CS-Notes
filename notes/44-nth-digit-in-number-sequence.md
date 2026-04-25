@@ -2,7 +2,7 @@
 
 ## Problem Description
 
-数字以 0123456789101112131415... 的格式序列化到一个字符串中，求这个字符串的第 index 位。
+Numbers are serialized into a string in the format 0123456789101112131415... Find the character at position index in this string.
 
 ## Solution
 
@@ -10,7 +10,7 @@
 public int getDigitAtIndex(int index) {
     if (index < 0)
         return -1;
-    int place = 1;  // 1 表示个位，2 表示 十位...
+    int place = 1;  // 1 means ones place, 2 means tens place...
     while (true) {
         int amount = getAmountOfPlace(place);
         int totalAmount = amount * place;
@@ -22,7 +22,7 @@ public int getDigitAtIndex(int index) {
 }
 
 /**
- * place 位数的数字组成的字符串长度
+ * Length of the string formed by place-digit numbers
  * 10, 90, 900, ...
  */
 private int getAmountOfPlace(int place) {
@@ -32,7 +32,7 @@ private int getAmountOfPlace(int place) {
 }
 
 /**
- * place 位数的起始数字
+ * Starting number for place-digit numbers
  * 0, 10, 100, ...
  */
 private int getBeginNumberOfPlace(int place) {
@@ -42,7 +42,7 @@ private int getBeginNumberOfPlace(int place) {
 }
 
 /**
- * 在 place 位数组成的字符串中，第 index 个数
+ * The index-th number in the string formed by place-digit numbers
  */
 private int getDigitAtIndex(int index, int place) {
     int beginNumber = getBeginNumberOfPlace(place);

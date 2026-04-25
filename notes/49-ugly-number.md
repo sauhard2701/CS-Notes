@@ -4,7 +4,7 @@
 
 ## Problem Description
 
-把只包含因子 2、3 和 5 的数称作丑数（Ugly Number）。例如 6、8 都是丑数，但 14 不是，因为它包含因子 7。习惯上我们把 1 当做是第一个丑数。求按从小到大的顺序的第 N 个丑数。
+Numbers that contain only the factors 2, 3, and 5 are called ugly numbers. For example, 6 and 8 are ugly numbers, but 14 is not because it contains the factor 7. By convention, 1 is treated as the first ugly number. Find the Nth ugly number in ascending order.
 
 ## Solution
 

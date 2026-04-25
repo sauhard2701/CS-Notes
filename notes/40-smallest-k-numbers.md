@@ -2,20 +2,20 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/6a296eb82cf844ca8539b57c23e6e9bf?tpId=13&tqId=11182&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/6a296eb82cf844ca8539b57c23e6e9bf?tpId=13&tqId=11182&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
 ## Solution
 
 ### Min Heap of Size K
 
-- 复杂度：O(NlogK) + O(K)
-- 特别适合处理海量数据
+- Complexity: O(NlogK) + O(K)
+- Especially suitable for processing massive data sets.
 
-维护一个大小为 K 的最小堆过程如下：使用大顶堆。在添加一个元素之后，如果大顶堆的大小大于 K，那么将大顶堆的堆顶元素去除，也就是将当前堆中值最大的元素去除，从而使得留在堆中的元素都比被去除的元素来得小。
+The process of maintaining the smallest K elements is as follows: use a max heap. After adding an element, if the max heap size exceeds K, remove the heap top, which is the largest element in the current heap. This keeps all remaining heap elements smaller than the removed element.
 
-应该使用大顶堆来维护最小堆，而不能直接创建一个小顶堆并设置一个大小，企图让小顶堆中的元素都是最小元素。
+Use a max heap to maintain the smallest elements. Do not directly create a min heap with a fixed size and expect the elements in it to be the smallest ones.
 
-Java 的 PriorityQueue 实现了堆的能力，PriorityQueue 默认是小顶堆，可以在在初始化时使用 Lambda 表达式 (o1, o2) -\> o2 - o1 来实现大顶堆。其它语言也有类似的堆数据结构。
+Java's PriorityQueue provides heap functionality. By default, PriorityQueue is a min heap; a max heap can be implemented during initialization with the Lambda expression (o1, o2) -\> o2 - o1. Other languages have similar heap data structures.
 
 ```java
 public ArrayList<Integer> GetLeastNumbers_Solution(int[] nums, int k) {
@@ -33,10 +33,10 @@ public ArrayList<Integer> GetLeastNumbers_Solution(int[] nums, int k) {
 
 ### Quickselect
 
-- 复杂度：O(N) + O(1)
-- 只有当允许修改数组元素时才可以使用
+- Complexity: O(N) + O(1)
+- Can only be used when modifying array elements is allowed.
 
-快速排序的 partition() 方法，会返回一个整数 j 使得 a[l..j-1] 小于等于 a[j]，且 a[j+1..h] 大于等于 a[j]，此时 a[j] 就是数组的第 j 大元素。可以利用这个特性找出数组的第 K 个元素，这种找第 K 个元素的算法称为快速选择算法。
+The partition() method in quicksort returns an integer j such that a[l..j-1] is less than or equal to a[j], and a[j+1..h] is greater than or equal to a[j]. At this point, a[j] is the jth largest element in the array. This property can be used to find the Kth element in the array; this algorithm is called quickselect.
 
 ```java
 public ArrayList<Integer> GetLeastNumbers_Solution(int[] nums, int k) {
@@ -44,7 +44,7 @@ public ArrayList<Integer> GetLeastNumbers_Solution(int[] nums, int k) {
     if (k > nums.length || k <= 0)
         return ret;
     findKthSmallest(nums, k - 1);
-    /* findKthSmallest 会改变数组，使得前 k 个数都是最小的 k 个数 */
+    /* findKthSmallest modifies the array so that the first k numbers are the smallest k numbers */
     for (int i = 0; i < k; i++)
         ret.add(nums[i]);
     return ret;
@@ -64,7 +64,7 @@ public void findKthSmallest(int[] nums, int k) {
 }
 
 private int partition(int[] nums, int l, int h) {
-    int p = nums[l];     /* 切分元素 */
+    int p = nums[l];     /* Partition element */
     int i = l, j = h + 1;
     while (true) {
         while (i != h && nums[++i] < p) ;

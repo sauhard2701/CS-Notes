@@ -4,7 +4,7 @@
 
 ## Solution
 
-利用二叉查找树中序遍历有序的特点。
+Use the property that inorder traversal of a binary search tree is sorted.
 
 ```java
 private TreeNode ret;

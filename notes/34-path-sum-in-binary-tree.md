@@ -4,9 +4,9 @@
 
 ## Problem Description
 
-输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。
+Given a binary tree and an integer, print all paths in the binary tree whose node values sum to the input integer. A path is defined as the nodes passed from the root node down to a leaf node.
 
-下图的二叉树有两条和为 22 的路径：10, 5, 7 和 10, 12
+The binary tree below has two paths whose sum is 22: 10, 5, 7 and 10, 12.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ed77b0e6-38d9-4a34-844f-724f3ffa2c12.jpg" width="200"/> </div><br>
 

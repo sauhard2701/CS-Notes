@@ -2,7 +2,7 @@
 
 ## Problem Description
 
-输入一个字符串（只包含 a\~z 的字符），求其最长不含重复字符的子字符串的长度。例如对于 arabcacfr，最长不含重复字符的子字符串为 acfr，长度为 4。
+Given a string containing only characters a\~z, find the length of the longest substring without repeated characters. For example, for arabcacfr, the longest substring without repeated characters is acfr, with length 4.
 
 ## Solution
 

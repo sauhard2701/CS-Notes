@@ -4,7 +4,7 @@
 
 ## Problem Description
 
-在一个 m\*n 的棋盘的每一个格都放有一个礼物，每个礼物都有一定价值（大于 0）。从左上角开始拿礼物，每次向右或向下移动一格，直到右下角结束。给定一个棋盘，求拿到礼物的最大价值。例如，对于如下棋盘
+Each cell of an m\*n board contains a gift with a certain value greater than 0. Starting from the top-left corner, collect gifts while moving one cell right or down each time until reaching the bottom-right corner. Given a board, find the maximum value of gifts that can be collected. For example, for the following board:
 
 ```
 1    10   3    8
@@ -13,11 +13,11 @@
 3    7    16   5
 ```
 
-礼物的最大价值为 1+12+5+7+7+16+5=53。
+The maximum gift value is 1+12+5+7+7+16+5=53.
 
 ## Solution
 
-应该用动态规划求解，而不是深度优先搜索，深度优先搜索过于复杂，不是最优解。
+This should be solved with dynamic programming rather than depth-first search. Depth-first search is too complex and is not the optimal solution.
 
 ```java
 public int getMost(int[][] values) {

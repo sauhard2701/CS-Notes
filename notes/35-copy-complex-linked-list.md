@@ -4,7 +4,7 @@
 
 ## Problem Description
 
-输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的 head。
+Given a complex linked list, where each node has a value and two pointers, one pointing to the next node and another special pointer pointing to any node, return the head of the copied complex linked list.
 
 ```java
 public class RandomListNode {
@@ -22,15 +22,15 @@ public class RandomListNode {
 
 ## Solution
 
-第一步，在每个节点的后面插入复制的节点。
+Step 1: insert a copied node after each original node.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/dfd5d3f8-673c-486b-8ecf-d2082107b67b.png" width="600"/> </div><br>
 
-第二步，对复制节点的 random 链接进行赋值。
+Step 2: assign the random links for the copied nodes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/cafbfeb8-7dfe-4c0a-a3c9-750eeb824068.png" width="600"/> </div><br>
 
-第三步，拆分。
+Step 3: split the lists.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e151b5df-5390-4365-b66e-b130cd253c12.png" width="600"/> </div><br>
 
@@ -38,7 +38,7 @@ public class RandomListNode {
 public RandomListNode Clone(RandomListNode pHead) {
     if (pHead == null)
         return null;
-    // 插入新节点
+    // Insert new nodes
     RandomListNode cur = pHead;
     while (cur != null) {
         RandomListNode clone = new RandomListNode(cur.label);
@@ -46,7 +46,7 @@ public RandomListNode Clone(RandomListNode pHead) {
         cur.next = clone;
         cur = clone.next;
     }
-    // 建立 random 链接
+    // Build random links
     cur = pHead;
     while (cur != null) {
         RandomListNode clone = cur.next;
@@ -54,7 +54,7 @@ public RandomListNode Clone(RandomListNode pHead) {
             clone.random = cur.random.next;
         cur = clone.next;
     }
-    // 拆分
+    // Split the lists
     cur = pHead;
     RandomListNode pCloneHead = pHead.next;
     while (cur.next != null) {

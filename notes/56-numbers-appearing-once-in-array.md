@@ -2,21 +2,21 @@
 
 ## Problem Link
 
-[牛客网](https://www.nowcoder.com/practice/389fc1c3d3be4479a154f63f495abff8?tpId=13&tqId=11193&tab=answerKey&from=cyc_github)
+[NowCoder](https://www.nowcoder.com/practice/389fc1c3d3be4479a154f63f495abff8?tpId=13&tqId=11193&tab=answerKey&from=cyc_github)
 
 ## Problem Description
 
-一个整型数组里除了两个数字之外，其他的数字都出现了两次，找出这两个数。
+In an integer array, all numbers except two appear twice. Find those two numbers.
 
 ## Solution
 
-两个相等的元素异或的结果为 0，而 0 与任意数 x 异或的结果都为 x。
+The XOR result of two equal elements is 0, and the XOR result of 0 with any number x is x.
 
-对本题给的数组的所有元素执行异或操作，得到的是两个不存在重复的元素异或的结果。例如对于数组 [x,x,y,y,z,k]，x^x^y^y^z^k = 0^y^y^z^k = y^y^z^k = 0^z^k = z^k。
+XOR all elements in the array to get the XOR result of the two non-duplicated elements. For example, for the array [x,x,y,y,z,k], x^x^y^y^z^k = 0^y^y^z^k = y^y^z^k = 0^z^k = z^k.
 
-两个不相等的元素在位级表示上一定会有所不同，因此这两个元素异或得到的结果 diff 一定不为 0。位运算 diff & -diff 能得到 diff 位级表示中最右侧为 1 的位，令 diff = diff & -diff。将 diff 作为区分两个元素的依据，一定有一个元素对 diff 进行异或的结果为 0，另一个结果非 0。设不相等的两个元素分别为 z 和 k，遍历数组所有元素，判断元素与 diff 的异或结果是否为 0，如果是的话将元素与 z 进行异或并赋值给 z，否则与 k 进行异或并赋值给 k。数组中相等的元素一定会同时与 z 或者与 k 进行异或操作，而不是一个与 z 进行异或，一个与 k 进行异或。而且这些相等的元素异或的结果为 0，因此最后 z 和 k 只是不相等的两个元素与 0 异或的结果，也就是不相等两个元素本身。
+Two unequal elements must differ in their bit-level representations, so the XOR result diff of these two elements must be nonzero. The bit operation diff & -diff obtains the rightmost 1 bit in diff, so set diff = diff & -diff. Use diff as the basis for distinguishing the two elements: one element must have an XOR result of 0 with diff, and the other must have a nonzero result. Suppose the two unequal elements are z and k. Traverse all elements in the array and check whether the XOR result of the element with diff is 0. If so, XOR the element with z and assign it to z; otherwise, XOR it with k and assign it to k. Equal elements in the array must be XORed with z together or with k together, not one with z and one with k. Since the XOR result of equal elements is 0, the final z and k are just the XOR results of the two unequal elements with 0, meaning the unequal elements themselves.
 
-下面的解法中，num1 和 num2 数组的第一个元素是用来保持返回值的... 实际开发中不推荐这种返回值的方式。
+In the solution below, the first elements of the num1 and num2 arrays are used to hold the return values... This return-value style is not recommended in real development.
 
 ```java
 public int[] FindNumsAppearOnce (int[] nums) {

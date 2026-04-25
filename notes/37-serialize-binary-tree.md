@@ -4,7 +4,7 @@
 
 ## Problem Description
 
-请实现两个函数，分别用来序列化和反序列化二叉树。
+Implement two functions to serialize and deserialize a binary tree.
 
 ## Solution
 

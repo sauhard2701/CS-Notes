@@ -4,7 +4,7 @@
 
 ## Problem Description
 
-给定一个数字，按照如下规则翻译成字符串：1 翻译成“a”，2 翻译成“b”... 26 翻译成“z”。一个数字有多种翻译可能，例如 12258 一共有 5 种，分别是 abbeh，lbeh，aveh，abyh，lyh。实现一个函数，用来计算一个数字有多少种不同的翻译方法。
+Given a number, translate it into a string according to the following rules: 1 translates to "a", 2 translates to "b"... and 26 translates to "z". A number may have multiple possible translations. For example, 12258 has 5 translations: abbeh, lbeh, aveh, abyh, and lyh. Implement a function to count how many different translation methods a number has.
 
 ## Solution
 

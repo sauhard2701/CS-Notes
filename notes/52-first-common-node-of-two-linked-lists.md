@@ -8,9 +8,9 @@
 
 ## Solution
 
-设 A 的长度为 a + c，B 的长度为 b + c，其中 c 为尾部公共部分长度，可知 a + c + b = b + c + a。
+Let the length of A be a + c and the length of B be b + c, where c is the length of the shared tail. Then a + c + b = b + c + a.
 
-当访问链表 A 的指针访问到链表尾部时，令它从链表 B 的头部重新开始访问链表 B；同样地，当访问链表 B 的指针访问到链表尾部时，令它从链表 A 的头部重新开始访问链表 A。这样就能控制访问 A 和 B 两个链表的指针能同时访问到交点。
+When the pointer traversing linked list A reaches the end, make it restart from the head of linked list B. Similarly, when the pointer traversing linked list B reaches the end, make it restart from the head of linked list A. This ensures that the pointers traversing A and B reach the intersection at the same time.
 
 ```java
 public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
