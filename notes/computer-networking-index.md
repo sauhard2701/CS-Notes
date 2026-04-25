@@ -1,17 +1,17 @@
-# 计算机网络
+# Computer Networking
 
-- [概述](computer-networking-overview.md)
-- [物理层](computer-networking-physical-layer.md)
-- [链路层](computer-networking-link-layer.md)
-- [网络层](computer-networking-network-layer.md)
-- [传输层](computer-networking-transport-layer.md)
-- [应用层](computer-networking-application-layer.md)
+- [Overview](computer-networking-overview.md)
+- [Physical Layer](computer-networking-physical-layer.md)
+- [Link Layer](computer-networking-link-layer.md)
+- [Network Layer](computer-networking-network-layer.md)
+- [Transport Layer](computer-networking-transport-layer.md)
+- [Application Layer](computer-networking-application-layer.md)
 
-## 参考链接
+## References
 
-- 计算机网络, 谢希仁
-- JamesF.Kurose, KeithW.Ross, 库罗斯, 等. 计算机网络: 自顶向下方法 [M]. 机械工业出版社, 2014.
-- W.RichardStevens. TCP/IP 详解. 卷 1, 协议 [M]. 机械工业出版社, 2006.
+- Computer Networks, Xie Xiren
+- James F. Kurose, Keith W. Ross, et al. Computer Networking: A Top-Down Approach [M]. China Machine Press, 2014.
+- W. Richard Stevens. TCP/IP Illustrated, Volume 1: The Protocols [M]. China Machine Press, 2006.
 - [Active vs Passive FTP Mode: Which One is More Secure?](https://securitywing.com/active-vs-passive-ftp-mode/)
 - [Active and Passive FTP Transfers Defined - KB Article #1138](http://www.serv-u.com/kb/1138/active-and-passive-ftp-transfers-defined)
 - [Traceroute](https://zh.wikipedia.org/wiki/Traceroute)
@@ -22,5 +22,5 @@
 - [Tackling emissions targets in Tokyo](http://www.climatechangenews.com/2011/html/university-tokyo.html)
 - [What does my ISP know when I use Tor?](http://www.climatechangenews.com/2011/html/university-tokyo.html)
 - [Technology-Computer Networking[1]-Computer Networks and the Internet](http://www.linyibin.cn/2017/02/12/technology-ComputerNetworking-Internet/)
-- [P2P 网络概述.](http://slidesplayer.com/slide/11616167/)
+- [P2P Network Overview](http://slidesplayer.com/slide/11616167/)
 - [Circuit Switching (a) Circuit switching. (b) Packet switching.](http://slideplayer.com/slide/5115386/)

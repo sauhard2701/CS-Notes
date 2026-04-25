@@ -1,18 +1,18 @@
-# 计算机操作系统
+# Operating Systems
 
-- [概述](operating-systems-overview.md)
-- [进程管理](operating-systems-process-management.md)
-- [死锁](operating-systems-deadlocks.md)
-- [内存管理](operating-systems-memory-management.md)
-- [设备管理](operating-systems-device-management.md)
-- [链接](operating-systems-linking.md)
+- [Overview](operating-systems-overview.md)
+- [Process Management](operating-systems-process-management.md)
+- [Deadlocks](operating-systems-deadlocks.md)
+- [Memory Management](operating-systems-memory-management.md)
+- [Device Management](operating-systems-device-management.md)
+- [Linking](operating-systems-linking.md)
 
-## 参考资料
+## References
 
 - Tanenbaum A S, Bos H. Modern operating systems[M]. Prentice Hall Press, 2014.
-- 汤子瀛, 哲凤屏, 汤小丹. 计算机操作系统[M]. 西安电子科技大学出版社, 2001.
-- Bryant, R. E., & O’Hallaron, D. R. (2004). 深入理解计算机系统.
-- 史蒂文斯. UNIX 环境高级编程 [M]. 人民邮电出版社, 2014.
+- Tang Ziying, Zhe Fengping, Tang Xiaodan. Computer Operating Systems [M]. Xidian University Press, 2001.
+- Bryant, R. E., & O’Hallaron, D. R. (2004). Computer Systems: A Programmer's Perspective.
+- Stevens. Advanced Programming in the UNIX Environment [M]. Posts & Telecom Press, 2014.
 - [Operating System Notes](https://applied-programming.github.io/Operating-Systems-Notes/)
 - [Operating-System Structures](https://www.cs.uic.edu/\~jbell/CourseNotes/OperatingSystems/2_Structures.html)
 - [Processes](http://cse.csusb.edu/tongyu/courses/cs460/notes/process.php)

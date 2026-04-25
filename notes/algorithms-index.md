@@ -1,12 +1,12 @@
-# 算法目录
+# Algorithms
 
-- [算法分析](algorithms-analysis.md)
-- [排序](algorithms-sorting.md)
-- [并查集](algorithms-union-find.md)
-- [栈和队列](algorithms-stacks-and-queues.md)
-- [符号表](algorithms-symbol-tables.md)
-- [其它](algorithms-other.md)
+- [Algorithm Analysis](algorithms-analysis.md)
+- [Sorting](algorithms-sorting.md)
+- [Union Find](algorithms-union-find.md)
+- [Stacks and Queues](algorithms-stacks-and-queues.md)
+- [Symbol Tables](algorithms-symbol-tables.md)
+- [Miscellaneous](algorithms-other.md)
 
-## 参考资料
+## References
 
 - Sedgewick, Robert, and Kevin Wayne. _Algorithms_. Addison-Wesley Professional, 2011.
