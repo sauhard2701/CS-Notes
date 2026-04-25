@@ -1,26 +1,26 @@
-# 计算机网络 - 概述
+# Computer Networking - Overview
 <!-- GFM-TOC -->
-* [计算机网络 - 概述](#计算机网络---概述)
-    * [网络的网络](#网络的网络)
+* [计算机网络 - 概述](#computer-networking---overview)
+    * [网络的网络](#network-of-networks)
     * [ISP](#isp)
-    * [主机之间的通信方式](#主机之间的通信方式)
-    * [电路交换与分组交换](#电路交换与分组交换)
-        * [1. 电路交换](#1-电路交换)
-        * [2. 分组交换](#2-分组交换)
-    * [时延](#时延)
-        * [1. 排队时延](#1-排队时延)
-        * [2. 处理时延](#2-处理时延)
-        * [3. 传输时延](#3-传输时延)
-        * [4. 传播时延](#4-传播时延)
-    * [计算机网络体系结构](#计算机网络体系结构)
-        * [1. 五层协议](#1-五层协议)
+    * [主机之间的通信方式](#host-communication-modes)
+    * [电路交换与分组交换](#circuit-switching-and-packet-switching)
+        * [1. 电路交换](#1-circuit-switching)
+        * [2. 分组交换](#2-packet-switching)
+    * [时延](#delay)
+        * [1. 排队时延](#1-queuing-delay)
+        * [2. 处理时延](#2-processing-delay)
+        * [3. 传输时延](#3-transmission-delay)
+        * [4. 传播时延](#4-propagation-delay)
+    * [计算机网络体系结构](#computer-network-architecture)
+        * [1. 五层协议](#1-five-layer-protocol-stack)
         * [2. OSI](#2-osi)
         * [3. TCP/IP](#3-tcpip)
-        * [4. 数据在各层之间的传递过程](#4-数据在各层之间的传递过程)
+        * [4. 数据在各层之间的传递过程](#4-data-transfer-across-layers)
 <!-- GFM-TOC -->
 
 
-## 网络的网络
+## Network of Networks
 
 网络把主机连接起来，而互连网（internet）是把多种不同的网络连接起来，因此互连网是网络的网络。而互联网（Internet）是全球范围的互连网。
 
@@ -36,7 +36,7 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/3be42601-9d33-4d29-8358-a9d16453af93.png" width="500"/> </div><br>
 
-## 主机之间的通信方式
+## Host Communication Modes
 
 - 客户-服务器（C/S）：客户是服务的请求方，服务器是服务的提供方。
 
@@ -46,33 +46,33 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/42430e94-3137-48c0-bdb6-3cebaf9102e3.jpg" width="200px"> </div><br>
 
-## 电路交换与分组交换
+## Circuit Switching and Packet Switching
 
-### 1. 电路交换
+### 1. Circuit Switching
 
 电路交换用于电话通信系统，两个用户要通信之前需要建立一条专用的物理链路，并且在整个通信过程中始终占用该链路。由于通信的过程中不可能一直在使用传输线路，因此电路交换对线路的利用率很低，往往不到 10%。
 
-### 2. 分组交换
+### 2. Packet Switching
 
 每个分组都有首部和尾部，包含了源地址和目的地址等控制信息，在同一个传输线路上同时传输多个分组互相不会影响，因此在同一条传输线路上允许同时传输多个分组，也就是说分组交换不需要占用传输线路。
 
 在一个邮局通信系统中，邮局收到一份邮件之后，先存储下来，然后把相同目的地的邮件一起转发到下一个目的地，这个过程就是存储转发过程，分组交换也使用了存储转发过程。
 
-## 时延
+## Delay
 
 总时延 = 排队时延 + 处理时延 + 传输时延 + 传播时延
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/4b2ae78c-e254-44df-9e37-578e2f2bef52.jpg" width="380"/> </div><br>
 
-### 1. 排队时延
+### 1. Queuing Delay
 
 分组在路由器的输入队列和输出队列中排队等待的时间，取决于网络当前的通信量。
 
-### 2. 处理时延
+### 2. Processing Delay
 
 主机或路由器收到分组时进行处理所需要的时间，例如分析首部、从分组中提取数据、进行差错检验或查找适当的路由等。
 
-### 3. 传输时延
+### 3. Transmission Delay
 
 主机或路由器传输数据帧所需要的时间。
 
@@ -83,7 +83,7 @@
 
 其中 l 表示数据帧的长度，v 表示传输速率。
 
-### 4. 传播时延
+### 4. Propagation Delay
 
 电磁波在信道中传播所需要花费的时间，电磁波传播的速度接近光速。
 
@@ -93,11 +93,11 @@
 
 其中 l 表示信道长度，v 表示电磁波在信道上的传播速度。
 
-## 计算机网络体系结构
+## Computer Network Architecture
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0fa6c237-a909-4e2a-a771-2c5485cd8ce0.png" width="450"/> </div><br>
 
-### 1. 五层协议
+### 1. Five-Layer Protocol Stack
 
 -   **应用层**  ：为特定应用程序提供数据传输服务，例如 HTTP、DNS 等协议。数据单位为报文。
 
@@ -127,7 +127,7 @@ TCP/IP 体系结构不严格遵循 OSI 分层概念，应用层可能会直接�
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/48d79be8-085b-4862-8a9d-18402eb93b31.png" width="250"/> </div><br>
 
-### 4. 数据在各层之间的传递过程
+### 4. Data Transfer Across Layers
 
 在向下的过程中，需要添加下层协议所需要的首部或者尾部，而在向上的过程中不断拆开首部和尾部。
 

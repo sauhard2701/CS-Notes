@@ -1,50 +1,50 @@
-# Java 基础
+# Java Basics
 <!-- GFM-TOC -->
-* [Java 基础](#java-基础)
-    * [一、数据类型](#一数据类型)
-        * [基本类型](#基本类型)
-        * [包装类型](#包装类型)
-        * [缓存池](#缓存池)
-    * [二、String](#二string)
-        * [概览](#概览)
-        * [不可变的好处](#不可变的好处)
-        * [String, StringBuffer and StringBuilder	](#string-stringbuffer-and-stringbuilder	)
+* [Java 基础](#java-basics)
+    * [一、数据类型](#1-data-types)
+        * [基本类型](#primitive-types)
+        * [包装类型](#wrapper-types)
+        * [缓存池](#cache-pool)
+    * [二、String](#2-string)
+        * [概览](#overview)
+        * [不可变的好处](#benefits-of-immutability)
+        * [String, StringBuffer and StringBuilder	](#string-stringbuffer-and-stringbuilder)
         * [String Pool](#string-pool)
         * [new String("abc")](#new-stringabc)
-    * [三、运算](#三运算)
-        * [参数传递](#参数传递)
-        * [float 与 double](#float-与-double)
-        * [隐式类型转换](#隐式类型转换)
+    * [三、运算](#3-operations)
+        * [参数传递](#parameter-passing)
+        * [float 与 double](#float-and-double)
+        * [隐式类型转换](#implicit-type-conversion)
         * [switch](#switch)
-    * [四、关键字](#四关键字)
+    * [四、关键字](#4-keywords)
         * [final](#final)
         * [static](#static)
-    * [五、Object 通用方法](#五object-通用方法)
-        * [概览](#概览)
+    * [五、Object 通用方法](#5-object-common-methods)
+        * [概览](#overview)
         * [equals()](#equals)
         * [hashCode()](#hashcode)
         * [toString()](#tostring)
         * [clone()](#clone)
-    * [六、继承](#六继承)
-        * [访问权限](#访问权限)
-        * [抽象类与接口](#抽象类与接口)
+    * [六、继承](#6-inheritance)
+        * [访问权限](#access-modifiers)
+        * [抽象类与接口](#abstract-classes-and-interfaces)
         * [super](#super)
-        * [重写与重载](#重写与重载)
-    * [七、反射](#七反射)
-    * [八、异常](#八异常)
-    * [九、泛型](#九泛型)
-    * [十、注解](#十注解)
-    * [十一、特性](#十一特性)
-        * [Java 各版本的新特性](#java-各版本的新特性)
-        * [Java 与 C++ 的区别](#java-与-c-的区别)
+        * [重写与重载](#override-and-overload)
+    * [七、反射](#7-reflection)
+    * [八、异常](#8-exceptions)
+    * [九、泛型](#9-generics)
+    * [十、注解](#10-annotations)
+    * [十一、特性](#11-features)
+        * [Java 各版本的新特性](#new-features-by-java-version)
+        * [Java 与 C++ 的区别](#java-vs-c)
         * [JRE or JDK](#jre-or-jdk)
-    * [参考资料](#参考资料)
+    * [参考资料](#references)
 <!-- GFM-TOC -->
 
 
-## 一、数据类型
+## 1. Data Types
 
-### 基本类型
+### Primitive Types
 
 - byte/8
 - char/16
@@ -60,7 +60,7 @@ boolean 只有两个值：true、false，可以使用 1 bit 来存储，但是�
 - [Primitive Data Types](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)
 - [The Java® Virtual Machine Specification](https://docs.oracle.com/javase/specs/jvms/se8/jvms8.pdf)
 
-### 包装类型
+### Wrapper Types
 
 基本类型都有对应的包装类型，基本类型与其对应的包装类型之间的赋值使用自动装箱与拆箱完成。
 
@@ -71,7 +71,7 @@ int y = x;         // 拆箱 调用了 X.intValue()
 
 - [Autoboxing and Unboxing](https://docs.oracle.com/javase/tutorial/java/data/autoboxing.html)
 
-### 缓存池
+### Cache Pool
 
 new Integer(123) 与 Integer.valueOf(123) 的区别在于：
 
@@ -154,9 +154,9 @@ System.out.println(m == n); // true
 [StackOverflow : Differences between new Integer(123), Integer.valueOf(123) and just 123
 ](https://stackoverflow.com/questions/9030817/differences-between-new-integer123-integer-valueof123-and-just-123)
 
-## 二、String
+## 2. String
 
-### 概览
+### Overview
 
 String 被声明为 final，因此它不可被继承。(Integer 等包装类也不能被继承）
 
@@ -185,7 +185,7 @@ public final class String
 
 value 数组被声明为 final，这意味着 value 数组初始化之后就不能再引用其它数组。并且 String 内部没有改变 value 数组的方法，因此可以保证 String 不可变。
 
-### 不可变的好处
+### Benefits of Immutability
 
 **1. 可以缓存 hash 值**  
 
@@ -306,9 +306,9 @@ public String(String original) {
 }
 ```
 
-## 三、运算
+## 3. Operations
 
-### 参数传递
+### Parameter Passing
 
 Java 的参数是以值传递的形式传入方法中，而不是引用传递。
 
@@ -376,7 +376,7 @@ public class PassByValueExample {
 
 [StackOverflow: Is Java “pass-by-reference” or “pass-by-value”?](https://stackoverflow.com/questions/40480/is-java-pass-by-reference-or-pass-by-value)
 
-### float 与 double
+### float and double
 
 Java 不能隐式执行向下转型，因为这会使得精度降低。
 
@@ -392,7 +392,7 @@ Java 不能隐式执行向下转型，因为这会使得精度降低。
 float f = 1.1f;
 ```
 
-### 隐式类型转换
+### Implicit Type Conversion
 
 因为字面量 1 是 int 类型，它比 short 类型精度要高，因此不能隐式地将 int 类型向下转型为 short 类型。
 
@@ -449,7 +449,7 @@ switch 不支持 long、float、double，是因为 switch 的设计初衷是对�
 [StackOverflow : Why can't your switch statement data type be long, Java?](https://stackoverflow.com/questions/2676210/why-cant-your-switch-statement-data-type-be-long-java)
 
 
-## 四、关键字
+## 4. Keywords
 
 ### final
 
@@ -621,9 +621,9 @@ public InitialOrderTest() {
 - 子类（实例变量、普通语句块）
 - 子类（构造函数）
 
-## 五、Object 通用方法
+## 5. Object Common Methods
 
-### 概览
+### Overview
 
 ```java
 
@@ -988,9 +988,9 @@ e1.set(2, 222);
 System.out.println(e2.get(2)); // 2
 ```
 
-## 六、继承
+## 6. Inheritance
 
-### 访问权限
+### Access Modifiers
 
 Java 中有三个访问权限修饰符：private、protected 以及 public，如果不加访问修饰符，表示包级可见。
 
@@ -1051,7 +1051,7 @@ public class AccessWithInnerClassExample {
 }
 ```
 
-### 抽象类与接口
+### Abstract Classes and Interfaces
 
 **1. 抽象类**  
 
@@ -1212,7 +1212,7 @@ SuperExtendExample.func()
 
 [Using the Keyword super](https://docs.oracle.com/javase/tutorial/java/IandI/super.html)
 
-### 重写与重载
+### Override and Overload
 
 **1. 重写（Override）**  
 
@@ -1344,7 +1344,7 @@ public static void main(String[] args) {
 }
 ```
 
-## 七、反射
+## 7. Reflection
 
 每个类都有一个   **Class**   对象，包含了与类有关的信息。当编译一个新类时，会产生一个同名的 .class 文件，该文件内容保存着 Class 对象。
 
@@ -1377,7 +1377,7 @@ Class 和 java.lang.reflect 一起对反射提供了支持，java.lang.reflect �
 - [Trail: The Reflection API](https://docs.oracle.com/javase/tutorial/reflect/index.html)
 - [深入解析 Java 反射（1）- 基础](http://www.sczyh30.com/posts/Java/java-reflection-1/)
 
-## 八、异常
+## 8. Exceptions
 
 Throwable 可以用来表示任何可以作为异常抛出的类，分为两种：  **Error**   和 **Exception**。其中 Error 用来表示 JVM 无法处理的错误，Exception 分为两种：
 
@@ -1390,7 +1390,7 @@ Throwable 可以用来表示任何可以作为异常抛出的类，分为两种�
 
 - [Java提高篇——Java 异常处理](https://www.cnblogs.com/Qian123/p/5715402.html)
 
-## 九、泛型
+## 9. Generics
 
 ```java
 public class Box<T> {
@@ -1404,15 +1404,15 @@ public class Box<T> {
 - [Java 泛型详解](https://www.cnblogs.com/Blue-Keroro/p/8875898.html)
 - [10 道 Java 泛型面试题](https://cloud.tencent.com/developer/article/1033693)
 
-## 十、注解
+## 10. Annotations
 
 Java 注解是附加在代码中的一些元信息，用于一些工具在编译、运行时进行解析和使用，起到说明、配置的功能。注解不会也不能影响代码的实际逻辑，仅仅起到辅助性的作用。
 
 [注解 Annotation 实现原理与自定义注解例子](https://www.cnblogs.com/acm-bingzi/p/javaAnnotation.html)
 
-## 十一、特性
+## 11. Features
 
-### Java 各版本的新特性
+### New Features by Java Version
 
 **New highlights in Java SE 8**  
 
@@ -1440,7 +1440,7 @@ Java 注解是附加在代码中的一些元信息，用于一些工具在编译
 - [Difference between Java 1.8 and Java 1.7?](http://www.selfgrowth.com/articles/difference-between-java-18-and-java-17)
 - [Java 8 特性](http://www.importnew.com/19345.html)
 
-### Java 与 C++ 的区别
+### Java vs C++
 
 - Java 是纯粹的面向对象语言，所有的对象都继承自 java.lang.Object，C++ 为了兼容 C 即支持面向对象也支持面向过程。
 - Java 通过虚拟机从而实现跨平台特性，但是 C++ 依赖于特定的平台。
@@ -1457,7 +1457,7 @@ Java 注解是附加在代码中的一些元信息，用于一些工具在编译
 - JRE：Java Runtime Environment，Java 运行环境的简称，为 Java 的运行提供了所需的环境。它是一个 JVM 程序，主要包括了 JVM 的标准实现和一些 Java 基本类库。
 - JDK：Java Development Kit，Java 开发工具包，提供了 Java 的开发及运行环境。JDK 是 Java 开发的核心，集成了 JRE 以及一些其它的工具，比如编译 Java 源码的编译器 javac 等。
 
-## 参考资料
+## References
 
 - Eckel B. Java 编程思想[M]. 机械工业出版社, 2002.
 - Bloch J. Effective java[M]. Addison-Wesley Professional, 2017.

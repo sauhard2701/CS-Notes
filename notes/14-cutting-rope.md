@@ -1,10 +1,10 @@
-# 14. 剪绳子
+# 14. Cutting Rope
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/57d85990ba5b440ab888fc72b0751bf8?tpId=13&tqId=33257&tab=answerKey&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 把一根绳子剪成多段，并且使得每段的长度乘积最大。
 
@@ -16,9 +16,9 @@ n = 10
 return 36 (10 = 3 + 3 + 4)
 ```
 
-## 解题思路
+## Solution
 
-### 贪心
+### Greedy
 
 尽可能得多剪长度为 3 的绳子，并且不允许有长度为 1 的绳子出现。如果出现了，就从已经切好长度为 3 的绳子中拿出一段与长度为 1 的绳子重新组合，把它们切成两段长度为 2 的绳子。以下为证明过程。
 
@@ -52,7 +52,7 @@ public int cutRope(int n) {
 }
 ```
 
-### 动态规划
+### Dynamic Programming
 
 ```java
 public int cutRope(int n) {

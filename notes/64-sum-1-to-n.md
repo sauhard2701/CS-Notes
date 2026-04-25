@@ -1,14 +1,14 @@
-# 64. 求 1+2+3+...+n
+# 64. Sum 1+2+3+...+n
 
-## 题目链接
+## Problem Link
 
 [NowCoder](https://www.nowcoder.com/practice/7a0da8fc483247ff8800059e12d7caf1?tpId=13&tqId=11200&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 要求不能使用乘除法、for、while、if、else、switch、case 等关键字及条件判断语句 A ? B : C。
 
-## 解题思路
+## Solution
 
 使用递归解法最重要的是指定返回条件，但是本题无法直接使用 if 语句来指定返回条件。
 

@@ -1,14 +1,14 @@
-# 计算机操作系统 - 链接
+# Operating Systems - Linking
 <!-- GFM-TOC -->
-* [计算机操作系统 - 链接](#计算机操作系统---链接)
-    * [编译系统](#编译系统)
-    * [静态链接](#静态链接)
-    * [目标文件](#目标文件)
-    * [动态链接](#动态链接)
+* [计算机操作系统 - 链接](#operating-systems---linking)
+    * [编译系统](#compilation-system)
+    * [静态链接](#static-linking)
+    * [目标文件](#object-files)
+    * [动态链接](#dynamic-linking)
 <!-- GFM-TOC -->
 
 
-## 编译系统
+## Compilation System
 
 
 以下是一个 hello.c 程序：
@@ -38,7 +38,7 @@ gcc -o hello hello.c
 - 汇编阶段：将汇编文件翻译成可重定位目标文件；
 - 链接阶段：将可重定位目标文件和 printf.o 等单独预编译好的目标文件进行合并，得到最终的可执行目标文件。
 
-## 静态链接
+## Static Linking
 
 静态链接器以一组可重定位目标文件为输入，生成一个完全链接的可执行目标文件作为输出。链接器主要完成以下两个任务：
 
@@ -47,13 +47,13 @@ gcc -o hello hello.c
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/47d98583-8bb0-45cc-812d-47eefa0a4a40.jpg"/> </div><br>
 
-## 目标文件
+## Object Files
 
 - 可执行目标文件：可以直接在内存中执行；
 - 可重定位目标文件：可与其它可重定位目标文件在链接阶段合并，创建一个可执行目标文件；
 - 共享目标文件：这是一种特殊的可重定位目标文件，可以在运行时被动态加载进内存并链接；
 
-## 动态链接
+## Dynamic Linking
 
 静态库有以下两个问题：
 

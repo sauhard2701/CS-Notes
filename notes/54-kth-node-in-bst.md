@@ -1,8 +1,8 @@
-# 54. 二叉查找树的第 K 个结点
+# 54. Kth Node in BST
 
 [NowCoder](https://www.nowcoder.com/practice/ef068f602dde4d28aab2b210e859150a?tpId=13&tqId=11215&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 解题思路
+## Solution
 
 利用二叉查找树中序遍历有序的特点。
 

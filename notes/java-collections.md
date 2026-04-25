@@ -1,13 +1,13 @@
-# Java 容器
+# Java Collections
 <!-- GFM-TOC -->
-* [Java 容器](#java-容器)
-    * [一、概览](#一概览)
+* [Java 容器](#java-collections)
+    * [一、概览](#1-overview)
         * [Collection](#collection)
         * [Map](#map)
-    * [二、容器中的设计模式](#二容器中的设计模式)
-        * [迭代器模式](#迭代器模式)
-        * [适配器模式](#适配器模式)
-    * [三、源码分析](#三源码分析)
+    * [二、容器中的设计模式](#2-design-patterns-in-collections)
+        * [迭代器模式](#iterator-pattern)
+        * [适配器模式](#adapter-pattern)
+    * [三、源码分析](#3-source-code-analysis)
         * [ArrayList](#arraylist)
         * [Vector](#vector)
         * [CopyOnWriteArrayList](#copyonwritearraylist)
@@ -16,11 +16,11 @@
         * [ConcurrentHashMap](#concurrenthashmap)
         * [LinkedHashMap](#linkedhashmap)
         * [WeakHashMap](#weakhashmap)
-    * [参考资料](#参考资料)
+    * [参考资料](#references)
 <!-- GFM-TOC -->
 
 
-## 一、概览
+## 1. Overview
 
 容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。
 
@@ -63,9 +63,9 @@
 - LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。
 
 
-## 二、容器中的设计模式
+## 2. Design Patterns in Collections
 
-### 迭代器模式
+### Iterator Pattern
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208225301973.png"/> </div><br>
 
@@ -82,7 +82,7 @@ for (String item : list) {
 }
 ```
 
-### 适配器模式
+### Adapter Pattern
 
 java.util.Arrays#asList() 可以把数组类型转换为 List 类型。
 
@@ -104,7 +104,7 @@ List list = Arrays.asList(arr);
 List list = Arrays.asList(1, 2, 3);
 ```
 
-## 三、源码分析
+## 3. Source Code Analysis
 
 如果没有特别说明，以下源码分析基于 JDK 1.8。
 
@@ -113,7 +113,7 @@ List list = Arrays.asList(1, 2, 3);
 ### ArrayList
 
 
-#### 1. 概览
+#### 1. Overview
 
 因为 ArrayList 是基于数组实现的，所以支持快速随机访问。RandomAccess 接口标识着该类支持快速随机访问。
 
@@ -130,7 +130,7 @@ private static final int DEFAULT_CAPACITY = 10;
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208232221265.png"/> </div><br>
 
-#### 2. 扩容
+#### 2. Resizing
 
 添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为 `oldCapacity + (oldCapacity >> 1)`，即 oldCapacity+oldCapacity/2。其中 oldCapacity >> 1 需要取整，所以新容量大约是旧容量的 1.5 倍左右。（oldCapacity 为偶数就是 1.5 倍，为奇数就是 1.5 倍-0.5）
 
@@ -170,7 +170,7 @@ private void grow(int minCapacity) {
 }
 ```
 
-#### 3. 删除元素
+#### 3. Delete Elements
 
 需要调用 System.arraycopy() 将 index+1 后面的元素都复制到 index 位置上，该操作的时间复杂度为 O(N)，可以看到 ArrayList 删除元素的代价是非常高的。
 
@@ -187,7 +187,7 @@ public E remove(int index) {
 }
 ```
 
-#### 4. 序列化
+#### 4. Serialization
 
 ArrayList 基于数组实现，并且具有动态扩容特性，因此保存元素的数组不一定都会被使用，那么就没必要全部进行序列化。
 
@@ -261,7 +261,7 @@ modCount 用来记录 ArrayList 结构发生变化的次数。结构发生变化
 
 ### Vector
 
-#### 1. 同步
+#### 1. Synchronization
 
 它的实现与 ArrayList 类似，但是使用了 synchronized 进行同步。
 
@@ -281,7 +281,7 @@ public synchronized E get(int index) {
 }
 ```
 
-#### 2. 扩容
+#### 2. Resizing
 
 Vector 的构造函数可以传入 capacityIncrement 参数，它的作用是在扩容时使容量 capacity 增长 capacityIncrement。如果这个参数的值小于等于 0，扩容时每次都令 capacity 为原来的两倍。
 
@@ -322,12 +322,12 @@ public Vector() {
 }
 ```
 
-#### 3. 与 ArrayList 的比较
+#### 3. Comparison with ArrayList
 
 - Vector 是同步的，因此开销就比 ArrayList 要大，访问速度更慢。最好使用 ArrayList 而不是 Vector，因为同步操作完全可以由程序员自己来控制；
 - Vector 每次扩容请求其大小的 2 倍（也可以通过构造函数设置增长的容量），而 ArrayList 是 1.5 倍。
 
-#### 4. 替代方案
+#### 4. Alternatives
 
 可以使用 `Collections.synchronizedList();` 得到一个线程安全的 ArrayList。
 
@@ -344,7 +344,7 @@ List<String> list = new CopyOnWriteArrayList<>();
 
 ### CopyOnWriteArrayList
 
-#### 1. 读写分离
+#### 1. Read/Write Separation
 
 写操作在一个复制的数组上进行，读操作还是在原始数组中进行，读写分离，互不影响。
 
@@ -380,7 +380,7 @@ private E get(Object[] a, int index) {
 }
 ```
 
-#### 2. 适用场景
+#### 2. Use Cases
 
 CopyOnWriteArrayList 在写操作的同时允许读操作，大大提高了读操作的性能，因此很适合读多写少的应用场景。
 
@@ -393,7 +393,7 @@ CopyOnWriteArrayList 在写操作的同时允许读操作，大大提高了读�
 
 ### LinkedList
 
-#### 1. 概览
+#### 1. Overview
 
 基于双向链表实现，使用 Node 存储链表节点信息。
 
@@ -414,7 +414,7 @@ transient Node<E> last;
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208233940066.png"/> </div><br>
 
-#### 2. 与 ArrayList 的比较
+#### 2. Comparison with ArrayList
 
 ArrayList 基于动态数组实现，LinkedList 基于双向链表实现。ArrayList 和 LinkedList 的区别可以归结为数组和链表的区别：
 
@@ -425,7 +425,7 @@ ArrayList 基于动态数组实现，LinkedList 基于双向链表实现。Array
 
 为了便于理解，以下源码分析以 JDK 1.7 为主。
 
-#### 1. 存储结构
+#### 1. Storage Structure
 
 内部包含了一个 Entry 类型的数组 table。Entry 存储着键值对。它包含了四个字段，从 next 字段我们可以看出 Entry 是一个链表。即数组中的每个位置被当成一个桶，一个桶存放一个链表。HashMap 使用拉链法来解决冲突，同一个链表中存放哈希值和散列桶取模运算结果相同的 Entry。
 
@@ -488,7 +488,7 @@ static class Entry<K,V> implements Map.Entry<K,V> {
 }
 ```
 
-#### 2. 拉链法的工作原理
+#### 2. Separate Chaining Workflow
 
 ```java
 HashMap<String, String> map = new HashMap<>();
@@ -511,7 +511,7 @@ map.put("K3", "V3");
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208235258643.png"/> </div><br>
 
-#### 3. put 操作
+#### 3. put Operation
 
 ```java
 public V put(K key, V value) {
@@ -590,7 +590,7 @@ Entry(int h, K k, V v, Entry<K,V> n) {
 }
 ```
 
-#### 4. 确定桶下标
+#### 4. Determine Bucket Index
 
 很多操作都需要先确定一个键值对所在的桶下标。
 
@@ -659,7 +659,7 @@ static int indexFor(int h, int length) {
 }
 ```
 
-#### 5. 扩容-基本原理
+#### 5. Resizing - Basics
 
 设 HashMap 的 table 长度为 M，需要存储的键值对数量为 N，如果哈希函数满足均匀性的要求，那么每条链表的长度大约为 N/M，因此查找的复杂度为 O(N/M)。
 
@@ -738,7 +738,7 @@ void transfer(Entry[] newTable) {
 }
 ```
 
-#### 6. 扩容-重新计算桶下标
+#### 6. Resizing - Recompute Bucket Index
 
 在进行扩容时，需要把键值对重新计算桶下标，从而放到对应的桶上。在前面提到，HashMap 使用 hash%capacity 来确定桶下标。HashMap capacity 为 2 的 n 次方这一特点能够极大降低重新计算桶下标操作的复杂度。
 
@@ -754,7 +754,7 @@ new capacity : 00100000
 - 为 0，那么 hash%00010000 = hash%00100000，桶位置和原来一致；
 - 为 1，hash%00010000 = hash%00100000 + 16，桶位置是原位置 + 16。
 
-#### 7. 计算数组容量
+#### 7. Calculate Array Capacity
 
 HashMap 构造函数允许用户传入的容量不是 2 的 n 次方，因为它可以自动地将传入的容量转换为 2 的 n 次方。
 
@@ -787,11 +787,11 @@ static final int tableSizeFor(int cap) {
 }
 ```
 
-#### 8. 链表转红黑树
+#### 8. Convert Linked List to Red-Black Tree
 
 从 JDK 1.8 开始，一个桶存储的链表长度大于等于 8 时会将链表转换为红黑树。
 
-#### 9. 与 Hashtable 的比较
+#### 9. Comparison with Hashtable
 
 - Hashtable 使用 synchronized 来进行同步。
 - HashMap 可以插入键为 null 的 Entry。
@@ -800,7 +800,7 @@ static final int tableSizeFor(int cap) {
 
 ### ConcurrentHashMap
 
-#### 1. 存储结构
+#### 1. Storage Structure
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191209001038024.png"/> </div><br>
 
@@ -847,7 +847,7 @@ final Segment<K,V>[] segments;
 static final int DEFAULT_CONCURRENCY_LEVEL = 16;
 ```
 
-#### 2. size 操作
+#### 2. size Operation
 
 每个 Segment 维护了一个 count 变量来统计该 Segment 中的键值对个数。
 
@@ -920,7 +920,7 @@ public int size() {
 }
 ```
 
-#### 3. JDK 1.8 的改动
+#### 3. JDK 1.8 Changes
 
 JDK 1.7 使用分段锁机制来实现并发更新操作，核心类为 Segment，它继承自重入锁 ReentrantLock，并发度与 Segment 数量相等。
 
@@ -930,7 +930,7 @@ JDK 1.8 使用了 CAS 操作来支持更高的并发度，在 CAS 操作失败�
 
 ### LinkedHashMap
 
-#### 存储结构
+#### Storage Structure
 
 继承自 HashMap，因此具有和 HashMap 一样的快速查找特性。
 
@@ -1020,7 +1020,7 @@ protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
 }
 ```
 
-#### LRU 缓存
+#### LRU Cache
 
 以下是使用 LinkedHashMap 实现的一个 LRU 缓存：
 
@@ -1060,7 +1060,7 @@ public static void main(String[] args) {
 
 ### WeakHashMap
 
-#### 存储结构
+#### Storage Structure
 
 WeakHashMap 的 Entry 继承自 WeakReference，被 WeakReference 关联的对象在下一次垃圾回收时会被回收。
 
@@ -1117,7 +1117,7 @@ public final class ConcurrentCache<K, V> {
 ```
 
 
-## 参考资料
+## References
 
 - Eckel B. Java 编程思想 [M]. 机械工业出版社, 2002.
 - [Java Collection Framework](https://www.w3resource.com/java-tutorial/java-collections.php)

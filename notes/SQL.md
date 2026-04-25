@@ -1,42 +1,42 @@
 <!-- GFM-TOC -->
-* [一、基础](#一基础)
-* [二、创建表](#二创建表)
-* [三、修改表](#三修改表)
-* [四、插入](#四插入)
-* [五、更新](#五更新)
-* [六、删除](#六删除)
-* [七、查询](#七查询)
+* [一、基础](#1-basics)
+* [二、创建表](#2-create-tables)
+* [三、修改表](#3-modify-tables)
+* [四、插入](#4-insert)
+* [五、更新](#5-update)
+* [六、删除](#6-delete)
+* [七、查询](#7-query)
     * [DISTINCT](#distinct)
     * [LIMIT](#limit)
-* [八、排序](#八排序)
-* [九、过滤](#九过滤)
-* [十、通配符](#十通配符)
-* [十一、计算字段](#十一计算字段)
-* [十二、函数](#十二函数)
-    * [汇总](#汇总)
-    * [文本处理](#文本处理)
-    * [日期和时间处理](#日期和时间处理)
-    * [数值处理](#数值处理)
-* [十三、分组](#十三分组)
-* [十四、子查询](#十四子查询)
-* [十五、连接](#十五连接)
-    * [内连接](#内连接)
-    * [自连接](#自连接)
-    * [自然连接](#自然连接)
-    * [外连接](#外连接)
-* [十六、组合查询](#十六组合查询)
-* [十七、视图](#十七视图)
-* [十八、存储过程](#十八存储过程)
-* [十九、游标](#十九游标)
-* [二十、触发器](#二十触发器)
-* [二十一、事务管理](#二十一事务管理)
-* [二十二、字符集](#二十二字符集)
-* [二十三、权限管理](#二十三权限管理)
-* [参考资料](#参考资料)
+* [八、排序](#8-sorting)
+* [九、过滤](#9-filtering)
+* [十、通配符](#10-wildcards)
+* [十一、计算字段](#11-calculated-fields)
+* [十二、函数](#12-functions)
+    * [汇总](#aggregation)
+    * [文本处理](#text-processing)
+    * [日期和时间处理](#date-and-time-processing)
+    * [数值处理](#numeric-processing)
+* [十三、分组](#13-grouping)
+* [十四、子查询](#14-subqueries)
+* [十五、连接](#15-joins)
+    * [内连接](#inner-join)
+    * [自连接](#self-join)
+    * [自然连接](#natural-join)
+    * [外连接](#outer-join)
+* [十六、组合查询](#16-combined-queries)
+* [十七、视图](#17-views)
+* [十八、存储过程](#18-stored-procedures)
+* [十九、游标](#19-cursors)
+* [二十、触发器](#20-triggers)
+* [二十一、事务管理](#21-transaction-management)
+* [二十二、字符集](#22-character-sets)
+* [二十三、权限管理](#23-access-control)
+* [参考资料](#references)
 <!-- GFM-TOC -->
 
 
-# 一、基础
+# 1. Basics
 
 模式定义了数据如何存储、存储什么样的数据以及数据如何分解等信息，数据库和表都有模式。
 
@@ -63,7 +63,7 @@ CREATE DATABASE test;
 USE test;
 ```
 
-# 二、创建表
+# 2. Create Tables
 
 ```sql
 CREATE TABLE mytable (
@@ -79,7 +79,7 @@ CREATE TABLE mytable (
   PRIMARY KEY (`id`));
 ```
 
-# 三、修改表
+# 3. Modify Tables
 
 添加列
 
@@ -101,7 +101,7 @@ DROP COLUMN col;
 DROP TABLE mytable;
 ```
 
-# 四、插入
+# 4. Insert
 
 普通插入
 
@@ -125,7 +125,7 @@ CREATE TABLE newtable AS
 SELECT * FROM mytable;
 ```
 
-# 五、更新
+# 5. Update
 
 ```sql
 UPDATE mytable
@@ -133,7 +133,7 @@ SET col = val
 WHERE id = 1;
 ```
 
-# 六、删除
+# 6. Delete
 
 ```sql
 DELETE FROM mytable
@@ -148,7 +148,7 @@ TRUNCATE TABLE mytable;
 
 使用更新和删除操作时一定要用 WHERE 子句，不然会把整张表的数据都破坏。可以先用 SELECT 语句进行测试，防止错误删除。
 
-# 七、查询
+# 7. Query
 
 ## DISTINCT
 
@@ -185,7 +185,7 @@ FROM mytable
 LIMIT 2, 3;
 ```
 
-# 八、排序
+# 8. Sorting
 
 -   **ASC**  ：升序（默认）
 -   **DESC**  ：降序
@@ -198,7 +198,7 @@ FROM mytable
 ORDER BY col1 DESC, col2 ASC;
 ```
 
-# 九、过滤
+# 9. Filtering
 
 不进行过滤的数据非常大，导致通过网络传输了多余的数据，从而浪费了网络带宽。因此尽量使用 SQL 语句来过滤不必要的数据，而不是传输所有的数据到客户端中然后由客户端进行过滤。
 
@@ -229,7 +229,7 @@ WHERE col IS NULL;
 
 **NOT**   操作符用于否定一个条件。
 
-# 十、通配符
+# 10. Wildcards
 
 通配符也是用在过滤语句中，但它只能用于文本字段。
 
@@ -249,7 +249,7 @@ WHERE col LIKE '[^AB]%'; -- 不以 A 和 B 开头的任意文本
 
 不要滥用通配符，通配符位于开头处匹配会非常慢。
 
-# 十一、计算字段
+# 11. Calculated Fields
 
 在数据库服务器上完成数据的转换和格式化的工作往往比客户端上快得多，并且转换和格式化后的数据量更少的话可以减少网络通信量。
 
@@ -267,11 +267,11 @@ SELECT CONCAT(TRIM(col1), '(', TRIM(col2), ')') AS concat_col
 FROM mytable;
 ```
 
-# 十二、函数
+# 12. Functions
 
 各个 DBMS 的函数都是不相同的，因此不可移植，以下主要是 MySQL 的函数。
 
-## 汇总
+## Aggregation
 
 |函 数 |说 明|
 | :---: | :---: |
@@ -290,7 +290,7 @@ SELECT AVG(DISTINCT col1) AS avg_col
 FROM mytable;
 ```
 
-## 文本处理
+## Text Processing
 
 | 函数  | 说明  |
 | :---: | :---: |
@@ -311,7 +311,7 @@ FROM mytable
 WHERE SOUNDEX(col1) = SOUNDEX('apple')
 ```
 
-## 日期和时间处理
+## Date and Time Processing
 
 
 - 日期格式：YYYY-MM-DD
@@ -345,7 +345,7 @@ mysql> SELECT NOW();
 2018-4-14 20:25:11
 ```
 
-## 数值处理
+## Numeric Processing
 
 | 函数 | 说明 |
 | :---: | :---: |
@@ -359,7 +359,7 @@ mysql> SELECT NOW();
 | PI() | 圆周率 |
 | RAND() | 随机数 |
 
-# 十三、分组
+# 13. Grouping
 
 把具有相同的数据值的行放在同一组中。
 
@@ -399,7 +399,7 @@ HAVING num >= 2;
 - NULL 的行会单独分为一组；
 - 大多数 SQL 实现不支持 GROUP BY 列具有可变长度的数据类型。
 
-# 十四、子查询
+# 14. Subqueries
 
 子查询中只能返回一个字段的数据。
 
@@ -423,7 +423,7 @@ FROM Customers
 ORDER BY cust_name;
 ```
 
-# 十五、连接
+# 15. Joins
 
 连接用于连接多个表，使用 JOIN 关键字，并且条件语句使用 ON 而不是 WHERE。
 
@@ -431,7 +431,7 @@ ORDER BY cust_name;
 
 可以用 AS 给列名、计算字段和表名取别名，给表名取别名是为了简化 SQL 语句以及连接相同表。
 
-## 内连接
+## Inner Join
 
 内连接又称等值连接，使用 INNER JOIN 关键字。
 
@@ -449,7 +449,7 @@ FROM tablea AS A, tableb AS B
 WHERE A.key = B.key;
 ```
 
-## 自连接
+## Self Join
 
 自连接可以看成内连接的一种，只是连接的表是自身而已。
 
@@ -475,7 +475,7 @@ ON e1.department = e2.department
       AND e2.name = "Jim";
 ```
 
-## 自然连接
+## Natural Join
 
 自然连接是把同名列通过等值测试连接起来的，同名列可以有多个。
 
@@ -486,7 +486,7 @@ SELECT A.value, B.value
 FROM tablea AS A NATURAL JOIN tableb AS B;
 ```
 
-## 外连接
+## Outer Join
 
 外连接保留了没有关联的那些行。分为左外连接，右外连接以及全外连接，左外连接就是保留左表没有关联的行。
 
@@ -525,7 +525,7 @@ orders 表：
 | 3 | c | 4 |
 | 2 | b | Null |
 
-# 十六、组合查询
+# 16. Combined Queries
 
 使用   **UNION**   来组合两个查询，如果第一个查询返回 M 行，第二个查询返回 N 行，那么组合查询的结果一般为 M+N 行。
 
@@ -545,7 +545,7 @@ FROM mytable
 WHERE col =2;
 ```
 
-# 十七、视图
+# 17. Views
 
 视图是虚拟的表，本身不包含数据，也就不能对其进行索引操作。
 
@@ -565,7 +565,7 @@ FROM mytable
 WHERE col5 = val;
 ```
 
-# 十八、存储过程
+# 18. Stored Procedures
 
 存储过程可以看成是对一系列 SQL 操作的批处理。
 
@@ -603,7 +603,7 @@ call myprocedure(@ret);
 select @ret;
 ```
 
-# 十九、游标
+# 19. Cursors
 
 在存储过程中使用游标可以对一个结果集进行移动遍历。
 
@@ -639,7 +639,7 @@ create procedure myprocedure(out ret int)
  delimiter ;
 ```
 
-# 二十、触发器
+# 20. Triggers
 
 触发器会在某个表执行以下语句时而自动执行：DELETE、INSERT、UPDATE。
 
@@ -660,7 +660,7 @@ UPDATE 触发器包含一个名为 NEW 和一个名为 OLD 的虚拟表，其中
 
 MySQL 不允许在触发器中使用 CALL 语句，也就是不能调用存储过程。
 
-# 二十一、事务管理
+# 21. Transaction Management
 
 基本术语：
 
@@ -687,7 +687,7 @@ ROLLBACK TO delete1
 COMMIT
 ```
 
-# 二十二、字符集
+# 22. Character Sets
 
 基本术语：
 
@@ -711,7 +711,7 @@ FROM mytable
 ORDER BY col COLLATE latin1_general_ci;
 ```
 
-# 二十三、权限管理
+# 23. Access Control
 
 MySQL 的账户信息保存在 mysql 这个数据库中。
 
@@ -776,6 +776,6 @@ REVOKE SELECT, INSERT ON mydatabase.* FROM myuser;
 SET PASSWROD FOR myuser = Password('new_password');
 ```
 
-# 参考资料
+# References
 
 - BenForta. SQL 必知必会 [M]. 人民邮电出版社, 2013.

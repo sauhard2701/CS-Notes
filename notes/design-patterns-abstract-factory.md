@@ -1,4 +1,4 @@
-## 4. 抽象工厂（Abstract Factory）
+## 4. Abstract Factory
 
 ### Intent
 

@@ -1,13 +1,13 @@
-# 68. 树中两个节点的最低公共祖先
+# 68. Lowest Common Ancestor in Tree
 
 
-## 68.1 二叉查找树
+## 68.1 Binary Search Tree
 
-### 题目链接
+### Problem Link
 
 [Leetcode : 235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/)
 
-### 解题思路
+### Solution
 
 在二叉查找树中，两个节点 p, q 的公共祖先 root 满足 root.val \>= p.val && root.val \<= q.val。
 
@@ -25,13 +25,13 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 }
 ```
 
-## 68.2 普通二叉树
+## 68.2 Binary Tree
 
-### 题目链接
+### Problem Link
 
 [Leetcode : 236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/)
 
-### 解题思路
+### Solution
 
 在左右子树中查找是否存在 p 或者 q，如果 p 和 q 分别在两个子树中，那么就说明根节点就是最低公共祖先。
 

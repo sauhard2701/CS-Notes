@@ -1,14 +1,14 @@
-# 构建工具
+# Build Tools
 <!-- GFM-TOC -->
-* [构建工具](#构建工具)
-    * [一、构建工具的作用](#一构建工具的作用)
-    * [二、Java 主流构建工具](#二java-主流构建工具)
-    * [三、Maven](#三maven)
-    * [参考资料](#参考资料)
+* [构建工具](#build-tools)
+    * [一、构建工具的作用](#1-purpose-of-build-tools)
+    * [二、Java 主流构建工具](#2-mainstream-java-build-tools)
+    * [三、Maven](#3-maven)
+    * [参考资料](#references)
 <!-- GFM-TOC -->
 
 
-## 一、构建工具的作用
+## 1. Purpose of Build Tools
 
 构建一个项目通常包含了依赖管理、测试、编译、打包、发布等流程，构建工具可以自动化进行这些操作，从而为我们减少这些繁琐的工作。
 
@@ -16,7 +16,7 @@
 
 在 Java 项目中，打包流程通常是将项目打包成 Jar 包。在没有构建工具的情况下，我们需要使用命令行工具或者 IDE 手动打包。而发布流程通常是将 Jar 包上传到服务器上。
 
-## 二、Java 主流构建工具
+## 2. Mainstream Java Build Tools
 
 Ant 具有编译、测试和打包功能，其后出现的 Maven 在 Ant 的功能基础上又新增了依赖管理功能，而最新的 Gradle 又在 Maven 的功能基础上新增了对 Groovy 语言的支持。
 
@@ -55,13 +55,13 @@ dependencies {
 }
 ```
 
-## 三、Maven
+## 3. Maven
 
-### 概述
+### Overview
 
 提供了项目对象模型（POM）文件来管理项目的构建。
 
-### 仓库
+### Repository
 
 仓库的搜索顺序为：本地仓库、中央仓库、远程仓库。
 
@@ -89,9 +89,9 @@ POM 代表项目对象模型，它是一个 XML 文件，保存在项目根目�
 - version：项目版本；
 - packaging：项目打包方式。
 
-### 依赖原则
+### Dependency Principles
 
-#### 1. 依赖路径最短优先原则
+#### 1. Shortest Dependency Path First
 
 ```html
 A -> B -> C -> X(1.0)
@@ -99,7 +99,7 @@ A -> D -> X(2.0)
 ```
 由于 X(2.0) 路径最短，所以使用 X(2.0)。
 
-#### 2. 声明顺序优先原则
+#### 2. Declaration Order First
 
 ```html
 A -> B -> X(1.0)
@@ -108,15 +108,15 @@ A -> C -> X(2.0)
 
 在 POM 中最先声明的优先，上面的两个依赖如果先声明 B，那么最后使用 X(1.0)。
 
-#### 3. 覆写优先原则
+#### 3. Override First
 
 子 POM 内声明的依赖优先于父 POM 中声明的依赖。
 
-### 解决依赖冲突
+### Resolve Dependency Conflicts
 
 找到 Maven 加载的 Jar 包版本，使用 `mvn dependency:tree` 查看依赖树，根据依赖原则来调整依赖在 POM 文件的声明顺序。
 
-## 参考资料
+## References
 
 - [POM Reference](http://maven.apache.org/pom.html#Dependency_Version_Requirement_Specification)
 - [What is a build tool?](https://stackoverflow.com/questions/7249871/what-is-a-build-tool)

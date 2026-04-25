@@ -1,4 +1,4 @@
-## 9. 策略（Strategy）
+## 9. Strategy
 
 ### Intent
 
@@ -13,7 +13,7 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/cd1be8c2-755a-4a66-ad92-2e30f8f47922.png"/> </div><br>
 
-### 与状态模式的比较
+### Comparison with State Pattern
 
 状态模式的类图和策略模式类似，并且都是能够动态改变对象的行为。但是状态模式是通过状态转移来改变 Context 所组合的 State 对象，而策略模式是通过 Context 本身的决策来改变组合的 Strategy 对象。所谓的状态转移，是指 Context 在运行过程中由于一些条件发生改变而使得 State 对象发生改变，注意必须要是在运行过程中。
 

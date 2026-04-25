@@ -1,17 +1,17 @@
-# 61. 扑克牌顺子
+# 61. Straight in Playing Cards
 
-## 题目链接
+## Problem Link
 
 [NowCoder](https://www.nowcoder.com/practice/762836f4d43d43ca9deb273b3de8e1f4?tpId=13&tqId=11198&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 五张牌，其中大小鬼为癞子，牌面为 0。判断这五张牌是否能组成顺子。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/eaa506b6-0747-4bee-81f8-3cda795d8154.png" width="350px"> </div><br>
 
 
-## 解题思路
+## Solution
 
 ```java
 public boolean isContinuous(int[] nums) {

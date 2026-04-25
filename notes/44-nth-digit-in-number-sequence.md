@@ -1,10 +1,10 @@
-# 44. 数字序列中的某一位数字
+# 44. Nth Digit in Number Sequence
 
-## 题目描述
+## Problem Description
 
 数字以 0123456789101112131415... 的格式序列化到一个字符串中，求这个字符串的第 index 位。
 
-## 解题思路
+## Solution
 
 ```java
 public int getDigitAtIndex(int index) {

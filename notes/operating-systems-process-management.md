@@ -1,36 +1,36 @@
-# 计算机操作系统 - 进程管理
+# Operating Systems - Process Management
 <!-- GFM-TOC -->
-* [计算机操作系统 - 进程管理](#计算机操作系统---进程管理)
-    * [进程与线程](#进程与线程)
-        * [1. 进程](#1-进程)
-        * [2. 线程](#2-线程)
-        * [3. 区别](#3-区别)
-    * [进程状态的切换](#进程状态的切换)
-    * [进程调度算法](#进程调度算法)
-        * [1. 批处理系统](#1-批处理系统)
-        * [2. 交互式系统](#2-交互式系统)
-        * [3. 实时系统](#3-实时系统)
-    * [进程同步](#进程同步)
-        * [1. 临界区](#1-临界区)
-        * [2. 同步与互斥](#2-同步与互斥)
-        * [3. 信号量](#3-信号量)
-        * [4. 管程](#4-管程)
-    * [经典同步问题](#经典同步问题)
-        * [1. 哲学家进餐问题](#1-哲学家进餐问题)
-        * [2. 读者-写者问题](#2-读者-写者问题)
-    * [进程通信](#进程通信)
-        * [1. 管道](#1-管道)
+* [计算机操作系统 - 进程管理](#operating-systems---process-management)
+    * [进程与线程](#processes-and-threads)
+        * [1. 进程](#1-process)
+        * [2. 线程](#2-thread)
+        * [3. 区别](#3-differences)
+    * [进程状态的切换](#process-state-transitions)
+    * [进程调度算法](#process-scheduling-algorithms)
+        * [1. 批处理系统](#1-batch-systems)
+        * [2. 交互式系统](#2-interactive-systems)
+        * [3. 实时系统](#3-real-time-systems)
+    * [进程同步](#process-synchronization)
+        * [1. 临界区](#1-critical-section)
+        * [2. 同步与互斥](#2-synchronization-and-mutual-exclusion)
+        * [3. 信号量](#3-semaphore)
+        * [4. 管程](#4-monitor)
+    * [经典同步问题](#classic-synchronization-problems)
+        * [1. 哲学家进餐问题](#1-dining-philosophers-problem)
+        * [2. 读者-写者问题](#2-readers-writers-problem)
+    * [进程通信](#interprocess-communication)
+        * [1. 管道](#1-pipes)
         * [2. FIFO](#2-fifo)
-        * [3. 消息队列](#3-消息队列)
-        * [4. 信号量](#4-信号量)
-        * [5. 共享存储](#5-共享存储)
-        * [6. 套接字](#6-套接字)
+        * [3. 消息队列](#3-message-queues)
+        * [4. 信号量](#4-semaphore)
+        * [5. 共享存储](#5-shared-memory)
+        * [6. 套接字](#6-sockets)
 <!-- GFM-TOC -->
 
 
-## 进程与线程
+## Processes and Threads
 
-### 1. 进程
+### 1. Process
 
 进程是资源分配的基本单位。
 
@@ -40,7 +40,7 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a6ac2b08-3861-4e85-baa8-382287bfee9f.png"/> </div><br>
 
-### 2. 线程
+### 2. Thread
 
 线程是独立调度的基本单位。
 
@@ -50,7 +50,7 @@ QQ 和浏览器是两个进程，浏览器进程里面有很多线程，例如 H
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/3cd630ea-017c-488d-ad1d-732b4efeddf5.png"/> </div><br>
 
-### 3. 区别
+### 3. Differences
 
 Ⅰ 拥有资源
 
@@ -68,7 +68,7 @@ QQ 和浏览器是两个进程，浏览器进程里面有很多线程，例如 H
 
 线程间可以通过直接读写同一进程中的数据进行通信，但是进程通信需要借助 IPC。
 
-## 进程状态的切换
+## Process State Transitions
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ProcessState.png" width="500"/> </div><br>
 
@@ -81,11 +81,11 @@ QQ 和浏览器是两个进程，浏览器进程里面有很多线程，例如 H
 - 只有就绪态和运行态可以相互转换，其它的都是单向转换。就绪状态的进程通过调度算法从而获得 CPU 时间，转为运行状态；而运行状态的进程，在分配给它的 CPU 时间片用完之后就会转为就绪状态，等待下一次调度。
 - 阻塞状态是缺少需要的资源从而由运行状态转换而来，但是该资源不包括 CPU 时间，缺少 CPU 时间会从运行态转换为就绪态。
 
-## 进程调度算法
+## Process Scheduling Algorithms
 
 不同环境的调度算法目标不同，因此需要针对不同环境来讨论调度算法。
 
-### 1. 批处理系统
+### 1. Batch Systems
 
 批处理系统没有太多的用户操作，在该系统中，调度算法目标是保证吞吐量和周转时间（从提交到终止的时间）。
 
@@ -105,7 +105,7 @@ QQ 和浏览器是两个进程，浏览器进程里面有很多线程，例如 H
 
 最短作业优先的抢占式版本，按剩余运行时间的顺序进行调度。 当一个新的作业到达时，其整个运行时间与当前进程的剩余时间作比较。如果新的进程需要的时间更少，则挂起当前进程，运行新的进程。否则新的进程等待。
 
-### 2. 交互式系统
+### 2. Interactive Systems
 
 交互式系统有大量的用户交互操作，在该系统中调度算法的目标是快速地进行响应。
 
@@ -138,15 +138,15 @@ QQ 和浏览器是两个进程，浏览器进程里面有很多线程，例如 H
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/042cf928-3c8e-4815-ae9c-f2780202c68f.png"/> </div><br>
 
-### 3. 实时系统
+### 3. Real-Time Systems
 
 实时系统要求一个请求在一个确定时间内得到响应。
 
 分为硬实时和软实时，前者必须满足绝对的截止时间，后者可以容忍一定的超时。
 
-## 进程同步
+## Process Synchronization
 
-### 1. 临界区
+### 1. Critical Section
 
 对临界资源进行访问的那段代码称为临界区。
 
@@ -158,12 +158,12 @@ QQ 和浏览器是两个进程，浏览器进程里面有很多线程，例如 H
 // exit section
 ```
 
-### 2. 同步与互斥
+### 2. Synchronization and Mutual Exclusion
 
 - 同步：多个进程因为合作产生的直接制约关系，使得进程有一定的先后执行关系。
 - 互斥：多个进程在同一时刻只有一个进程能进入临界区。
 
-### 3. 信号量
+### 3. Semaphore
 
 信号量（Semaphore）是一个整型变量，可以对其执行 down 和 up 操作，也就是常见的 P 和 V 操作。
 
@@ -230,7 +230,7 @@ void consumer() {
 }
 ```
 
-### 4. 管程
+### 4. Monitor
 
 使用信号量机制实现的生产者消费者问题需要客户端代码做很多控制，而管程把控制的代码独立出来，不仅不容易出错，也使得客户端代码调用更容易。
 
@@ -304,11 +304,11 @@ begin
 end;
 ```
 
-## 经典同步问题
+## Classic Synchronization Problems
 
 生产者和消费者问题前面已经讨论过了。
 
-### 1. 哲学家进餐问题
+### 1. Dining Philosophers Problem
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a9077f06-7584-4f2b-8c20-3a8e46928820.jpg"/> </div><br>
 
@@ -388,7 +388,7 @@ void check(i) {
 }
 ```
 
-### 2. 读者-写者问题
+### 2. Readers-Writers Problem
 
 允许多个进程同时对数据进行读操作，但是不允许读和写以及写和写操作同时发生。
 
@@ -532,7 +532,7 @@ void reader()
 
 ```
 
-## 进程通信
+## Interprocess Communication
 
 进程同步与进程通信很容易混淆，它们的区别在于：
 
@@ -541,7 +541,7 @@ void reader()
 
 进程通信是一种手段，而进程同步是一种目的。也可以说，为了能够达到进程同步的目的，需要让进程进行通信，传输一些进程同步所需要的信息。
 
-### 1. 管道
+### 1. Pipes
 
 管道是通过调用 pipe 函数创建的，fd[0] 用于读，fd[1] 用于写。
 
@@ -571,7 +571,7 @@ FIFO 常用于客户-服务器应用程序中，FIFO 用作汇聚点，在客户
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2ac50b81-d92a-4401-b9ec-f2113ecc3076.png"/> </div><br>
 
-### 3. 消息队列
+### 3. Message Queues
 
 相比于 FIFO，消息队列具有以下优点：
 
@@ -579,11 +579,11 @@ FIFO 常用于客户-服务器应用程序中，FIFO 用作汇聚点，在客户
 - 避免了 FIFO 的同步阻塞问题，不需要进程自己提供同步方法；
 - 读进程可以根据消息类型有选择地接收消息，而不像 FIFO 那样只能默认地接收。
 
-### 4. 信号量
+### 4. Semaphore
 
 它是一个计数器，用于为多个进程提供对共享数据对象的访问。
 
-### 5. 共享存储
+### 5. Shared Memory
 
 允许多个进程共享一个给定的存储区。因为数据不需要在进程之间复制，所以这是最快的一种 IPC。
 
@@ -591,6 +591,6 @@ FIFO 常用于客户-服务器应用程序中，FIFO 用作汇聚点，在客户
 
 多个进程可以将同一个文件映射到它们的地址空间从而实现共享内存。另外 XSI 共享内存不是使用文件，而是使用内存的匿名段。
 
-### 6. 套接字
+### 6. Sockets
 
 与其它通信机制不同的是，它可用于不同机器间的进程通信。

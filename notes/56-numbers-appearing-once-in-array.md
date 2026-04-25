@@ -1,14 +1,14 @@
-# 56. 数组中只出现一次的数字
+# 56. Numbers Appearing Once in Array
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/389fc1c3d3be4479a154f63f495abff8?tpId=13&tqId=11193&tab=answerKey&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 一个整型数组里除了两个数字之外，其他的数字都出现了两次，找出这两个数。
 
-## 解题思路
+## Solution
 
 两个相等的元素异或的结果为 0，而 0 与任意数 x 异或的结果都为 x。
 

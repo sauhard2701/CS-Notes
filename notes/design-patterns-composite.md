@@ -1,4 +1,4 @@
-## 组合（Composite）
+## Composite
 
 ### Intent
 

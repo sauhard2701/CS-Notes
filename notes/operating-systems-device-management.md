@@ -1,15 +1,15 @@
-# 计算机操作系统 - 设备管理
+# Operating Systems - Device Management
 <!-- GFM-TOC -->
-* [计算机操作系统 - 设备管理](#计算机操作系统---设备管理)
-    * [磁盘结构](#磁盘结构)
-    * [磁盘调度算法](#磁盘调度算法)
-        * [1. 先来先服务](#1-先来先服务)
-        * [2. 最短寻道时间优先](#2-最短寻道时间优先)
-        * [3. 电梯算法](#3-电梯算法)
+* [计算机操作系统 - 设备管理](#operating-systems---device-management)
+    * [磁盘结构](#disk-structure)
+    * [磁盘调度算法](#disk-scheduling-algorithms)
+        * [1. 先来先服务](#1-first-come-first-served)
+        * [2. 最短寻道时间优先](#2-shortest-seek-time-first)
+        * [3. 电梯算法](#3-elevator-algorithm)
 <!-- GFM-TOC -->
 
 
-## 磁盘结构
+## Disk Structure
 
 - 盘面（Platter）：一个磁盘有多个盘面；
 - 磁道（Track）：盘面上的圆形带状区域，一个盘面可以有多个磁道；
@@ -20,7 +20,7 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/014fbc4d-d873-4a12-b160-867ddaed9807.jpg"/> </div><br>
 
-## 磁盘调度算法
+## Disk Scheduling Algorithms
 
 读写一个磁盘块的时间的影响因素有：
 
@@ -30,7 +30,7 @@
 
 其中，寻道时间最长，因此磁盘调度的主要目标是使磁盘的平均寻道时间最短。
 
-### 1. 先来先服务
+### 1. First-Come First-Served
 
 > FCFS, First Come First Served
 
@@ -38,7 +38,7 @@
 
 优点是公平和简单。缺点也很明显，因为未对寻道做任何优化，使平均寻道时间可能较长。
 
-### 2. 最短寻道时间优先
+### 2. Shortest Seek Time First
 
 > SSTF, Shortest Seek Time First
 
@@ -48,7 +48,7 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/4e2485e4-34bd-4967-9f02-0c093b797aaa.png"/> </div><br>
 
-### 3. 电梯算法
+### 3. Elevator Algorithm
 
 > SCAN
 

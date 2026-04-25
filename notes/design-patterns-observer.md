@@ -1,4 +1,4 @@
-## 7. 观察者（Observer）
+## 7. Observer
 
 ### Intent
 

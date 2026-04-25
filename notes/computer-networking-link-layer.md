@@ -1,38 +1,38 @@
-# 计算机网络 - 链路层
+# Computer Networking - Link Layer
 <!-- GFM-TOC -->
-* [计算机网络 - 链路层](#计算机网络---链路层)
-    * [基本问题](#基本问题)
-        * [1. 封装成帧](#1-封装成帧)
-        * [2. 透明传输](#2-透明传输)
-        * [3. 差错检测](#3-差错检测)
-    * [信道分类](#信道分类)
-        * [1. 广播信道](#1-广播信道)
-        * [2. 点对点信道](#2-点对点信道)
-    * [信道复用技术](#信道复用技术)
-        * [1. 频分复用](#1-频分复用)
-        * [2. 时分复用](#2-时分复用)
-        * [3. 统计时分复用](#3-统计时分复用)
-        * [4. 波分复用](#4-波分复用)
-        * [5. 码分复用](#5-码分复用)
-    * [CSMA/CD 协议](#csmacd-协议)
-    * [PPP 协议](#ppp-协议)
-    * [MAC 地址](#mac-地址)
-    * [局域网](#局域网)
-    * [以太网](#以太网)
-    * [交换机](#交换机)
-    * [虚拟局域网](#虚拟局域网)
+* [计算机网络 - 链路层](#computer-networking---link-layer)
+    * [基本问题](#basic-issues)
+        * [1. 封装成帧](#1-framing)
+        * [2. 透明传输](#2-transparent-transmission)
+        * [3. 差错检测](#3-error-detection)
+    * [信道分类](#channel-classification)
+        * [1. 广播信道](#1-broadcast-channels)
+        * [2. 点对点信道](#2-point-to-point-channels)
+    * [信道复用技术](#channel-multiplexing)
+        * [1. 频分复用](#1-frequency-division-multiplexing)
+        * [2. 时分复用](#2-time-division-multiplexing)
+        * [3. 统计时分复用](#3-statistical-time-division-multiplexing)
+        * [4. 波分复用](#4-wavelength-division-multiplexing)
+        * [5. 码分复用](#5-code-division-multiplexing)
+    * [CSMA/CD 协议](#csmacd-protocol)
+    * [PPP 协议](#ppp-protocol)
+    * [MAC 地址](#mac-address)
+    * [局域网](#local-area-network)
+    * [以太网](#ethernet)
+    * [交换机](#switches)
+    * [虚拟局域网](#virtual-lan)
 <!-- GFM-TOC -->
 
 
-## 基本问题
+## Basic Issues
 
-### 1. 封装成帧
+### 1. Framing
 
 将网络层传下来的分组添加首部和尾部，用于标记帧的开始和结束。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/29a14735-e154-4f60-9a04-c9628e5d09f4.png" width="300"/> </div><br>
 
-### 2. 透明传输
+### 2. Transparent Transmission
 
 透明表示一个实际存在的事物看起来好像不存在一样。
 
@@ -40,13 +40,13 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e738a3d2-f42e-4755-ae13-ca23497e7a97.png" width="500"/> </div><br>
 
-### 3. 差错检测
+### 3. Error Detection
 
 目前数据链路层广泛使用了循环冗余检验（CRC）来检查比特差错。
 
-## 信道分类
+## Channel Classification
 
-### 1. 广播信道
+### 1. Broadcast Channels
 
 一对多通信，一个节点发送的数据能够被广播信道上所有的节点接收到。
 
@@ -54,21 +54,21 @@
 
 主要有两种控制方法进行协调，一个是使用信道复用技术，一是使用 CSMA/CD 协议。
 
-### 2. 点对点信道
+### 2. Point-to-Point Channels
 
 一对一通信。
 
 因为不会发生碰撞，因此也比较简单，使用 PPP 协议进行控制。
 
-## 信道复用技术
+## Channel Multiplexing
 
-### 1. 频分复用
+### 1. Frequency-Division Multiplexing
 
 频分复用的所有主机在相同的时间占用不同的频率带宽资源。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/4aa5e057-bc57-4719-ab57-c6fbc861c505.png" width="350"/> </div><br>
 
-### 2. 时分复用
+### 2. Time-Division Multiplexing
 
 时分复用的所有主机在不同的时间占用相同的频率带宽资源。
 
@@ -76,17 +76,17 @@
 
 使用频分复用和时分复用进行通信，在通信的过程中主机会一直占用一部分信道资源。但是由于计算机数据的突发性质，通信过程没必要一直占用信道资源而不让出给其它用户使用，因此这两种方式对信道的利用率都不高。
 
-### 3. 统计时分复用
+### 3. Statistical Time-Division Multiplexing
 
 是对时分复用的一种改进，不固定每个用户在时分复用帧中的位置，只要有数据就集中起来组成统计时分复用帧然后发送。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/6283be2a-814a-4a10-84bf-9592533fe6bc.png" width="350"/> </div><br>
 
-### 4. 波分复用
+### 4. Wavelength-Division Multiplexing
 
 光的频分复用。由于光的频率很高，因此习惯上用波长而不是频率来表示所使用的光载波。
 
-### 5. 码分复用
+### 5. Code-Division Multiplexing
 
 为每个用户分配 m bit 的码片，并且所有的码片正交，对于任意两个码片 <img src="https://latex.codecogs.com/gif.latex?\vec{S}" class="mathjax-pic"/> 和 <img src="https://latex.codecogs.com/gif.latex?\vec{T}" class="mathjax-pic"/> 有
 
@@ -115,7 +115,7 @@
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/99b6060e-099d-4201-8e86-f8ab3768a7cf.png" width="500px"> </div><br>
 
 
-## CSMA/CD 协议
+## CSMA/CD Protocol
 
 CSMA/CD 表示载波监听多点接入 / 碰撞检测。
 
@@ -129,7 +129,7 @@ CSMA/CD 表示载波监听多点接入 / 碰撞检测。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/19d423e9-74f7-4c2b-9b97-55890e0d5193.png" width="400"/> </div><br>
 
-## PPP 协议
+## PPP Protocol
 
 互联网用户通常需要连接到某个 ISP 之后才能接入到互联网，PPP 协议是用户计算机和 ISP 进行通信时所使用的数据链路层协议。
 
@@ -144,13 +144,13 @@ PPP 的帧格式：
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/759013d7-61d8-4509-897a-d75af598a236.png" width="400"/> </div><br>
 
-## MAC 地址
+## MAC Address
 
 MAC 地址是链路层地址，长度为 6 字节（48 位），用于唯一标识网络适配器（网卡）。
 
 一台主机拥有多少个网络适配器就有多少个 MAC 地址。例如笔记本电脑普遍存在无线网络适配器和有线网络适配器，因此就有两个 MAC 地址。
 
-## 局域网
+## Local Area Network
 
 局域网是一种典型的广播信道，主要特点是网络为一个单位所拥有，且地理范围和站点数目均有限。
 
@@ -160,7 +160,7 @@ MAC 地址是链路层地址，长度为 6 字节（48 位），用于唯一标�
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/807f4258-dba8-4c54-9c3c-a707c7ccffa2.jpg" width="800"/> </div><br>
 
-## 以太网
+## Ethernet
 
 以太网是一种星型拓扑结构局域网。
 
@@ -176,7 +176,7 @@ MAC 地址是链路层地址，长度为 6 字节（48 位），用于唯一标�
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/164944d3-bbd2-4bb2-924b-e62199c51b90.png" width="500"/> </div><br>
 
-## 交换机
+## Switches
 
 交换机具有自学习能力，学习的是交换表的内容，交换表中存储着 MAC 地址到接口的映射。
 
@@ -186,7 +186,7 @@ MAC 地址是链路层地址，长度为 6 字节（48 位），用于唯一标�
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a4444545-0d68-4015-9a3d-19209dc436b3.png" width="800"/> </div><br>
 
-## 虚拟局域网
+## Virtual LAN
 
 虚拟局域网可以建立与物理位置无关的逻辑组，只有在同一个虚拟局域网中的成员才会收到链路层广播信息。
 

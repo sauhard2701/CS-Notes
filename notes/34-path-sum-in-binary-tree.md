@@ -1,8 +1,8 @@
-# 34. 二叉树中和为某一值的路径
+# 34. Path Sum in Binary Tree
 
 [NowCoder](https://www.nowcoder.com/practice/b736e784e3e34731af99065031301bca?tpId=13&tqId=11177&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。
 
@@ -10,7 +10,7 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ed77b0e6-38d9-4a34-844f-724f3ffa2c12.jpg" width="200"/> </div><br>
 
-## 解题思路
+## Solution
 
 ```java
 private ArrayList<ArrayList<Integer>> ret = new ArrayList<>();

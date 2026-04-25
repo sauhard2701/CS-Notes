@@ -1,146 +1,146 @@
 <!-- GFM-TOC -->
-* [一、概述](#一概述)
-* [二、创建型](#二创建型)
-    * [1. 单例（Singleton）](#1-单例singleton)
+* [一、概述](#1-overview)
+* [二、创建型](#2-creational-patterns)
+    * [1. 单例（Singleton）](#1-singleton)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [Examples](#examples)
         * [JDK](#jdk)
-    * [2. 简单工厂（Simple Factory）](#2-简单工厂simple-factory)
+    * [2. 简单工厂（Simple Factory）](#2-simple-factory)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
-    * [3. 工厂方法（Factory Method）](#3-工厂方法factory-method)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-        * [JDK](#jdk)
-    * [4. 抽象工厂（Abstract Factory）](#4-抽象工厂abstract-factory)
+    * [3. 工厂方法（Factory Method）](#3-factory-method)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [5. 生成器（Builder）](#5-生成器builder)
+    * [4. 抽象工厂（Abstract Factory）](#4-abstract-factory)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [6. 原型模式（Prototype）](#6-原型模式prototype)
+    * [5. 生成器（Builder）](#5-builder)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-* [三、行为型](#三行为型)
-    * [1. 责任链（Chain Of Responsibility）](#1-责任链chain-of-responsibility)
+    * [6. 原型模式（Prototype）](#6-prototype)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [2. 命令（Command）](#2-命令command)
+* [三、行为型](#3-behavioral-patterns)
+    * [1. 责任链（Chain Of Responsibility）](#1-chain-of-responsibility)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [3. 解释器（Interpreter）](#3-解释器interpreter)
+    * [2. 命令（Command）](#2-command)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [4. 迭代器（Iterator）](#4-迭代器iterator)
+    * [3. 解释器（Interpreter）](#3-interpreter)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [5. 中介者（Mediator）](#5-中介者mediator)
+    * [4. 迭代器（Iterator）](#4-iterator)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [6. 备忘录（Memento）](#6-备忘录memento)
+    * [5. 中介者（Mediator）](#5-mediator)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [7. 观察者（Observer）](#7-观察者observer)
+    * [6. 备忘录（Memento）](#6-memento)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [8. 状态（State）](#8-状态state)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-    * [9. 策略（Strategy）](#9-策略strategy)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [与状态模式的比较](#与状态模式的比较)
-        * [Implementation](#implementation)
-        * [JDK](#jdk)
-    * [10. 模板方法（Template Method）](#10-模板方法template-method)
+    * [7. 观察者（Observer）](#7-observer)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [11. 访问者（Visitor）](#11-访问者visitor)
+    * [8. 状态（State）](#8-state)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+    * [9. 策略（Strategy）](#9-strategy)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [与状态模式的比较](#comparison-with-state-pattern)
+        * [Implementation](#implementation)
+        * [JDK](#jdk)
+    * [10. 模板方法（Template Method）](#10-template-method)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [12. 空对象（Null）](#12-空对象null)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-* [四、结构型](#四结构型)
-    * [1. 适配器（Adapter）](#1-适配器adapter)
+    * [11. 访问者（Visitor）](#11-visitor)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [2. 桥接（Bridge）](#2-桥接bridge)
+    * [12. 空对象（Null）](#12-null-object)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+* [四、结构型](#4-structural-patterns)
+    * [1. 适配器（Adapter）](#1-adapter)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [3. 组合（Composite）](#3-组合composite)
+    * [2. 桥接（Bridge）](#2-bridge)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [4. 装饰（Decorator）](#4-装饰decorator)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-        * [设计原则](#设计原则)
-        * [JDK](#jdk)
-    * [5. 外观（Facade）](#5-外观facade)
-        * [Intent](#intent)
-        * [Class Diagram](#class-diagram)
-        * [Implementation](#implementation)
-        * [设计原则](#设计原则)
-    * [6. 享元（Flyweight）](#6-享元flyweight)
+    * [3. 组合（Composite）](#3-composite)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-    * [7. 代理（Proxy）](#7-代理proxy)
+    * [4. 装饰（Decorator）](#4-decorator)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+        * [设计原则](#design-principles)
+        * [JDK](#jdk)
+    * [5. 外观（Facade）](#5-facade)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+        * [设计原则](#design-principles)
+    * [6. 享元（Flyweight）](#6-flyweight)
         * [Intent](#intent)
         * [Class Diagram](#class-diagram)
         * [Implementation](#implementation)
         * [JDK](#jdk)
-* [参考资料](#参考资料)
+    * [7. 代理（Proxy）](#7-proxy)
+        * [Intent](#intent)
+        * [Class Diagram](#class-diagram)
+        * [Implementation](#implementation)
+        * [JDK](#jdk)
+* [参考资料](#references)
 <!-- GFM-TOC -->
 
 
-# 一、概述
+# 1. Overview
 
 设计模式是解决问题的方案，学习现有的设计模式可以做到经验复用。
 
 拥有设计模式词汇，在沟通时就能用更少的词汇来讨论，并且不需要了解底层细节。
 
-# 二、创建型
+# 2. Creational Patterns
 
-## 1. 单例（Singleton）
+## 1. Singleton
 
 ### Intent
 
@@ -156,7 +156,7 @@
 
 ### Implementation
 
-#### Ⅰ 懒汉式-线程不安全
+#### I. Lazy Initialization - Not Thread Safe
 
 以下实现中，私有静态变量 uniqueInstance 被延迟实例化，这样做的好处是，如果没有用到该类，那么就不会实例化 uniqueInstance，从而节约资源。
 
@@ -179,7 +179,7 @@ public class Singleton {
 }
 ```
 
-#### Ⅱ 饿汉式-线程安全
+#### II. Eager Initialization - Thread Safe
 
 线程不安全问题主要是由于 uniqueInstance 被实例化多次，采取直接实例化 uniqueInstance 的方式就不会产生线程不安全问题。
 
@@ -189,7 +189,7 @@ public class Singleton {
 private static Singleton uniqueInstance = new Singleton();
 ```
 
-#### Ⅲ 懒汉式-线程安全
+#### III. Lazy Initialization - Thread Safe
 
 只需要对 getUniqueInstance() 方法加锁，那么在一个时间点只能有一个线程能够进入该方法，从而避免了实例化多次 uniqueInstance。
 
@@ -204,7 +204,7 @@ public static synchronized Singleton getUniqueInstance() {
 }
 ```
 
-#### Ⅳ 双重校验锁-线程安全
+#### IV. Double-Checked Locking - Thread Safe
 
 uniqueInstance 只需要被实例化一次，之后就可以直接使用了。加锁操作只需要对实例化那部分的代码进行，只有当 uniqueInstance 没有被实例化时，才需要进行加锁。
 
@@ -251,7 +251,7 @@ uniqueInstance 采用 volatile 关键字修饰也是很有必要的， `uniqueIn
 
 使用 volatile 可以禁止 JVM 的指令重排，保证在多线程环境下也能正常运行。
 
-#### Ⅴ 静态内部类实现
+#### V. Static Inner Class
 
 当 Singleton 类被加载时，静态内部类 SingletonHolder 没有被加载进内存。只有当调用 `getUniqueInstance()` 方法从而触发 `SingletonHolder.INSTANCE` 时 SingletonHolder 才会被加载，此时初始化 INSTANCE 实例，并且 JVM 能确保 INSTANCE 只被实例化一次。
 
@@ -273,7 +273,7 @@ public class Singleton {
 }
 ```
 
-#### Ⅵ 枚举实现
+#### VI. Enum
 
 ```java
 public enum Singleton {
@@ -341,7 +341,7 @@ secondName
 - [java.awt.Desktop#getDesktop()](http://docs.oracle.com/javase/8/docs/api/java/awt/Desktop.html#getDesktop--)
 - [java.lang.System#getSecurityManager()](http://docs.oracle.com/javase/8/docs/api/java/lang/System.html#getSecurityManager--)
 
-## 2. 简单工厂（Simple Factory）
+## 2. Simple Factory
 
 ### Intent
 
@@ -424,7 +424,7 @@ public class Client {
 }
 ```
 
-## 3. 工厂方法（Factory Method）
+## 3. Factory Method
 
 ### Intent
 
@@ -484,7 +484,7 @@ public class ConcreteFactory2 extends Factory {
 - [java.util.EnumSet](https://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html#of-E-)
 - [javax.xml.bind.JAXBContext](https://docs.oracle.com/javase/8/docs/api/javax/xml/bind/JAXBContext.html#createMarshaller--)
 
-## 4. 抽象工厂（Abstract Factory）
+## 4. Abstract Factory
 
 ### Intent
 
@@ -582,7 +582,7 @@ public class Client {
 - [javax.xml.transform.TransformerFactory](http://docs.oracle.com/javase/8/docs/api/javax/xml/transform/TransformerFactory.html#newInstance--)
 - [javax.xml.xpath.XPathFactory](http://docs.oracle.com/javase/8/docs/api/javax/xml/xpath/XPathFactory.html#newInstance--)
 
-## 5. 生成器（Builder）
+## 5. Builder
 
 ### Intent
 
@@ -672,7 +672,7 @@ abcdefghijklmnopqrstuvwxyz
 - [java.lang.Appendable](http://docs.oracle.com/javase/8/docs/api/java/lang/Appendable.html)
 - [Apache Camel builders](https://github.com/apache/camel/tree/0e195428ee04531be27a0b659005e3aa8d159d23/camel-core/src/main/java/org/apache/camel/builder)
 
-## 6. 原型模式（Prototype）
+## 6. Prototype
 
 ### Intent
 
@@ -729,9 +729,9 @@ abc
 
 - [java.lang.Object#clone()](http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone%28%29)
 
-# 三、行为型
+# 3. Behavioral Patterns
 
-## 1. 责任链（Chain Of Responsibility）
+## 1. Chain of Responsibility
 
 ### Intent
 
@@ -861,7 +861,7 @@ request2 is handle by ConcreteHandler2
 - [Apache Commons Chain](https://commons.apache.org/proper/commons-chain/index.html)
 - [javax.servlet.Filter#doFilter()](http://docs.oracle.com/javaee/7/api/javax/servlet/Filter.html#doFilter-javax.servlet.ServletRequest-javax.servlet.ServletResponse-javax.servlet.FilterChain-)
 
-## 2. 命令（Command）
+## 2. Command
 
 ### Intent
 
@@ -989,7 +989,7 @@ public class Client {
 - [Netflix Hystrix](https://github.com/Netflix/Hystrix/wiki)
 - [javax.swing.Action](http://docs.oracle.com/javase/8/docs/api/javax/swing/Action.html)
 
-## 3. 解释器（Interpreter）
+## 3. Interpreter
 
 ### Intent
 
@@ -1113,7 +1113,7 @@ false
 - All subclasses of [java.text.Format](http://docs.oracle.com/javase/8/docs/api/java/text/Format.html)
 - [javax.el.ELResolver](http://docs.oracle.com/javaee/7/api/javax/el/ELResolver.html)
 
-## 4. 迭代器（Iterator）
+## 4. Iterator
 
 ### Intent
 
@@ -1203,7 +1203,7 @@ public class Client {
 - [java.util.Iterator](http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html)
 - [java.util.Enumeration](http://docs.oracle.com/javase/8/docs/api/java/util/Enumeration.html)
 
-## 5. 中介者（Mediator）
+## 5. Mediator
 
 ### Intent
 
@@ -1372,7 +1372,7 @@ doSprinkler()
 - scheduleXXX() methods of [java.util.concurrent.ScheduledExecutorService](http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledExecutorService.html)
 - [java.lang.reflect.Method#invoke()](http://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#invoke-java.lang.Object-java.lang.Object...-)
 
-## 6. 备忘录（Memento）
+## 6. Memento
 
 ### Intent
 
@@ -1549,7 +1549,7 @@ public class Client {
 
 - java.io.Serializable
 
-## 7. 观察者（Observer）
+## 7. Observer
 
 ### Intent
 
@@ -1684,7 +1684,7 @@ StatisticsDisplay.update: 1.0 1.0 1.0
 - [javax.servlet.http.HttpSessionBindingListener](http://docs.oracle.com/javaee/7/api/javax/servlet/http/HttpSessionBindingListener.html)
 - [RxJava](https://github.com/ReactiveX/RxJava)
 
-## 8. 状态（State）
+## 8. State
 
 ### Intent
 
@@ -1986,7 +1986,7 @@ You turned, but there are no gumballs
 No gumball dispensed
 ```
 
-## 9. 策略（Strategy）
+## 9. Strategy
 
 ### Intent
 
@@ -2001,7 +2001,7 @@ No gumball dispensed
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/cd1be8c2-755a-4a66-ad92-2e30f8f47922.png"/> </div><br>
 
-### 与状态模式的比较
+### Comparison with State Pattern
 
 状态模式的类图和策略模式类似，并且都是能够动态改变对象的行为。但是状态模式是通过状态转移来改变 Context 所组合的 State 对象，而策略模式是通过 Context 本身的决策来改变组合的 Strategy 对象。所谓的状态转移，是指 Context 在运行过程中由于一些条件发生改变而使得 State 对象发生改变，注意必须要是在运行过程中。
 
@@ -2076,7 +2076,7 @@ quack!
 - javax.servlet.http.HttpServlet
 - javax.servlet.Filter#doFilter()
 
-## 10. 模板方法（Template Method）
+## 10. Template Method
 
 ### Intent
 
@@ -2177,7 +2177,7 @@ Tea.addCondiments
 - java.io.InputStream#read()
 - java.util.AbstractList#indexOf()
 
-## 11. 访问者（Visitor）
+## 11. Visitor
 
 ### Intent
 
@@ -2384,7 +2384,7 @@ Number of items:     6
 - javax.lang.model.element.Element and javax.lang.model.element.ElementVisitor
 - javax.lang.model.type.TypeMirror and javax.lang.model.type.TypeVisitor
 
-## 12. 空对象（Null）
+## 12. Null Object
 
 ### Intent
 
@@ -2438,9 +2438,9 @@ public class Client {
 }
 ```
 
-# 四、结构型
+# 4. Structural Patterns
 
-## 1. 适配器（Adapter）
+## 1. Adapter
 
 ### Intent
 
@@ -2511,7 +2511,7 @@ public class Client {
 - [java.util.Collections#enumeration()](https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html#enumeration-java.util.Collection-)
 - [javax.xml.bind.annotation.adapters.XMLAdapter](http://docs.oracle.com/javase/8/docs/api/javax/xml/bind/annotation/adapters/XmlAdapter.html#marshal-BoundType-)
 
-## 2. 桥接（Bridge）
+## 2. Bridge
 
 ### Intent
 
@@ -2668,7 +2668,7 @@ public class Client {
 - AWT (It provides an abstraction layer which maps onto the native OS the windowing support.)
 - JDBC
 
-## 3. 组合（Composite）
+## 3. Composite
 
 ### Intent
 
@@ -2802,7 +2802,7 @@ Composite:root
 - java.util.List#addAll(Collection)
 - java.util.Set#addAll(Collection)
 
-## 4. 装饰（Decorator）
+## 4. Decorator
 
 ### Intent
 
@@ -2896,7 +2896,7 @@ public class Client {
 3.0
 ```
 
-### 设计原则
+### Design Principles
 
 类应该对扩展开放，对修改关闭：也就是添加新功能时不需要修改代码。饮料可以动态添加新的配料，而不需要去修改饮料的代码。
 
@@ -2910,7 +2910,7 @@ public class Client {
 - java.util.zip.ZipOutputStream(OutputStream)
 - java.util.Collections#checked[List|Map|Set|SortedSet|SortedMap]()
 
-## 5. 外观（Facade）
+## 5. Facade
 
 ### Intent
 
@@ -2961,11 +2961,11 @@ public class Client {
 }
 ```
 
-### 设计原则
+### Design Principles
 
 最少知识原则：只和你的密友谈话。也就是说客户对象所需要交互的对象应当尽可能少。
 
-## 6. 享元（Flyweight）
+## 6. Flyweight
 
 ### Intent
 
@@ -3051,7 +3051,7 @@ Java 利用缓存来加速大量小对象的访问时间。
 - java.lang.Byte#valueOf(byte)
 - java.lang.Character#valueOf(char)
 
-## 7. 代理（Proxy）
+## 7. Proxy
 
 ### Intent
 
@@ -3156,7 +3156,7 @@ public class ImageViewer {
 - java.lang.reflect.Proxy
 - RMI
 
-# 参考资料
+# References
 
 - 弗里曼. Head First 设计模式 [M]. 中国电力出版社, 2007.
 - Gamma E. 设计模式: 可复用面向对象软件的基础 [M]. 机械工业出版社, 2007.

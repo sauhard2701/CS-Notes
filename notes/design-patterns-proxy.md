@@ -1,4 +1,4 @@
-## 代理（Proxy）
+## Proxy
 
 ### Intent
 

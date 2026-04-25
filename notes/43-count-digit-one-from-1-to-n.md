@@ -1,8 +1,8 @@
-# 43. 从 1 到 n 整数中 1 出现的次数
+# 43. Count Digit One from 1 to n
 
 [NowCoder](https://www.nowcoder.com/practice/bd7f978302044eee894445e244c7eee6?tpId=13&tqId=11184&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 解题思路
+## Solution
 
 ```java
 public int NumberOf1Between1AndN_Solution(int n) {

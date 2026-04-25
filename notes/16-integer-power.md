@@ -1,14 +1,14 @@
-# 16. 数值的整数次方
+# 16. Integer Power
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/1a834e5e3e1a4b7ba251417554e07c00?tpId=13&tqId=11165&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 给定一个 double 类型的浮点数 x和 int 类型的整数 n，求 x 的 n 次方。
 
-## 解题思路
+## Solution
 
 <!-- <div align="center"><img src="https://latex.codecogs.com/gif.latex?x^n=\left\{\begin{array}{rcl}x^{n/2}*x^{n/2}&&{n\%2=0}\\x*(x^{n/2}*x^{n/2})&&{n\%2=1}\end{array}\right." class="mathjax-pic"/></div> <br>  -->
 

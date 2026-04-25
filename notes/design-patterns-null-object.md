@@ -1,4 +1,4 @@
-## 空对象（Null）
+## Null Object
 
 ### Intent
 

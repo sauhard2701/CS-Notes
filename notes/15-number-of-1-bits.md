@@ -1,14 +1,14 @@
-# 15. 二进制中 1 的个数
+# 15. Number of 1 Bits
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/8ee967e43c2c4ec193b040ea7fbb10b8?tpId=13&tqId=11164&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 输入一个整数，输出该数二进制表示中 1 的个数。
 
-### 解题思路
+### Solution
 
 n&(n-1) 位运算可以将 n 的位级表示中最低的那一位 1 设置为 0。不断将 1 设置为 0，直到 n 为 0。时间复杂度：O(M)，其中 M 表示 1 的个数。
 

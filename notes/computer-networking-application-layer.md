@@ -1,24 +1,24 @@
-# 计算机网络 - 应用层
+# Computer Networking - Application Layer
 <!-- GFM-TOC -->
-* [计算机网络 - 应用层](#计算机网络---应用层)
-    * [域名系统](#域名系统)
-    * [文件传送协议](#文件传送协议)
-    * [动态主机配置协议](#动态主机配置协议)
-    * [远程登录协议](#远程登录协议)
-    * [电子邮件协议](#电子邮件协议)
+* [计算机网络 - 应用层](#computer-networking---application-layer)
+    * [域名系统](#domain-name-system)
+    * [文件传送协议](#file-transfer-protocol)
+    * [动态主机配置协议](#dynamic-host-configuration-protocol)
+    * [远程登录协议](#remote-login-protocol)
+    * [电子邮件协议](#email-protocols)
         * [1. SMTP](#1-smtp)
         * [2. POP3](#2-pop3)
         * [3. IMAP](#3-imap)
-    * [常用端口](#常用端口)
-    * [Web 页面请求过程](#web-页面请求过程)
-        * [1. DHCP 配置主机信息](#1-dhcp-配置主机信息)
-        * [2. ARP 解析 MAC 地址](#2-arp-解析-mac-地址)
-        * [3. DNS 解析域名](#3-dns-解析域名)
-        * [4. HTTP 请求页面](#4-http-请求页面)
+    * [常用端口](#common-ports)
+    * [Web 页面请求过程](#web-page-request-process)
+        * [1. DHCP 配置主机信息](#1-dhcp-configures-host-information)
+        * [2. ARP 解析 MAC 地址](#2-arp-resolves-mac-address)
+        * [3. DNS 解析域名](#3-dns-resolves-domain-name)
+        * [4. HTTP 请求页面](#4-http-requests-the-page)
 <!-- GFM-TOC -->
 
 
-## 域名系统
+## Domain Name System
 
 DNS 是一个分布式数据库，提供了主机名和 IP 地址之间相互转换的服务。这里的分布式数据库是指，每个站点只保留它自己的那部分数据。
 
@@ -31,7 +31,7 @@ DNS 可以使用 UDP 或者 TCP 进行传输，使用的端口号都为 53。大
 - 如果返回的响应超过的 512 字节（UDP 最大只支持 512 字节的数据）。
 - 区域传送（区域传送是主域名服务器向辅助域名服务器传送变化的那部分数据）。
 
-## 文件传送协议
+## File Transfer Protocol
 
 FTP 使用 TCP 进行连接，它需要两个连接来传送一个文件：
 
@@ -50,7 +50,7 @@ FTP 使用 TCP 进行连接，它需要两个连接来传送一个文件：
 
 主动模式要求客户端开放端口号给服务器端，需要去配置客户端的防火墙。被动模式只需要服务器端开放端口号即可，无需客户端配置防火墙。但是被动模式会导致服务器端的安全性减弱，因为开放了过多的端口号。
 
-## 动态主机配置协议
+## Dynamic Host Configuration Protocol
 
 DHCP (Dynamic Host Configuration Protocol) 提供了即插即用的连网方式，用户不再需要手动配置 IP 地址等信息。
 
@@ -65,13 +65,13 @@ DHCP 工作过程如下：
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/23219e4c-9fc0-4051-b33a-2bd95bf054ab.jpg"/> </div><br>
 
-## 远程登录协议
+## Remote Login Protocol
 
 TELNET 用于登录到远程主机上，并且远程主机上的输出也会返回。
 
 TELNET 可以适应许多计算机和操作系统的差异，例如不同操作系统系统的换行符定义。
 
-## 电子邮件协议
+## Email Protocols
 
 一个电子邮件系统由三部分组成：用户代理、邮件服务器以及邮件协议。
 
@@ -93,7 +93,7 @@ POP3 的特点是只要用户从服务器上读取了邮件，就把该邮件删
 
 IMAP 协议中客户端和服务器上的邮件保持同步，如果不手动删除邮件，那么服务器上的邮件也不会被删除。IMAP 这种做法可以让用户随时随地去访问服务器上的邮件。
 
-## 常用端口
+## Common Ports
 
 |应用| 应用层协议 | 端口号 | 传输层协议 | 备注 |
 | :---: | :--: | :--: | :--: | :--: |
@@ -107,9 +107,9 @@ IMAP 协议中客户端和服务器上的邮件保持同步，如果不手动删
 | 邮件读取协议 | POP3 | 110 | TCP | |
 | 网际报文存取协议 | IMAP | 143 | TCP | |
 
-## Web 页面请求过程
+## Web Page Request Process
 
-### 1. DHCP 配置主机信息
+### 1. DHCP Configures Host Information
 
 - 假设主机最开始没有 IP 地址以及其它信息，那么就需要先使用 DHCP 来获取。
 
@@ -125,7 +125,7 @@ IMAP 协议中客户端和服务器上的邮件保持同步，如果不手动删
 
 - 主机收到该帧后，不断分解得到 DHCP 报文。之后就配置它的 IP 地址、子网掩码和 DNS 服务器的 IP 地址，并在其 IP 转发表中安装默认网关。
 
-### 2. ARP 解析 MAC 地址
+### 2. ARP Resolves MAC Address
 
 - 主机通过浏览器生成一个 TCP 套接字，套接字向 HTTP 服务器发送 HTTP 请求。为了生成该套接字，主机需要知道网站的域名对应的 IP 地址。
 
@@ -141,7 +141,7 @@ IMAP 协议中客户端和服务器上的邮件保持同步，如果不手动删
 
 - 网关路由器接收到该帧后，不断向上分解得到 ARP 报文，发现其中的 IP 地址与其接口的 IP 地址匹配，因此就发送一个 ARP 回答报文，包含了它的 MAC 地址，发回给主机。
 
-### 3. DNS 解析域名
+### 3. DNS Resolves Domain Name
 
 - 知道了网关路由器的 MAC 地址之后，就可以继续 DNS 的解析过程了。
 
@@ -153,7 +153,7 @@ IMAP 协议中客户端和服务器上的邮件保持同步，如果不手动删
 
 - 找到 DNS 记录之后，发送 DNS 回答报文，将该回答报文放入 UDP 报文段中，然后放入 IP 数据报中，通过路由器反向转发回网关路由器，并经过以太网交换机到达主机。
 
-### 4. HTTP 请求页面
+### 4. HTTP Requests the Page
 
 - 有了 HTTP 服务器的 IP 地址之后，主机就能够生成 TCP 套接字，该套接字将用于向 Web 服务器发送 HTTP GET 报文。
 

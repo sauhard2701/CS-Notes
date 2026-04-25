@@ -1,10 +1,10 @@
-# 24. 反转链表
+# 24. Reverse Linked List
 
 [NowCoder](https://www.nowcoder.com/practice/75e878df47f24fdc9dc3e400ec6058ca?tpId=13&tqId=11168&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 解题思路
+## Solution
 
-### 递归
+### Recursion
 
 ```java
 public ListNode ReverseList(ListNode head) {
@@ -18,7 +18,7 @@ public ListNode ReverseList(ListNode head) {
 }
 ```
 
-### 迭代
+### Iteration
 
 使用头插法。
 

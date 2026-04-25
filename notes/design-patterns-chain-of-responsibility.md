@@ -1,4 +1,4 @@
-## 责任链（Chain Of Responsibility）
+## Chain of Responsibility
 
 ### Intent
 

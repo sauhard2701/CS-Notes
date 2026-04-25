@@ -1,6 +1,6 @@
 
 
-## 桥接（Bridge）
+## Bridge
 
 ### Intent
 

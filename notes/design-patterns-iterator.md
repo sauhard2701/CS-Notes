@@ -1,4 +1,4 @@
-## 迭代器（Iterator）
+## Iterator
 
 ### Intent
 

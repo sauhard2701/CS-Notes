@@ -1,26 +1,26 @@
-# 计算机操作系统 - 死锁
+# Operating Systems - Deadlocks
 <!-- GFM-TOC -->
-* [计算机操作系统 - 死锁](#计算机操作系统---死锁)
-    * [必要条件](#必要条件)
-    * [处理方法](#处理方法)
-    * [鸵鸟策略](#鸵鸟策略)
-    * [死锁检测与死锁恢复](#死锁检测与死锁恢复)
-        * [1. 每种类型一个资源的死锁检测](#1-每种类型一个资源的死锁检测)
-        * [2. 每种类型多个资源的死锁检测](#2-每种类型多个资源的死锁检测)
-        * [3. 死锁恢复](#3-死锁恢复)
-    * [死锁预防](#死锁预防)
-        * [1. 破坏互斥条件](#1-破坏互斥条件)
-        * [2. 破坏占有和等待条件](#2-破坏占有和等待条件)
-        * [3. 破坏不可抢占条件](#3-破坏不可抢占条件)
-        * [4. 破坏环路等待](#4-破坏环路等待)
-    * [死锁避免](#死锁避免)
-        * [1. 安全状态](#1-安全状态)
-        * [2. 单个资源的银行家算法](#2-单个资源的银行家算法)
-        * [3. 多个资源的银行家算法](#3-多个资源的银行家算法)
+* [计算机操作系统 - 死锁](#operating-systems---deadlocks)
+    * [必要条件](#necessary-conditions)
+    * [处理方法](#handling-methods)
+    * [鸵鸟策略](#ostrich-strategy)
+    * [死锁检测与死锁恢复](#deadlock-detection-and-recovery)
+        * [1. 每种类型一个资源的死锁检测](#1-deadlock-detection-with-one-resource-per-type)
+        * [2. 每种类型多个资源的死锁检测](#2-deadlock-detection-with-multiple-resources-per-type)
+        * [3. 死锁恢复](#3-deadlock-recovery)
+    * [死锁预防](#deadlock-prevention)
+        * [1. 破坏互斥条件](#1-break-mutual-exclusion)
+        * [2. 破坏占有和等待条件](#2-break-hold-and-wait)
+        * [3. 破坏不可抢占条件](#3-break-no-preemption)
+        * [4. 破坏环路等待](#4-break-circular-wait)
+    * [死锁避免](#deadlock-avoidance)
+        * [1. 安全状态](#1-safe-state)
+        * [2. 单个资源的银行家算法](#2-banker-algorithm-for-single-resource)
+        * [3. 多个资源的银行家算法](#3-banker-algorithm-for-multiple-resources)
 <!-- GFM-TOC -->
 
 
-## 必要条件
+## Necessary Conditions
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c037c901-7eae-4e31-a1e4-9d41329e5c3e.png"/> </div><br>
 
@@ -29,7 +29,7 @@
 - 不可抢占：已经分配给一个进程的资源不能强制性地被抢占，它只能被占有它的进程显式地释放。
 - 环路等待：有两个或者两个以上的进程组成一条环路，该环路中的每个进程都在等待下一个进程所占有的资源。
 
-## 处理方法
+## Handling Methods
 
 主要有以下四种方法：
 
@@ -38,7 +38,7 @@
 - 死锁预防
 - 死锁避免
 
-## 鸵鸟策略
+## Ostrich Strategy
 
 把头埋在沙子里，假装根本没发生问题。
 
@@ -48,11 +48,11 @@
 
 大多数操作系统，包括 Unix，Linux 和 Windows，处理死锁问题的办法仅仅是忽略它。
 
-## 死锁检测与死锁恢复
+## Deadlock Detection and Recovery
 
 不试图阻止死锁，而是当检测到死锁发生时，采取措施进行恢复。
 
-### 1. 每种类型一个资源的死锁检测
+### 1. Deadlock Detection with One Resource per Type
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b1fa0453-a4b0-4eae-a352-48acca8fff74.png"/> </div><br>
 
@@ -62,7 +62,7 @@
 
 每种类型一个资源的死锁检测算法是通过检测有向图是否存在环来实现，从一个节点出发进行深度优先搜索，对访问过的节点进行标记，如果访问了已经标记的节点，就表示有向图存在环，也就是检测到死锁的发生。
 
-### 2. 每种类型多个资源的死锁检测
+### 2. Deadlock Detection with Multiple Resources per Type
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e1eda3d5-5ec8-4708-8e25-1a04c5e11f48.png"/> </div><br>
 
@@ -83,35 +83,35 @@
 2. 如果找到了这样一个进程，那么将 C 矩阵的第 i 行向量加到 A 中，标记该进程，并转回 1。
 3. 如果没有这样一个进程，算法终止。
 
-### 3. 死锁恢复
+### 3. Deadlock Recovery
 
 - 利用抢占恢复
 - 利用回滚恢复
 - 通过杀死进程恢复
 
-## 死锁预防
+## Deadlock Prevention
 
 在程序运行之前预防发生死锁。
 
-### 1. 破坏互斥条件
+### 1. Break Mutual Exclusion
 
 例如假脱机打印机技术允许若干个进程同时输出，唯一真正请求物理打印机的进程是打印机守护进程。
 
-### 2. 破坏占有和等待条件
+### 2. Break Hold and Wait
 
 一种实现方式是规定所有进程在开始执行前请求所需要的全部资源。
 
-### 3. 破坏不可抢占条件
+### 3. Break No Preemption
 
-### 4. 破坏环路等待
+### 4. Break Circular Wait
 
 给资源统一编号，进程只能按编号顺序来请求资源。
 
-## 死锁避免
+## Deadlock Avoidance
 
 在程序运行时避免发生死锁。
 
-### 1. 安全状态
+### 1. Safe State
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ed523051-608f-4c3f-b343-383e2d194470.png"/> </div><br>
 
@@ -121,7 +121,7 @@
 
 安全状态的检测与死锁的检测类似，因为安全状态必须要求不能发生死锁。下面的银行家算法与死锁检测算法非常类似，可以结合着做参考对比。
 
-### 2. 单个资源的银行家算法
+### 2. Banker Algorithm for Single Resource
 
 一个小城镇的银行家，他向一群客户分别承诺了一定的贷款额度，算法要做的是判断对请求的满足是否会进入不安全状态，如果是，就拒绝请求；否则予以分配。
 
@@ -129,7 +129,7 @@
 
 上图 c 为不安全状态，因此算法会拒绝之前的请求，从而避免进入图 c 中的状态。
 
-### 3. 多个资源的银行家算法
+### 3. Banker Algorithm for Multiple Resources
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/62e0dd4f-44c3-43ee-bb6e-fedb9e068519.png"/> </div><br>
 

@@ -1,76 +1,76 @@
 # Linux
 <!-- GFM-TOC -->
 * [Linux](#linux)
-    * [前言](#前言)
-    * [一、常用操作以及概念](#一常用操作以及概念)
-        * [快捷键](#快捷键)
-        * [求助](#求助)
-        * [关机](#关机)
+    * [前言](#preface)
+    * [一、常用操作以及概念](#1-common-operations-and-concepts)
+        * [快捷键](#shortcuts)
+        * [求助](#help)
+        * [关机](#shutdown)
         * [PATH](#path)
         * [sudo](#sudo)
-        * [包管理工具](#包管理工具)
-        * [发行版](#发行版)
-        * [VIM 三个模式](#vim-三个模式)
+        * [包管理工具](#package-managers)
+        * [发行版](#distributions)
+        * [VIM 三个模式](#vim-three-modes)
         * [GNU](#gnu)
-        * [开源协议](#开源协议)
-    * [二、磁盘](#二磁盘)
-        * [磁盘接口](#磁盘接口)
-        * [磁盘的文件名](#磁盘的文件名)
-    * [三、分区](#三分区)
-        * [分区表](#分区表)
-        * [开机检测程序](#开机检测程序)
-    * [四、文件系统](#四文件系统)
-        * [分区与文件系统](#分区与文件系统)
-        * [组成](#组成)
-        * [文件读取](#文件读取)
-        * [磁盘碎片](#磁盘碎片)
+        * [开源协议](#open-source-licenses)
+    * [二、磁盘](#2-disks)
+        * [磁盘接口](#disk-interfaces)
+        * [磁盘的文件名](#disk-file-names)
+    * [三、分区](#3-partitions)
+        * [分区表](#partition-table)
+        * [开机检测程序](#boot-time-checker)
+    * [四、文件系统](#4-file-systems)
+        * [分区与文件系统](#partitions-and-file-systems)
+        * [组成](#components)
+        * [文件读取](#file-reading)
+        * [磁盘碎片](#disk-fragmentation)
         * [block](#block)
         * [inode](#inode)
-        * [目录](#目录)
-        * [日志](#日志)
-        * [挂载](#挂载)
-        * [目录配置](#目录配置)
-    * [五、文件](#五文件)
-        * [文件属性](#文件属性)
-        * [文件与目录的基本操作](#文件与目录的基本操作)
-        * [修改权限](#修改权限)
-        * [默认权限](#默认权限)
-        * [目录的权限](#目录的权限)
-        * [链接](#链接)
-        * [获取文件内容](#获取文件内容)
-        * [指令与文件搜索](#指令与文件搜索)
-    * [六、压缩与打包](#六压缩与打包)
-        * [压缩文件名](#压缩文件名)
-        * [压缩指令](#压缩指令)
-        * [打包](#打包)
-    * [七、Bash](#七bash)
-        * [特性](#特性)
-        * [变量操作](#变量操作)
-        * [指令搜索顺序](#指令搜索顺序)
-        * [数据流重定向](#数据流重定向)
-    * [八、管道指令](#八管道指令)
-        * [提取指令](#提取指令)
-        * [排序指令](#排序指令)
-        * [双向输出重定向](#双向输出重定向)
-        * [字符转换指令](#字符转换指令)
-        * [分区指令](#分区指令)
-    * [九、正则表达式](#九正则表达式)
+        * [目录](#directories)
+        * [日志](#logs)
+        * [挂载](#mounting)
+        * [目录配置](#directory-layout)
+    * [五、文件](#5-files)
+        * [文件属性](#file-attributes)
+        * [文件与目录的基本操作](#basic-file-and-directory-operations)
+        * [修改权限](#modify-permissions)
+        * [默认权限](#default-permissions)
+        * [目录的权限](#directory-permissions)
+        * [链接](#links)
+        * [获取文件内容](#read-file-contents)
+        * [指令与文件搜索](#command-and-file-search)
+    * [六、压缩与打包](#6-compression-and-archiving)
+        * [压缩文件名](#compressed-file-names)
+        * [压缩指令](#compression-commands)
+        * [打包](#archiving)
+    * [七、Bash](#7-bash)
+        * [特性](#features)
+        * [变量操作](#variable-operations)
+        * [指令搜索顺序](#command-search-order)
+        * [数据流重定向](#data-stream-redirection)
+    * [八、管道指令](#8-pipeline-commands)
+        * [提取指令](#extraction-commands)
+        * [排序指令](#sorting-commands)
+        * [双向输出重定向](#bidirectional-output-redirection)
+        * [字符转换指令](#character-conversion-commands)
+        * [分区指令](#partition-commands)
+    * [九、正则表达式](#9-regular-expressions)
         * [grep](#grep)
         * [printf](#printf)
         * [awk](#awk)
-    * [十、进程管理](#十进程管理)
-        * [查看进程](#查看进程)
-        * [进程状态](#进程状态)
+    * [十、进程管理](#10-process-management)
+        * [查看进程](#view-processes)
+        * [进程状态](#process-states)
         * [SIGCHLD](#sigchld)
         * [wait()](#wait)
         * [waitpid()](#waitpid)
-        * [孤儿进程](#孤儿进程)
-        * [僵尸进程](#僵尸进程)
-    * [参考资料](#参考资料)
+        * [孤儿进程](#orphan-processes)
+        * [僵尸进程](#zombie-processes)
+    * [参考资料](#references)
 <!-- GFM-TOC -->
 
 
-## 前言
+## Preface
 
 为了便于理解，本文从常用操作和概念开始讲起。虽然已经尽量做到简化，但是涉及到的内容还是有点多。在面试中，Linux 知识点相对于网络和操作系统等知识点而言不是那么重要，只需要重点掌握一些原理和命令即可。为了方便大家准备面试，在此先将一些比较重要的知识点列出来：
 
@@ -79,15 +79,15 @@
 - 硬链接与软链接；
 - 进程管理相关，僵尸进程与孤儿进程，SIGCHLD 。
 
-## 一、常用操作以及概念
+## 1. Common Operations and Concepts
 
-### 快捷键
+### Shortcuts
 
 - Tab：命令和文件名补全；
 - Ctrl+C：中断正在运行的程序；
 - Ctrl+D：结束键盘输入（End Of File，EOF）
 
-### 求助
+### Help
 
 #### 1. --help
 
@@ -113,7 +113,7 @@ info 与 man 类似，但是 info 将文档分成一个个页面，每个页面�
 
 /usr/share/doc 存放着软件的一整套说明文件。
 
-### 关机
+### Shutdown
 
 #### 1. who
 
@@ -145,14 +145,14 @@ info 与 man 类似，但是 info 将文档分成一个个页面，每个页面�
 
 sudo 允许一般用户使用 root 可执行的命令，不过只有在 /etc/sudoers 配置文件中添加的用户才能使用该指令。
 
-### 包管理工具
+### Package Managers
 
 RPM 和 DPKG 为最常见的两类软件包管理工具：
 
 - RPM 全称为 Redhat Package Manager，最早由 Red Hat 公司制定实施，随后被 GNU 开源操作系统接受并成为许多 Linux 系统的既定软件标准。YUM 基于 RPM，具有依赖管理和软件升级功能。
 - 与 RPM 竞争的是基于 Debian 操作系统的 DEB 软件包管理工具 DPKG，全称为 Debian Package，功能方面与 RPM 相似。
 
-### 发行版
+### Distributions
 
 Linux 发行版是 Linux 内核及各种应用软件的集成版本。
 
@@ -161,7 +161,7 @@ Linux 发行版是 Linux 内核及各种应用软件的集成版本。
 | RPM | Red Hat | Fedora / CentOS |
 | DPKG | Ubuntu | Debian |
 
-### VIM 三个模式
+### VIM Three Modes
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191209002818626.png"/> </div><br>
 
@@ -190,14 +190,14 @@ GNU 计划，译为革奴计划，它的目标是创建一套完全自由的操�
 - 再复制的自由；
 - 改进此程序，并公开发布改进的自由。
 
-### 开源协议
+### Open Source Licenses
 
 - [Choose an open source license](https://choosealicense.com/)
 - [如何选择开源许可证？](http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html)
 
-## 二、磁盘
+## 2. Disks
 
-### 磁盘接口
+### Disk Interfaces
 
 #### 1. IDE
 
@@ -223,7 +223,7 @@ SAS（Serial Attached SCSI）是新一代的 SCSI 技术，和 SATA 硬盘相同
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/6729baa0-57d7-4817-b3aa-518cbccf824c.jpg" width=""/> </div><br>
 
-### 磁盘的文件名
+### Disk File Names
 
 Linux 中每个硬件都被当做一个文件，包括磁盘。磁盘以磁盘接口类型进行命名，常见磁盘的文件名如下：
 
@@ -232,9 +232,9 @@ Linux 中每个硬件都被当做一个文件，包括磁盘。磁盘以磁盘�
 
 其中文件名后面的序号的确定与系统检测到磁盘的顺序有关，而与磁盘所插入的插槽位置无关。
 
-## 三、分区
+## 3. Partitions
 
-### 分区表
+### Partition Table
 
 磁盘分区表主要有两种格式，一种是限制较多的 MBR 分区表，一种是较新且限制较少的 GPT 分区表。
 
@@ -258,7 +258,7 @@ MBR 不支持 2.2 TB 以上的硬盘，GPT 则最多支持到 2<sup>33</sup> TB 
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/GUID_Partition_Table_Scheme.svg.png" width="400"/> </div><br>
 
-### 开机检测程序
+### Boot-Time Checker
 
 #### 1. BIOS
 
@@ -280,13 +280,13 @@ BIOS 是开机的时候计算机执行的第一个程序，这个程序知道可
 
 BIOS 不可以读取 GPT 分区表，而 UEFI 可以。
 
-## 四、文件系统
+## 4. File Systems
 
-### 分区与文件系统
+### Partitions and File Systems
 
 对分区进行格式化是为了在分区上建立文件系统。一个分区通常只能格式化为一个文件系统，但是磁盘阵列等技术可以将一个分区格式化为多个文件系统。
 
-### 组成
+### Components
 
 最主要的几个组成部分如下：
 
@@ -300,7 +300,7 @@ BIOS 不可以读取 GPT 分区表，而 UEFI 可以。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/BSD_disk.png" width="800"/> </div><br>
 
-### 文件读取
+### File Reading
 
 对于 Ext2 文件系统，当要读取一个文件的内容时，先在 inode 中查找文件内容所在的所有 block，然后把所有 block 的内容读出来。
 
@@ -310,7 +310,7 @@ BIOS 不可以读取 GPT 分区表，而 UEFI 可以。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5b718e86-7102-4bb6-8ca5-d1dd791530c5.png" width="500px"> </div><br>
 
-### 磁盘碎片
+### Disk Fragmentation
 
 指一个文件内容所在的 block 过于分散，导致磁盘磁头移动距离过大，从而降低磁盘读写性能。
 
@@ -347,23 +347,23 @@ inode 中记录了文件内容所在的 block 编号，但是每个 block 非常
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/inode_with_signatures.jpg" width="600"/> </div><br>
 
-### 目录
+### Directories
 
 建立一个目录时，会分配一个 inode 与至少一个 block。block 记录的内容是目录下所有文件的 inode 编号以及文件名。
 
 可以看到文件的 inode 本身不记录文件名，文件名记录在目录中，因此新增文件、删除文件、更改文件名这些操作与目录的写权限有关。
 
-### 日志
+### Logs
 
 如果突然断电，那么文件系统会发生错误，例如断电前只修改了 block bitmap，而还没有将数据真正写入 block 中。
 
 ext3/ext4 文件系统引入了日志功能，可以利用日志来修复文件系统。
 
-### 挂载
+### Mounting
 
 挂载利用目录作为文件系统的进入点，也就是说，进入目录之后就可以读取文件系统的数据。
 
-### 目录配置
+### Directory Layout
 
 为了使不同 Linux 发行版本的目录结构保持一致性，Filesystem Hierarchy Standard (FHS) 规定了 Linux 的目录结构。最基础的三个目录如下：
 
@@ -373,9 +373,9 @@ ext3/ext4 文件系统引入了日志功能，可以利用日志来修复文件�
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/linux-filesystem.png" width=""/> </div><br>
 
-## 五、文件
+## 5. Files
 
-### 文件属性
+### File Attributes
 
 用户分为三种：文件拥有者、群组以及其它人，对不同的用户有不同的文件权限。
 
@@ -403,7 +403,7 @@ ext3/ext4 文件系统引入了日志功能，可以利用日志来修复文件�
 - status time (ctime)：文件的状态（权限、属性）更新就会更新；
 - access time (atime)：读取文件时就会更新。
 
-### 文件与目录的基本操作
+### Basic File and Directory Operations
 
 #### 1. ls
 
@@ -490,7 +490,7 @@ cp [-adfilprsu] source destination
 -f ： force 强制的意思，如果目标文件已经存在，不会询问而直接覆盖
 ```
 
-### 修改权限
+### Modify Permissions
 
 可以将一组权限用数字来表示，此时一组权限的 3 个位当做二进制数字的位，从左到右每个位的权值为 4、2、1，即每个权限对应的数字权值为 r : 4、w : 2、x : 1。
 
@@ -523,20 +523,20 @@ cp [-adfilprsu] source destination
 ## chmod a+w .bashrc
 ```
 
-### 默认权限
+### Default Permissions
 
 - 文件默认权限：文件默认没有可执行权限，因此为 666，也就是 -rw-rw-rw- 。
 - 目录默认权限：目录必须要能够进入，也就是必须拥有可执行权限，因此为 777 ，也就是 drwxrwxrwx。
 
 可以通过 umask 设置或者查看默认权限，通常以掩码的形式来表示，例如 002 表示其它用户的权限去除了一个 2 的权限，也就是写权限，因此建立新文件时默认的权限为 -rw-rw-r--。
 
-### 目录的权限
+### Directory Permissions
 
 文件名不是存储在一个文件的内容中，而是存储在一个文件所在的目录中。因此，拥有文件的 w 权限并不能对文件名进行修改。
 
 目录存储文件列表，一个目录的权限也就是对其文件列表的权限。因此，目录的 r 权限表示可以读取文件列表；w 权限表示可以修改文件列表，具体来说，就是添加删除文件，对文件名进行修改；x 权限可以让该目录成为工作目录，x 权限是 r 和 w 权限的基础，如果不能使一个目录成为工作目录，也就没办法读取文件列表以及对文件列表进行修改了。
 
-### 链接
+### Links
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1e46fd03-0cda-4d60-9b1c-0c256edaf6b2.png" width="450px"> </div><br>
 
@@ -547,7 +547,7 @@ cp [-adfilprsu] source destination
 -f ：如果目标文件存在时，先删除目标文件
 ```
 
-#### 1. 实体链接
+#### 1. Hard Links
 
 在目录下创建一个条目，记录着文件名与 inode 编号，这个 inode 就是源文件的 inode。
 
@@ -562,7 +562,7 @@ cp [-adfilprsu] source destination
 34474855 -rw-r--r--. 2 root root 451 Jun 10 2014 /etc/crontab
 ```
 
-#### 2. 符号链接
+#### 2. Symbolic Links
 
 符号链接文件保存着源文件所在的绝对路径，在读取时会定位到源文件上，可以理解为 Windows 的快捷方式。
 
@@ -576,7 +576,7 @@ cp [-adfilprsu] source destination
 53745909 lrwxrwxrwx. 1 root root 12 Jun 23 22:31 /root/crontab2 -> /etc/crontab
 ```
 
-### 获取文件内容
+### Read File Contents
 
 #### 1. cat
 
@@ -616,7 +616,7 @@ cp [-adfilprsu] source destination
 
 以字符或者十六进制的形式显示二进制文件。
 
-### 指令与文件搜索
+### Command and File Search
 
 #### 1. which
 
@@ -690,9 +690,9 @@ example: find . -name "shadow*"
 -perm /mode ：搜索权限包含任一 mode 的文件
 ```
 
-## 六、压缩与打包
+## 6. Compression and Archiving
 
-### 压缩文件名
+### Compressed File Names
 
 Linux 底下有很多压缩文件名，常见的如下：
 
@@ -708,7 +708,7 @@ Linux 底下有很多压缩文件名，常见的如下：
 |\*.tar.bz2 | tar 程序打包的文件，经过 bzip2 的压缩 |
 |\*.tar.xz | tar 程序打包的文件，经过 xz 的压缩 |
 
-### 压缩指令
+### Compression Commands
 
 #### 1. gzip
 
@@ -752,7 +752,7 @@ $ bzip2 [-cdkzv#] filename
 $ xz [-dtlkc#] filename
 ```
 
-### 打包
+### Archiving
 
 压缩指令只能对一个文件进行压缩，而打包能够将多个文件打包成一个大文件。tar 不仅可以用于打包，也可以使用 gzip、bzip2、xz 将打包文件进行压缩。
 
@@ -777,11 +777,11 @@ $ tar [-z|-j|-J] [xv] [-f 已有的 tar 文件] [-C 目录]    ==解压缩
 | 查 看 | tar -jtv -f filename.tar.bz2 |
 | 解压缩 | tar -jxv -f filename.tar.bz2 -C 要解压缩的目录 |
 
-## 七、Bash
+## 7. Bash
 
 可以通过 Shell 请求内核提供服务，Bash 正是 Shell 的一种。
 
-### 特性
+### Features
 
 - 命令历史：记录使用过的命令
 - 命令与文件补全：快捷键：tab
@@ -789,7 +789,7 @@ $ tar [-z|-j|-J] [xv] [-f 已有的 tar 文件] [-C 目录]    ==解压缩
 - shell scripts
 - 通配符：例如 ls -l /usr/bin/X\* 列出 /usr/bin 下面所有以 X 开头的文件
 
-### 变量操作
+### Variable Operations
 
 对一个变量赋值直接使用 =。
 
@@ -830,14 +830,14 @@ $ array[2]=b
 $ echo ${array[1]}
 ```
 
-### 指令搜索顺序
+### Command Search Order
 
 - 以绝对或相对路径来执行指令，例如 /bin/ls 或者 ./ls ；
 - 由别名找到该指令来执行；
 - 由 Bash 内置的指令来执行；
 - 按 \$PATH 变量指定的搜索路径的顺序找到第一个指令来执行。
 
-### 数据流重定向
+### Data Stream Redirection
 
 重定向指的是使用文件代替标准输入、标准输出和标准错误输出。
 
@@ -857,7 +857,7 @@ $ echo ${array[1]}
 $ find /home -name .bashrc > list 2>&1
 ```
 
-## 八、管道指令
+## 8. Pipeline Commands
 
 管道是将一个命令的标准输出作为另一个命令的标准输入，在数据需要经过多个步骤的处理之后才能得到我们想要的内容时就可以使用管道。
 
@@ -867,7 +867,7 @@ $ find /home -name .bashrc > list 2>&1
 $ ls -al /etc | less
 ```
 
-### 提取指令
+### Extraction Commands
 
 cut 对数据进行切分，取出想要的部分。
 
@@ -904,7 +904,7 @@ declare -x HOSTNAME="study.centos.vbird"
 $ export | cut -c 12-
 ```
 
-### 排序指令
+### Sorting Commands
 
 **sort**   用于排序。
 
@@ -950,7 +950,7 @@ $ last | cut -d ' ' -f 1 | sort | uniq -c
 1 wtmp
 ```
 
-### 双向输出重定向
+### Bidirectional Output Redirection
 
 输出重定向会将输出内容重定向到文件中，而   **tee**   不仅能够完成这个功能，还能保留屏幕上的输出。也就是说，使用 tee 指令，一个输出会同时传送到文件和屏幕上。
 
@@ -958,7 +958,7 @@ $ last | cut -d ' ' -f 1 | sort | uniq -c
 $ tee [-a] file
 ```
 
-### 字符转换指令
+### Character Conversion Commands
 
 **tr**   用来删除一行中的字符，或者对字符进行替换。
 
@@ -1004,7 +1004,7 @@ $ paste [-d] file1 file2
 -d ：分隔符，默认为 tab
 ```
 
-### 分区指令
+### Partition Commands
 
 **split**   将一个文件划分成多个文件。
 
@@ -1015,7 +1015,7 @@ $ split [-bl] file PREFIX
 - PREFIX ：分区文件的前导名称
 ```
 
-## 九、正则表达式
+## 9. Regular Expressions
 
 ### grep
 
@@ -1118,9 +1118,9 @@ dmtsai lines: 4 columns: 10
 dmtsai lines: 5 columns: 9
 ```
 
-## 十、进程管理
+## 10. Process Management
 
-### 查看进程
+### View Processes
 
 #### 1. ps
 
@@ -1174,7 +1174,7 @@ dmtsai lines: 5 columns: 9
 ## netstat -anp | grep port
 ```
 
-### 进程状态
+### Process States
 
 | 状态 | 说明 |
 | :---: | --- |
@@ -1224,7 +1224,7 @@ pid 参数指示一个子进程的 ID，表示只关心这个子进程退出的 
 
 options 参数主要有 WNOHANG 和 WUNTRACED 两个选项，WNOHANG 可以使 waitpid() 调用变成非阻塞的，也就是说它会立即返回，父进程可以继续执行其它任务。
 
-### 孤儿进程
+### Orphan Processes
 
 一个父进程退出，而它的一个或多个子进程还在运行，那么这些子进程将成为孤儿进程。
 
@@ -1232,7 +1232,7 @@ options 参数主要有 WNOHANG 和 WUNTRACED 两个选项，WNOHANG 可以使 w
 
 由于孤儿进程会被 init 进程收养，所以孤儿进程不会对系统造成危害。
 
-### 僵尸进程
+### Zombie Processes
 
 一个子进程的进程描述符在子进程退出时不会释放，只有当父进程通过 wait() 或 waitpid() 获取了子进程信息后才会释放。如果子进程退出，而父进程并没有调用 wait() 或 waitpid()，那么子进程的进程描述符仍然保存在系统中，这种进程称之为僵尸进程。
 
@@ -1242,7 +1242,7 @@ options 参数主要有 WNOHANG 和 WUNTRACED 两个选项，WNOHANG 可以使 w
 
 要消灭系统中大量的僵尸进程，只需要将其父进程杀死，此时僵尸进程就会变成孤儿进程，从而被 init 进程所收养，这样 init 进程就会释放所有的僵尸进程所占有的资源，从而结束僵尸进程。
 
-## 参考资料
+## References
 
 - 鸟哥. 鸟 哥 的 Linux 私 房 菜 基 础 篇 第 三 版[J]. 2009.
 - [Linux 平台上的软件包管理](https://www.ibm.com/developerworks/cn/linux/l-cn-rpmdpkg/index.html)

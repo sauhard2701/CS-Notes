@@ -1,27 +1,27 @@
-# 面向对象思想
+# Object-Oriented Programming
 <!-- GFM-TOC -->
-* [面向对象思想](#面向对象思想)
-    * [一、三大特性](#一三大特性)
-        * [封装](#封装)
-        * [继承](#继承)
-        * [多态](#多态)
-    * [二、类图](#二类图)
-        * [泛化关系 (Generalization)](#泛化关系-generalization)
-        * [实现关系 (Realization)](#实现关系-realization)
-        * [聚合关系 (Aggregation)](#聚合关系-aggregation)
-        * [组合关系 (Composition)](#组合关系-composition)
-        * [关联关系 (Association)](#关联关系-association)
-        * [依赖关系 (Dependency)](#依赖关系-dependency)
-    * [三、设计原则](#三设计原则)
+* [面向对象思想](#object-oriented-programming)
+    * [一、三大特性](#1-three-core-features)
+        * [封装](#encapsulation)
+        * [继承](#inheritance)
+        * [多态](#polymorphism)
+    * [二、类图](#2-class-diagrams)
+        * [泛化关系 (Generalization)](#generalization)
+        * [实现关系 (Realization)](#realization)
+        * [聚合关系 (Aggregation)](#aggregation)
+        * [组合关系 (Composition)](#composition)
+        * [关联关系 (Association)](#association)
+        * [依赖关系 (Dependency)](#dependency)
+    * [三、设计原则](#3-design-principles)
         * [S.O.L.I.D](#solid)
-        * [其他常见原则](#其他常见原则)
-    * [参考资料](#参考资料)
+        * [其他常见原则](#other-common-principles)
+    * [参考资料](#references)
 <!-- GFM-TOC -->
 
 
-## 一、三大特性
+## 1. Three Core Features
 
-### 封装
+### Encapsulation
 
 利用抽象数据类型将数据和基于数据的操作封装在一起，使其构成一个不可分割的独立实体。数据被保护在抽象数据类型的内部，尽可能地隐藏内部的细节，只保留一些对外的接口使其与外部发生联系。用户无需关心对象内部的细节，但可以通过对象对外提供的接口来访问该对象。
 
@@ -62,7 +62,7 @@ public class Person {
 }
 ```
 
-### 继承
+### Inheritance
 
 继承实现了   **IS-A**   关系，例如 Cat 和 Animal 就是一种 IS-A 关系，因此 Cat 可以继承自 Animal，从而获得 Animal 非 private 的属性和方法。
 
@@ -74,7 +74,7 @@ Cat 可以当做 Animal 来使用，也就是说可以使用 Animal 引用 Cat �
 Animal animal = new Cat();
 ```
 
-### 多态
+### Polymorphism
 
 多态分为编译时多态和运行时多态：
 
@@ -135,11 +135,11 @@ Wind is playing...
 Percussion is playing...
 ```
 
-## 二、类图
+## 2. Class Diagrams
 
 以下类图使用 [PlantUML](https://www.planttext.com/) 绘制，更多语法及使用请参考：http://plantuml.com/ 。
 
-### 泛化关系 (Generalization)
+### Generalization
 
 用来描述继承关系，在 Java 中使用 extends 关键字。
 
@@ -160,7 +160,7 @@ Vihical <|-- Trunck
 @enduml
 ```
 
-### 实现关系 (Realization)
+### Realization
 
 用来实现一个接口，在 Java 中使用 implements 关键字。
 
@@ -181,7 +181,7 @@ MoveBehavior <|.. Run
 @enduml
 ```
 
-### 聚合关系 (Aggregation)
+### Aggregation
 
 表示整体由部分组成，但是整体和部分不是强依赖的，整体不存在了部分还是会存在。
 
@@ -204,7 +204,7 @@ Computer o-- Screen
 @enduml
 ```
 
-### 组合关系 (Composition)
+### Composition
 
 和聚合不同，组合中整体和部分是强依赖的，整体不存在了部分也不存在了。比如公司和部门，公司没了部门就不存在了。但是公司和员工就属于聚合关系了，因为公司没了员工还在。
 
@@ -225,7 +225,7 @@ Company *-- DepartmentB
 @enduml
 ```
 
-### 关联关系 (Association)
+### Association
 
 表示不同类对象之间有关联，这是一种静态关系，与运行过程的状态无关，在最开始就可以确定。因此也可以用 1 对 1、多对 1、多对多这种关联关系来表示。比如学生和学校就是一种关联关系，一个学校可以有很多学生，但是一个学生只属于一个学校，因此这是一种多对一的关系，在运行开始之前就可以确定。
 
@@ -244,7 +244,7 @@ School "1" - "n" Student
 @enduml
 ```
 
-### 依赖关系 (Dependency)
+### Dependency
 
 和关联关系不同的是，依赖关系是在运行过程中起作用的。A 类和 B 类是依赖关系主要有三种形式：
 
@@ -276,7 +276,7 @@ Vihicle .. N
 @enduml
 ```
 
-## 三、设计原则
+## 3. Design Principles
 
 ### S.O.L.I.D
 
@@ -288,7 +288,7 @@ Vihicle .. N
 | ISP | The Interface Segregation Principle    | 接口分离原则 |
 | DIP | The Dependency Inversion Principle     | 依赖倒置原则 |
 
-#### 1. 单一责任原则
+#### 1. Single Responsibility Principle
 
 > 修改一个类的原因应该只有一个。
 
@@ -296,7 +296,7 @@ Vihicle .. N
 
 如果一个类承担的职责过多，就等于把这些职责耦合在了一起，一个职责的变化可能会削弱这个类完成其它职责的能力。
 
-#### 2. 开放封闭原则
+#### 2. Open Closed Principle
 
 > 类应该对扩展开放，对修改关闭。
 
@@ -304,7 +304,7 @@ Vihicle .. N
 
 符合开闭原则最典型的设计模式是装饰者模式，它可以动态地将责任附加到对象上，而不用去修改类的代码。
 
-#### 3. 里氏替换原则
+#### 3. Liskov Substitution Principle
 
 > 子类对象必须能够替换掉所有父类对象。
 
@@ -312,13 +312,13 @@ Vihicle .. N
 
 如果不满足这个原则，那么各个子类的行为上就会有很大差异，增加继承体系的复杂度。
 
-#### 4. 接口分离原则
+#### 4. Interface Segregation Principle
 
 > 不应该强迫客户依赖于它们不用的方法。
 
 因此使用多个专门的接口比使用单一的总接口要好。
 
-#### 5. 依赖倒置原则
+#### 5. Dependency Inversion Principle
 
 > 高层模块不应该依赖于低层模块，二者都应该依赖于抽象；</br>抽象不应该依赖于细节，细节应该依赖于抽象。
 
@@ -330,7 +330,7 @@ Vihicle .. N
 - 任何类都不应该从具体类派生；
 - 任何方法都不应该覆写它的任何基类中的已经实现的方法。
 
-### 其他常见原则
+### Other Common Principles
 
 除了上述的经典原则，在实际开发中还有下面这些常见的设计原则。
 
@@ -342,27 +342,27 @@ Vihicle .. N
 |SAP|    The Stable Abstractions Principle    | 稳定抽象原则 |
 |SDP|    The Stable Dependencies Principle    | 稳定依赖原则 |
 
-#### 1. 迪米特法则
+#### 1. Law of Demeter
 
 迪米特法则又叫作最少知识原则（Least Knowledge Principle，简写 LKP），就是说一个对象应当对其他对象有尽可能少的了解，不和陌生人说话。
 
-#### 2. 合成复用原则
+#### 2. Composite Reuse Principle
 
 尽量使用对象组合，而不是通过继承来达到复用的目的。
 
-#### 3. 共同封闭原则
+#### 3. Common Closure Principle
 
 一起修改的类，应该组合在一起（同一个包里）。如果必须修改应用程序里的代码，我们希望所有的修改都发生在一个包里（修改关闭），而不是遍布在很多包里。
 
-#### 4. 稳定抽象原则
+#### 4. Stable Abstractions Principle
 
 最稳定的包应该是最抽象的包，不稳定的包应该是具体的包，即包的抽象程度跟它的稳定性成正比。
 
-#### 5. 稳定依赖原则
+#### 5. Stable Dependencies Principle
 
 包之间的依赖关系都应该是稳定方向依赖的，包要依赖的包要比自己更具有稳定性。
 
-## 参考资料
+## References
 
 - Java 编程思想
 - 敏捷软件开发：原则、模式与实践

@@ -1,14 +1,14 @@
-# 65. 不用加减乘除做加法
+# 65. Add Without Arithmetic Operators
 
-## 题目链接
+## Problem Link
 
 [NowCoder](https://www.nowcoder.com/practice/59ac416b4b944300b617d4f7f111b215?tpId=13&tqId=11201&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 写一个函数，求两个整数之和，要求不得使用 +、-、\*、/ 四则运算符号。
 
-## 解题思路
+## Solution
 
 a ^ b 表示没有考虑进位的情况下两数的和，(a & b) \<\< 1 就是进位。
 

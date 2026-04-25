@@ -1,10 +1,10 @@
-# 59. 滑动窗口的最大值
+# 59. Sliding Window Maximum
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/1624bc35a45c42c0bc17d17fa0cba788?tpId=13&tqId=11217&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 给定一个数组和滑动窗口的大小，找出所有滑动窗口里数值的最大值。
 
@@ -12,7 +12,7 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20201104020702453.png" width="500px"> </div><br>
 
-## 解题思路
+## Solution
 
 维护一个大小为窗口大小的大顶堆，顶堆元素则为当前窗口的最大值。
 

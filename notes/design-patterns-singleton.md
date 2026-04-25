@@ -1,4 +1,4 @@
-## 单例（Singleton）
+## Singleton
 
 ### Intent
 
@@ -14,7 +14,7 @@
 
 ### Implementation
 
-#### Ⅰ 懒汉式-线程不安全
+#### I. Lazy Initialization - Not Thread Safe
 
 以下实现中，私有静态变量 uniqueInstance 被延迟实例化，这样做的好处是，如果没有用到该类，那么就不会实例化 uniqueInstance，从而节约资源。
 
@@ -37,7 +37,7 @@ public class Singleton {
 }
 ```
 
-#### Ⅱ 饿汉式-线程安全
+#### II. Eager Initialization - Thread Safe
 
 线程不安全问题主要是由于 uniqueInstance 被实例化多次，采取直接实例化 uniqueInstance 的方式就不会产生线程不安全问题。
 
@@ -47,7 +47,7 @@ public class Singleton {
 private static Singleton uniqueInstance = new Singleton();
 ```
 
-#### Ⅲ 懒汉式-线程安全
+#### III. Lazy Initialization - Thread Safe
 
 只需要对 getUniqueInstance() 方法加锁，那么在一个时间点只能有一个线程能够进入该方法，从而避免了实例化多次 uniqueInstance。
 
@@ -62,7 +62,7 @@ public static synchronized Singleton getUniqueInstance() {
 }
 ```
 
-#### Ⅳ 双重校验锁-线程安全
+#### IV. Double-Checked Locking - Thread Safe
 
 uniqueInstance 只需要被实例化一次，之后就可以直接使用了。加锁操作只需要对实例化那部分的代码进行，只有当 uniqueInstance 没有被实例化时，才需要进行加锁。
 
@@ -109,7 +109,7 @@ uniqueInstance 采用 volatile 关键字修饰也是很有必要的， `uniqueIn
 
 使用 volatile 可以禁止 JVM 的指令重排，保证在多线程环境下也能正常运行。
 
-#### Ⅴ 静态内部类实现
+#### V. Static Inner Class
 
 当 Singleton 类被加载时，静态内部类 SingletonHolder 没有被加载进内存。只有当调用 `getUniqueInstance()` 方法从而触发 `SingletonHolder.INSTANCE` 时 SingletonHolder 才会被加载，此时初始化 INSTANCE 实例，并且 JVM 能确保 INSTANCE 只被实例化一次。
 
@@ -131,7 +131,7 @@ public class Singleton {
 }
 ```
 
-#### Ⅵ 枚举实现
+#### VI. Enum
 
 ```java
 public enum Singleton {

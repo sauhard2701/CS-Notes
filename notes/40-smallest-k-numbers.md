@@ -1,12 +1,12 @@
-# 40. 最小的 K 个数
+# 40. Smallest K Numbers
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/6a296eb82cf844ca8539b57c23e6e9bf?tpId=13&tqId=11182&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 解题思路
+## Solution
 
-### 大小为 K 的最小堆
+### Min Heap of Size K
 
 - 复杂度：O(NlogK) + O(K)
 - 特别适合处理海量数据
@@ -31,7 +31,7 @@ public ArrayList<Integer> GetLeastNumbers_Solution(int[] nums, int k) {
 }
 ```
 
-### 快速选择
+### Quickselect
 
 - 复杂度：O(N) + O(1)
 - 只有当允许修改数组元素时才可以使用

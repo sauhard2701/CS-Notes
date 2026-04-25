@@ -1,12 +1,12 @@
-# 28. 对称的二叉树
+# 28. Symmetric Binary Tree
 
 [NowCoder](https://www.nowcoder.com/practice/ff05d44dfdb04e1d83bdbdab320efbcb?tpId=13&tqId=11211&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0c12221f-729e-4c22-b0ba-0dfc909f8adf.jpg" width="300"/> </div><br>
 
-## 解题思路
+## Solution
 
 ```java
 boolean isSymmetrical(TreeNode pRoot) {

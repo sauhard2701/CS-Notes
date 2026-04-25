@@ -1,10 +1,10 @@
-# 50. 第一个只出现一次的字符位置
+# 50. First Non-Repeating Character Position
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/1c82e8cf713b4bbeb2a5b31cf5b0417c?tpId=13&tqId=11187&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 在一个字符串中找到第一个只出现一次的字符，并返回它的位置。字符串只包含 ASCII 码字符。
 
@@ -13,7 +13,7 @@ Input: abacc
 Output: b
 ```
 
-## 解题思路
+## Solution
 
 最直观的解法是使用 HashMap 对出现次数进行统计：字符做为 key，出现次数作为 value，遍历字符串每次都将 key 对应的 value 加 1。最后再遍历这个 HashMap 就可以找出出现次数为 1 的字符。
 

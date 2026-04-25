@@ -1,18 +1,18 @@
-# 60. n 个骰子的点数
+# 60. n Dice Probabilities
 
-## 题目链接
+## Problem Link
 
 [Lintcode](https://www.lintcode.com/en/problem/dices-sum/)
 
-## 题目描述
+## Problem Description
 
 把 n 个骰子扔在地上，求点数和为 s 的概率。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/195f8693-5ec4-4987-8560-f25e365879dd.png" width="300px"> </div><br>
 
-## 解题思路
+## Solution
 
-### 动态规划
+### Dynamic Programming
 
 使用一个二维数组 dp 存储点数出现的次数，其中 dp\[i]\[j] 表示前 i 个骰子产生点数 j 的次数。
 
@@ -41,7 +41,7 @@ public List<Map.Entry<Integer, Double>> dicesSum(int n) {
 }
 ```
 
-### 动态规划 + 旋转数组
+### Dynamic Programming + Rolling Array
 
 空间复杂度：O(N)
 

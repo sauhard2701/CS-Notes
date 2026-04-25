@@ -1,8 +1,8 @@
-# 20. 表示数值的字符串
+# 20. Numeric String Validation
 
 [牛客网](https://www.nowcoder.com/practice/e69148f8528c4039ad89bb2546fd4ff8?tpId=13&tqId=11206&tab=answerKey&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 ```
 true
@@ -25,7 +25,7 @@ false
 ```
 
 
-## 解题思路
+## Solution
 
 使用正则表达式进行匹配。
 

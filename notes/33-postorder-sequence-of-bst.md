@@ -1,8 +1,8 @@
-# 33. 二叉搜索树的后序遍历序列
+# 33. Postorder Sequence of BST
 
 [NowCoder](https://www.nowcoder.com/practice/a861533d45854474ac791d90e447bafd?tpId=13&tqId=11176&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。假设输入的数组的任意两个数字都互不相同。
 
@@ -10,7 +10,7 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/13454fa1-23a8-4578-9663-2b13a6af564a.jpg" width="150"/> </div><br>
 
-## 解题思路
+## Solution
 
 ```java
 public boolean VerifySquenceOfBST(int[] sequence) {

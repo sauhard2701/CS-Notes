@@ -1,51 +1,51 @@
-# 数据库系统原理
+# Database System Principles
 <!-- GFM-TOC -->
-* [数据库系统原理](#数据库系统原理)
-    * [一、事务](#一事务)
-        * [概念](#概念)
+* [数据库系统原理](#database-system-principles)
+    * [一、事务](#1-transactions)
+        * [概念](#overview)
         * [ACID](#acid)
         * [AUTOCOMMIT](#autocommit)
-    * [二、并发一致性问题](#二并发一致性问题)
-        * [丢失修改](#丢失修改)
-        * [读脏数据](#读脏数据)
-        * [不可重复读](#不可重复读)
-        * [幻影读](#幻影读)
-    * [三、封锁](#三封锁)
-        * [封锁粒度](#封锁粒度)
-        * [封锁类型](#封锁类型)
-        * [封锁协议](#封锁协议)
-        * [MySQL 隐式与显式锁定](#mysql-隐式与显式锁定)
-    * [四、隔离级别](#四隔离级别)
-        * [未提交读（READ UNCOMMITTED）](#未提交读read-uncommitted)
-        * [提交读（READ COMMITTED）](#提交读read-committed)
-        * [可重复读（REPEATABLE READ）](#可重复读repeatable-read)
-        * [可串行化（SERIALIZABLE）](#可串行化serializable)
-    * [五、多版本并发控制](#五多版本并发控制)
-        * [基本思想](#基本思想)
-        * [版本号](#版本号)
-        * [Undo 日志](#undo-日志)
+    * [二、并发一致性问题](#2-concurrency-consistency-problems)
+        * [丢失修改](#lost-update)
+        * [读脏数据](#dirty-read)
+        * [不可重复读](#non-repeatable-read)
+        * [幻影读](#phantom-read)
+    * [三、封锁](#3-locking)
+        * [封锁粒度](#lock-granularity)
+        * [封锁类型](#lock-types)
+        * [封锁协议](#locking-protocols)
+        * [MySQL 隐式与显式锁定](#mysql-implicit-and-explicit-locking)
+    * [四、隔离级别](#4-isolation-levels)
+        * [未提交读（READ UNCOMMITTED）](#read-uncommitted)
+        * [提交读（READ COMMITTED）](#read-committed)
+        * [可重复读（REPEATABLE READ）](#repeatable-read)
+        * [可串行化（SERIALIZABLE）](#serializable)
+    * [五、多版本并发控制](#5-multiversion-concurrency-control)
+        * [基本思想](#core-idea)
+        * [版本号](#version-numbers)
+        * [Undo 日志](#undo-log)
         * [ReadView](#readview)
-        * [快照读与当前读](#快照读与当前读)
-    * [六、Next-Key Locks](#六next-key-locks)
+        * [快照读与当前读](#snapshot-read-and-current-read)
+    * [六、Next-Key Locks](#6-next-key-locks)
         * [Record Locks](#record-locks)
         * [Gap Locks](#gap-locks)
         * [Next-Key Locks](#next-key-locks)
-    * [七、关系数据库设计理论](#七关系数据库设计理论)
-        * [函数依赖](#函数依赖)
-        * [异常](#异常)
-        * [范式](#范式)
-    * [八、ER 图](#八er-图)
-        * [实体的三种联系](#实体的三种联系)
-        * [表示出现多次的关系](#表示出现多次的关系)
-        * [联系的多向性](#联系的多向性)
-        * [表示子类](#表示子类)
-    * [参考资料](#参考资料)
+    * [七、关系数据库设计理论](#7-relational-database-design-theory)
+        * [函数依赖](#functional-dependencies)
+        * [异常](#anomalies)
+        * [范式](#normal-forms)
+    * [八、ER 图](#8-er-diagrams)
+        * [实体的三种联系](#three-entity-relationship-types)
+        * [表示出现多次的关系](#represent-repeated-relationships)
+        * [联系的多向性](#multi-way-relationships)
+        * [表示子类](#represent-subclasses)
+    * [参考资料](#references)
 <!-- GFM-TOC -->
 
 
-## 一、事务
+## 1. Transactions
 
-### 概念
+### Overview
 
 事务指的是满足 ACID 特性的一组操作，可以通过 Commit 提交一个事务，也可以使用 Rollback 进行回滚。
 
@@ -53,21 +53,21 @@
 
 ### ACID
 
-#### 1. 原子性（Atomicity）
+#### 1. Atomicity
 
 事务被视为不可分割的最小单元，事务的所有操作要么全部提交成功，要么全部失败回滚。
 
 回滚可以用回滚日志（Undo Log）来实现，回滚日志记录着事务所执行的修改操作，在回滚时反向执行这些修改操作即可。
 
-#### 2. 一致性（Consistency）
+#### 2. Consistency
 
 数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的。
 
-#### 3. 隔离性（Isolation）
+#### 3. Isolation
 
 一个事务所做的修改在最终提交以前，对其它事务是不可见的。
 
-#### 4. 持久性（Durability）
+#### 4. Durability
 
 一旦事务提交，则其所做的修改将会永远保存到数据库中。即使系统发生崩溃，事务执行的结果也不能丢失。
 
@@ -88,29 +88,29 @@
 
 MySQL 默认采用自动提交模式。也就是说，如果不显式使用`START TRANSACTION`语句来开始一个事务，那么每个查询操作都会被当做一个事务并自动提交。
 
-## 二、并发一致性问题
+## 2. Concurrency Consistency Problems
 
 在并发环境下，事务的隔离性很难保证，因此会出现很多并发一致性问题。
 
-### 丢失修改
+### Lost Update
 
 丢失修改指一个事务的更新操作被另外一个事务的更新操作替换。一般在现实生活中常会遇到，例如：T<sub>1</sub> 和 T<sub>2</sub> 两个事务都对一个数据进行修改，T<sub>1</sub> 先修改并提交生效，T<sub>2</sub> 随后修改，T<sub>2</sub> 的修改覆盖了 T<sub>1</sub> 的修改。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221744244.png"/> </div><br>
 
-### 读脏数据
+### Dirty Read
 
 读脏数据指在不同的事务下，当前事务可以读到另外事务未提交的数据。例如：T<sub>1</sub> 修改一个数据但未提交，T<sub>2</sub> 随后读取这个数据。如果 T<sub>1</sub> 撤销了这次修改，那么 T<sub>2</sub> 读取的数据是脏数据。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221920368.png"/> </div><br>
 
-### 不可重复读
+### Non-Repeatable Read
 
 不可重复读指在一个事务内多次读取同一数据集合。在这一事务还未结束前，另一事务也访问了该同一数据集合并做了修改，由于第二个事务的修改，第一次事务的两次读取的数据可能不一致。例如：T<sub>2</sub> 读取一个数据，T<sub>1</sub> 对该数据做了修改。如果 T<sub>2</sub> 再次读取这个数据，此时读取的结果和第一次读取的结果不同。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222102010.png"/> </div><br>
 
-### 幻影读
+### Phantom Read
 
 幻读本质上也属于不可重复读的情况，T<sub>1</sub> 读取某个范围的数据，T<sub>2</sub> 在这个范围内插入新的数据，T<sub>1</sub> 再次读取这个范围的数据，此时读取的结果和和第一次读取的结果不同。
 
@@ -120,9 +120,9 @@ MySQL 默认采用自动提交模式。也就是说，如果不显式使用`STAR
 
 产生并发不一致性问题的主要原因是破坏了事务的隔离性，解决方法是通过并发控制来保证隔离性。并发控制可以通过封锁来实现，但是封锁操作需要用户自己控制，相当复杂。数据库管理系统提供了事务的隔离级别，让用户以一种更轻松的方式处理并发一致性问题。
 
-## 三、封锁
+## 3. Locking
 
-### 封锁粒度
+### Lock Granularity
 
 MySQL 中提供了两种封锁粒度：行级锁以及表级锁。
 
@@ -133,9 +133,9 @@ MySQL 中提供了两种封锁粒度：行级锁以及表级锁。
 在选择封锁粒度时，需要在锁开销和并发程度之间做一个权衡。
 
 
-### 封锁类型
+### Lock Types
 
-#### 1. 读写锁
+#### 1. Read/Write Locks
 
 - 互斥锁（Exclusive），简写为 X 锁，又称写锁。
 - 共享锁（Shared），简写为 S 锁，又称读锁。
@@ -149,7 +149,7 @@ MySQL 中提供了两种封锁粒度：行级锁以及表级锁。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207213523777.png"/> </div><br>
 
-#### 2. 意向锁
+#### 2. Intention Locks
 
 使用意向锁（Intention Locks）可以更容易地支持多粒度封锁。
 
@@ -171,9 +171,9 @@ MySQL 中提供了两种封锁粒度：行级锁以及表级锁。
 - 任意 IS/IX 锁之间都是兼容的，因为它们只表示想要对表加锁，而不是真正加锁；
 - 这里兼容关系针对的是表级锁，而表级的 IX 锁和行级的 X 锁兼容，两个事务可以对两个数据行加 X 锁。（事务 T<sub>1</sub> 想要对数据行 R<sub>1</sub> 加 X 锁，事务 T<sub>2</sub> 想要对同一个表的数据行 R<sub>2</sub> 加 X 锁，两个事务都需要对该表加 IX 锁，但是 IX 锁是兼容的，并且 IX 锁与行级的 X 锁也是兼容的，因此两个事务都能加锁成功，对同一个表中的两个数据行做修改。）
 
-### 封锁协议
+### Locking Protocols
 
-#### 1. 三级封锁协议
+#### 1. Three-Level Locking Protocol
 
 **一级封锁协议**  
 
@@ -199,7 +199,7 @@ MySQL 中提供了两种封锁粒度：行级锁以及表级锁。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221313819.png"/> </div><br>
 
-#### 2. 两段锁协议
+#### 2. Two-Phase Locking Protocol
 
 加锁和解锁分为两个阶段进行。
 
@@ -217,7 +217,7 @@ lock-x(A)...lock-s(B)...lock-s(C)...unlock(A)...unlock(C)...unlock(B)
 lock-x(A)...unlock(A)...lock-s(B)...unlock(B)...lock-s(C)...unlock(C)
 ```
 
-### MySQL 隐式与显式锁定
+### MySQL Implicit and Explicit Locking
 
 MySQL 的 InnoDB 存储引擎采用两段锁协议，会根据隔离级别在需要的时候自动加锁，并且所有的锁都是在同一时刻被释放，这被称为隐式锁定。
 
@@ -228,21 +228,21 @@ SELECT ... LOCK In SHARE MODE;
 SELECT ... FOR UPDATE;
 ```
 
-## 四、隔离级别
+## 4. Isolation Levels
 
-### 未提交读（READ UNCOMMITTED）
+### Read Uncommitted
 
 事务中的修改，即使没有提交，对其它事务也是可见的。
 
-### 提交读（READ COMMITTED）
+### Read Committed
 
 一个事务只能读取已经提交的事务所做的修改。换句话说，一个事务所做的修改在提交之前对其它事务是不可见的。
 
-### 可重复读（REPEATABLE READ）
+### Repeatable Read
 
 保证在同一个事务中多次读取同一数据的结果是一样的。
 
-### 可串行化（SERIALIZABLE）
+### Serializable
 
 强制事务串行执行，这样多个事务互不干扰，不会出现并发一致性问题。
 
@@ -252,11 +252,11 @@ SELECT ... FOR UPDATE;
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207223400787.png"/> </div><br>
 
-## 五、多版本并发控制
+## 5. Multiversion Concurrency Control
 
 多版本并发控制（Multi-Version Concurrency Control, MVCC）是 MySQL 的 InnoDB 存储引擎实现隔离级别的一种具体方式，用于实现提交读和可重复读这两种隔离级别。而未提交读隔离级别总是读取最新的数据行，要求很低，无需使用 MVCC。可串行化隔离级别需要对所有读取的行都加锁，单纯使用 MVCC 无法实现。
 
-### 基本思想
+### Core Idea
 
 在封锁一节中提到，加锁能解决多个事务同时执行时出现的并发一致性问题。在实际场景中读操作往往多于写操作，因此又引入了读写锁来避免不必要的加锁操作，例如读和读没有互斥关系。读写锁中读和写操作仍然是互斥的，而 MVCC 利用了多版本的思想，写操作更新最新的版本快照，而读操作去读旧版本快照，没有互斥关系，这一点和 CopyOnWrite 类似。
 
@@ -264,12 +264,12 @@ SELECT ... FOR UPDATE;
 
 脏读和不可重复读最根本的原因是事务读取到其它事务未提交的修改。在事务进行读取操作时，为了解决脏读和不可重复读问题，MVCC 规定只能读取已经提交的快照。当然一个事务可以读取自身未提交的快照，这不算是脏读。
 
-### 版本号
+### Version Numbers
 
 - 系统版本号 SYS_ID：是一个递增的数字，每开始一个新的事务，系统版本号就会自动递增。
 - 事务版本号 TRX_ID ：事务开始时的系统版本号。
 
-### Undo 日志
+### Undo Log
 
 MVCC 的多版本指的是多个版本的快照，快照存储在 Undo 日志中，该日志通过回滚指针 ROLL_PTR 把一个数据行的所有快照连接起来。
 
@@ -304,9 +304,9 @@ MVCC 维护了一个 ReadView 结构，主要包含了当前系统未提交的�
 
 在数据行快照不可使用的情况下，需要沿着 Undo Log 的回滚指针 ROLL_PTR  找到下一个快照，再进行上面的判断。
 
-### 快照读与当前读
+### Snapshot Read and Current Read
 
-#### 1. 快照读
+#### 1. Snapshot Read
 
 MVCC 的 SELECT 操作是快照中的数据，不需要进行加锁操作。
 
@@ -314,7 +314,7 @@ MVCC 的 SELECT 操作是快照中的数据，不需要进行加锁操作。
 SELECT * FROM table ...;
 ```
 
-#### 2. 当前读
+#### 2. Current Read
 
 MVCC 其它会对数据库进行修改的操作（INSERT、UPDATE、DELETE）需要进行加锁操作，从而读取最新的数据。可以看到 MVCC 并不是完全不用加锁，而只是避免了 SELECT 的加锁操作。
 
@@ -331,7 +331,7 @@ SELECT * FROM table WHERE ? lock in share mode;
 SELECT * FROM table WHERE ? for update;
 ```
 
-## 六、Next-Key Locks
+## 6. Next-Key Locks
 
 Next-Key Locks 是 MySQL 的 InnoDB 存储引擎的一种锁实现。
 
@@ -363,9 +363,9 @@ SELECT c FROM t WHERE c BETWEEN 10 and 20 FOR UPDATE;
 (20, +∞)
 ```
 
-## 七、关系数据库设计理论
+## 7. Relational Database Design Theory
 
-### 函数依赖
+### Functional Dependencies
 
 记 A-\>B 表示 A 函数决定 B，也可以说 B 函数依赖于 A。
 
@@ -375,7 +375,7 @@ SELECT c FROM t WHERE c BETWEEN 10 and 20 FOR UPDATE;
 
 对于 A-\>B，B-\>C，则 A-\>C 是一个传递函数依赖。
 
-### 异常
+### Anomalies
 
 以下的学生课程关系的函数依赖为 {Sno, Cname} -\> {Sname, Sdept, Mname, Grade}，键码为 {Sno, Cname}。也就是说，确定学生和课程之后，就能确定其它信息。
 
@@ -393,17 +393,17 @@ SELECT c FROM t WHERE c BETWEEN 10 and 20 FOR UPDATE;
 - 删除异常：删除一个信息，那么也会丢失其它信息。例如删除了 `课程-1` 需要删除第一行和第三行，那么 `学生-1` 的信息就会丢失。
 - 插入异常：例如想要插入一个学生的信息，如果这个学生还没选课，那么就无法插入。
 
-### 范式
+### Normal Forms
 
 范式理论是为了解决以上提到四种异常。
 
 高级别范式的依赖于低级别的范式，1NF 是最低级别的范式。
 
-#### 1. 第一范式 (1NF)
+#### 1. First Normal Form (1NF)
 
 属性不可分。
 
-#### 2. 第二范式 (2NF)
+#### 2. Second Normal Form (2NF)
 
 每个非主属性完全函数依赖于键码。
 
@@ -456,7 +456,7 @@ Sname, Sdept 和 Mname 都部分依赖于键码，当一个学生选修了多门
 
 - Sno, Cname -\>  Grade
 
-#### 3. 第三范式 (3NF)
+#### 3. Third Normal Form (3NF)
 
 非主属性不传递函数依赖于键码。
 
@@ -481,13 +481,13 @@ Sname, Sdept 和 Mname 都部分依赖于键码，当一个学生选修了多门
 | 学院-1 | 院长-1 |
 | 学院-2 | 院长-2 |
 
-## 八、ER 图
+## 8. ER Diagrams
 
 Entity-Relationship，有三个组成部分：实体、属性、联系。
 
 用来进行关系型数据库系统的概念设计。
 
-### 实体的三种联系
+### Three Entity Relationship Types
 
 包含一对一，一对多，多对多三种。
 
@@ -499,7 +499,7 @@ Entity-Relationship，有三个组成部分：实体、属性、联系。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1d28ad05-39e5-49a2-a6a1-a6f496adba6a.png" width="380px"/> </div><br>
 
-### 表示出现多次的关系
+### Represent Repeated Relationships
 
 一个实体在联系出现几次，就要用几条线连接。
 
@@ -507,19 +507,19 @@ Entity-Relationship，有三个组成部分：实体、属性、联系。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ac929ea3-daca-40ec-9e95-4b2fa6678243.png" width="250px"/> </div><br>
 
-### 联系的多向性
+### Multi-Way Relationships
 
 虽然老师可以开设多门课，并且可以教授多名学生，但是对于特定的学生和课程，只有一个老师教授，这就构成了一个三元联系。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5bb1b38a-527e-4802-a385-267dadbd30ba.png" width="350px"/> </div><br>
 
-### 表示子类
+### Represent Subclasses
 
 用一个三角形和两条线来连接类和子类，与子类有关的属性和联系都连到子类上，而与父类和子类都有关的连到父类上。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/14389ea4-8d96-4e96-9f76-564ca3324c1e.png" width="450px"/> </div><br>
 
-## 参考资料
+## References
 
 - AbrahamSilberschatz, HenryF.Korth, S.Sudarshan, 等. 数据库系统概念 [M]. 机械工业出版社, 2006.
 - 施瓦茨. 高性能 MYSQL(第3版)[M]. 电子工业出版社, 2013.

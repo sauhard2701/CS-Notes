@@ -1,12 +1,12 @@
-# 23. 链表中环的入口结点
+# 23. Entry Node of Linked List Cycle
 
 [NowCoder](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4?tpId=13&tqId=11208&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 一个链表中包含环，请找出该链表的环的入口结点。要求不能使用额外的空间。
 
-## 解题思路
+## Solution
 
 使用双指针，一个快指针 fast 每次移动两个节点，一个慢指针 slow 每次移动一个节点。因为存在环，所以两个指针必定相遇在环中的某个节点上。
 

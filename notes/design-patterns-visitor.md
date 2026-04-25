@@ -1,4 +1,4 @@
-## 访问者（Visitor）
+## Visitor
 
 ### Intent
 

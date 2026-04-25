@@ -1,18 +1,18 @@
-# 6. 从尾到头打印链表
+# 6. Print Linked List from Tail to Head
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/d0267f7f55b3412ba93bd35cfa8e8035?tpId=13&tqId=11156&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 从尾到头反过来打印出每个结点的值。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f5792051-d9b2-4ca4-a234-a4a2de3d5a57.png" width="300px"> </div><br>
 
-## 解题思路
+## Solution
 
-### 1. 使用递归
+### 1. Use Recursion
 
 要逆序打印链表 1-\>2-\>3（3,2,1)，可以先逆序打印链表 2-\>3(3,2)，最后再打印第一个节点 1。而链表 2-\>3 可以看成一个新的链表，要逆序打印该链表可以继续使用求解函数，也就是在求解函数中调用自己，这就是递归函数。
 
@@ -27,7 +27,7 @@ public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
 }
 ```
 
-### 2. 使用头插法
+### 2. Use Head Insertion
 
 头插法顾名思义是将节点插入到头部：在遍历原始链表时，将当前节点插入新链表的头部，使其成为第一个节点。
 
@@ -68,7 +68,7 @@ public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
 }
 ```
 
-### 3. 使用栈
+### 3. Use Stack
 
 栈具有后进先出的特点，在遍历链表时将值按顺序放入栈中，最后出栈的顺序即为逆序。
 

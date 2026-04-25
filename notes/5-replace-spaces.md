@@ -1,10 +1,10 @@
-# 5. 替换空格
+# 5. Replace Spaces
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/0e26e5551f2b489b9f58bc83aa4b6c68?tpId=13&tqId=11155&tab=answerKey&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 
 将一个字符串中的空格替换成 "%20"。
@@ -17,7 +17,7 @@ Output:
 "A%20B"
 ```
 
-## 解题思路
+## Solution
 
 ① 在字符串尾部填充任意字符，使得字符串的长度等于替换之后的长度。因为一个空格要替换成三个字符（%20），所以当遍历到一个空格时，需要在尾部填充两个任意字符。
 

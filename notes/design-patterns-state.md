@@ -1,4 +1,4 @@
-## 8. 状态（State）
+## 8. State
 
 ### Intent
 

@@ -1,14 +1,14 @@
-# 25. 合并两个排序的链表
+# 25. Merge Two Sorted Linked Lists
 
 [NowCoder](https://www.nowcoder.com/practice/d8b6b4358f774294a89de2a6ac4d9337?tpId=13&tqId=11169&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c094d2bc-ec75-444b-af77-d369dfb6b3b4.png" width="400"/> </div><br>
 
-## 解题思路
+## Solution
 
-### 递归
+### Recursion
 
 ```java
 public ListNode Merge(ListNode list1, ListNode list2) {
@@ -26,7 +26,7 @@ public ListNode Merge(ListNode list1, ListNode list2) {
 }
 ```
 
-### 迭代
+### Iteration
 
 ```java
 public ListNode Merge(ListNode list1, ListNode list2) {

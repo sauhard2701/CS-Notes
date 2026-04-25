@@ -1,10 +1,10 @@
-# 53. 数字在排序数组中出现的次数
+# 53. Count Occurrences in Sorted Array
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&tqId=11190&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 ```html
 Input:
@@ -15,7 +15,7 @@ Output:
 4
 ```
 
-## 解题思路
+## Solution
 
 只要能找出给定的数字 k 在有序数组第一个位置和最后一个位置，就能知道该数字出现的次数。
 

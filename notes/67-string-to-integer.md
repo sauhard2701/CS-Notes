@@ -1,10 +1,10 @@
-# 67. 把字符串转换成整数
+# 67. String to Integer
 
-## 题目链接
+## Problem Link
 
 [NowCoder](https://www.nowcoder.com/practice/1277c681251b4372bdef344468e4f26e?tpId=13&tqId=11202&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 将一个字符串转换成一个整数，字符串不是一个合法的数值则返回 0，要求不能使用字符串转换整数的库函数。
 
@@ -18,7 +18,7 @@ Output:
 0
 ```
 
-## 解题思路
+## Solution
 
 ```java
 public int StrToInt(String str) {

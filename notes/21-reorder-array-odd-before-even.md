@@ -1,16 +1,16 @@
-# 21. 调整数组顺序使奇数位于偶数前面
+# 21. Reorder Array: Odd Before Even
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/ef1f53ef31ca408cada5093c8780f44b?tpId=13&tqId=11166&tab=answerKey&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 需要保证奇数和奇数，偶数和偶数之间的相对位置不变，这和书本不太一样。例如对于 [1,2,3,4,5]，调整后得到 [1,3,5,2,4]，而不能是 {5,1,3,4,2} 这种相对位置改变的结果。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/d03a2efa-ef19-4c96-97e8-ff61df8061d3.png" width="200px"> </div><br>
 
-## 解题思路
+## Solution
 
 方法一：创建一个新数组，时间复杂度 O(N)，空间复杂度 O(N)。
 

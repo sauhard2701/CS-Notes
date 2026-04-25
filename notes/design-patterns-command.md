@@ -1,4 +1,4 @@
-## 2. 命令（Command）
+## 2. Command
 
 ### Intent
 

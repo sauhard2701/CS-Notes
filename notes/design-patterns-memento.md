@@ -1,4 +1,4 @@
-## 备忘录（Memento）
+## Memento
 
 ### Intent
 

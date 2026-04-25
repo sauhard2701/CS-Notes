@@ -1,4 +1,4 @@
-## 模板方法（Template Method）
+## Template Method
 
 ### Intent
 

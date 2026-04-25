@@ -1,4 +1,4 @@
-## 装饰（Decorator）
+## Decorator
 
 ### Intent
 
@@ -92,7 +92,7 @@ public class Client {
 3.0
 ```
 
-### 设计原则
+### Design Principles
 
 类应该对扩展开放，对修改关闭：也就是添加新功能时不需要修改代码。饮料可以动态添加新的配料，而不需要去修改饮料的代码。
 

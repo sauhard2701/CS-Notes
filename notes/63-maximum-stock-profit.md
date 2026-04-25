@@ -1,16 +1,16 @@
-# 63. 股票的最大利润
+# 63. Maximum Stock Profit
 
-## 题目链接
+## Problem Link
 
 [Leetcode：121. Best Time to Buy and Sell Stock ](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)
 
-## 题目描述
+## Problem Description
 
 可以有一次买入和一次卖出，买入必须在前。求最大收益。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/42661013-750f-420b-b3c1-437e9a11fb65.png" width="220px"> </div><br>
 
-## 解题思路
+## Solution
 
 使用贪心策略，假设第 i 轮进行卖出操作，买入操作价格应该在 i 之前并且价格最低。因此在遍历数组时记录当前最低的买入价格，并且尝试将每个位置都作为卖出价格，取收益最大的即可。
 

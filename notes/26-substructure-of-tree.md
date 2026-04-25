@@ -1,14 +1,14 @@
-# 26. 树的子结构
+# 26. Substructure of Tree
 
-## 题目链接
+## Problem Link
 
 [牛客网](https://www.nowcoder.com/practice/6e196c44c7004d15b1610b9afca8bd88?tpId=13&tqId=11170&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=cyc_github)
 
-## 题目描述
+## Problem Description
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/84a5b15a-86c5-4d8e-9439-d9fd5a4699a1.jpg" width="450"/> </div><br>
 
-## 解题思路
+## Solution
 
 ```java
 public boolean HasSubtree(TreeNode root1, TreeNode root2) {

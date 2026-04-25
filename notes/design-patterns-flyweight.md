@@ -1,4 +1,4 @@
-## 享元（Flyweight）
+## Flyweight
 
 ### Intent
 

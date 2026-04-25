@@ -1,8 +1,8 @@
-# 一、前言
+# 1. Preface
 
 设计模式是解决问题的方案，学习现有的设计模式可以做到经验复用。拥有设计模式词汇，在沟通时就能用更少的词汇来讨论，并且不需要了解底层细节。
 
-# 二、创建型
+# 2. Creational Patterns
 
 - [单例.md](design-patterns-singleton.md)
 - [简单工厂.md](design-patterns-simple-factory.md)
@@ -11,7 +11,7 @@
 - [生成器.md](design-patterns-builder.md)
 - [原型模式.md](design-patterns-prototype.md)
 
-# 三、行为型
+# 3. Behavioral Patterns
 
 - [责任链.md](design-patterns-chain-of-responsibility.md)
 - [命令.md](design-patterns-command.md)
@@ -26,7 +26,7 @@
 - [访问者.md](design-patterns-visitor.md)
 - [空对象.md](design-patterns-null-object.md)
 
-# 四、结构型
+# 4. Structural Patterns
 
 - [适配器.md](design-patterns-adapter.md)
 - [桥接.md](design-patterns-bridge.md)
@@ -36,7 +36,7 @@
 - [享元.md](design-patterns-flyweight.md)
 - [代理.md](design-patterns-proxy.md)
 
-# 参考资料
+# References
 
 - 弗里曼. Head First 设计模式 [M]. 中国电力出版社, 2007.
 - Gamma E. 设计模式: 可复用面向对象软件的基础 [M]. 机械工业出版社, 2007.

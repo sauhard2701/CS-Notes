@@ -1,6 +1,6 @@
-# SQL 练习
+# SQL Exercises
 <!-- GFM-TOC -->
-* [SQL 练习](#sql-练习)
+* [SQL 练习](#sql-exercises)
     * [595. Big Countries](#595-big-countries)
     * [627. Swap Salary](#627-swap-salary)
     * [620. Not Boring Movies](#620-not-boring-movies)

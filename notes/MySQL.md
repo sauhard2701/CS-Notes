@@ -1,42 +1,42 @@
 # MySQL
 <!-- GFM-TOC -->
 * [MySQL](#mysql)
-    * [一、索引](#一索引)
-        * [B+ Tree 原理](#b-tree-原理)
-        * [MySQL 索引](#mysql-索引)
-        * [索引优化](#索引优化)
-        * [索引的优点](#索引的优点)
-        * [索引的使用条件](#索引的使用条件)
-    * [二、查询性能优化](#二查询性能优化)
-        * [使用 Explain 进行分析](#使用-explain-进行分析)
-        * [优化数据访问](#优化数据访问)
-        * [重构查询方式](#重构查询方式)
-    * [三、存储引擎](#三存储引擎)
+    * [一、索引](#1-indexes)
+        * [B+ Tree 原理](#b-tree-principles)
+        * [MySQL 索引](#mysql-indexes)
+        * [索引优化](#index-optimization)
+        * [索引的优点](#index-advantages)
+        * [索引的使用条件](#index-usage-conditions)
+    * [二、查询性能优化](#2-query-performance-optimization)
+        * [使用 Explain 进行分析](#analyze-with-explain)
+        * [优化数据访问](#optimize-data-access)
+        * [重构查询方式](#refactor-query-patterns)
+    * [三、存储引擎](#3-storage-engines)
         * [InnoDB](#innodb)
         * [MyISAM](#myisam)
-        * [比较](#比较)
-    * [四、数据类型](#四数据类型)
-        * [整型](#整型)
-        * [浮点数](#浮点数)
-        * [字符串](#字符串)
-        * [时间和日期](#时间和日期)
-    * [五、切分](#五切分)
-        * [水平切分](#水平切分)
-        * [垂直切分](#垂直切分)
-        * [Sharding 策略](#sharding-策略)
-        * [Sharding 存在的问题](#sharding-存在的问题)
-    * [六、复制](#六复制)
-        * [主从复制](#主从复制)
-        * [读写分离](#读写分离)
-    * [参考资料](#参考资料)
+        * [比较](#comparison)
+    * [四、数据类型](#4-data-types)
+        * [整型](#integer-types)
+        * [浮点数](#floating-point-types)
+        * [字符串](#strings)
+        * [时间和日期](#time-and-date)
+    * [五、切分](#5-sharding)
+        * [水平切分](#horizontal-sharding)
+        * [垂直切分](#vertical-sharding)
+        * [Sharding 策略](#sharding-strategies)
+        * [Sharding 存在的问题](#sharding-issues)
+    * [六、复制](#6-replication)
+        * [主从复制](#master-slave-replication)
+        * [读写分离](#readwrite-splitting)
+    * [参考资料](#references)
 <!-- GFM-TOC -->
 
 
-## 一、索引
+## 1. Indexes
 
-### B+ Tree 原理
+### B+ Tree Principles
 
-#### 1. 数据结构
+#### 1. Data Structures
 
 B Tree 指的是 Balance Tree，也就是平衡树。平衡树是一颗查找树，并且所有叶子节点位于同一层。
 
@@ -46,13 +46,13 @@ B+ Tree 是基于 B Tree 和叶子节点顺序访问指针进行实现，它具�
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/33576849-9275-47bb-ada7-8ded5f5e7c73.png" width="350px"> </div><br>
 
-#### 2. 操作
+#### 2. Operations
 
 进行查找操作时，首先在根节点进行二分查找，找到一个 key 所在的指针，然后递归地在指针所指向的节点进行查找。直到查找到叶子节点，然后在叶子节点上进行二分查找，找出 key 所对应的 data。
 
 插入删除操作会破坏平衡树的平衡性，因此在进行插入删除操作之后，需要对树进行分裂、合并、旋转等操作来维护平衡性。
 
-#### 3. 与红黑树的比较
+#### 3. Comparison with Red-Black Trees
 
 红黑树等平衡树也可以用来实现索引，但是文件系统及数据库系统普遍采用 B+ Tree 作为索引结构，这是因为使用 B+ 树访问磁盘数据有更高的性能。
 
@@ -70,11 +70,11 @@ B+ Tree 是基于 B Tree 和叶子节点顺序访问指针进行实现，它具�
 
 为了减少磁盘 I/O 操作，磁盘往往不是严格按需读取，而是每次都会预读。预读过程中，磁盘进行顺序读取，顺序读取不需要进行磁盘寻道，并且只需要很短的磁盘旋转时间，速度会非常快。并且可以利用预读特性，相邻的节点也能够被预先载入。
 
-### MySQL 索引
+### MySQL Indexes
 
 索引是在存储引擎层实现的，而不是在服务器层实现的，所以不同存储引擎具有不同的索引类型和实现。
 
-#### 1. B+Tree 索引
+#### 1. B+Tree Indexes
 
 是大多数 MySQL 存储引擎的默认索引类型。
 
@@ -94,7 +94,7 @@ InnoDB 的 B+Tree 索引分为主索引和辅助索引。主索引的叶子节�
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7c349b91-050b-4d72-a7f8-ec86320307ea.png" width="350px"> </div><br>
 
-#### 2. 哈希索引
+#### 2. Hash Indexes
 
 哈希索引能以 O(1) 时间进行查找，但是失去了有序性：
 
@@ -103,7 +103,7 @@ InnoDB 的 B+Tree 索引分为主索引和辅助索引。主索引的叶子节�
 
 InnoDB 存储引擎有一个特殊的功能叫“自适应哈希索引”，当某个索引值被使用的非常频繁时，会在 B+Tree 索引之上再创建一个哈希索引，这样就让 B+Tree 索引具有哈希索引的一些优点，比如快速的哈希查找。
 
-#### 3. 全文索引
+#### 3. Full-Text Indexes
 
 MyISAM 存储引擎支持全文索引，用于查找文本中的关键词，而不是直接比较是否相等。
 
@@ -113,15 +113,15 @@ MyISAM 存储引擎支持全文索引，用于查找文本中的关键词，而�
 
 InnoDB 存储引擎在 MySQL 5.6.4 版本中也开始支持全文索引。
 
-#### 4. 空间数据索引
+#### 4. Spatial Indexes
 
 MyISAM 存储引擎支持空间数据索引（R-Tree），可以用于地理数据存储。空间数据索引会从所有维度来索引数据，可以有效地使用任意维度来进行组合查询。
 
 必须使用 GIS 相关的函数来维护数据。
 
-### 索引优化
+### Index Optimization
 
-#### 1. 独立的列
+#### 1. Independent Columns
 
 在进行查询时，索引列不能是表达式的一部分，也不能是函数的参数，否则无法使用索引。
 
@@ -131,7 +131,7 @@ MyISAM 存储引擎支持空间数据索引（R-Tree），可以用于地理数�
 SELECT actor_id FROM sakila.actor WHERE actor_id + 1 = 5;
 ```
 
-#### 2. 多列索引
+#### 2. Multi-Column Indexes
 
 在需要使用多个列作为条件进行查询时，使用多列索引比使用多个单列索引性能更好。例如下面的语句中，最好把 actor_id 和 film_id 设置为多列索引。
 
@@ -140,7 +140,7 @@ SELECT film_id, actor_ id FROM sakila.film_actor
 WHERE actor_id = 1 AND film_id = 1;
 ```
 
-#### 3. 索引列的顺序
+#### 3. Index Column Order
 
 让选择性最强的索引列放在前面。
 
@@ -161,13 +161,13 @@ customer_id_selectivity: 0.0373
                COUNT(*): 16049
 ```
 
-#### 4. 前缀索引
+#### 4. Prefix Indexes
 
 对于 BLOB、TEXT 和 VARCHAR 类型的列，必须使用前缀索引，只索引开始的部分字符。
 
 前缀长度的选取需要根据索引选择性来确定。
 
-#### 5. 覆盖索引
+#### 5. Covering Indexes
 
 索引包含所有需要查询的字段的值。
 
@@ -177,7 +177,7 @@ customer_id_selectivity: 0.0373
 - 一些存储引擎（例如 MyISAM）在内存中只缓存索引，而数据依赖于操作系统来缓存。因此，只访问索引可以不使用系统调用（通常比较费时）。
 - 对于 InnoDB 引擎，若辅助索引能够覆盖查询，则无需访问主索引。
 
-### 索引的优点
+### Index Advantages
 
 - 大大减少了服务器需要扫描的数据行数。
 
@@ -185,7 +185,7 @@ customer_id_selectivity: 0.0373
 
 - 将随机 I/O 变为顺序 I/O（B+Tree 索引是有序的，会将相邻的数据都存储在一起）。
 
-### 索引的使用条件
+### Index Usage Conditions
 
 - 对于非常小的表、大部分情况下简单的全表扫描比建立索引更高效；
 
@@ -193,9 +193,9 @@ customer_id_selectivity: 0.0373
 
 - 但是对于特大型的表，建立和维护索引的代价将会随之增长。这种情况下，需要用到一种技术可以直接区分出需要查询的一组数据，而不是一条记录一条记录地匹配，例如可以使用分区技术。
 
-## 二、查询性能优化
+## 2. Query Performance Optimization
 
-### 使用 Explain 进行分析
+### Analyze with Explain
 
 Explain 用来分析 SELECT 查询语句，开发人员可以通过分析 Explain 结果来优化查询语句。
 
@@ -205,21 +205,21 @@ Explain 用来分析 SELECT 查询语句，开发人员可以通过分析 Explai
 - key : 使用的索引
 - rows : 扫描的行数
 
-### 优化数据访问
+### Optimize Data Access
 
-#### 1. 减少请求的数据量
+#### 1. Reduce Requested Data Volume
 
 - 只返回必要的列：最好不要使用 SELECT * 语句。
 - 只返回必要的行：使用 LIMIT 语句来限制返回的数据。
 - 缓存重复查询的数据：使用缓存可以避免在数据库中进行查询，特别在要查询的数据经常被重复查询时，缓存带来的查询性能提升将会是非常明显的。
 
-#### 2. 减少服务器端扫描的行数
+#### 2. Reduce Server-Side Scanned Rows
 
 最有效的方式是使用索引来覆盖查询。
 
-### 重构查询方式
+### Refactor Query Patterns
 
-#### 1. 切分大查询
+#### 1. Split Large Queries
 
 一个大查询如果一次性执行的话，可能一次锁住很多数据、占满整个事务日志、耗尽系统资源、阻塞很多小的但重要的查询。
 
@@ -235,7 +235,7 @@ do {
 } while rows_affected > 0
 ```
 
-#### 2. 分解大连接查询
+#### 2. Decompose Large Join Queries
 
 将一个大连接查询分解成对每一个表进行一次单表查询，然后在应用程序中进行关联，这样做的好处有：
 
@@ -258,7 +258,7 @@ SELECT * FROM tag_post WHERE tag_id=1234;
 SELECT * FROM post WHERE post.id IN (123,456,567,9098,8904);
 ```
 
-## 三、存储引擎
+## 3. Storage Engines
 
 ### InnoDB
 
@@ -286,7 +286,7 @@ SELECT * FROM post WHERE post.id IN (123,456,567,9098,8904);
 
 如果指定了 DELAY_KEY_WRITE 选项，在每次修改执行完成时，不会立即将修改的索引数据写入磁盘，而是会写到内存中的键缓冲区，只有在清理键缓冲区或者关闭表的时候才会将对应的索引块写入磁盘。这种方式可以极大的提升写入性能，但是在数据库或者主机崩溃时会造成索引损坏，需要执行修复操作。
 
-### 比较
+### Comparison
 
 - 事务：InnoDB 是事务型的，可以使用 Commit 和 Rollback 语句。
 
@@ -300,21 +300,21 @@ SELECT * FROM post WHERE post.id IN (123,456,567,9098,8904);
 
 - 其它特性：MyISAM 支持压缩表和空间数据索引。
 
-## 四、数据类型
+## 4. Data Types
 
-### 整型
+### Integer Types
 
 TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT 分别使用 8, 16, 24, 32, 64 位存储空间，一般情况下越小的列越好。
 
 INT(11) 中的数字只是规定了交互工具显示字符的个数，对于存储和计算来说是没有意义的。
 
-### 浮点数
+### Floating-Point Types
 
 FLOAT 和 DOUBLE 为浮点类型，DECIMAL 为高精度小数类型。CPU 原生支持浮点运算，但是不支持 DECIMAl 类型的计算，因此 DECIMAL 的计算比浮点类型需要更高的代价。
 
 FLOAT、DOUBLE 和 DECIMAL 都可以指定列宽，例如 DECIMAL(18, 9) 表示总共 18 位，取 9 位存储小数部分，剩下 9 位存储整数部分。
 
-### 字符串
+### Strings
 
 主要有 CHAR 和 VARCHAR 两种类型，一种是定长的，一种是变长的。
 
@@ -322,7 +322,7 @@ VARCHAR 这种变长类型能够节省空间，因为只需要存储必要的内
 
 在进行存储和检索时，会保留 VARCHAR 末尾的空格，而会删除 CHAR 末尾的空格。
 
-### 时间和日期
+### Time and Date
 
 MySQL 提供了两种相似的日期时间类型：DATETIME 和 TIMESTAMP。
 
@@ -346,9 +346,9 @@ MySQL 提供了 FROM_UNIXTIME() 函数把 UNIX 时间戳转换为日期，并提
 
 应该尽量使用 TIMESTAMP，因为它比 DATETIME 空间效率更高。
 
-## 五、切分
+## 5. Sharding
 
-### 水平切分
+### Horizontal Sharding
 
 水平切分又称为 Sharding，它是将同一个表中的记录拆分到多个结构相同的表中。
 
@@ -356,7 +356,7 @@ MySQL 提供了 FROM_UNIXTIME() 函数把 UNIX 时间戳转换为日期，并提
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/63c2909f-0c5f-496f-9fe5-ee9176b31aba.jpg" width=""> </div><br>
 
-### 垂直切分
+### Vertical Sharding
 
 垂直切分是将一张表按列切分成多个表，通常是按照列的关系密集程度进行切分，也可以利用垂直切分将经常被使用的列和不经常被使用的列切分到不同的表中。
 
@@ -364,31 +364,31 @@ MySQL 提供了 FROM_UNIXTIME() 函数把 UNIX 时间戳转换为日期，并提
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e130e5b8-b19a-4f1e-b860-223040525cf6.jpg" width=""> </div><br>
 
-### Sharding 策略
+### Sharding Strategies
 
 - 哈希取模：hash(key) % N；
 - 范围：可以是 ID 范围也可以是时间范围；
 - 映射表：使用单独的一个数据库来存储映射关系。
 
-### Sharding 存在的问题
+### Sharding Issues
 
-#### 1. 事务问题
+#### 1. Transaction Issues
 
 使用分布式事务来解决，比如 XA 接口。
 
-#### 2. 连接
+#### 2. Joins
 
 可以将原来的连接分解成多个单表查询，然后在用户程序中进行连接。
 
-#### 3. ID 唯一性
+#### 3. ID Uniqueness
 
 - 使用全局唯一 ID（GUID）
 - 为每个分片指定一个 ID 范围
 - 分布式 ID 生成器 (如 Twitter 的 Snowflake 算法)
 
-## 六、复制
+## 6. Replication
 
-### 主从复制
+### Master-Slave Replication
 
 主要涉及三个线程：binlog 线程、I/O 线程和 SQL 线程。
 
@@ -398,7 +398,7 @@ MySQL 提供了 FROM_UNIXTIME() 函数把 UNIX 时间戳转换为日期，并提
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/master-slave.png" width=""> </div><br>
 
-### 读写分离
+### Read/Write Splitting
 
 主服务器处理写操作以及实时性要求比较高的读操作，而从服务器处理读操作。
 
@@ -412,7 +412,7 @@ MySQL 提供了 FROM_UNIXTIME() 函数把 UNIX 时间戳转换为日期，并提
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/master-slave-proxy.png" width=""> </div><br>
 
-## 参考资料
+## References
 
 - BaronScbwartz, PeterZaitsev, VadimTkacbenko, 等. 高性能 MySQL[M]. 电子工业出版社, 2013.
 - 姜承尧. MySQL 技术内幕: InnoDB 存储引擎 [M]. 机械工业出版社, 2011.
