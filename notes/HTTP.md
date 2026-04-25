@@ -128,7 +128,7 @@ HTTP uses URLs (**U**niform **R**esource **L**ocators) to locate resources. A UR
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/8441b2c4-dca7-4d6b-8efb-f22efccaf331.png" width="500px"> </div><br>
 
-- [Wikipedia: Uniform Resource Identifier](https://zh.wikipedia.org/wiki/统一资源标志符)
+- [Wikipedia: Uniform Resource Identifier](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
 - [wikipedia: URL](https://en.wikipedia.org/wiki/URL)
 - [rfc2616：3.2.2 http URL](https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.2.2)
 - [What is the difference between a URI, a URL and a URN?](https://stackoverflow.com/questions/176264/what-is-the-difference-between-a-uri-a-url-and-a-urn)
