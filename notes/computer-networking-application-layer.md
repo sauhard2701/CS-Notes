@@ -1,168 +1,168 @@
 # Computer Networking - Application Layer
 <!-- GFM-TOC -->
-* [计算机网络 - 应用层](#computer-networking---application-layer)
-    * [域名系统](#domain-name-system)
-    * [文件传送协议](#file-transfer-protocol)
-    * [动态主机配置协议](#dynamic-host-configuration-protocol)
-    * [远程登录协议](#remote-login-protocol)
-    * [电子邮件协议](#email-protocols)
+* [Computer Networking - Application Layer](#computer-networking---application-layer)
+    * [Domain Name System](#domain-name-system)
+    * [File Transfer Protocol](#file-transfer-protocol)
+    * [Dynamic Host Configuration Protocol](#dynamic-host-configuration-protocol)
+    * [Remote Login Protocol](#remote-login-protocol)
+    * [Email Protocols](#email-protocols)
         * [1. SMTP](#1-smtp)
         * [2. POP3](#2-pop3)
         * [3. IMAP](#3-imap)
-    * [常用端口](#common-ports)
-    * [Web 页面请求过程](#web-page-request-process)
-        * [1. DHCP 配置主机信息](#1-dhcp-configures-host-information)
-        * [2. ARP 解析 MAC 地址](#2-arp-resolves-mac-address)
-        * [3. DNS 解析域名](#3-dns-resolves-domain-name)
-        * [4. HTTP 请求页面](#4-http-requests-the-page)
+    * [Common Ports](#common-ports)
+    * [Web Page Request Process](#web-page-request-process)
+        * [1. DHCP Configures Host Information](#1-dhcp-configures-host-information)
+        * [2. ARP Resolves MAC Address](#2-arp-resolves-mac-address)
+        * [3. DNS Resolves Domain Name](#3-dns-resolves-domain-name)
+        * [4. HTTP Requests the Page](#4-http-requests-the-page)
 <!-- GFM-TOC -->
 
 
 ## Domain Name System
 
-DNS 是一个分布式数据库，提供了主机名和 IP 地址之间相互转换的服务。这里的分布式数据库是指，每个站点只保留它自己的那部分数据。
+DNS is a distributed database that provides conversion between hostnames and IP addresses. Here, distributed database means that each site stores only its own portion of the data.
 
-域名具有层次结构，从上到下依次为：根域名、顶级域名、二级域名。
+Domain names have a hierarchical structure. From top to bottom, the levels are: root domain, top-level domain, and second-level domain.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b54eeb16-0b0e-484c-be62-306f57c40d77.jpg"/> </div><br>
 
-DNS 可以使用 UDP 或者 TCP 进行传输，使用的端口号都为 53。大多数情况下 DNS 使用 UDP 进行传输，这就要求域名解析器和域名服务器都必须自己处理超时和重传从而保证可靠性。在两种情况下会使用 TCP 进行传输：
+DNS can use UDP or TCP for transmission, and both use port 53. In most cases, DNS uses UDP, which requires domain resolvers and domain servers to handle timeouts and retransmissions themselves to ensure reliability. TCP is used in two cases:
 
-- 如果返回的响应超过的 512 字节（UDP 最大只支持 512 字节的数据）。
-- 区域传送（区域传送是主域名服务器向辅助域名服务器传送变化的那部分数据）。
+- If the returned response exceeds 512 bytes, because UDP supports at most 512 bytes of data.
+- Zone transfer, where the primary domain server transfers changed data to the secondary domain server.
 
 ## File Transfer Protocol
 
-FTP 使用 TCP 进行连接，它需要两个连接来传送一个文件：
+FTP uses TCP connections. It requires two connections to transfer a file:
 
-- 控制连接：服务器打开端口号 21 等待客户端的连接，客户端主动建立连接后，使用这个连接将客户端的命令传送给服务器，并传回服务器的应答。
-- 数据连接：用来传送一个文件数据。
+- Control connection: the server opens port 21 and waits for the client connection. After the client actively establishes the connection, this connection is used to send client commands to the server and return server responses.
+- Data connection: used to transfer file data.
 
-根据数据连接是否是服务器端主动建立，FTP 有主动和被动两种模式：
+Depending on whether the server actively establishes the data connection, FTP has active and passive modes:
 
-- 主动模式：服务器端主动建立数据连接，其中服务器端的端口号为 20，客户端的端口号随机，但是必须大于 1024，因为 0\~1023 是熟知端口号。
+- Active mode: the server actively establishes the data connection. The server port is 20, and the client port is random but must be greater than 1024 because 0\~1023 are well-known ports.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/03f47940-3843-4b51-9e42-5dcaff44858b.jpg"/> </div><br>
 
-- 被动模式：客户端主动建立数据连接，其中客户端的端口号由客户端自己指定，服务器端的端口号随机。
+- Passive mode: the client actively establishes the data connection. The client port is chosen by the client, and the server port is random.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/be5c2c61-86d2-4dba-a289-b48ea23219de.jpg"/> </div><br>
 
-主动模式要求客户端开放端口号给服务器端，需要去配置客户端的防火墙。被动模式只需要服务器端开放端口号即可，无需客户端配置防火墙。但是被动模式会导致服务器端的安全性减弱，因为开放了过多的端口号。
+Active mode requires the client to open a port to the server, so the client firewall must be configured. Passive mode only requires the server to open ports and does not require client firewall configuration. However, passive mode weakens server-side security because too many ports are opened.
 
 ## Dynamic Host Configuration Protocol
 
-DHCP (Dynamic Host Configuration Protocol) 提供了即插即用的连网方式，用户不再需要手动配置 IP 地址等信息。
+DHCP (Dynamic Host Configuration Protocol) provides plug-and-play networking, so users no longer need to manually configure IP addresses and related information.
 
-DHCP 配置的内容不仅是 IP 地址，还包括子网掩码、网关 IP 地址。
+DHCP configures not only the IP address, but also the subnet mask and gateway IP address.
 
-DHCP 工作过程如下：
+The DHCP process is as follows:
 
-1. 客户端发送 Discover 报文，该报文的目的地址为 255.255.255.255:67，源地址为 0.0.0.0:68，被放入 UDP 中，该报文被广播到同一个子网的所有主机上。如果客户端和 DHCP 服务器不在同一个子网，就需要使用中继代理。
-2. DHCP 服务器收到 Discover 报文之后，发送 Offer 报文给客户端，该报文包含了客户端所需要的信息。因为客户端可能收到多个 DHCP 服务器提供的信息，因此客户端需要进行选择。
-3. 如果客户端选择了某个 DHCP 服务器提供的信息，那么就发送 Request 报文给该 DHCP 服务器。
-4. DHCP 服务器发送 Ack 报文，表示客户端此时可以使用提供给它的信息。
+1. The client sends a Discover message. The destination address is 255.255.255.255:67 and the source address is 0.0.0.0:68. It is placed in UDP and broadcast to all hosts on the same subnet. If the client and DHCP server are not on the same subnet, a relay agent is needed.
+2. After receiving the Discover message, the DHCP server sends an Offer message to the client. This message contains the information the client needs. Because the client may receive information from multiple DHCP servers, the client needs to choose one.
+3. If the client selects the information provided by a DHCP server, it sends a Request message to that DHCP server.
+4. The DHCP server sends an Ack message, indicating that the client can now use the provided information.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/23219e4c-9fc0-4051-b33a-2bd95bf054ab.jpg"/> </div><br>
 
 ## Remote Login Protocol
 
-TELNET 用于登录到远程主机上，并且远程主机上的输出也会返回。
+TELNET is used to log in to a remote host, and output from the remote host is returned.
 
-TELNET 可以适应许多计算机和操作系统的差异，例如不同操作系统系统的换行符定义。
+TELNET can adapt to differences among many computers and operating systems, such as different newline definitions in different operating systems.
 
 ## Email Protocols
 
-一个电子邮件系统由三部分组成：用户代理、邮件服务器以及邮件协议。
+An email system consists of three parts: user agents, mail servers, and mail protocols.
 
-邮件协议包含发送协议和读取协议，发送协议常用 SMTP，读取协议常用 POP3 和 IMAP。
+Mail protocols include sending protocols and retrieval protocols. SMTP is commonly used for sending, while POP3 and IMAP are commonly used for retrieval.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7b3efa99-d306-4982-8cfb-e7153c33aab4.png" width="700"/> </div><br>
 
 ### 1. SMTP
 
-SMTP 只能发送 ASCII 码，而互联网邮件扩充 MIME 可以发送二进制文件。MIME 并没有改动或者取代 SMTP，而是增加邮件主体的结构，定义了非 ASCII 码的编码规则。
+SMTP can send only ASCII code, while the Internet mail extension MIME can send binary files. MIME does not modify or replace SMTP; it adds structure to the message body and defines encoding rules for non-ASCII code.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ed5522bb-3a60-481c-8654-43e7195a48fe.png" width=""/> </div><br>
 
 ### 2. POP3
 
-POP3 的特点是只要用户从服务器上读取了邮件，就把该邮件删除。但最新版本的 POP3 可以不删除邮件。
+POP3 is characterized by deleting mail once the user reads it from the server. However, the latest versions of POP3 can avoid deleting mail.
 
 ### 3. IMAP
 
-IMAP 协议中客户端和服务器上的邮件保持同步，如果不手动删除邮件，那么服务器上的邮件也不会被删除。IMAP 这种做法可以让用户随时随地去访问服务器上的邮件。
+In IMAP, mail on the client and server remains synchronized. If mail is not manually deleted, it is not deleted from the server. This IMAP approach lets users access mail on the server anytime and anywhere.
 
 ## Common Ports
 
-|应用| 应用层协议 | 端口号 | 传输层协议 | 备注 |
+| Application | Application-Layer Protocol | Port | Transport-Layer Protocol | Notes |
 | :---: | :--: | :--: | :--: | :--: |
-| 域名解析 | DNS | 53 | UDP/TCP | 长度超过 512 字节时使用 TCP |
-| 动态主机配置协议 | DHCP | 67/68 | UDP | |
-| 简单网络管理协议 | SNMP | 161/162 | UDP | |
-| 文件传送协议 | FTP | 20/21 | TCP | 控制连接 21，数据连接 20 |
-| 远程终端协议 | TELNET | 23 | TCP | |
-| 超文本传送协议 | HTTP | 80 | TCP | |
-| 简单邮件传送协议 | SMTP | 25 | TCP | |
-| 邮件读取协议 | POP3 | 110 | TCP | |
-| 网际报文存取协议 | IMAP | 143 | TCP | |
+| Domain name resolution | DNS | 53 | UDP/TCP | TCP is used when the length exceeds 512 bytes |
+| Dynamic Host Configuration Protocol | DHCP | 67/68 | UDP | |
+| Simple Network Management Protocol | SNMP | 161/162 | UDP | |
+| File Transfer Protocol | FTP | 20/21 | TCP | Control connection 21, data connection 20 |
+| Remote terminal protocol | TELNET | 23 | TCP | |
+| Hypertext Transfer Protocol | HTTP | 80 | TCP | |
+| Simple Mail Transfer Protocol | SMTP | 25 | TCP | |
+| Mail retrieval protocol | POP3 | 110 | TCP | |
+| Internet Message Access Protocol | IMAP | 143 | TCP | |
 
 ## Web Page Request Process
 
 ### 1. DHCP Configures Host Information
 
-- 假设主机最开始没有 IP 地址以及其它信息，那么就需要先使用 DHCP 来获取。
+- Suppose the host initially has no IP address or other information. It first needs to use DHCP to obtain them.
 
-- 主机生成一个 DHCP 请求报文，并将这个报文放入具有目的端口 67 和源端口 68 的 UDP 报文段中。
+- The host generates a DHCP request message and places it in a UDP segment with destination port 67 and source port 68.
 
-- 该报文段则被放入在一个具有广播 IP 目的地址(255.255.255.255) 和源 IP 地址（0.0.0.0）的 IP 数据报中。
+- The segment is then placed in an IP datagram with broadcast destination IP address (255.255.255.255) and source IP address (0.0.0.0).
 
-- 该数据报则被放置在 MAC 帧中，该帧具有目的地址 FF:\<zero-width space\>FF:\<zero-width space\>FF:\<zero-width space\>FF:\<zero-width space\>FF:FF，将广播到与交换机连接的所有设备。
+- The datagram is then placed in a MAC frame. The frame has destination address FF:\<zero-width space\>FF:\<zero-width space\>FF:\<zero-width space\>FF:\<zero-width space\>FF:FF and is broadcast to all devices connected to the switch.
 
-- 连接在交换机的 DHCP 服务器收到广播帧之后，不断地向上分解得到 IP 数据报、UDP 报文段、DHCP 请求报文，之后生成 DHCP ACK 报文，该报文包含以下信息：IP 地址、DNS 服务器的 IP 地址、默认网关路由器的 IP 地址和子网掩码。该报文被放入 UDP 报文段中，UDP 报文段有被放入 IP 数据报中，最后放入 MAC 帧中。
+- After the DHCP server connected to the switch receives the broadcast frame, it continuously decapsulates it upward to obtain the IP datagram, UDP segment, and DHCP request message. It then generates a DHCP ACK message containing the following information: IP address, DNS server IP address, default gateway router IP address, and subnet mask. The message is placed in a UDP segment, the UDP segment is placed in an IP datagram, and finally it is placed in a MAC frame.
 
-- 该帧的目的地址是请求主机的 MAC 地址，因为交换机具有自学习能力，之前主机发送了广播帧之后就记录了 MAC 地址到其转发接口的交换表项，因此现在交换机就可以直接知道应该向哪个接口发送该帧。
+- The destination address of the frame is the requesting host's MAC address. Because the switch has self-learning capability, after the host previously sent the broadcast frame, the switch recorded the forwarding table entry mapping the MAC address to its forwarding interface. Therefore, the switch can now directly determine which interface should receive the frame.
 
-- 主机收到该帧后，不断分解得到 DHCP 报文。之后就配置它的 IP 地址、子网掩码和 DNS 服务器的 IP 地址，并在其 IP 转发表中安装默认网关。
+- After the host receives the frame, it continuously decapsulates it to obtain the DHCP message. It then configures its IP address, subnet mask, and DNS server IP address, and installs the default gateway in its IP forwarding table.
 
 ### 2. ARP Resolves MAC Address
 
-- 主机通过浏览器生成一个 TCP 套接字，套接字向 HTTP 服务器发送 HTTP 请求。为了生成该套接字，主机需要知道网站的域名对应的 IP 地址。
+- The host creates a TCP socket through the browser, and the socket sends an HTTP request to the HTTP server. To create this socket, the host needs to know the IP address corresponding to the website's domain name.
 
-- 主机生成一个 DNS 查询报文，该报文具有 53 号端口，因为 DNS 服务器的端口号是 53。
+- The host generates a DNS query message with port 53, because the DNS server port is 53.
 
-- 该 DNS 查询报文被放入目的地址为 DNS 服务器 IP 地址的 IP 数据报中。
+- The DNS query message is placed in an IP datagram whose destination address is the DNS server IP address.
 
-- 该 IP 数据报被放入一个以太网帧中，该帧将发送到网关路由器。
+- The IP datagram is placed in an Ethernet frame, which will be sent to the gateway router.
 
-- DHCP 过程只知道网关路由器的 IP 地址，为了获取网关路由器的 MAC 地址，需要使用 ARP 协议。
+- The DHCP process only knows the gateway router's IP address. To obtain the gateway router's MAC address, the ARP protocol is needed.
 
-- 主机生成一个包含目的地址为网关路由器 IP 地址的 ARP 查询报文，将该 ARP 查询报文放入一个具有广播目的地址（FF:\<zero-width space\>FF:\<zero-width space\>FF:\<zero-width space\>FF:\<zero-width space\>FF:FF）的以太网帧中，并向交换机发送该以太网帧，交换机将该帧转发给所有的连接设备，包括网关路由器。
+- The host generates an ARP query message whose destination address is the gateway router IP address, places it in an Ethernet frame with broadcast destination address (FF:\<zero-width space\>FF:\<zero-width space\>FF:\<zero-width space\>FF:\<zero-width space\>FF:FF), and sends the Ethernet frame to the switch. The switch forwards the frame to all connected devices, including the gateway router.
 
-- 网关路由器接收到该帧后，不断向上分解得到 ARP 报文，发现其中的 IP 地址与其接口的 IP 地址匹配，因此就发送一个 ARP 回答报文，包含了它的 MAC 地址，发回给主机。
+- After the gateway router receives the frame, it continuously decapsulates it upward to obtain the ARP message. It finds that the IP address matches the IP address of its interface, so it sends an ARP reply message containing its MAC address back to the host.
 
 ### 3. DNS Resolves Domain Name
 
-- 知道了网关路由器的 MAC 地址之后，就可以继续 DNS 的解析过程了。
+- After the gateway router's MAC address is known, the DNS resolution process can continue.
 
-- 网关路由器接收到包含 DNS 查询报文的以太网帧后，抽取出 IP 数据报，并根据转发表决定该 IP 数据报应该转发的路由器。
+- After the gateway router receives the Ethernet frame containing the DNS query message, it extracts the IP datagram and uses the forwarding table to decide which router the IP datagram should be forwarded to.
 
-- 因为路由器具有内部网关协议（RIP、OSPF）和外部网关协议（BGP）这两种路由选择协议，因此路由表中已经配置了网关路由器到达 DNS 服务器的路由表项。
+- Because routers have both interior gateway protocols (RIP, OSPF) and exterior gateway protocols (BGP), the routing table already has route entries from the gateway router to the DNS server.
 
-- 到达 DNS 服务器之后，DNS 服务器抽取出 DNS 查询报文，并在 DNS 数据库中查找待解析的域名。
+- After the message reaches the DNS server, the DNS server extracts the DNS query message and looks up the domain name to be resolved in the DNS database.
 
-- 找到 DNS 记录之后，发送 DNS 回答报文，将该回答报文放入 UDP 报文段中，然后放入 IP 数据报中，通过路由器反向转发回网关路由器，并经过以太网交换机到达主机。
+- After finding the DNS record, it sends a DNS response message. The response is placed in a UDP segment, then in an IP datagram, forwarded back through routers to the gateway router, and reaches the host through the Ethernet switch.
 
 ### 4. HTTP Requests the Page
 
-- 有了 HTTP 服务器的 IP 地址之后，主机就能够生成 TCP 套接字，该套接字将用于向 Web 服务器发送 HTTP GET 报文。
+- With the HTTP server's IP address, the host can create a TCP socket, which will be used to send an HTTP GET message to the web server.
 
-- 在生成 TCP 套接字之前，必须先与 HTTP 服务器进行三次握手来建立连接。生成一个具有目的端口 80 的 TCP SYN 报文段，并向 HTTP 服务器发送该报文段。
+- Before creating the TCP socket, a connection must be established with the HTTP server through the three-way handshake. A TCP SYN segment with destination port 80 is generated and sent to the HTTP server.
 
-- HTTP 服务器收到该报文段之后，生成 TCP SYN ACK 报文段，发回给主机。
+- After the HTTP server receives the segment, it generates a TCP SYN ACK segment and sends it back to the host.
 
-- 连接建立之后，浏览器生成 HTTP GET 报文，并交付给 HTTP 服务器。
+- After the connection is established, the browser generates an HTTP GET message and delivers it to the HTTP server.
 
-- HTTP 服务器从 TCP 套接字读取 HTTP GET 报文，生成一个 HTTP 响应报文，将 Web 页面内容放入报文主体中，发回给主机。
+- The HTTP server reads the HTTP GET message from the TCP socket, generates an HTTP response message, places the web page content in the message body, and sends it back to the host.
 
-- 浏览器收到 HTTP 响应报文后，抽取出 Web 页面内容，之后进行渲染，显示 Web 页面。
+- After the browser receives the HTTP response message, it extracts the web page content, renders it, and displays the web page.

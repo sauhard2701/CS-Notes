@@ -1,25 +1,25 @@
 # LeetCode Solutions - Graphs
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 图](#leetcode-solutions---graphs)
-    * [二分图](#bipartite-graphs)
-        * [1. 判断是否为二分图](#1-is-graph-bipartite)
-    * [拓扑排序](#topological-sort)
-        * [1. 课程安排的合法性](#1-course-schedule)
-        * [2. 课程安排的顺序](#2-course-schedule-ii)
-    * [并查集](#union-find)
-        * [1. 冗余连接](#1-redundant-connection)
+* [LeetCode Solutions - Graphs](#leetcode-solutions---graphs)
+    * [Bipartite Graphs](#bipartite-graphs)
+        * [1. Is Graph Bipartite?](#1-is-graph-bipartite)
+    * [Topological Sort](#topological-sort)
+        * [1. Course Schedule](#1-course-schedule)
+        * [2. Course Schedule II](#2-course-schedule-ii)
+    * [Union Find](#union-find)
+        * [1. Redundant Connection](#1-redundant-connection)
 <!-- GFM-TOC -->
 
 
 ## Bipartite Graphs
 
-如果可以用两种颜色对图中的节点进行着色，并且保证相邻的节点颜色不同，那么这个图就是二分图。
+If the nodes in a graph can be colored with two colors while ensuring that adjacent nodes have different colors, the graph is bipartite.
 
 ### 1. Is Graph Bipartite?
 
 785\. Is Graph Bipartite? (Medium)
 
-[Leetcode](https://leetcode.com/problems/is-graph-bipartite/description/) / [力扣](https://leetcode-cn.com/problems/is-graph-bipartite/description/)
+[Leetcode](https://leetcode.com/problems/is-graph-bipartite/description/) / [LeetCode China](https://leetcode-cn.com/problems/is-graph-bipartite/description/)
 
 ```html
 Input: [[1,3], [0,2], [1,3], [0,2]]
@@ -50,7 +50,7 @@ We cannot find a way to divide the set of nodes into two independent subsets.
 public boolean isBipartite(int[][] graph) {
     int[] colors = new int[graph.length];
     Arrays.fill(colors, -1);
-    for (int i = 0; i < graph.length; i++) {  // 处理图不是连通的情况
+    for (int i = 0; i < graph.length; i++) {  // handle the case where the graph is not connected
         if (colors[i] == -1 && !isBipartite(i, 0, colors, graph)) {
             return false;
         }
@@ -74,13 +74,13 @@ private boolean isBipartite(int curNode, int curColor, int[] colors, int[][] gra
 
 ## Topological Sort
 
-常用于在具有先序关系的任务规划中。
+It is often used in task planning with precedence relationships.
 
 ### 1. Course Schedule
 
 207\. Course Schedule (Medium)
 
-[Leetcode](https://leetcode.com/problems/course-schedule/description/) / [力扣](https://leetcode-cn.com/problems/course-schedule/description/)
+[Leetcode](https://leetcode.com/problems/course-schedule/description/) / [LeetCode China](https://leetcode-cn.com/problems/course-schedule/description/)
 
 ```html
 2, [[1,0]]
@@ -92,9 +92,9 @@ return true
 return false
 ```
 
-题目描述：一个课程可能会先修课程，判断给定的先修课程规定是否合法。
+Problem description: a course may have prerequisites. Determine whether the given prerequisite rules are valid.
 
-本题不需要使用拓扑排序，只需要检测有向图是否存在环即可。
+This problem does not require topological sorting; it only needs to detect whether a directed graph contains a cycle.
 
 ```java
 public boolean canFinish(int numCourses, int[][] prerequisites) {
@@ -140,16 +140,16 @@ private boolean hasCycle(boolean[] globalMarked, boolean[] localMarked,
 
 210\. Course Schedule II (Medium)
 
-[Leetcode](https://leetcode.com/problems/course-schedule-ii/description/) / [力扣](https://leetcode-cn.com/problems/course-schedule-ii/description/)
+[Leetcode](https://leetcode.com/problems/course-schedule-ii/description/) / [LeetCode China](https://leetcode-cn.com/problems/course-schedule-ii/description/)
 
 ```html
 4, [[1,0],[2,0],[3,1],[3,2]]
 There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course order is [0,1,2,3]. Another correct ordering is[0,2,1,3].
 ```
 
-使用 DFS 来实现拓扑排序，使用一个栈存储后序遍历结果，这个栈的逆序结果就是拓扑排序结果。
+Use DFS to implement topological sorting. Use a stack to store the postorder traversal result; the reverse order of this stack is the topological order.
 
-证明：对于任何先序关系：v-\>w，后序遍历结果可以保证 w 先进入栈中，因此栈的逆序结果中 v 会在 w 之前。
+Proof: for any precedence relationship v-\>w, postorder traversal guarantees that w enters the stack first, so v appears before w in the reversed stack result.
 
 ```java
 public int[] findOrder(int numCourses, int[][] prerequisites) {
@@ -199,13 +199,13 @@ private boolean hasCycle(boolean[] globalMarked, boolean[] localMarked, List<Int
 
 ## Union Find
 
-并查集可以动态地连通两个点，并且可以非常快速地判断两个点是否连通。
+Union find can dynamically connect two points and very quickly determine whether two points are connected.
 
 ### 1. Redundant Connection
 
 684\. Redundant Connection (Medium)
 
-[Leetcode](https://leetcode.com/problems/redundant-connection/description/) / [力扣](https://leetcode-cn.com/problems/redundant-connection/description/)
+[Leetcode](https://leetcode.com/problems/redundant-connection/description/) / [LeetCode China](https://leetcode-cn.com/problems/redundant-connection/description/)
 
 ```html
 Input: [[1,2], [1,3], [2,3]]
@@ -216,7 +216,7 @@ Explanation: The given undirected graph will be like this:
 2 - 3
 ```
 
-题目描述：有一系列的边连成的图，找出一条边，移除它之后该图能够成为一棵树。
+Problem description: given a graph formed by a series of edges, find one edge whose removal makes the graph a tree.
 
 ```java
 public int[] findRedundantConnection(int[][] edges) {

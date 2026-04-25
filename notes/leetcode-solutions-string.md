@@ -1,69 +1,69 @@
 # LeetCode Solutions - Strings
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 字符串](#leetcode-solutions---strings)
-    * [1. 字符串循环移位包含](#1-string-rotation-inclusion)
-    * [2. 字符串循环移位](#2-string-rotation)
-    * [3. 字符串中单词的翻转](#3-reverse-words-in-a-string)
-    * [4. 两个字符串包含的字符是否完全相同](#4-valid-anagram)
-    * [5. 计算一组字符集合可以组成的回文字符串的最大长度](#5-longest-palindrome)
-    * [6. 字符串同构](#6-isomorphic-strings)
-    * [7. 回文子字符串个数](#7-palindromic-substrings)
-    * [8. 判断一个整数是否是回文数](#8-palindrome-number)
-    * [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-count-binary-substrings)
+* [LeetCode Solutions - Strings](#leetcode-solutions---strings)
+    * [1. String Rotation Inclusion](#1-string-rotation-inclusion)
+    * [2. String Rotation](#2-string-rotation)
+    * [3. Reverse Words in a String](#3-reverse-words-in-a-string)
+    * [4. Valid Anagram](#4-valid-anagram)
+    * [5. Longest Palindrome](#5-longest-palindrome)
+    * [6. Isomorphic Strings](#6-isomorphic-strings)
+    * [7. Palindromic Substrings](#7-palindromic-substrings)
+    * [8. Palindrome Number](#8-palindrome-number)
+    * [9. Count Binary Substrings](#9-count-binary-substrings)
 <!-- GFM-TOC -->
 
 
 ## 1. String Rotation Inclusion
 
-[编程之美 3.1](#)
+[The Beauty of Programming 3.1](#)
 
 ```html
 s1 = AABCD, s2 = CDAA
 Return : true
 ```
 
-给定两个字符串 s1 和 s2，要求判定 s2 是否能够被 s1 做循环移位得到的字符串包含。
+Given two strings s1 and s2, determine whether s2 can be contained in a string obtained by cyclically shifting s1.
 
-s1 进行循环移位的结果是 s1s1 的子字符串，因此只要判断 s2 是否是 s1s1 的子字符串即可。
+The result of cyclically shifting s1 is a substring of s1s1, so it is enough to determine whether s2 is a substring of s1s1.
 
 ## 2. String Rotation
 
-[编程之美 2.17](#)
+[The Beauty of Programming 2.17](#)
 
 ```html
 s = "abcd123" k = 3
 Return "123abcd"
 ```
 
-将字符串向右循环移动 k 位。
+Cyclically shift the string k positions to the right.
 
-将 abcd123 中的 abcd 和 123 单独翻转，得到 dcba321，然后对整个字符串进行翻转，得到 123abcd。
+Reverse abcd and 123 in abcd123 separately to get dcba321, then reverse the entire string to get 123abcd.
 
 ## 3. Reverse Words in a String
 
-[程序员代码面试指南](#)
+[Programmer Code Interview Guide](#)
 
 ```html
 s = "I am a student"
 Return "student a am I"
 ```
 
-将每个单词翻转，然后将整个字符串翻转。
+Reverse each word, then reverse the entire string.
 
 ## 4. Valid Anagram
 
 242\. Valid Anagram (Easy)
 
-[Leetcode](https://leetcode.com/problems/valid-anagram/description/) / [力扣](https://leetcode-cn.com/problems/valid-anagram/description/)
+[Leetcode](https://leetcode.com/problems/valid-anagram/description/) / [LeetCode China](https://leetcode-cn.com/problems/valid-anagram/description/)
 
 ```html
 s = "anagram", t = "nagaram", return true.
 s = "rat", t = "car", return false.
 ```
 
-可以用 HashMap 来映射字符与出现次数，然后比较两个字符串出现的字符数量是否相同。
+Use a HashMap to map characters to occurrence counts, then compare whether the two strings have the same character counts.
 
-由于本题的字符串只包含 26 个小写字符，因此可以使用长度为 26 的整型数组对字符串出现的字符进行统计，不再使用 HashMap。
+Because the strings in this problem contain only 26 lowercase letters, an integer array of length 26 can be used to count character occurrences instead of using a HashMap.
 
 ```java
 public boolean isAnagram(String s, String t) {
@@ -87,7 +87,7 @@ public boolean isAnagram(String s, String t) {
 
 409\. Longest Palindrome (Easy)
 
-[Leetcode](https://leetcode.com/problems/longest-palindrome/description/) / [力扣](https://leetcode-cn.com/problems/longest-palindrome/description/)
+[Leetcode](https://leetcode.com/problems/longest-palindrome/description/) / [LeetCode China](https://leetcode-cn.com/problems/longest-palindrome/description/)
 
 ```html
 Input : "abccccdd"
@@ -95,9 +95,9 @@ Output : 7
 Explanation : One longest palindrome that can be built is "dccaccd", whose length is 7.
 ```
 
-使用长度为 256 的整型数组来统计每个字符出现的个数，每个字符有偶数个可以用来构成回文字符串。
+Use an integer array of length 256 to count the occurrences of each character. Even counts of each character can be used to form a palindrome.
 
-因为回文字符串最中间的那个字符可以单独出现，所以如果有单独的字符就把它放到最中间。
+Because the middle character of a palindrome can appear alone, if there is a single unused character, place it in the middle.
 
 ```java
 public int longestPalindrome(String s) {
@@ -110,7 +110,7 @@ public int longestPalindrome(String s) {
         palindrome += (cnt / 2) * 2;
     }
     if (palindrome < s.length()) {
-        palindrome++;   // 这个条件下 s 中一定有单个未使用的字符存在，可以把这个字符放到回文的最中间
+        palindrome++;   // under this condition, s must contain a single unused character that can be placed in the middle of the palindrome
     }
     return palindrome;
 }
@@ -120,7 +120,7 @@ public int longestPalindrome(String s) {
 
 205\. Isomorphic Strings (Easy)
 
-[Leetcode](https://leetcode.com/problems/isomorphic-strings/description/) / [力扣](https://leetcode-cn.com/problems/isomorphic-strings/description/)
+[Leetcode](https://leetcode.com/problems/isomorphic-strings/description/) / [LeetCode China](https://leetcode-cn.com/problems/isomorphic-strings/description/)
 
 ```html
 Given "egg", "add", return true.
@@ -128,7 +128,7 @@ Given "foo", "bar", return false.
 Given "paper", "title", return true.
 ```
 
-记录一个字符上次出现的位置，如果两个字符串中的字符上次出现的位置一样，那么就属于同构。
+Record the previous position of each character. If the previous positions of the corresponding characters in the two strings are the same, the strings are isomorphic.
 
 ```java
 public boolean isIsomorphic(String s, String t) {
@@ -150,7 +150,7 @@ public boolean isIsomorphic(String s, String t) {
 
 647\. Palindromic Substrings (Medium)
 
-[Leetcode](https://leetcode.com/problems/palindromic-substrings/description/) / [力扣](https://leetcode-cn.com/problems/palindromic-substrings/description/)
+[Leetcode](https://leetcode.com/problems/palindromic-substrings/description/) / [LeetCode China](https://leetcode-cn.com/problems/palindromic-substrings/description/)
 
 ```html
 Input: "aaa"
@@ -158,15 +158,15 @@ Output: 6
 Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
 ```
 
-从字符串的某一位开始，尝试着去扩展子字符串。
+Starting from a position in the string, try to expand the substring.
 
 ```java
 private int cnt = 0;
 
 public int countSubstrings(String s) {
     for (int i = 0; i < s.length(); i++) {
-        extendSubstrings(s, i, i);     // 奇数长度
-        extendSubstrings(s, i, i + 1); // 偶数长度
+        extendSubstrings(s, i, i);     // odd length
+        extendSubstrings(s, i, i + 1); // even length
     }
     return cnt;
 }
@@ -184,11 +184,11 @@ private void extendSubstrings(String s, int start, int end) {
 
 9\. Palindrome Number (Easy)
 
-[Leetcode](https://leetcode.com/problems/palindrome-number/description/) / [力扣](https://leetcode-cn.com/problems/palindrome-number/description/)
+[Leetcode](https://leetcode.com/problems/palindrome-number/description/) / [LeetCode China](https://leetcode-cn.com/problems/palindrome-number/description/)
 
-要求不能使用额外空间，也就不能将整数转换为字符串进行判断。
+The problem requires no extra space, so the integer cannot be converted into a string for checking.
 
-将整数分成左右两部分，右边那部分需要转置，然后判断这两部分是否相等。
+Split the integer into left and right parts. The right part needs to be reversed, then the two parts are compared for equality.
 
 ```java
 public boolean isPalindrome(int x) {
@@ -211,7 +211,7 @@ public boolean isPalindrome(int x) {
 
 696\. Count Binary Substrings (Easy)
 
-[Leetcode](https://leetcode.com/problems/count-binary-substrings/description/) / [力扣](https://leetcode-cn.com/problems/count-binary-substrings/description/)
+[Leetcode](https://leetcode.com/problems/count-binary-substrings/description/) / [LeetCode China](https://leetcode-cn.com/problems/count-binary-substrings/description/)
 
 ```html
 Input: "00110011"

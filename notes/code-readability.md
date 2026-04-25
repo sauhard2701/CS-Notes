@@ -1,93 +1,93 @@
 <!-- GFM-TOC -->
-* [一、可读性的重要性](#1-importance-of-readability)
-* [二、用名字表达代码含义](#2-use-names-to-express-code-meaning)
-* [三、名字不能带来歧义](#3-avoid-ambiguous-names)
-* [四、良好的代码风格](#4-good-code-style)
-* [五、为何编写注释](#5-why-write-comments)
-* [六、如何编写注释](#6-how-to-write-comments)
-* [七、提高控制流的可读性](#7-improve-control-flow-readability)
-* [八、拆分长表达式](#8-split-long-expressions)
-* [九、变量与可读性](#9-variables-and-readability)
-* [十、抽取函数](#10-extract-functions)
-* [十一、一次只做一件事](#11-do-one-thing-at-a-time)
-* [十二、用自然语言表述代码](#12-describe-code-in-natural-language)
-* [十三、减少代码量](#13-reduce-code-size)
-* [参考资料](#references)
+* [1. Importance of Readability](#1-importance-of-readability)
+* [2. Use Names to Express Code Meaning](#2-use-names-to-express-code-meaning)
+* [3. Avoid Ambiguous Names](#3-avoid-ambiguous-names)
+* [4. Good Code Style](#4-good-code-style)
+* [5. Why Write Comments](#5-why-write-comments)
+* [6. How to Write Comments](#6-how-to-write-comments)
+* [7. Improve Control Flow Readability](#7-improve-control-flow-readability)
+* [8. Split Long Expressions](#8-split-long-expressions)
+* [9. Variables and Readability](#9-variables-and-readability)
+* [10. Extract Functions](#10-extract-functions)
+* [11. Do One Thing at a Time](#11-do-one-thing-at-a-time)
+* [12. Describe Code in Natural Language](#12-describe-code-in-natural-language)
+* [13. Reduce Code Size](#13-reduce-code-size)
+* [References](#references)
 <!-- GFM-TOC -->
 
 
 # 1. Importance of Readability
 
-编程有很大一部分时间是在阅读代码，不仅要阅读自己的代码，而且要阅读别人的代码。因此，可读性良好的代码能够大大提高编程效率。
+A large part of programming time is spent reading code, not only your own code but also other people's code. Therefore, readable code can greatly improve programming efficiency.
 
-可读性良好的代码往往会让代码架构更好，因为程序员更愿意去修改这部分代码，而且也更容易修改。
+Readable code often leads to better code architecture because programmers are more willing to modify it, and it is easier to modify.
 
-只有在核心领域为了效率才可以放弃可读性，否则可读性是第一位。
+Readability should only be sacrificed for efficiency in core areas. Otherwise, readability comes first.
 
 # 2. Use Names to Express Code Meaning
 
-一些比较有表达力的单词：
+Some more expressive words:
 
-|  单词 |  可替代单词 |
+| Word | Alternatives |
 | :---: | --- |
 | send | deliver、dispatch、announce、distribute、route  |
 | find  |  search、extract、locate、recover |
 | start| launch、create、begin、open|
 | make | create、set up、build、generate、compose、add、new |
 
-使用 i、j、k 作为循环迭代器的名字过于简单，user_i、member_i 这种名字会更有表达力。因为循环层次越多，代码越难理解，有表达力的迭代器名字可读性会更高。
+Using i, j, and k as loop iterator names is too simple. Names such as user_i and member_i are more expressive. The more nested the loops are, the harder the code is to understand, and expressive iterator names improve readability.
 
-为名字添加形容词等信息能让名字更具有表达力，但是名字也会变长。名字长短的准则是：作用域越大，名字越长。因此只有在短作用域才能使用一些简单名字。
+Adding adjectives and other information to names makes them more expressive, but also longer. The guideline for name length is: the larger the scope, the longer the name. Therefore, simple names should only be used in short scopes.
 
 # 3. Avoid Ambiguous Names
 
-起完名字要思考一下别人会对这个名字有何解读，会不会误解了原本想表达的含义。
+After choosing a name, think about how others might interpret it and whether they could misunderstand the intended meaning.
 
-布尔相关的命名加上 is、can、should、has 等前缀。
+Boolean-related names should use prefixes such as is, can, should, and has.
 
-- 用 min、max 表示数量范围；
-- 用 first、last 表示访问空间的包含范围；
+- Use min and max to express numeric ranges.
+- Use first and last to express inclusive ranges in an access space.
 
-- begin、end 表示访问空间的排除范围，即 end 不包含尾部。
+- begin and end express an exclusive range in an access space, meaning end does not include the tail.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191209003453268.png"/> </div><br>
 
 # 4. Good Code Style
 
-适当的空行和缩进。
+Use appropriate blank lines and indentation.
 
-排列整齐的注释：
+Neatly aligned comments:
 
 ```java
-int a = 1;   // 注释
-int b = 11;  // 注释
-int c = 111; // 注释
+int a = 1;   // comment
+int b = 11;  // comment
+int c = 111; // comment
 ```
 
-语句顺序不能随意，比如与 html 表单相关联的变量的赋值应该和表单在 html 中的顺序一致。
+Statement order should not be arbitrary. For example, assignments to variables associated with an HTML form should follow the same order as the form in the HTML.
 
 # 5. Why Write Comments
 
-阅读代码首先会注意到注释，如果注释没太大作用，那么就会浪费代码阅读的时间。那些能直接看出含义的代码不需要写注释，特别是不需要为每个方法都加上注释，比如那些简单的 getter 和 setter 方法，为这些方法写注释反而让代码可读性更差。
+When reading code, comments are noticed first. If the comments are not very useful, they waste code-reading time. Code whose meaning is immediately clear does not need comments. In particular, not every method needs a comment, such as simple getter and setter methods. Adding comments to these methods can make the code less readable.
 
-不能因为有注释就随便起个名字，而是争取起个好名字而不写注释。
+Do not choose careless names just because comments exist. Instead, strive to choose good names and avoid comments when possible.
 
-可以用注释来记录采用当前解决办法的思考过程，从而让读者更容易理解代码。
+Comments can record the reasoning behind the current solution, making the code easier for readers to understand.
 
-注释用来提醒一些特殊情况。
+Comments can be used to remind readers about special cases.
 
-用 TODO 等做标记：
+Use TODO and similar markers:
 
-| 标记 | 用法 |
+| Marker | Usage |
 |---|---|
-|TODO| 待做 |
-|FIXME| 待修复 |
-|HACK| 粗糙的解决方案 |
-|XXX| 危险！这里有重要的问题 |
+|TODO| To do |
+|FIXME| Needs fixing |
+|HACK| Rough solution |
+|XXX| Danger! There is an important issue here |
 
 # 6. How to Write Comments
 
-尽量简洁明了：
+Be as concise and clear as possible:
 
 ```java
 // The first String is student's name
@@ -100,7 +100,7 @@ Map<String, Integer> scoreMap = new HashMap<>();
 Map<String, Integer> scoreMap = new HashMap<>();
 ```
 
-添加测试用例来说明：
+Add test cases for illustration:
 
 ```java
 // ...
@@ -110,28 +110,28 @@ int add(int x, int y) {
 }
 ```
 
-使用专业名词来缩短概念上的解释，比如用设计模式名来说明代码。
+Use professional terms to shorten conceptual explanations, such as using design pattern names to explain code.
 
 # 7. Improve Control Flow Readability
 
-条件表达式中，左侧是变量，右侧是常数。比如下面第一个语句正确：
+In conditional expressions, place variables on the left and constants on the right. For example, the first statement below is correct:
 
 ```java
 if (len < 10)
 if (10 > len)
 ```
 
-只有在逻辑简单的情况下使用 ? : 三目运算符来使代码更紧凑，否则应该拆分成 if / else；
+Use the ? : ternary operator to make code more compact only when the logic is simple; otherwise, split it into if / else.
 
-do / while 的条件放在后面，不够简单明了，并且会有一些迷惑的地方，最好使用 while 来代替。
+The condition of do / while appears at the end, which is not simple and clear and can be confusing. Prefer while instead.
 
-如果只有一个 goto 目标，那么 goto 尚且还能接受，但是过于复杂的 goto 会让代码可读性特别差，应该避免使用 goto。
+If there is only one goto target, goto may still be acceptable, but overly complex goto usage makes code especially hard to read and should be avoided.
 
-在嵌套的循环中，用一些 return 语句往往能减少嵌套的层数。
+In nested loops, using return statements can often reduce the number of nesting levels.
 
 # 8. Split Long Expressions
 
-长表达式的可读性很差，可以引入一些解释变量从而拆分表达式：
+Long expressions are hard to read. Introduce explanatory variables to split expressions:
 
 ```python
 if line.split(':')[0].strip() == "root":
@@ -143,7 +143,7 @@ if username == "root":
     ...
 ```
 
-使用摩根定理简化一些逻辑表达式：
+Use De Morgan's laws to simplify some logical expressions:
 
 ```java
 if (!a && !b) {
@@ -158,7 +158,7 @@ if (!(a || b)) {
 
 # 9. Variables and Readability
 
-**去除控制流变量**  。在循环中通过使用 break 或者 return 可以减少控制流变量的使用。
+**Remove control-flow variables**. In loops, using break or return can reduce the use of control-flow variables.
 
 ```java
 boolean done = false;
@@ -180,9 +180,9 @@ while(/* condition */) {
 }
 ```
 
-**减小变量作用域**  。作用域越小，越容易定位到变量所有使用的地方。
+**Reduce variable scope**. The smaller the scope, the easier it is to locate all places where a variable is used.
 
-JavaScript 可以用闭包减小作用域。以下代码中 submit_form 是函数变量，submitted 变量控制函数不会被提交两次。第一个实现中 submitted 是全局变量，第二个实现把 submitted 放到匿名函数中，从而限制了起作用域范围。
+JavaScript can use closures to reduce scope. In the following code, submit_form is a function variable, and the submitted variable controls that the function is not submitted twice. In the first implementation, submitted is a global variable. In the second implementation, submitted is placed inside an anonymous function, limiting its scope.
 
 ```js
 submitted = false;
@@ -203,16 +203,16 @@ var submit_form = (function() {
         }
         submitted = true;
     }
-}());  // () 使得外层匿名函数立即执行
+}());  // () makes the outer anonymous function execute immediately
 ```
 
-JavaScript 中没有用 var 声明的变量都是全局变量，而全局变量很容易造成迷惑，因此应当总是用 var 来声明变量。
+Variables not declared with var in JavaScript are global variables, and global variables can easily cause confusion. Therefore, variables should always be declared with var.
 
-变量定义的位置应当离它使用的位置最近。
+Variables should be defined as close as possible to where they are used.
 
-**实例解析**  
+**Example Analysis**
 
-在一个网页中有以下文本输入字段：
+The following text input fields appear on a web page:
 
 ```html
 <input type = "text" id = "input1" value = "a">
@@ -221,7 +221,7 @@ JavaScript 中没有用 var 声明的变量都是全局变量，而全局变量�
 <input type = "text" id = "input4" value = "d">
 ```
 
-现在要接受一个字符串并把它放到第一个空的 input 字段中，初始实现如下：
+Now we need to accept a string and place it in the first empty input field. The initial implementation is as follows:
 
 ```js
 var setFirstEmptyInput = function(new_alue) {
@@ -241,11 +241,11 @@ var setFirstEmptyInput = function(new_alue) {
 }
 ```
 
-以上实现有以下问题：
+The implementation above has the following problems:
 
-- found 可以去除；
-- elem 作用域过大；
-- 可以用 for 循环代替 while 循环；
+- found can be removed.
+- elem has too large a scope.
+- The while loop can be replaced with a for loop.
 
 ```js
 var setFirstEmptyInput = function(new_value) {
@@ -264,11 +264,11 @@ var setFirstEmptyInput = function(new_value) {
 
 # 10. Extract Functions
 
-工程学就是把大问题拆分成小问题再把这些问题的解决方案放回一起。
+Engineering means splitting a large problem into small problems and then putting the solutions to those problems back together.
 
-首先应该明确一个函数的高层次目标，然后对于不是直接为了这个目标工作的代码，抽取出来放到独立的函数中。
+First, clarify the high-level goal of a function. Then extract code that does not work directly toward that goal into independent functions.
 
-介绍性的代码：
+Introductory code:
 
 ```java
 int findClostElement(int[] arr) {
@@ -289,7 +289,7 @@ int findClostElement(int[] arr) {
 }
 ```
 
-以上代码中循环部分主要计算距离，这部分不属于代码高层次目标，高层次目标是寻找最小距离的值，因此可以把这部分代替提取到独立的函数中。这样做也带来一个额外的好处有：可以单独进行测试、可以快速找到程序错误并修改。
+In the code above, the loop mainly calculates distance. This part does not belong to the code's high-level goal. The high-level goal is to find the value with the minimum distance, so this part can be extracted into an independent function. This also brings additional benefits: it can be tested separately, and program errors can be found and fixed quickly.
 
 ```java
 public int findClostElement(int[] arr) {
@@ -306,26 +306,26 @@ public int findClostElement(int[] arr) {
 }
 ```
 
-并不是函数抽取的越多越好，如果抽取过多，在阅读代码的时候可能需要不断跳来跳去。只有在当前函数不需要去了解某一块代码细节而能够表达其内容时，把这块代码抽取成子函数才是好的。
+Extracting more functions is not always better. If too much code is extracted, readers may need to jump around constantly when reading the code. Extracting a block into a subfunction is good only when the current function does not need to understand the details of that block and the subfunction can express its content.
 
-函数抽取也用于减小代码的冗余。
+Function extraction is also used to reduce code duplication.
 
 # 11. Do One Thing at a Time
 
-只做一件事的代码很容易让人知道其要做的事；
+Code that does only one thing makes it easy to understand what it does.
 
-基本流程：列出代码所做的所有任务；把每个任务拆分到不同的函数，或者不同的段落。
+Basic process: list all tasks the code performs, then split each task into different functions or different sections.
 
 # 12. Describe Code in Natural Language
 
-先用自然语言书写代码逻辑，也就是伪代码，然后再写代码，这样代码逻辑会更清晰。
+First write the code logic in natural language, that is, pseudocode, and then write the code. This makes the code logic clearer.
 
 # 13. Reduce Code Size
 
-不要过度设计，编码过程会有很多变化，过度设计的内容到最后往往是无用的。
+Do not overdesign. Many changes occur during coding, and overdesigned content often ends up being useless.
 
-多用标准库实现。
+Use standard library implementations more often.
 
 # References
 
-- Dustin, Boswell, Trevor, 等. 编写可读代码的艺术 [M]. 机械工业出版社, 2012.
+- Dustin Boswell, Trevor, et al. The Art of Readable Code [M]. China Machine Press, 2012.

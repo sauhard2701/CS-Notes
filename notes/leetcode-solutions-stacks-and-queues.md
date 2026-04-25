@@ -1,12 +1,12 @@
 # LeetCode Solutions - Stacks and Queues
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 栈和队列](#leetcode-solutions---stacks-and-queues)
-    * [1. 用栈实现队列](#1-implement-queue-using-stacks)
-    * [2. 用队列实现栈](#2-implement-stack-using-queues)
-    * [3. 最小值栈](#3-min-stack)
-    * [4. 用栈实现括号匹配](#4-valid-parentheses)
-    * [5. 数组中元素与下一个比它大的元素之间的距离](#5-daily-temperatures)
-    * [6. 循环数组中比当前元素大的下一个元素](#6-next-greater-element-ii)
+* [LeetCode Solutions - Stacks and Queues](#leetcode-solutions---stacks-and-queues)
+    * [1. Implement Queue using Stacks](#1-implement-queue-using-stacks)
+    * [2. Implement Stack using Queues](#2-implement-stack-using-queues)
+    * [3. Min Stack](#3-min-stack)
+    * [4. Valid Parentheses](#4-valid-parentheses)
+    * [5. Daily Temperatures](#5-daily-temperatures)
+    * [6. Next Greater Element II](#6-next-greater-element-ii)
 <!-- GFM-TOC -->
 
 
@@ -14,9 +14,9 @@
 
 232\. Implement Queue using Stacks (Easy)
 
-[Leetcode](https://leetcode.com/problems/implement-queue-using-stacks/description/) / [力扣](https://leetcode-cn.com/problems/implement-queue-using-stacks/description/)
+[Leetcode](https://leetcode.com/problems/implement-queue-using-stacks/description/) / [LeetCode China](https://leetcode-cn.com/problems/implement-queue-using-stacks/description/)
 
-栈的顺序为后进先出，而队列的顺序为先进先出。使用两个栈实现队列，一个元素需要经过两个栈才能出队列，在经过第一个栈时元素顺序被反转，经过第二个栈时再次被反转，此时就是先进先出顺序。
+Stacks are last-in-first-out, while queues are first-in-first-out. To implement a queue with two stacks, an element must pass through two stacks before leaving the queue. Its order is reversed when passing through the first stack and reversed again when passing through the second stack, producing first-in-first-out order.
 
 ```java
 class MyQueue {
@@ -56,9 +56,9 @@ class MyQueue {
 
 225\. Implement Stack using Queues (Easy)
 
-[Leetcode](https://leetcode.com/problems/implement-stack-using-queues/description/) / [力扣](https://leetcode-cn.com/problems/implement-stack-using-queues/description/)
+[Leetcode](https://leetcode.com/problems/implement-stack-using-queues/description/) / [LeetCode China](https://leetcode-cn.com/problems/implement-stack-using-queues/description/)
 
-在将一个元素 x 插入队列时，为了维护原来的后进先出顺序，需要让 x 插入队列首部。而队列的默认插入顺序是队列尾部，因此在将 x 插入队列尾部之后，需要让除了 x 之外的所有元素出队列，再入队列。
+When inserting an element x into the queue, to maintain the original last-in-first-out order, x needs to be inserted at the front of the queue. Since the default insertion position of a queue is the tail, after inserting x at the tail, all elements except x need to be dequeued and enqueued again.
 
 ```java
 class MyStack {
@@ -95,7 +95,7 @@ class MyStack {
 
 155\. Min Stack (Easy)
 
-[Leetcode](https://leetcode.com/problems/min-stack/description/) / [力扣](https://leetcode-cn.com/problems/min-stack/description/)
+[Leetcode](https://leetcode.com/problems/min-stack/description/) / [LeetCode China](https://leetcode-cn.com/problems/min-stack/description/)
 
 ```java
 class MinStack {
@@ -132,13 +132,13 @@ class MinStack {
 }
 ```
 
-对于实现最小值队列问题，可以先将队列使用栈来实现，然后就将问题转换为最小值栈，这个问题出现在 编程之美：3.7。
+To implement a min queue, first implement the queue with stacks, which converts the problem into a min stack. This problem appears in The Beauty of Programming: 3.7.
 
 ## 4. Valid Parentheses
 
 20\. Valid Parentheses (Easy)
 
-[Leetcode](https://leetcode.com/problems/valid-parentheses/description/) / [力扣](https://leetcode-cn.com/problems/valid-parentheses/description/)
+[Leetcode](https://leetcode.com/problems/valid-parentheses/description/) / [LeetCode China](https://leetcode-cn.com/problems/valid-parentheses/description/)
 
 ```html
 "()[]{}"
@@ -173,14 +173,14 @@ public boolean isValid(String s) {
 
 739\. Daily Temperatures (Medium)
 
-[Leetcode](https://leetcode.com/problems/daily-temperatures/description/) / [力扣](https://leetcode-cn.com/problems/daily-temperatures/description/)
+[Leetcode](https://leetcode.com/problems/daily-temperatures/description/) / [LeetCode China](https://leetcode-cn.com/problems/daily-temperatures/description/)
 
 ```html
 Input: [73, 74, 75, 71, 69, 72, 76, 73]
 Output: [1, 1, 4, 2, 1, 1, 0, 0]
 ```
 
-在遍历数组时用栈把数组中的数存起来，如果当前遍历的数比栈顶元素来的大，说明栈顶元素的下一个比它大的数就是当前元素。
+When traversing the array, use a stack to store numbers from the array. If the current number is greater than the stack-top element, then the current element is the next greater number for the stack-top element.
 
 ```java
 public int[] dailyTemperatures(int[] temperatures) {
@@ -202,7 +202,7 @@ public int[] dailyTemperatures(int[] temperatures) {
 
 503\. Next Greater Element II (Medium)
 
-[Leetcode](https://leetcode.com/problems/next-greater-element-ii/description/) / [力扣](https://leetcode-cn.com/problems/next-greater-element-ii/description/)
+[Leetcode](https://leetcode.com/problems/next-greater-element-ii/description/) / [LeetCode China](https://leetcode-cn.com/problems/next-greater-element-ii/description/)
 
 ```text
 Input: [1,2,1]
@@ -212,7 +212,7 @@ The number 2 can't find next greater number;
 The second 1's next greater number needs to search circularly, which is also 2.
 ```
 
-与 739. Daily Temperatures (Medium) 不同的是，数组是循环数组，并且最后要求的不是距离而是下一个元素。
+Unlike 739. Daily Temperatures (Medium), the array is circular, and the final result is not the distance but the next element.
 
 ```java
 public int[] nextGreaterElements(int[] nums) {

@@ -1,18 +1,18 @@
 # LeetCode Solutions - Arrays and Matrices
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 数组与矩阵](#leetcode-solutions---arrays-and-matrices)
-    * [1. 把数组中的 0 移到末尾](#1-move-zeroes)
-    * [2. 改变矩阵维度](#2-reshape-the-matrix)
-    * [3. 找出数组中最长的连续 1](#3-max-consecutive-ones)
-    * [4. 有序矩阵查找](#4-search-a-2d-matrix-ii)
-    * [5. 有序矩阵的 Kth Element](#5-kth-smallest-element-in-a-sorted-matrix)
-    * [6. 一个数组元素在 [1, n] 之间，其中一个数被替换为另一个数，找出重复的数和丢失的数](#6-set-mismatch)
-    * [7. 找出数组中重复的数，数组值在 [1, n] 之间](#7-find-the-duplicate-number)
-    * [8. 数组相邻差值的个数](#8-beautiful-arrangement-ii)
-    * [9. 数组的度](#9-degree-of-an-array)
-    * [10. 对角元素相等的矩阵](#10-toeplitz-matrix)
-    * [11. 嵌套数组](#11-array-nesting)
-    * [12. 分隔数组](#12-max-chunks-to-make-sorted)
+* [LeetCode Solutions - Arrays and Matrices](#leetcode-solutions---arrays-and-matrices)
+    * [1. Move Zeroes](#1-move-zeroes)
+    * [2. Reshape the Matrix](#2-reshape-the-matrix)
+    * [3. Max Consecutive Ones](#3-max-consecutive-ones)
+    * [4. Search a 2D Matrix II](#4-search-a-2d-matrix-ii)
+    * [5. Kth Smallest Element in a Sorted Matrix](#5-kth-smallest-element-in-a-sorted-matrix)
+    * [6. Set Mismatch](#6-set-mismatch)
+    * [7. Find the Duplicate Number](#7-find-the-duplicate-number)
+    * [8. Beautiful Arrangement II](#8-beautiful-arrangement-ii)
+    * [9. Degree of an Array](#9-degree-of-an-array)
+    * [10. Toeplitz Matrix](#10-toeplitz-matrix)
+    * [11. Array Nesting](#11-array-nesting)
+    * [12. Max Chunks to Make Sorted](#12-max-chunks-to-make-sorted)
 <!-- GFM-TOC -->
 
 
@@ -20,7 +20,7 @@
 
 283\. Move Zeroes (Easy)
 
-[Leetcode](https://leetcode.com/problems/move-zeroes/description/) / [力扣](https://leetcode-cn.com/problems/move-zeroes/description/)
+[Leetcode](https://leetcode.com/problems/move-zeroes/description/) / [LeetCode China](https://leetcode-cn.com/problems/move-zeroes/description/)
 
 ```html
 For example, given nums = [0, 1, 0, 3, 12], after calling your function, nums should be [1, 3, 12, 0, 0].
@@ -44,7 +44,7 @@ public void moveZeroes(int[] nums) {
 
 566\. Reshape the Matrix (Easy)
 
-[Leetcode](https://leetcode.com/problems/reshape-the-matrix/description/) / [力扣](https://leetcode-cn.com/problems/reshape-the-matrix/description/)
+[Leetcode](https://leetcode.com/problems/reshape-the-matrix/description/) / [LeetCode China](https://leetcode-cn.com/problems/reshape-the-matrix/description/)
 
 ```html
 Input:
@@ -82,7 +82,7 @@ public int[][] matrixReshape(int[][] nums, int r, int c) {
 
 485\. Max Consecutive Ones (Easy)
 
-[Leetcode](https://leetcode.com/problems/max-consecutive-ones/description/) / [力扣](https://leetcode-cn.com/problems/max-consecutive-ones/description/)
+[Leetcode](https://leetcode.com/problems/max-consecutive-ones/description/) / [LeetCode China](https://leetcode-cn.com/problems/max-consecutive-ones/description/)
 
 ```java
 public int findMaxConsecutiveOnes(int[] nums) {
@@ -99,7 +99,7 @@ public int findMaxConsecutiveOnes(int[] nums) {
 
 240\. Search a 2D Matrix II (Medium)
 
-[Leetcode](https://leetcode.com/problems/search-a-2d-matrix-ii/description/) / [力扣](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/description/)
+[Leetcode](https://leetcode.com/problems/search-a-2d-matrix-ii/description/) / [LeetCode China](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/description/)
 
 ```html
 [
@@ -127,7 +127,7 @@ public boolean searchMatrix(int[][] matrix, int target) {
 
 378\. Kth Smallest Element in a Sorted Matrix ((Medium))
 
-[Leetcode](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/) / [力扣](https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/description/)
+[Leetcode](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/) / [LeetCode China](https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/description/)
 
 ```html
 matrix = [
@@ -140,9 +140,9 @@ k = 8,
 return 13.
 ```
 
-解题参考：[Share my thoughts and Clean Java Code](https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85173)
+Solution reference: [Share my thoughts and Clean Java Code](https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85173)
 
-二分查找解法：
+Binary search solution:
 
 ```java
 public int kthSmallest(int[][] matrix, int k) {
@@ -163,14 +163,14 @@ public int kthSmallest(int[][] matrix, int k) {
 }
 ```
 
-堆解法：
+Heap solution:
 
 ```java
 public int kthSmallest(int[][] matrix, int k) {
     int m = matrix.length, n = matrix[0].length;
     PriorityQueue<Tuple> pq = new PriorityQueue<Tuple>();
     for(int j = 0; j < n; j++) pq.offer(new Tuple(0, j, matrix[0][j]));
-    for(int i = 0; i < k - 1; i++) { // 小根堆，去掉 k - 1 个堆顶元素，此时堆顶元素就是第 k 的数
+    for(int i = 0; i < k - 1; i++) { // min-heap: remove k - 1 heap-top elements; the current heap top is the kth number
         Tuple t = pq.poll();
         if(t.x == m - 1) continue;
         pq.offer(new Tuple(t.x + 1, t.y, matrix[t.x + 1][t.y]));
@@ -195,7 +195,7 @@ class Tuple implements Comparable<Tuple> {
 
 645\. Set Mismatch (Easy)
 
-[Leetcode](https://leetcode.com/problems/set-mismatch/description/) / [力扣](https://leetcode-cn.com/problems/set-mismatch/description/)
+[Leetcode](https://leetcode.com/problems/set-mismatch/description/) / [LeetCode China](https://leetcode-cn.com/problems/set-mismatch/description/)
 
 ```html
 Input: nums = [1,2,2,4]
@@ -207,9 +207,9 @@ Input: nums = [1,2,2,4]
 Output: [2,3]
 ```
 
-最直接的方法是先对数组进行排序，这种方法时间复杂度为 O(NlogN)。本题可以以 O(N) 的时间复杂度、O(1) 空间复杂度来求解。
+The most direct method is to sort the array first. This method has O(NlogN) time complexity. This problem can be solved with O(N) time complexity and O(1) space complexity.
 
-主要思想是通过交换数组元素，使得数组上的元素在正确的位置上。
+The main idea is to swap array elements so that each element is placed in the correct position.
 
 ```java
 public int[] findErrorNums(int[] nums) {
@@ -237,11 +237,11 @@ private void swap(int[] nums, int i, int j) {
 
 287\. Find the Duplicate Number (Medium)
 
-[Leetcode](https://leetcode.com/problems/find-the-duplicate-number/description/) / [力扣](https://leetcode-cn.com/problems/find-the-duplicate-number/description/)
+[Leetcode](https://leetcode.com/problems/find-the-duplicate-number/description/) / [LeetCode China](https://leetcode-cn.com/problems/find-the-duplicate-number/description/)
 
-要求不能修改数组，也不能使用额外的空间。
+The problem requires that the array must not be modified and no extra space may be used.
 
-二分查找解法：
+Binary search solution:
 
 ```java
 public int findDuplicate(int[] nums) {
@@ -259,7 +259,7 @@ public int findDuplicate(int[] nums) {
 }
 ```
 
-双指针解法，类似于有环链表中找出环的入口：
+Two-pointer solution, similar to finding the entry point of a cycle in a linked list:
 
 ```java
 public int findDuplicate(int[] nums) {
@@ -281,7 +281,7 @@ public int findDuplicate(int[] nums) {
 
 667\. Beautiful Arrangement II (Medium)
 
-[Leetcode](https://leetcode.com/problems/beautiful-arrangement-ii/description/) / [力扣](https://leetcode-cn.com/problems/beautiful-arrangement-ii/description/)
+[Leetcode](https://leetcode.com/problems/beautiful-arrangement-ii/description/) / [LeetCode China](https://leetcode-cn.com/problems/beautiful-arrangement-ii/description/)
 
 ```html
 Input: n = 3, k = 2
@@ -289,9 +289,9 @@ Output: [1, 3, 2]
 Explanation: The [1, 3, 2] has three different positive integers ranging from 1 to 3, and the [2, 1] has exactly 2 distinct integers: 1 and 2.
 ```
 
-题目描述：数组元素为 1\~n 的整数，要求构建数组，使得相邻元素的差值不相同的个数为 k。
+Problem description: the array elements are integers from 1\~n. Construct an array such that the number of distinct differences between adjacent elements is k.
 
-让前 k+1 个元素构建出 k 个不相同的差值，序列为：1 k+1 2 k 3 k-1 ... k/2 k/2+1.
+Let the first k+1 elements produce k distinct differences. The sequence is: 1 k+1 2 k 3 k-1 ... k/2 k/2+1.
 
 ```java
 public int[] constructArray(int n, int k) {
@@ -311,14 +311,14 @@ public int[] constructArray(int n, int k) {
 
 697\. Degree of an Array (Easy)
 
-[Leetcode](https://leetcode.com/problems/degree-of-an-array/description/) / [力扣](https://leetcode-cn.com/problems/degree-of-an-array/description/)
+[Leetcode](https://leetcode.com/problems/degree-of-an-array/description/) / [LeetCode China](https://leetcode-cn.com/problems/degree-of-an-array/description/)
 
 ```html
 Input: [1,2,2,3,1,4,2]
 Output: 6
 ```
 
-题目描述：数组的度定义为元素出现的最高频率，例如上面的数组度为 3。要求找到一个最小的子数组，这个子数组的度和原数组一样。
+Problem description: the degree of an array is defined as the highest frequency of any element. For example, the degree of the array above is 3. Find the smallest subarray whose degree is the same as the original array.
 
 ```java
 public int findShortestSubArray(int[] nums) {
@@ -352,7 +352,7 @@ public int findShortestSubArray(int[] nums) {
 
 766\. Toeplitz Matrix (Easy)
 
-[Leetcode](https://leetcode.com/problems/toeplitz-matrix/description/) / [力扣](https://leetcode-cn.com/problems/toeplitz-matrix/description/)
+[Leetcode](https://leetcode.com/problems/toeplitz-matrix/description/) / [LeetCode China](https://leetcode-cn.com/problems/toeplitz-matrix/description/)
 
 ```html
 1234
@@ -392,7 +392,7 @@ private boolean check(int[][] matrix, int expectValue, int row, int col) {
 
 565\. Array Nesting (Medium)
 
-[Leetcode](https://leetcode.com/problems/array-nesting/description/) / [力扣](https://leetcode-cn.com/problems/array-nesting/description/)
+[Leetcode](https://leetcode.com/problems/array-nesting/description/) / [LeetCode China](https://leetcode-cn.com/problems/array-nesting/description/)
 
 ```html
 Input: A = [5,4,0,3,1,6,2]
@@ -404,7 +404,7 @@ One of the longest S[K]:
 S[0] = {A[0], A[5], A[6], A[2]} = {5, 6, 2, 0}
 ```
 
-题目描述：S[i] 表示一个集合，集合的第一个元素是 A[i]，第二个元素是 A[A[i]]，如此嵌套下去。求最大的 S[i]。
+Problem description: S[i] represents a set. The first element of the set is A[i], the second is A[A[i]], and so on recursively. Find the largest S[i].
 
 ```java
 public int arrayNesting(int[] nums) {
@@ -414,7 +414,7 @@ public int arrayNesting(int[] nums) {
         for (int j = i; nums[j] != -1; ) {
             cnt++;
             int t = nums[j];
-            nums[j] = -1; // 标记该位置已经被访问
+            nums[j] = -1; // mark this position as visited
             j = t;
 
         }
@@ -428,7 +428,7 @@ public int arrayNesting(int[] nums) {
 
 769\. Max Chunks To Make Sorted (Medium)
 
-[Leetcode](https://leetcode.com/problems/max-chunks-to-make-sorted/description/) / [力扣](https://leetcode-cn.com/problems/max-chunks-to-make-sorted/description/)
+[Leetcode](https://leetcode.com/problems/max-chunks-to-make-sorted/description/) / [LeetCode China](https://leetcode-cn.com/problems/max-chunks-to-make-sorted/description/)
 
 ```html
 Input: arr = [1,0,2,3,4]
@@ -438,7 +438,7 @@ We can split into two chunks, such as [1, 0], [2, 3, 4].
 However, splitting into [1, 0], [2], [3], [4] is the highest number of chunks possible.
 ```
 
-题目描述：分隔数组，使得对每部分排序后数组就为有序。
+Problem description: split the array so that after sorting each part, the array becomes sorted.
 
 ```java
 public int maxChunksToSorted(int[] arr) {

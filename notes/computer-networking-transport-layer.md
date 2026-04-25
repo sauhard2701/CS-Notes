@@ -1,165 +1,165 @@
 # Computer Networking - Transport Layer
 <!-- GFM-TOC -->
-* [计算机网络 - 传输层](#computer-networking---transport-layer)
-    * [UDP 和 TCP 的特点](#udp-and-tcp-characteristics)
-    * [UDP 首部格式](#udp-header-format)
-    * [TCP 首部格式](#tcp-header-format)
-    * [TCP 的三次握手](#tcp-three-way-handshake)
-    * [TCP 的四次挥手](#tcp-four-way-handshake)
-    * [TCP 可靠传输](#tcp-reliable-transmission)
-    * [TCP 滑动窗口](#tcp-sliding-window)
-    * [TCP 流量控制](#tcp-flow-control)
-    * [TCP 拥塞控制](#tcp-congestion-control)
-        * [1. 慢开始与拥塞避免](#1-slow-start-and-congestion-avoidance)
-        * [2. 快重传与快恢复](#2-fast-retransmit-and-fast-recovery)
+* [Computer Networking - Transport Layer](#computer-networking---transport-layer)
+    * [UDP and TCP Characteristics](#udp-and-tcp-characteristics)
+    * [UDP Header Format](#udp-header-format)
+    * [TCP Header Format](#tcp-header-format)
+    * [TCP Three-Way Handshake](#tcp-three-way-handshake)
+    * [TCP Four-Way Handshake](#tcp-four-way-handshake)
+    * [TCP Reliable Transmission](#tcp-reliable-transmission)
+    * [TCP Sliding Window](#tcp-sliding-window)
+    * [TCP Flow Control](#tcp-flow-control)
+    * [TCP Congestion Control](#tcp-congestion-control)
+        * [1. Slow Start and Congestion Avoidance](#1-slow-start-and-congestion-avoidance)
+        * [2. Fast Retransmit and Fast Recovery](#2-fast-retransmit-and-fast-recovery)
 <!-- GFM-TOC -->
 
 
-网络层只把分组发送到目的主机，但是真正通信的并不是主机而是主机中的进程。传输层提供了进程间的逻辑通信，传输层向高层用户屏蔽了下面网络层的核心细节，使应用程序看起来像是在两个传输层实体之间有一条端到端的逻辑通信信道。
+The network layer only sends packets to the destination host, but the real communication is not between hosts; it is between processes in hosts. The transport layer provides logical communication between processes and hides the core details of the lower network layer from upper-layer users, making applications appear to have an end-to-end logical communication channel between two transport-layer entities.
 
 ## UDP and TCP Characteristics
 
-- 用户数据报协议 UDP（User Datagram Protocol）是无连接的，尽最大可能交付，没有拥塞控制，面向报文（对于应用程序传下来的报文不合并也不拆分，只是添加 UDP 首部），支持一对一、一对多、多对一和多对多的交互通信。
+- User Datagram Protocol (UDP) is connectionless, provides best-effort delivery, has no congestion control, is message-oriented (it neither merges nor splits messages passed down by the application, only adding a UDP header), and supports one-to-one, one-to-many, many-to-one, and many-to-many interactive communication.
 
-- 传输控制协议 TCP（Transmission Control Protocol）是面向连接的，提供可靠交付，有流量控制，拥塞控制，提供全双工通信，面向字节流（把应用层传下来的报文看成字节流，把字节流组织成大小不等的数据块），每一条 TCP 连接只能是点对点的（一对一）。
+- Transmission Control Protocol (TCP) is connection-oriented, provides reliable delivery, has flow control and congestion control, provides full-duplex communication, is byte-stream-oriented (treats messages passed down from the application layer as a byte stream and organizes the byte stream into data blocks of varying sizes), and each TCP connection can only be point-to-point (one-to-one).
 
 ## UDP Header Format
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/d4c3a4a1-0846-46ec-9cc3-eaddfca71254.jpg" width="600"/> </div><br>
 
-首部字段只有 8 个字节，包括源端口、目的端口、长度、检验和。12 字节的伪首部是为了计算检验和临时添加的。
+The header fields are only 8 bytes, including source port, destination port, length, and checksum. The 12-byte pseudo-header is temporarily added to calculate the checksum.
 
 ## TCP Header Format
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/55dc4e84-573d-4c13-a765-52ed1dd251f9.png" width="700"/> </div><br>
 
--   **序号**   ：用于对字节流进行编号，例如序号为 301，表示第一个字节的编号为 301，如果携带的数据长度为 100 字节，那么下一个报文段的序号应为 401。
+-   **Sequence number**: used to number the byte stream. For example, sequence number 301 means the first byte is numbered 301. If the carried data length is 100 bytes, the sequence number of the next segment should be 401.
 
--   **确认号**   ：期望收到的下一个报文段的序号。例如 B 正确收到 A 发送来的一个报文段，序号为 501，携带的数据长度为 200 字节，因此 B 期望下一个报文段的序号为 701，B 发送给 A 的确认报文段中确认号就为 701。
+-   **Acknowledgment number**: the sequence number of the next expected segment. For example, if B correctly receives a segment from A with sequence number 501 and data length 200 bytes, B expects the next segment to have sequence number 701, so the acknowledgment number in B's acknowledgment segment sent to A is 701.
 
--   **数据偏移**   ：指的是数据部分距离报文段起始处的偏移量，实际上指的是首部的长度。
+-   **Data offset**: the offset of the data portion from the start of the segment; in practice, it indicates the header length.
 
--   **确认 ACK**   ：当 ACK=1 时确认号字段有效，否则无效。TCP 规定，在连接建立后所有传送的报文段都必须把 ACK 置 1。
+-   **Acknowledgment ACK**: when ACK=1, the acknowledgment number field is valid; otherwise, it is invalid. TCP specifies that after a connection is established, all transmitted segments must set ACK to 1.
 
--   **同步 SYN**   ：在连接建立时用来同步序号。当 SYN=1，ACK=0 时表示这是一个连接请求报文段。若对方同意建立连接，则响应报文中 SYN=1，ACK=1。
+-   **Synchronization SYN**: used to synchronize sequence numbers when establishing a connection. When SYN=1 and ACK=0, this is a connection request segment. If the peer agrees to establish the connection, the response has SYN=1 and ACK=1.
 
--   **终止 FIN**   ：用来释放一个连接，当 FIN=1 时，表示此报文段的发送方的数据已发送完毕，并要求释放连接。
+-   **Finish FIN**: used to release a connection. When FIN=1, it indicates that the sender of this segment has finished sending data and requests connection release.
 
--   **窗口**   ：窗口值作为接收方让发送方设置其发送窗口的依据。之所以要有这个限制，是因为接收方的数据缓存空间是有限的。
+-   **Window**: the window value is used by the receiver to let the sender set its sending window. This limit is needed because the receiver's data buffer space is limited.
 
 ## TCP Three-Way Handshake
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e92d0ebc-7d46-413b-aec1-34a39602f787.png" width="600"/> </div><br>
 
-假设 A 为客户端，B 为服务器端。
+Assume A is the client and B is the server.
 
-- 首先 B 处于 LISTEN（监听）状态，等待客户的连接请求。
+- First, B is in the LISTEN state, waiting for client connection requests.
 
-- A 向 B 发送连接请求报文，SYN=1，ACK=0，选择一个初始的序号 x。
+- A sends a connection request segment to B with SYN=1 and ACK=0, and chooses an initial sequence number x.
 
-- B 收到连接请求报文，如果同意建立连接，则向 A 发送连接确认报文，SYN=1，ACK=1，确认号为 x+1，同时也选择一个初始的序号 y。
+- After B receives the connection request segment, if it agrees to establish the connection, it sends a connection acknowledgment segment to A with SYN=1, ACK=1, acknowledgment number x+1, and also chooses an initial sequence number y.
 
-- A 收到 B 的连接确认报文后，还要向 B 发出确认，确认号为 y+1，序号为 x+1。
+- After A receives B's connection acknowledgment segment, it also sends an acknowledgment to B with acknowledgment number y+1 and sequence number x+1.
 
-- B 收到 A 的确认后，连接建立。
+- After B receives A's acknowledgment, the connection is established.
 
-**三次握手的原因**  
+**Reason for the three-way handshake**
 
-第三次握手是为了防止失效的连接请求到达服务器，让服务器错误打开连接。
+The third handshake prevents an expired connection request from reaching the server and causing the server to open a connection incorrectly.
 
-客户端发送的连接请求如果在网络中滞留，那么就会隔很长一段时间才能收到服务器端发回的连接确认。客户端等待一个超时重传时间之后，就会重新请求连接。但是这个滞留的连接请求最后还是会到达服务器，如果不进行三次握手，那么服务器就会打开两个连接。如果有第三次握手，客户端会忽略服务器之后发送的对滞留连接请求的连接确认，不进行第三次握手，因此就不会再次打开连接。
+If a connection request sent by the client is delayed in the network, the client may receive the server's connection acknowledgment only after a long time. After waiting for a retransmission timeout, the client requests the connection again. However, the delayed connection request may still eventually reach the server. Without the three-way handshake, the server would open two connections. With the third handshake, the client ignores the server's later connection acknowledgment for the delayed connection request and does not perform the third handshake, so the connection is not opened again.
 
 ## TCP Four-Way Handshake
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f87afe72-c2df-4c12-ac03-9b8d581a8af8.jpg" width="600"/> </div><br>
 
-以下描述不讨论序号和确认号，因为序号和确认号的规则比较简单。并且不讨论 ACK，因为 ACK 在连接建立之后都为 1。
+The following description does not discuss sequence numbers or acknowledgment numbers because their rules are relatively simple. It also does not discuss ACK because ACK is always 1 after the connection is established.
 
-- A 发送连接释放报文，FIN=1。
+- A sends a connection release segment with FIN=1.
 
-- B 收到之后发出确认，此时 TCP 属于半关闭状态，B 能向 A 发送数据但是 A 不能向 B 发送数据。
+- After B receives it, B sends an acknowledgment. At this point, TCP is in a half-closed state: B can send data to A, but A cannot send data to B.
 
-- 当 B 不再需要连接时，发送连接释放报文，FIN=1。
+- When B no longer needs the connection, it sends a connection release segment with FIN=1.
 
-- A 收到后发出确认，进入 TIME-WAIT 状态，等待 2 MSL（最大报文存活时间）后释放连接。
+- After A receives it, A sends an acknowledgment, enters the TIME-WAIT state, and releases the connection after waiting 2 MSL (Maximum Segment Lifetime).
 
-- B 收到 A 的确认后释放连接。
+- B releases the connection after receiving A's acknowledgment.
 
-**四次挥手的原因**  
+**Reason for the four-way handshake**
 
-客户端发送了 FIN 连接释放报文之后，服务器收到了这个报文，就进入了 CLOSE-WAIT 状态。这个状态是为了让服务器端发送还未传送完毕的数据，传送完毕之后，服务器会发送 FIN 连接释放报文。
+After the client sends a FIN connection release segment, the server receives it and enters the CLOSE-WAIT state. This state lets the server send any remaining data that has not yet been transmitted. After transmission is complete, the server sends a FIN connection release segment.
 
 **TIME_WAIT**  
 
-客户端接收到服务器端的 FIN 报文后进入此状态，此时并不是直接进入 CLOSED 状态，还需要等待一个时间计时器设置的时间 2MSL。这么做有两个理由：
+The client enters this state after receiving the server's FIN segment. It does not directly enter the CLOSED state; it must wait for 2MSL as set by a timer. There are two reasons:
 
-- 确保最后一个确认报文能够到达。如果 B 没收到 A 发送来的确认报文，那么就会重新发送连接释放请求报文，A 等待一段时间就是为了处理这种情况的发生。
+- Ensure that the final acknowledgment segment can arrive. If B does not receive the acknowledgment segment sent by A, it will resend the connection release request segment. A waits for a period of time to handle this situation.
 
-- 等待一段时间是为了让本连接持续时间内所产生的所有报文都从网络中消失，使得下一个新的连接不会出现旧的连接请求报文。
+- Waiting for a period of time allows all segments generated during this connection to disappear from the network, so the next new connection will not encounter old connection request segments.
 
 ## TCP Reliable Transmission
 
-TCP 使用超时重传来实现可靠传输：如果一个已经发送的报文段在超时时间内没有收到确认，那么就重传这个报文段。
+TCP uses timeout retransmission to implement reliable transmission: if an already sent segment is not acknowledged within the timeout period, the segment is retransmitted.
 
-一个报文段从发送再到接收到确认所经过的时间称为往返时间 RTT，加权平均往返时间 RTTs 计算如下：
+The time from sending a segment to receiving its acknowledgment is called the round-trip time (RTT). The weighted average round-trip time RTTs is calculated as follows:
 
 <div align="center"><img src="https://latex.codecogs.com/gif.latex?RTTs=(1-a)*(RTTs)+a*RTT" class="mathjax-pic"/></div> <br>
-其中，0 ≤ a ＜ 1，RTTs 随着 a 的增加更容易受到 RTT 的影响。
+Here, 0 <= a < 1. As a increases, RTTs is more easily affected by RTT.
 
-超时时间 RTO 应该略大于 RTTs，TCP 使用的超时时间计算如下：
+The timeout RTO should be slightly greater than RTTs. TCP calculates the timeout as follows:
 
 <div align="center"><img src="https://latex.codecogs.com/gif.latex?RTO=RTTs+4*RTT_d" class="mathjax-pic"/></div> <br>
-其中 RTT<sub>d</sub> 为偏差的加权平均值。
+Here, RTT<sub>d</sub> is the weighted average deviation.
 
 ## TCP Sliding Window
 
-窗口是缓存的一部分，用来暂时存放字节流。发送方和接收方各有一个窗口，接收方通过 TCP 报文段中的窗口字段告诉发送方自己的窗口大小，发送方根据这个值和其它信息设置自己的窗口大小。
+A window is part of the buffer and is used to temporarily store the byte stream. The sender and receiver each have a window. The receiver tells the sender its window size through the window field in TCP segments, and the sender sets its own window size based on this value and other information.
 
-发送窗口内的字节都允许被发送，接收窗口内的字节都允许被接收。如果发送窗口左部的字节已经发送并且收到了确认，那么就将发送窗口向右滑动一定距离，直到左部第一个字节不是已发送并且已确认的状态；接收窗口的滑动类似，接收窗口左部字节已经发送确认并交付主机，就向右滑动接收窗口。
+Bytes inside the sending window are allowed to be sent, and bytes inside the receiving window are allowed to be received. If bytes on the left side of the sending window have been sent and acknowledged, the sending window slides right by some distance until the first byte on the left is no longer in the sent-and-acknowledged state. The receiving window slides similarly: when bytes on the left side of the receiving window have been acknowledged and delivered to the host, the receiving window slides right.
 
-接收窗口只会对窗口内最后一个按序到达的字节进行确认，例如接收窗口已经收到的字节为 {31, 34, 35}，其中 {31} 按序到达，而 {34, 35} 就不是，因此只对字节 31 进行确认。发送方得到一个字节的确认之后，就知道这个字节之前的所有字节都已经被接收。
+The receiving window only acknowledges the last byte in the window that arrives in order. For example, if the receiving window has received bytes {31, 34, 35}, only {31} arrived in order while {34, 35} did not, so only byte 31 is acknowledged. After the sender receives an acknowledgment for a byte, it knows that all bytes before that byte have been received.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a3253deb-8d21-40a1-aae4-7d178e4aa319.jpg" width="800"/> </div><br>
 
 ## TCP Flow Control
 
-流量控制是为了控制发送方发送速率，保证接收方来得及接收。
+Flow control controls the sender's sending rate to ensure that the receiver has time to receive the data.
 
-接收方发送的确认报文中的窗口字段可以用来控制发送方窗口大小，从而影响发送方的发送速率。将窗口字段设置为 0，则发送方不能发送数据。
+The window field in the acknowledgment segment sent by the receiver can be used to control the sender's window size, thereby affecting the sender's sending rate. If the window field is set to 0, the sender cannot send data.
 
 ## TCP Congestion Control
 
-如果网络出现拥塞，分组将会丢失，此时发送方会继续重传，从而导致网络拥塞程度更高。因此当出现拥塞时，应当控制发送方的速率。这一点和流量控制很像，但是出发点不同。流量控制是为了让接收方能来得及接收，而拥塞控制是为了降低整个网络的拥塞程度。
+If network congestion occurs, packets are lost, and the sender continues retransmitting, which makes network congestion worse. Therefore, when congestion occurs, the sender's rate should be controlled. This is similar to flow control, but the motivation is different. Flow control ensures that the receiver can receive in time, while congestion control reduces congestion across the entire network.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/51e2ed95-65b8-4ae9-8af3-65602d452a25.jpg" width="500"/> </div><br>
 
-TCP 主要通过四个算法来进行拥塞控制：慢开始、拥塞避免、快重传、快恢复。
+TCP mainly performs congestion control through four algorithms: slow start, congestion avoidance, fast retransmit, and fast recovery.
 
-发送方需要维护一个叫做拥塞窗口（cwnd）的状态变量，注意拥塞窗口与发送方窗口的区别：拥塞窗口只是一个状态变量，实际决定发送方能发送多少数据的是发送方窗口。
+The sender needs to maintain a state variable called the congestion window (cwnd). Note the difference between the congestion window and the sender window: the congestion window is only a state variable, while the sender window actually determines how much data the sender can send.
 
-为了便于讨论，做如下假设：
+For discussion, make the following assumptions:
 
-- 接收方有足够大的接收缓存，因此不会发生流量控制；
-- 虽然 TCP 的窗口基于字节，但是这里设窗口的大小单位为报文段。
+- The receiver has a large enough receive buffer, so flow control does not occur.
+- Although TCP windows are byte-based, here the window size unit is assumed to be segments.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/910f613f-514f-4534-87dd-9b4699d59d31.png" width="800"/> </div><br>
 
 ### 1. Slow Start and Congestion Avoidance
 
-发送的最初执行慢开始，令 cwnd = 1，发送方只能发送 1 个报文段；当收到确认后，将 cwnd 加倍，因此之后发送方能够发送的报文段数量为：2、4、8 ...
+Slow start is executed at the beginning of sending. Set cwnd = 1, so the sender can send only 1 segment. After receiving an acknowledgment, cwnd doubles, so the number of segments the sender can send becomes 2, 4, 8, and so on.
 
-注意到慢开始每个轮次都将 cwnd 加倍，这样会让 cwnd 增长速度非常快，从而使得发送方发送的速度增长速度过快，网络拥塞的可能性也就更高。设置一个慢开始门限 ssthresh，当 cwnd \>= ssthresh 时，进入拥塞避免，每个轮次只将 cwnd 加 1。
+Note that slow start doubles cwnd every round, causing cwnd to grow very quickly. This makes the sender's sending rate grow too quickly and increases the possibility of network congestion. A slow-start threshold ssthresh is set. When cwnd \>= ssthresh, congestion avoidance begins, and cwnd increases by only 1 each round.
 
-如果出现了超时，则令 ssthresh = cwnd / 2，然后重新执行慢开始。
+If a timeout occurs, set ssthresh = cwnd / 2 and then execute slow start again.
 
 ### 2. Fast Retransmit and Fast Recovery
 
-在接收方，要求每次接收到报文段都应该对最后一个已收到的有序报文段进行确认。例如已经接收到 M<sub>1</sub> 和 M<sub>2</sub>，此时收到 M<sub>4</sub>，应当发送对 M<sub>2</sub> 的确认。
+On the receiver side, every received segment should acknowledge the last received in-order segment. For example, if M<sub>1</sub> and M<sub>2</sub> have already been received, and M<sub>4</sub> is then received, an acknowledgment for M<sub>2</sub> should be sent.
 
-在发送方，如果收到三个重复确认，那么可以知道下一个报文段丢失，此时执行快重传，立即重传下一个报文段。例如收到三个 M<sub>2</sub>，则 M<sub>3</sub> 丢失，立即重传 M<sub>3</sub>。
+On the sender side, if three duplicate acknowledgments are received, the sender can know that the next segment was lost. It then performs fast retransmit and immediately retransmits the next segment. For example, if three acknowledgments for M<sub>2</sub> are received, M<sub>3</sub> was lost, so M<sub>3</sub> is retransmitted immediately.
 
-在这种情况下，只是丢失个别报文段，而不是网络拥塞。因此执行快恢复，令 ssthresh = cwnd / 2 ，cwnd = ssthresh，注意到此时直接进入拥塞避免。
+In this case, only an individual segment was lost, not network congestion. Therefore fast recovery is performed: set ssthresh = cwnd / 2 and cwnd = ssthresh. Note that this directly enters congestion avoidance.
 
-慢开始和快恢复的快慢指的是 cwnd 的设定值，而不是 cwnd 的增长速率。慢开始 cwnd 设定为 1，而快恢复 cwnd 设定为 ssthresh。
+The "slow" in slow start and "fast" in fast recovery refer to the set value of cwnd, not the growth rate of cwnd. Slow start sets cwnd to 1, while fast recovery sets cwnd to ssthresh.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/f61b5419-c94a-4df1-8d4d-aed9ae8cc6d5.png" width="600"/> </div><br>

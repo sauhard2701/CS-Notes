@@ -1,26 +1,26 @@
 # Computer Networking - Link Layer
 <!-- GFM-TOC -->
-* [计算机网络 - 链路层](#computer-networking---link-layer)
-    * [基本问题](#basic-issues)
-        * [1. 封装成帧](#1-framing)
-        * [2. 透明传输](#2-transparent-transmission)
-        * [3. 差错检测](#3-error-detection)
-    * [信道分类](#channel-classification)
-        * [1. 广播信道](#1-broadcast-channels)
-        * [2. 点对点信道](#2-point-to-point-channels)
-    * [信道复用技术](#channel-multiplexing)
-        * [1. 频分复用](#1-frequency-division-multiplexing)
-        * [2. 时分复用](#2-time-division-multiplexing)
-        * [3. 统计时分复用](#3-statistical-time-division-multiplexing)
-        * [4. 波分复用](#4-wavelength-division-multiplexing)
-        * [5. 码分复用](#5-code-division-multiplexing)
-    * [CSMA/CD 协议](#csmacd-protocol)
-    * [PPP 协议](#ppp-protocol)
-    * [MAC 地址](#mac-address)
-    * [局域网](#local-area-network)
-    * [以太网](#ethernet)
-    * [交换机](#switches)
-    * [虚拟局域网](#virtual-lan)
+* [Computer Networking - Link Layer](#computer-networking---link-layer)
+    * [Basic Issues](#basic-issues)
+        * [1. Framing](#1-framing)
+        * [2. Transparent Transmission](#2-transparent-transmission)
+        * [3. Error Detection](#3-error-detection)
+    * [Channel Classification](#channel-classification)
+        * [1. Broadcast Channels](#1-broadcast-channels)
+        * [2. Point-to-Point Channels](#2-point-to-point-channels)
+    * [Channel Multiplexing](#channel-multiplexing)
+        * [1. Frequency-Division Multiplexing](#1-frequency-division-multiplexing)
+        * [2. Time-Division Multiplexing](#2-time-division-multiplexing)
+        * [3. Statistical Time-Division Multiplexing](#3-statistical-time-division-multiplexing)
+        * [4. Wavelength-Division Multiplexing](#4-wavelength-division-multiplexing)
+        * [5. Code-Division Multiplexing](#5-code-division-multiplexing)
+    * [CSMA/CD Protocol](#csmacd-protocol)
+    * [PPP Protocol](#ppp-protocol)
+    * [MAC Address](#mac-address)
+    * [Local Area Network](#local-area-network)
+    * [Ethernet](#ethernet)
+    * [Switches](#switches)
+    * [Virtual LAN](#virtual-lan)
 <!-- GFM-TOC -->
 
 
@@ -28,75 +28,75 @@
 
 ### 1. Framing
 
-将网络层传下来的分组添加首部和尾部，用于标记帧的开始和结束。
+Add a header and trailer to packets passed down from the network layer to mark the beginning and end of a frame.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/29a14735-e154-4f60-9a04-c9628e5d09f4.png" width="300"/> </div><br>
 
 ### 2. Transparent Transmission
 
-透明表示一个实际存在的事物看起来好像不存在一样。
+Transparency means that something that actually exists appears as if it does not exist.
 
-帧使用首部和尾部进行定界，如果帧的数据部分含有和首部尾部相同的内容，那么帧的开始和结束位置就会被错误的判定。需要在数据部分出现首部尾部相同的内容前面插入转义字符。如果数据部分出现转义字符，那么就在转义字符前面再加个转义字符。在接收端进行处理之后可以还原出原始数据。这个过程透明传输的内容是转义字符，用户察觉不到转义字符的存在。
+Frames use headers and trailers as delimiters. If the data portion of a frame contains the same content as the header or trailer, the frame's start and end positions may be incorrectly identified. Escape characters need to be inserted before any content in the data portion that matches the header or trailer. If an escape character appears in the data portion, another escape character is added before it. After processing on the receiving side, the original data can be restored. In this process, the transparently transmitted content is the escape character, and users do not perceive its existence.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e738a3d2-f42e-4755-ae13-ca23497e7a97.png" width="500"/> </div><br>
 
 ### 3. Error Detection
 
-目前数据链路层广泛使用了循环冗余检验（CRC）来检查比特差错。
+The data link layer currently widely uses cyclic redundancy check (CRC) to detect bit errors.
 
 ## Channel Classification
 
 ### 1. Broadcast Channels
 
-一对多通信，一个节点发送的数据能够被广播信道上所有的节点接收到。
+One-to-many communication: data sent by one node can be received by all nodes on the broadcast channel.
 
-所有的节点都在同一个广播信道上发送数据，因此需要有专门的控制方法进行协调，避免发生冲突（冲突也叫碰撞）。
+All nodes send data on the same broadcast channel, so special control methods are needed for coordination to avoid conflicts, also called collisions.
 
-主要有两种控制方法进行协调，一个是使用信道复用技术，一是使用 CSMA/CD 协议。
+There are mainly two control methods for coordination: using channel multiplexing techniques and using the CSMA/CD protocol.
 
 ### 2. Point-to-Point Channels
 
-一对一通信。
+One-to-one communication.
 
-因为不会发生碰撞，因此也比较简单，使用 PPP 协议进行控制。
+Because collisions do not occur, it is relatively simple and uses the PPP protocol for control.
 
 ## Channel Multiplexing
 
 ### 1. Frequency-Division Multiplexing
 
-频分复用的所有主机在相同的时间占用不同的频率带宽资源。
+In frequency-division multiplexing, all hosts occupy different frequency bandwidth resources at the same time.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/4aa5e057-bc57-4719-ab57-c6fbc861c505.png" width="350"/> </div><br>
 
 ### 2. Time-Division Multiplexing
 
-时分复用的所有主机在不同的时间占用相同的频率带宽资源。
+In time-division multiplexing, all hosts occupy the same frequency bandwidth resources at different times.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/67582ade-d44a-46a6-8757-3c1296cc1ef9.png" width="350"/> </div><br>
 
-使用频分复用和时分复用进行通信，在通信的过程中主机会一直占用一部分信道资源。但是由于计算机数据的突发性质，通信过程没必要一直占用信道资源而不让出给其它用户使用，因此这两种方式对信道的利用率都不高。
+When using frequency-division multiplexing or time-division multiplexing for communication, a host continuously occupies part of the channel resources during communication. However, because computer data is bursty, there is no need to occupy channel resources continuously and prevent other users from using them, so both methods have low channel utilization.
 
 ### 3. Statistical Time-Division Multiplexing
 
-是对时分复用的一种改进，不固定每个用户在时分复用帧中的位置，只要有数据就集中起来组成统计时分复用帧然后发送。
+This is an improvement over time-division multiplexing. It does not fix each user's position in a time-division multiplexing frame. As long as there is data, it is gathered into a statistical time-division multiplexing frame and sent.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/6283be2a-814a-4a10-84bf-9592533fe6bc.png" width="350"/> </div><br>
 
 ### 4. Wavelength-Division Multiplexing
 
-光的频分复用。由于光的频率很高，因此习惯上用波长而不是频率来表示所使用的光载波。
+Frequency-division multiplexing for light. Because the frequency of light is very high, the optical carrier used is conventionally represented by wavelength rather than frequency.
 
 ### 5. Code-Division Multiplexing
 
-为每个用户分配 m bit 的码片，并且所有的码片正交，对于任意两个码片 <img src="https://latex.codecogs.com/gif.latex?\vec{S}" class="mathjax-pic"/> 和 <img src="https://latex.codecogs.com/gif.latex?\vec{T}" class="mathjax-pic"/> 有
+Assign each user an m-bit chip sequence, and all chip sequences are orthogonal. For any two chip sequences <img src="https://latex.codecogs.com/gif.latex?\vec{S}" class="mathjax-pic"/> and <img src="https://latex.codecogs.com/gif.latex?\vec{T}" class="mathjax-pic"/>, we have:
 
 <!-- <div align="center"><img src="https://latex.codecogs.com/gif.latex?\frac{1}{m}\vec{S}\cdot\vec{T}=0" class="mathjax-pic"/></div> <br> -->
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/308a02e9-3346-4251-8c41-bd5536dab491.png" width="100px"> </div><br>
 
-为了讨论方便，取 m=8，设码片 <img src="https://latex.codecogs.com/gif.latex?\vec{S}" class="mathjax-pic"/> 为 00011011。在拥有该码片的用户发送比特 1 时就发送该码片，发送比特 0 时就发送该码片的反码 11100100。
+For convenience, let m=8 and let chip sequence <img src="https://latex.codecogs.com/gif.latex?\vec{S}" class="mathjax-pic"/> be 00011011. When the user with this chip sequence sends bit 1, it sends this chip sequence; when it sends bit 0, it sends the complement 11100100.
 
-在计算时将 00011011 记作 (-1 -1 -1 +1 +1 -1 +1 +1)，可以得到
+In calculations, 00011011 is written as (-1 -1 -1 +1 +1 -1 +1 +1), giving:
 
 <!-- <div align="center"><img src="https://latex.codecogs.com/gif.latex?\frac{1}{m}\vec{S}\cdot\vec{S}=1" class="mathjax-pic"/></div> <br> -->
 
@@ -106,93 +106,92 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e325a903-f0b1-4fbd-82bf-88913dc2f290.png" width="125px"> </div><br>
 
-其中 <img src="https://latex.codecogs.com/gif.latex?\vec{S'}" class="mathjax-pic"/> 为 <img src="https://latex.codecogs.com/gif.latex?\vec{S}" class="mathjax-pic"/> 的反码。
+Here, <img src="https://latex.codecogs.com/gif.latex?\vec{S'}" class="mathjax-pic"/> is the complement of <img src="https://latex.codecogs.com/gif.latex?\vec{S}" class="mathjax-pic"/>.
 
-利用上面的式子我们知道，当接收端使用码片 <img src="https://latex.codecogs.com/gif.latex?\vec{S}" class="mathjax-pic"/> 对接收到的数据进行内积运算时，结果为 0 的是其它用户发送的数据，结果为 1 的是用户发送的比特 1，结果为 -1 的是用户发送的比特 0。
+Using the formulas above, when the receiver uses chip sequence <img src="https://latex.codecogs.com/gif.latex?\vec{S}" class="mathjax-pic"/> to compute the inner product of received data, a result of 0 indicates data sent by other users, a result of 1 indicates bit 1 sent by this user, and a result of -1 indicates bit 0 sent by this user.
 
-码分复用需要发送的数据量为原先的 m 倍。
+Code-division multiplexing requires sending m times as much data as before.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/99b6060e-099d-4201-8e86-f8ab3768a7cf.png" width="500px"> </div><br>
 
 
 ## CSMA/CD Protocol
 
-CSMA/CD 表示载波监听多点接入 / 碰撞检测。
+CSMA/CD stands for Carrier Sense Multiple Access with Collision Detection.
 
--   **多点接入**  ：说明这是总线型网络，许多主机以多点的方式连接到总线上。
--   **载波监听**  ：每个主机都必须不停地监听信道。在发送前，如果监听到信道正在使用，就必须等待。
--   **碰撞检测**  ：在发送中，如果监听到信道已有其它主机正在发送数据，就表示发生了碰撞。虽然每个主机在发送数据之前都已经监听到信道为空闲，但是由于电磁波的传播时延的存在，还是有可能会发生碰撞。
+-   **Multiple access**: indicates that this is a bus network, where many hosts connect to the bus in a multipoint manner.
+-   **Carrier sense**: each host must continuously listen to the channel. Before sending, if it detects that the channel is in use, it must wait.
+-   **Collision detection**: while sending, if it detects that another host is already sending data on the channel, a collision has occurred. Although each host has already detected that the channel is idle before sending, collisions may still occur because of electromagnetic-wave propagation delay.
 
-记端到端的传播时延为 τ，最先发送的站点最多经过 2τ 就可以知道是否发生了碰撞，称 2τ 为   **争用期**  。只有经过争用期之后还没有检测到碰撞，才能肯定这次发送不会发生碰撞。
+Let the end-to-end propagation delay be τ. The first sending station can know whether a collision has occurred after at most 2τ, which is called the   **contention period**  . Only after the contention period passes without detecting a collision can it be certain that this transmission will not collide.
 
-当发生碰撞时，站点要停止发送，等待一段时间再发送。这个时间采用   **截断二进制指数退避算法**   来确定。从离散的整数集合 {0, 1, .., (2<sup>k</sup>-1)} 中随机取出一个数，记作 r，然后取 r 倍的争用期作为重传等待时间。
+When a collision occurs, the station stops sending and waits for a period of time before sending again. This time is determined by the   **truncated binary exponential backoff algorithm**  . A number is randomly selected from the discrete integer set {0, 1, .., (2<sup>k</sup>-1)}, denoted as r, and r times the contention period is used as the retransmission waiting time.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/19d423e9-74f7-4c2b-9b97-55890e0d5193.png" width="400"/> </div><br>
 
 ## PPP Protocol
 
-互联网用户通常需要连接到某个 ISP 之后才能接入到互联网，PPP 协议是用户计算机和 ISP 进行通信时所使用的数据链路层协议。
+Internet users usually need to connect to an ISP before accessing the Internet. PPP is the data link layer protocol used for communication between the user's computer and the ISP.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e1ab9f28-cb15-4178-84b2-98aad87f9bc8.jpg" width="300"/> </div><br>
 
-PPP 的帧格式：
+PPP frame format:
 
-- F 字段为帧的定界符
-- A 和 C 字段暂时没有意义
-- FCS 字段是使用 CRC 的检验序列
-- 信息部分的长度不超过 1500
+- The F field is the frame delimiter.
+- The A and C fields have no meaning for now.
+- The FCS field is the check sequence using CRC.
+- The information field length does not exceed 1500.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/759013d7-61d8-4509-897a-d75af598a236.png" width="400"/> </div><br>
 
 ## MAC Address
 
-MAC 地址是链路层地址，长度为 6 字节（48 位），用于唯一标识网络适配器（网卡）。
+A MAC address is a link-layer address with a length of 6 bytes (48 bits). It uniquely identifies a network adapter, or network card.
 
-一台主机拥有多少个网络适配器就有多少个 MAC 地址。例如笔记本电脑普遍存在无线网络适配器和有线网络适配器，因此就有两个 MAC 地址。
+A host has as many MAC addresses as it has network adapters. For example, laptops commonly have both wireless and wired network adapters, so they have two MAC addresses.
 
 ## Local Area Network
 
-局域网是一种典型的广播信道，主要特点是网络为一个单位所拥有，且地理范围和站点数目均有限。
+A local area network is a typical broadcast channel. Its main characteristics are that the network is owned by one organization and both its geographic range and number of stations are limited.
 
-主要有以太网、令牌环网、FDDI 和 ATM 等局域网技术，目前以太网占领着有线局域网市场。
+Main local area network technologies include Ethernet, Token Ring, FDDI, and ATM. Ethernet currently dominates the wired LAN market.
 
-可以按照网络拓扑结构对局域网进行分类：
+LANs can be classified by network topology:
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/807f4258-dba8-4c54-9c3c-a707c7ccffa2.jpg" width="800"/> </div><br>
 
 ## Ethernet
 
-以太网是一种星型拓扑结构局域网。
+Ethernet is a star-topology LAN.
 
-早期使用集线器进行连接，集线器是一种物理层设备， 作用于比特而不是帧，当一个比特到达接口时，集线器重新生成这个比特，并将其能量强度放大，从而扩大网络的传输距离，之后再将这个比特发送到其它所有接口。如果集线器同时收到两个不同接口的帧，那么就发生了碰撞。
+Early Ethernet used hubs for connection. A hub is a physical-layer device that operates on bits rather than frames. When a bit arrives at an interface, the hub regenerates the bit and amplifies its energy intensity to extend the network transmission distance, then sends the bit to all other interfaces. If the hub receives frames from two different interfaces at the same time, a collision occurs.
 
-目前以太网使用交换机替代了集线器，交换机是一种链路层设备，它不会发生碰撞，能根据 MAC 地址进行存储转发。
+Current Ethernet uses switches instead of hubs. A switch is a link-layer device. It does not cause collisions and can perform store-and-forward based on MAC addresses.
 
-以太网帧格式：
+Ethernet frame format:
 
--   **类型**  ：标记上层使用的协议；
--   **数据**  ：长度在 46-1500 之间，如果太小则需要填充；
--   **FCS**  ：帧检验序列，使用的是 CRC 检验方法；
+-   **Type**: marks the protocol used by the upper layer.
+-   **Data**: length is between 46 and 1500; padding is needed if it is too small.
+-   **FCS**: frame check sequence, using the CRC check method.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/164944d3-bbd2-4bb2-924b-e62199c51b90.png" width="500"/> </div><br>
 
 ## Switches
 
-交换机具有自学习能力，学习的是交换表的内容，交换表中存储着 MAC 地址到接口的映射。
+Switches have self-learning capability. They learn the contents of the switching table, which stores mappings from MAC addresses to interfaces.
 
-正是由于这种自学习能力，因此交换机是一种即插即用设备，不需要网络管理员手动配置交换表内容。
+Because of this self-learning capability, a switch is a plug-and-play device and does not require a network administrator to manually configure the switching table.
 
-下图中，交换机有 4 个接口，主机 A 向主机 B 发送数据帧时，交换机把主机 A 到接口 1 的映射写入交换表中。为了发送数据帧到 B，先查交换表，此时没有主机 B 的表项，那么主机 A 就发送广播帧，主机 C 和主机 D 会丢弃该帧，主机 B 回应该帧向主机 A 发送数据包时，交换机查找交换表得到主机 A 映射的接口为 1，就发送数据帧到接口 1，同时交换机添加主机 B 到接口 2 的映射。
+In the figure below, the switch has four interfaces. When host A sends a data frame to host B, the switch writes the mapping from host A to interface 1 into the switching table. To send the data frame to B, the switch first checks the switching table. At this point there is no entry for host B, so host A sends a broadcast frame. Hosts C and D discard the frame. When host B responds to the frame and sends a packet to host A, the switch looks up the switching table, finds that host A maps to interface 1, and sends the data frame to interface 1. At the same time, the switch adds the mapping from host B to interface 2.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a4444545-0d68-4015-9a3d-19209dc436b3.png" width="800"/> </div><br>
 
 ## Virtual LAN
 
-虚拟局域网可以建立与物理位置无关的逻辑组，只有在同一个虚拟局域网中的成员才会收到链路层广播信息。
+A virtual LAN can establish logical groups independent of physical location. Only members in the same virtual LAN receive link-layer broadcast messages.
 
-例如下图中 (A1, A2, A3, A4) 属于一个虚拟局域网，A1 发送的广播会被 A2、A3、A4 收到，而其它站点收不到。
+For example, in the figure below, (A1, A2, A3, A4) belong to one virtual LAN. Broadcasts sent by A1 are received by A2, A3, and A4, while other stations do not receive them.
 
-使用 VLAN 干线连接来建立虚拟局域网，每台交换机上的一个特殊接口被设置为干线接口，以互连 VLAN 交换机。IEEE 定义了一种扩展的以太网帧格式 802.1Q，它在标准以太网帧上加进了 4 字节首部 VLAN 标签，用于表示该帧属于哪一个虚拟局域网。
+Virtual LANs are established using VLAN trunk connections. A special interface on each switch is configured as a trunk interface to interconnect VLAN switches. IEEE defines an extended Ethernet frame format, 802.1Q, which adds a 4-byte VLAN tag header to the standard Ethernet frame to indicate which virtual LAN the frame belongs to.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e98e9d20-206b-4533-bacf-3448d0096f38.png" width="500"/> </div><br>
-
