@@ -1,42 +1,42 @@
-# 算法 - 符号表
+# Algorithms - Symbol Tables
 <!-- GFM-TOC -->
-* [算法 - 符号表](#算法---符号表)
-    * [前言](#前言)
-    * [初级实现](#初级实现)
-        * [1. 链表实现无序符号表](#1-链表实现无序符号表)
-        * [2. 二分查找实现有序符号表](#2-二分查找实现有序符号表)
-    * [二叉查找树](#二叉查找树)
+* [算法 - 符号表](#algorithms---symbol-tables)
+    * [前言](#preface)
+    * [初级实现](#basic-implementations)
+        * [1. 链表实现无序符号表](#1-unordered-symbol-table-with-linked-list)
+        * [2. 二分查找实现有序符号表](#2-ordered-symbol-table-with-binary-search)
+    * [二叉查找树](#binary-search-trees)
         * [1. get()](#1-get)
         * [2. put()](#2-put)
-        * [3. 分析](#3-分析)
+        * [3. 分析](#3-analysis)
         * [4. floor()](#4-floor)
         * [5. rank()](#5-rank)
         * [6. min()](#6-min)
         * [7. deleteMin()](#7-deletemin)
         * [8. delete()](#8-delete)
         * [9. keys()](#9-keys)
-        * [10. 分析](#10-分析)
-    * [2-3 查找树](#2-3-查找树)
-        * [1. 插入操作](#1-插入操作)
-        * [2. 性质](#2-性质)
-    * [红黑树](#红黑树)
-        * [1. 左旋转](#1-左旋转)
-        * [2. 右旋转](#2-右旋转)
-        * [3. 颜色转换](#3-颜色转换)
-        * [4. 插入](#4-插入)
-        * [5. 分析](#5-分析)
-    * [散列表](#散列表)
-        * [1. 散列函数](#1-散列函数)
-        * [2. 拉链法](#2-拉链法)
-        * [3. 线性探测法](#3-线性探测法)
-    * [小结](#小结)
-        * [1. 符号表算法比较](#1-符号表算法比较)
-        * [2. Java 的符号表实现](#2-java-的符号表实现)
-        * [3. 稀疏向量乘法](#3-稀疏向量乘法)
+        * [10. 分析](#10-analysis)
+    * [2-3 查找树](#2-3-search-trees)
+        * [1. 插入操作](#1-insertion)
+        * [2. 性质](#2-properties)
+    * [红黑树](#red-black-trees)
+        * [1. 左旋转](#1-left-rotation)
+        * [2. 右旋转](#2-right-rotation)
+        * [3. 颜色转换](#3-color-flip)
+        * [4. 插入](#4-insertion)
+        * [5. 分析](#5-analysis)
+    * [散列表](#hash-tables)
+        * [1. 散列函数](#1-hash-functions)
+        * [2. 拉链法](#2-separate-chaining)
+        * [3. 线性探测法](#3-linear-probing)
+    * [小结](#summary)
+        * [1. 符号表算法比较](#1-symbol-table-algorithm-comparison)
+        * [2. Java 的符号表实现](#2-java-symbol-table-implementations)
+        * [3. 稀疏向量乘法](#3-sparse-vector-multiplication)
 <!-- GFM-TOC -->
 
 
-## 前言
+## Preface
 
 符号表（Symbol Table）是一种存储键值对的数据结构，可以支持快速查找操作。
 
@@ -76,9 +76,9 @@ public interface OrderedST<Key extends Comparable<Key>, Value> {
 }
 ```
 
-## 初级实现
+## Basic Implementations
 
-### 1. 链表实现无序符号表
+### 1. Unordered Symbol Table with Linked List
 
 ```java
 public class ListUnorderedST<Key, Value> implements UnorderedST<Key, Value> {
@@ -153,7 +153,7 @@ public class ListUnorderedST<Key, Value> implements UnorderedST<Key, Value> {
 }
 ```
 
-### 2. 二分查找实现有序符号表
+### 2. Ordered Symbol Table with Binary Search
 
 使用一对平行数组，一个存储键一个存储值。
 
@@ -243,7 +243,7 @@ public class BinarySearchOrderedST<Key extends Comparable<Key>, Value> implement
 }
 ```
 
-## 二叉查找树
+## Binary Search Trees
 
 **二叉树**   是一个空链接，或者是一个有左右两个链接的节点，每个链接都指向一颗子二叉树。
 
@@ -350,7 +350,7 @@ private Node put(Node x, Key key, Value value) {
 }
 ```
 
-### 3. 分析
+### 3. Analysis
 
 二叉查找树的算法运行时间取决于树的形状，而树的形状又取决于键被插入的先后顺序。
 
@@ -514,17 +514,17 @@ private List<Key> keys(Node x, Key l, Key h) {
 }
 ```
 
-### 10. 分析
+### 10. Analysis
 
 二叉查找树所有操作在最坏的情况下所需要的时间都和树的高度成正比。
 
-## 2-3 查找树
+## 2-3 Search Trees
 
 2-3 查找树引入了 2- 节点和 3- 节点，目的是为了让树平衡。一颗完美平衡的 2-3 查找树的所有空链接到根节点的距离应该是相同的。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1097658b-c0e6-4821-be9b-25304726a11c.jpg" width="160px"/> </div><br>
 
-### 1. 插入操作
+### 1. Insertion
 
 插入操作和 BST 的插入操作有很大区别，BST 的插入操作是先进行一次未命中的查找，然后再将节点插入到对应的空链接上。但是 2-3 查找树如果也这么做的话，那么就会破坏了平衡性。它是将新节点插入到叶子节点上。
 
@@ -538,13 +538,13 @@ private List<Key> keys(Node x, Key l, Key h) {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7002c01b-1ed5-475a-9e5f-5fc8a4cdbcc0.jpg" width="460"/> </div><br>
 
-### 2. 性质
+### 2. Properties
 
 2-3 查找树插入操作的变换都是局部的，除了相关的节点和链接之外不必修改或者检查树的其它部分，而这些局部变换不会影响树的全局有序性和平衡性。
 
 2-3 查找树的查找和插入操作复杂度和插入顺序无关，在最坏的情况下查找和插入操作访问的节点必然不超过 logN 个，含有 10 亿个节点的 2-3 查找树最多只需要访问 30 个节点就能进行任意的查找和插入操作。
 
-## 红黑树
+## Red-Black Trees
 
 红黑树是 2-3 查找树，但它不需要分别定义 2- 节点和 3- 节点，而是在普通的二叉查找树之上，为节点添加颜色。指向一个节点的链接颜色如果为红色，那么这个节点和上层节点表示的是一个 3- 节点，而黑色则是普通链接。
 
@@ -573,7 +573,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> extends BST<Key, Va
 }
 ```
 
-### 1. 左旋转
+### 1. Left Rotation
 
 因为合法的红链接都为左链接，如果出现右链接为红链接，那么就需要进行左旋转操作。
 
@@ -592,7 +592,7 @@ public Node rotateLeft(Node h) {
 }
 ```
 
-### 2. 右旋转
+### 2. Right Rotation
 
 进行右旋转是为了转换两个连续的左红链接，这会在之后的插入过程中探讨。
 
@@ -611,7 +611,7 @@ public Node rotateRight(Node h) {
 }
 ```
 
-### 3. 颜色转换
+### 3. Color Flip
 
 一个 4- 节点在红黑树中表现为一个节点的左右子节点都是红色的。分裂 4- 节点除了需要将子节点的颜色由红变黑之外，同时需要将父节点的颜色由黑变红，从 2-3 树的角度看就是将中间节点移到上层节点。
 
@@ -625,7 +625,7 @@ void flipColors(Node h) {
 }
 ```
 
-### 4. 插入
+### 4. Insertion
 
 先将一个节点按二叉查找树的方法插入到正确位置，然后再进行如下颜色操作：
 
@@ -672,19 +672,19 @@ private Node put(Node x, Key key, Value value) {
 
 根节点一定为黑色，因为根节点没有上层节点，也就没有上层节点的左链接指向根节点。flipColors() 有可能会使得根节点的颜色变为红色，每当根节点由红色变成黑色时树的黑链接高度加 1.
 
-### 5. 分析
+### 5. Analysis
 
 一颗大小为 N 的红黑树的高度不会超过 2logN。最坏的情况下是它所对应的 2-3 树，构成最左边的路径节点全部都是 3- 节点而其余都是 2- 节点。
 
 红黑树大多数的操作所需要的时间都是对数级别的。
 
-## 散列表
+## Hash Tables
 
 散列表类似于数组，可以把散列表的散列值看成数组的索引值。访问散列表和访问数组元素一样快速，它可以在常数时间内实现查找和插入操作。
 
 由于无法通过散列值知道键的大小关系，因此散列表无法实现有序性操作。
 
-### 1. 散列函数
+### 1. Hash Functions
 
 对于一个大小为 M 的散列表，散列函数能够把任意键转换为 [0, M-1] 内的正整数，该正整数即为 hash 值。
 
@@ -750,7 +750,7 @@ public class Transaction {
 }
 ```
 
-### 2. 拉链法
+### 2. Separate Chaining
 
 拉链法使用链表来存储 hash 值相同的键，从而解决冲突。
 
@@ -760,7 +760,7 @@ public class Transaction {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/cbbfe06c-f0cb-47c4-bf7b-2780aebd98b2.png" width="330px"> </div><br>
 
-### 3. 线性探测法
+### 3. Linear Probing
 
 线性探测法使用空位来解决冲突，当冲突发生时，向前探测一个空位来存储冲突的键。
 
@@ -797,7 +797,7 @@ public class LinearProbingHashST<Key, Value> implements UnorderedST<Key, Value> 
 }
 ```
 
-##### 3.1 查找
+##### 3.1 Search
 
 ```java
 public Value get(Key key) {
@@ -809,7 +809,7 @@ public Value get(Key key) {
 }
 ```
 
-##### 3.2 插入
+##### 3.2 Insertion
 
 ```java
 public void put(Key key, Value value) {
@@ -831,7 +831,7 @@ private void putInternal(Key key, Value value) {
 }
 ```
 
-##### 3.3 删除
+##### 3.3 Deletion
 
 删除操作应当将右侧所有相邻的键值对重新插入散列表中。
 
@@ -864,7 +864,7 @@ public void delete(Key key) {
 }
 ```
 
-##### 3.5 调整数组大小
+##### 3.5 Array Resizing
 
 线性探测法的成本取决于连续条目的长度，连续条目也叫聚簇。当聚簇很长时，在查找和插入时也需要进行很多次探测。例如下图中 2\~4 位置就是一个聚簇。
 
@@ -893,9 +893,9 @@ private void resize(int cap) {
 }
 ```
 
-## 小结
+## Summary
 
-### 1. 符号表算法比较
+### 1. Symbol Table Algorithm Comparison
 
 | 算法 | 插入 | 查找 | 是否有序 |
 | :---: | :---: | :---: | :---: |
@@ -908,12 +908,12 @@ private void resize(int cap) {
 
 应当优先考虑散列表，当需要有序性操作时使用红黑树。
 
-### 2. Java 的符号表实现
+### 2. Java Symbol Table Implementations
 
 - java.util.TreeMap：红黑树
 - java.util.HashMap：拉链法的散列表
 
-### 3. 稀疏向量乘法
+### 3. Sparse Vector Multiplication
 
 当向量为稀疏向量时，可以使用符号表来存储向量中的非 0 索引和值，使得乘法运算只需要对那些非 0 元素进行即可。
 

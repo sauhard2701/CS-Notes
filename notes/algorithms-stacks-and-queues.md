@@ -1,14 +1,14 @@
-# 算法 - 栈和队列
+# Algorithms - Stacks and Queues
 <!-- GFM-TOC -->
-* [算法 - 栈和队列](#算法---栈和队列)
-    * [栈](#栈)
-        * [1. 数组实现](#1-数组实现)
-        * [2. 链表实现](#2-链表实现)
-    * [队列](#队列)
+* [算法 - 栈和队列](#algorithms---stacks-and-queues)
+    * [栈](#stack)
+        * [1. 数组实现](#1-array-implementation)
+        * [2. 链表实现](#2-linked-list-implementation)
+    * [队列](#queue)
 <!-- GFM-TOC -->
 
 
-## 栈
+## Stack
 
 ```java
 public interface MyStack<Item> extends Iterable<Item> {
@@ -24,7 +24,7 @@ public interface MyStack<Item> extends Iterable<Item> {
 }
 ```
 
-### 1. 数组实现
+### 1. Array Implementation
 
 ```java
 public class ArrayStack<Item> implements MyStack<Item> {
@@ -123,7 +123,7 @@ public class ArrayStack<Item> implements MyStack<Item> {
 }
 ```
 
-### 2. 链表实现
+### 2. Linked List Implementation
 
 需要使用链表的头插法来实现，因为头插法中最后压入栈的元素在链表的开头，它的 next 指针指向前一个压入栈的元素，在弹出元素时就可以通过 next 指针遍历到前一个压入栈的元素从而让这个元素成为新的栈顶元素。
 
@@ -210,7 +210,7 @@ public class ListStack<Item> implements MyStack<Item> {
 }
 ```
 
-## 队列
+## Queue
 
 下面是队列的链表实现，需要维护 first 和 last 节点指针，分别指向队首和队尾。
 

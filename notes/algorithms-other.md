@@ -1,5 +1,5 @@
-# 算法 - 其它
-## 汉诺塔
+# Algorithms - Miscellaneous
+## Tower of Hanoi
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/69d6c38d-1dec-4f72-ae60-60dbc10e9d15.png" width="300"/> </div><br>
 
@@ -51,7 +51,7 @@ from H2 to H3
 from H1 to H3
 ```
 
-## 哈夫曼编码
+## Huffman Coding
 
 根据数据出现的频率对数据进行编码，从而压缩原始数据。
 

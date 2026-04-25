@@ -1,19 +1,19 @@
-# Leetcode 题解 - 双指针
+# LeetCode Solutions - Two Pointers
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 双指针](#leetcode-题解---双指针)
-    * [1. 有序数组的 Two Sum](#1-有序数组的-two-sum)
-    * [2. 两数平方和](#2-两数平方和)
-    * [3. 反转字符串中的元音字符](#3-反转字符串中的元音字符)
-    * [4. 回文字符串](#4-回文字符串)
-    * [5. 归并两个有序数组](#5-归并两个有序数组)
-    * [6. 判断链表是否存在环](#6-判断链表是否存在环)
-    * [7. 最长子序列](#7-最长子序列)
+* [Leetcode 题解 - 双指针](#leetcode-solutions---two-pointers)
+    * [1. 有序数组的 Two Sum](#1-two-sum-ii-input-array-is-sorted)
+    * [2. 两数平方和](#2-sum-of-square-numbers)
+    * [3. 反转字符串中的元音字符](#3-reverse-vowels-of-a-string)
+    * [4. 回文字符串](#4-valid-palindrome-ii)
+    * [5. 归并两个有序数组](#5-merge-sorted-array)
+    * [6. 判断链表是否存在环](#6-linked-list-cycle)
+    * [7. 最长子序列](#7-longest-word-in-dictionary-through-deleting)
 <!-- GFM-TOC -->
 
 
 双指针主要用于遍历数组，两个指针指向不同的元素，从而协同完成任务。
 
-## 1. 有序数组的 Two Sum
+## 1. Two Sum II: Input Array Is Sorted
 
 167\. Two Sum II - Input array is sorted (Easy)
 
@@ -54,7 +54,7 @@ public int[] twoSum(int[] numbers, int target) {
 }
 ```
 
-## 2. 两数平方和
+## 2. Sum of Square Numbers
 
 633\. Sum of Square Numbers (Easy)
 
@@ -94,7 +94,7 @@ Explanation: 1 * 1 + 2 * 2 = 5
  }
 ```
 
-## 3. 反转字符串中的元音字符
+## 3. Reverse Vowels of a String
 
 345\. Reverse Vowels of a String (Easy)
 
@@ -139,7 +139,7 @@ public String reverseVowels(String s) {
 }
 ```
 
-## 4. 回文字符串
+## 4. Valid Palindrome II
 
 680\. Valid Palindrome II (Easy)
 
@@ -187,7 +187,7 @@ private boolean isPalindrome(String s, int i, int j) {
 }
 ```
 
-## 5. 归并两个有序数组
+## 5. Merge Sorted Array
 
 88\. Merge Sorted Array (Easy)
 
@@ -223,7 +223,7 @@ public void merge(int[] nums1, int m, int[] nums2, int n) {
 }
 ```
 
-## 6. 判断链表是否存在环
+## 6. Linked List Cycle
 
 141\. Linked List Cycle (Easy)
 
@@ -248,7 +248,7 @@ public boolean hasCycle(ListNode head) {
 }
 ```
 
-## 7. 最长子序列
+## 7. Longest Word in Dictionary through Deleting
 
 524\. Longest Word in Dictionary through Deleting (Medium)
 

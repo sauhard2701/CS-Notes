@@ -1,12 +1,12 @@
-# Leetcode 题解 - 二分查找
+# LeetCode Solutions - Binary Search
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 二分查找](#leetcode-题解---二分查找)
-    * [1. 求开方](#1-求开方)
-    * [2. 大于给定元素的最小元素](#2-大于给定元素的最小元素)
-    * [3. 有序数组的 Single Element](#3-有序数组的-single-element)
-    * [4. 第一个错误的版本](#4-第一个错误的版本)
-    * [5. 旋转数组的最小数字](#5-旋转数组的最小数字)
-    * [6. 查找区间](#6-查找区间)
+* [Leetcode 题解 - 二分查找](#leetcode-solutions---binary-search)
+    * [1. 求开方](#1-sqrt)
+    * [2. 大于给定元素的最小元素](#2-smallest-letter-greater-than-target)
+    * [3. 有序数组的 Single Element](#3-single-element-in-a-sorted-array)
+    * [4. 第一个错误的版本](#4-first-bad-version)
+    * [5. 旋转数组的最小数字](#5-minimum-in-rotated-sorted-array)
+    * [6. 查找区间](#6-search-range)
 <!-- GFM-TOC -->
 
 
@@ -96,7 +96,7 @@ l   m   h
 
 当循环体退出时，不表示没有查找到 key，因此最后返回的结果不应该为 -1。为了验证有没有查找到，需要在调用端判断一下返回位置上的值和 key 是否相等。
 
-## 1. 求开方
+## 1. Sqrt
 
 69\. Sqrt(x) (Easy)
 
@@ -136,7 +136,7 @@ public int mySqrt(int x) {
 }
 ```
 
-## 2. 大于给定元素的最小元素
+## 2. Smallest Letter Greater Than Target
 
 744\. Find Smallest Letter Greater Than Target (Easy)
 
@@ -172,7 +172,7 @@ public char nextGreatestLetter(char[] letters, char target) {
 }
 ```
 
-## 3. 有序数组的 Single Element
+## 3. Single Element in a Sorted Array
 
 540\. Single Element in a Sorted Array (Medium)
 
@@ -211,7 +211,7 @@ public int singleNonDuplicate(int[] nums) {
 }
 ```
 
-## 4. 第一个错误的版本
+## 4. First Bad Version
 
 278\. First Bad Version (Easy)
 
@@ -238,7 +238,7 @@ public int firstBadVersion(int n) {
 }
 ```
 
-## 5. 旋转数组的最小数字
+## 5. Minimum in Rotated Sorted Array
 
 153\. Find Minimum in Rotated Sorted Array (Medium)
 
@@ -264,7 +264,7 @@ public int findMin(int[] nums) {
 }
 ```
 
-## 6. 查找区间
+## 6. Search Range
 
 34\. Find First and Last Position of Element in Sorted Array
 

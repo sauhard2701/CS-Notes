@@ -1,16 +1,16 @@
-# 算法 - 并查集
+# Algorithms - Union Find
 <!-- GFM-TOC -->
-* [算法 - 并查集](#算法---并查集)
-    * [前言](#前言)
+* [算法 - 并查集](#algorithms---union-find)
+    * [前言](#preface)
     * [Quick Find](#quick-find)
     * [Quick Union](#quick-union)
-    * [加权 Quick Union](#加权-quick-union)
-    * [路径压缩的加权 Quick Union](#路径压缩的加权-quick-union)
-    * [比较](#比较)
+    * [加权 Quick Union](#weighted-quick-union)
+    * [路径压缩的加权 Quick Union](#weighted-quick-union-with-path-compression)
+    * [比较](#comparison)
 <!-- GFM-TOC -->
 
 
-## 前言
+## Preface
 
 用于解决动态连通性问题，能动态连接两个点，并且判断两个点是否连通。
 
@@ -128,7 +128,7 @@ public class QuickUnionUF extends UF {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/23e4462b-263f-4d15-8805-529e0ca7a4d1.jpg" width="100"/> </div><br>
 
-## 加权 Quick Union
+## Weighted Quick Union
 
 为了解决 quick-union 的树通常会很高的问题，加权 quick-union 在 union 操作时会让较小的树连接较大的树上面。
 
@@ -180,11 +180,11 @@ public class WeightedQuickUnionUF extends UF {
 }
 ```
 
-## 路径压缩的加权 Quick Union
+## Weighted Quick Union with Path Compression
 
 在检查节点的同时将它们直接链接到根节点，只需要在 find 中添加一个循环即可。
 
-## 比较
+## Comparison
 
 | 算法 | union | find |
 | :---: | :---: | :---: |
