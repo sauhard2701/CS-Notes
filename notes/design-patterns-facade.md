@@ -2,7 +2,7 @@
 
 ### Intent
 
-提供了一个统一的接口，用来访问子系统中的一群接口，从而让子系统更容易使用。
+Provide a unified interface to a set of interfaces in a subsystem, making the subsystem easier to use.
 
 ### Class Diagram
 
@@ -10,7 +10,7 @@
 
 ### Implementation
 
-观看电影需要操作很多电器，使用外观模式实现一键看电影功能。
+Watching a movie requires operating many devices. Use the Facade pattern to implement a one-click movie mode.
 
 ```java
 public class SubSystem {
@@ -51,4 +51,4 @@ public class Client {
 
 ### Design Principles
 
-最少知识原则：只和你的密友谈话。也就是说客户对象所需要交互的对象应当尽可能少。
+Principle of Least Knowledge: talk only to your close friends. In other words, a client object should interact with as few objects as possible.

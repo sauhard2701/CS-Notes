@@ -2,13 +2,13 @@
 
 ### Intent
 
-在创建一个对象时不向客户暴露内部细节，并提供一个创建对象的通用接口。
+Provide a common interface for creating objects without exposing creation details to clients.
 
 ### Class Diagram
 
-简单工厂把实例化的操作单独放到一个类中，这个类就成为简单工厂类，让简单工厂类来决定应该用哪个具体子类来实例化。
+Simple Factory places instantiation logic in a separate class. That class becomes the simple factory and decides which concrete subclass should be instantiated.
 
-这样做能把客户类和具体子类的实现解耦，客户类不再需要知道有哪些子类以及应当实例化哪个子类。客户类往往有多个，如果不使用简单工厂，那么所有的客户类都要知道所有子类的细节。而且一旦子类发生改变，例如增加子类，那么所有的客户类都要进行修改。
+This decouples client classes from concrete subclass implementations. Clients no longer need to know which subclasses exist or which one should be instantiated. There are often many clients; without Simple Factory, every client must know the details of every subclass. If a subclass changes, such as when a new subclass is added, all client classes would need to be modified.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/40c0c17e-bba6-4493-9857-147c0044a018.png"/> </div><br>
 
@@ -34,7 +34,7 @@ public class ConcreteProduct2 implements Product {
 }
 ```
 
-以下的 Client 类包含了实例化的代码，这是一种错误的实现。如果在客户类中存在这种实例化代码，就需要考虑将代码放到简单工厂中。
+The following Client class contains instantiation code, which is a poor implementation. If this kind of instantiation code appears in a client class, consider moving it into a simple factory.
 
 ```java
 public class Client {
@@ -54,7 +54,7 @@ public class Client {
 }
 ```
 
-以下的 SimpleFactory 是简单工厂实现，它被所有需要进行实例化的客户类调用。
+The following `SimpleFactory` is a simple factory implementation. It is called by all client classes that need instantiation.
 
 ```java
 public class SimpleFactory {

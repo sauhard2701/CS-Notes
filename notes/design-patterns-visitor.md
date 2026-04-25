@@ -2,13 +2,13 @@
 
 ### Intent
 
-为一个对象结构（比如组合结构）增加新能力。
+Add new capabilities to an object structure, such as a composite structure.
 
 ### Class Diagram
 
-- Visitor：访问者，为每一个 ConcreteElement 声明一个 visit 操作
-- ConcreteVisitor：具体访问者，存储遍历过程中的累计结果
-- ObjectStructure：对象结构，可以是组合结构，或者是一个集合。
+- Visitor: declares a `visit` operation for each ConcreteElement.
+- ConcreteVisitor: stores accumulated results during traversal.
+- ObjectStructure: an object structure, which may be a composite structure or a collection.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/79c6f036-bde6-4393-85a3-ef36a0327bd2.png"/> </div><br>
 

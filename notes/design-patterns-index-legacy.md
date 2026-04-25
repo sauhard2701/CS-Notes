@@ -1,45 +1,45 @@
 # 1. Preface
 
-设计模式是解决问题的方案，学习现有的设计模式可以做到经验复用。拥有设计模式词汇，在沟通时就能用更少的词汇来讨论，并且不需要了解底层细节。
+Design patterns are reusable solutions to common problems. Studying established patterns lets you reuse proven experience, and a shared pattern vocabulary makes technical discussions shorter and clearer without requiring everyone to revisit low-level details.
 
 # 2. Creational Patterns
 
-- [单例.md](design-patterns-singleton.md)
-- [简单工厂.md](design-patterns-simple-factory.md)
-- [工厂方法.md](design-patterns-factory-method.md)
-- [抽象工厂.md](design-patterns-abstract-factory.md)
-- [生成器.md](design-patterns-builder.md)
-- [原型模式.md](design-patterns-prototype.md)
+- [Singleton](design-patterns-singleton.md)
+- [Simple Factory](design-patterns-simple-factory.md)
+- [Factory Method](design-patterns-factory-method.md)
+- [Abstract Factory](design-patterns-abstract-factory.md)
+- [Builder](design-patterns-builder.md)
+- [Prototype](design-patterns-prototype.md)
 
 # 3. Behavioral Patterns
 
-- [责任链.md](design-patterns-chain-of-responsibility.md)
-- [命令.md](design-patterns-command.md)
-- [解释器.md](design-patterns-interpreter.md)
-- [迭代器.md](design-patterns-iterator.md)
-- [中介者.md](design-patterns-mediator.md)
-- [备忘录.md](design-patterns-memento.md)
-- [观察者.md](design-patterns-observer.md)
-- [状态.md](design-patterns-state.md)
-- [策略.md](design-patterns-strategy.md)
-- [模板方法.md](design-patterns-template-method.md)
-- [访问者.md](design-patterns-visitor.md)
-- [空对象.md](design-patterns-null-object.md)
+- [Chain of Responsibility](design-patterns-chain-of-responsibility.md)
+- [Command](design-patterns-command.md)
+- [Interpreter](design-patterns-interpreter.md)
+- [Iterator](design-patterns-iterator.md)
+- [Mediator](design-patterns-mediator.md)
+- [Memento](design-patterns-memento.md)
+- [Observer](design-patterns-observer.md)
+- [State](design-patterns-state.md)
+- [Strategy](design-patterns-strategy.md)
+- [Template Method](design-patterns-template-method.md)
+- [Visitor](design-patterns-visitor.md)
+- [Null Object](design-patterns-null-object.md)
 
 # 4. Structural Patterns
 
-- [适配器.md](design-patterns-adapter.md)
-- [桥接.md](design-patterns-bridge.md)
-- [组合.md](design-patterns-composite.md)
-- [装饰.md](design-patterns-decorator.md)
-- [外观.md](design-patterns-facade.md)
-- [享元.md](design-patterns-flyweight.md)
-- [代理.md](design-patterns-proxy.md)
+- [Adapter](design-patterns-adapter.md)
+- [Bridge](design-patterns-bridge.md)
+- [Composite](design-patterns-composite.md)
+- [Decorator](design-patterns-decorator.md)
+- [Facade](design-patterns-facade.md)
+- [Flyweight](design-patterns-flyweight.md)
+- [Proxy](design-patterns-proxy.md)
 
 # References
 
-- 弗里曼. Head First 设计模式 [M]. 中国电力出版社, 2007.
-- Gamma E. 设计模式: 可复用面向对象软件的基础 [M]. 机械工业出版社, 2007.
+- Freeman. Head First Design Patterns [M]. China Electric Power Press, 2007.
+- Gamma E. Design Patterns: Elements of Reusable Object-Oriented Software [M]. China Machine Press, 2007.
 - Bloch J. Effective java[M]. Addison-Wesley Professional, 2017.
 - [Design Patterns](http://www.oodesign.com/)
 - [Design patterns implemented in Java](http://java-design-patterns.com/)

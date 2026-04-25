@@ -4,22 +4,22 @@
 
 ### Intent
 
-将抽象与实现分离开来，使它们可以独立变化。
+Separate an abstraction from its implementation so the two can vary independently.
 
 ### Class Diagram
 
-- Abstraction：定义抽象类的接口
-- Implementor：定义实现类接口
+- Abstraction: defines the interface of the abstraction.
+- Implementor: defines the interface for implementation classes.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2a1f8b0f-1dd7-4409-b177-a381c58066ad.png"/> </div><br>
 
 ### Implementation
 
-RemoteControl 表示遥控器，指代 Abstraction。
+`RemoteControl` represents the remote control and corresponds to the Abstraction.
 
-TV 表示电视，指代 Implementor。
+`TV` represents the television and corresponds to the Implementor.
 
-桥接模式将遥控器和电视分离开来，从而可以独立改变遥控器或者电视的实现。
+The Bridge pattern separates the remote control from the television, allowing either side to change independently.
 
 ```java
 public abstract class TV {

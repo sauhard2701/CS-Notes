@@ -2,22 +2,22 @@
 
 ### Intent
 
-控制对其它对象的访问。
+Control access to another object.
 
 ### Class Diagram
 
-代理有以下四类：
+There are four common kinds of proxy:
 
-- 远程代理（Remote Proxy）：控制对远程对象（不同地址空间）的访问，它负责将请求及其参数进行编码，并向不同地址空间中的对象发送已经编码的请求。
-- 虚拟代理（Virtual Proxy）：根据需要创建开销很大的对象，它可以缓存实体的附加信息，以便延迟对它的访问，例如在网站加载一个很大图片时，不能马上完成，可以用虚拟代理缓存图片的大小信息，然后生成一张临时图片代替原始图片。
-- 保护代理（Protection Proxy）：按权限控制对象的访问，它负责检查调用者是否具有实现一个请求所必须的访问权限。
-- 智能代理（Smart Reference）：取代了简单的指针，它在访问对象时执行一些附加操作：记录对象的引用次数；当第一次引用一个对象时，将它装入内存；在访问一个实际对象前，检查是否已经锁定了它，以确保其它对象不能改变它。
+- Remote Proxy: controls access to a remote object in another address space. It encodes requests and parameters, then sends the encoded request to the object in the other address space.
+- Virtual Proxy: creates expensive objects on demand. It can cache additional information about the real object to defer access to it. For example, when a website loads a large image that cannot be completed immediately, a virtual proxy can cache the image size and generate a temporary placeholder for the original image.
+- Protection Proxy: controls access to an object based on permissions. It checks whether the caller has the access rights required to perform a request.
+- Smart Reference: replaces a simple pointer and performs extra operations when accessing an object, such as counting references, loading the object into memory on first reference, and checking whether the real object is locked before access so other objects cannot modify it.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9b679ff5-94c6-48a7-b9b7-2ea868e828ed.png"/> </div><br>
 
 ### Implementation
 
-以下是一个虚拟代理的实现，模拟了图片延迟加载的情况下使用与图片大小相等的临时内容去替换原始图片，直到图片加载完成才将图片显示出来。
+The following is a Virtual Proxy implementation. It simulates delayed image loading by using temporary content with the same size as the image until the image finishes loading.
 
 ```java
 public interface Image {

@@ -2,23 +2,23 @@
 
 ### Intent
 
-定义对象之间的一对多依赖，当一个对象状态改变时，它的所有依赖都会收到通知并且自动更新状态。
+Define a one-to-many dependency between objects so that when one object changes state, all of its dependents are notified and update automatically.
 
-主题（Subject）是被观察的对象，而其所有依赖者（Observer）称为观察者。
+The Subject is the observed object, and all of its dependents are Observers.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7a3c6a30-c735-4edb-8115-337288a4f0f2.jpg" width="600"/> </div><br>
 
 ### Class Diagram
 
-主题（Subject）具有注册和移除观察者、并通知所有观察者的功能，主题是通过维护一张观察者列表来实现这些操作的。
+The Subject can register observers, remove observers, and notify all observers. It implements these operations by maintaining a list of observers.
 
-观察者（Observer）的注册功能需要调用主题的 registerObserver() 方法。
+An Observer registers by calling the Subject's `registerObserver()` method.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/a8c8f894-a712-447c-9906-5caef6a016e3.png"/> </div><br>
 
 ### Implementation
 
-天气数据布告板会在天气信息发生改变时更新其内容，布告板有多个，并且在将来会继续增加。
+Weather data displays update their content when weather information changes. There are multiple displays, and more may be added later.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b1df9732-86ce-4d69-9f06-fba1db7b3b5a.jpg"/> </div><br>
 

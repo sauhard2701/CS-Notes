@@ -2,17 +2,17 @@
 
 ### Intent
 
-提供一个接口，用于创建   **相关的对象家族**  。
+Provide an interface for creating **families of related objects**.
 
 ### Class Diagram
 
-抽象工厂模式创建的是对象家族，也就是很多对象而不是一个对象，并且这些对象是相关的，也就是说必须一起创建出来。而工厂方法模式只是用于创建一个对象，这和抽象工厂模式有很大不同。
+The Abstract Factory pattern creates a family of objects: multiple related objects that must be created together. By contrast, Factory Method creates a single object, which is a major difference from Abstract Factory.
 
-抽象工厂模式用到了工厂方法模式来创建单一对象，AbstractFactory 中的 createProductA() 和 createProductB() 方法都是让子类来实现，这两个方法单独来看就是在创建一个对象，这符合工厂方法模式的定义。
+Abstract Factory uses Factory Method to create individual objects. In `AbstractFactory`, both `createProductA()` and `createProductB()` are implemented by subclasses; viewed separately, each method creates one object, which matches the definition of Factory Method.
 
-至于创建对象的家族这一概念是在 Client 体现，Client 要通过 AbstractFactory 同时调用两个方法来创建出两个对象，在这里这两个对象就有很大的相关性，Client 需要同时创建出这两个对象。
+The idea of creating a family of objects appears in the Client. The Client calls two methods on `AbstractFactory` to create two objects at the same time; these objects are strongly related, so the Client needs to create them together.
 
-从高层次来看，抽象工厂使用了组合，即 Cilent 组合了 AbstractFactory，而工厂方法模式使用了继承。
+At a high level, Abstract Factory uses composition: the Client composes an `AbstractFactory`. Factory Method uses inheritance.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e2190c36-8b27-4690-bde5-9911020a1294.png"/> </div><br>
 

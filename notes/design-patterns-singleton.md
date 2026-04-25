@@ -2,13 +2,13 @@
 
 ### Intent
 
-确保一个类只有一个实例，并提供该实例的全局访问点。
+Ensure that a class has only one instance and provide a global access point to that instance.
 
 ### Class Diagram
 
-使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现。
+Implement this with a private constructor, a private static variable, and a public static method.
 
-私有构造函数保证了不能通过构造函数来创建对象实例，只能通过公有静态函数返回唯一的私有静态变量。
+The private constructor prevents object instances from being created directly through the constructor. The only instance is returned through the public static method.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/eca1f422-8381-409b-ad04-98ef39ae38ba.png"/> </div><br>
 
@@ -16,9 +16,9 @@
 
 #### I. Lazy Initialization - Not Thread Safe
 
-以下实现中，私有静态变量 uniqueInstance 被延迟实例化，这样做的好处是，如果没有用到该类，那么就不会实例化 uniqueInstance，从而节约资源。
+In the following implementation, the private static variable `uniqueInstance` is lazily instantiated. The benefit is that if the class is never used, `uniqueInstance` is never created, saving resources.
 
-这个实现在多线程环境下是不安全的，如果多个线程能够同时进入 `if (uniqueInstance == null)` ，并且此时 uniqueInstance 为 null，那么会有多个线程执行 `uniqueInstance = new Singleton();` 语句，这将导致实例化多次 uniqueInstance。
+This implementation is unsafe in a multithreaded environment. If multiple threads enter `if (uniqueInstance == null)` at the same time while `uniqueInstance` is null, multiple threads may execute `uniqueInstance = new Singleton();`, causing `uniqueInstance` to be instantiated more than once.
 
 ```java
 public class Singleton {
@@ -39,9 +39,9 @@ public class Singleton {
 
 #### II. Eager Initialization - Thread Safe
 
-线程不安全问题主要是由于 uniqueInstance 被实例化多次，采取直接实例化 uniqueInstance 的方式就不会产生线程不安全问题。
+The thread-safety issue mainly comes from `uniqueInstance` being instantiated multiple times. Directly instantiating `uniqueInstance` avoids this issue.
 
-但是直接实例化的方式也丢失了延迟实例化带来的节约资源的好处。
+However, direct instantiation loses the resource-saving benefit of lazy initialization.
 
 ```java
 private static Singleton uniqueInstance = new Singleton();
@@ -49,9 +49,9 @@ private static Singleton uniqueInstance = new Singleton();
 
 #### III. Lazy Initialization - Thread Safe
 
-只需要对 getUniqueInstance() 方法加锁，那么在一个时间点只能有一个线程能够进入该方法，从而避免了实例化多次 uniqueInstance。
+Locking the `getUniqueInstance()` method ensures that only one thread can enter it at a time, preventing `uniqueInstance` from being instantiated multiple times.
 
-但是当一个线程进入该方法之后，其它试图进入该方法的线程都必须等待，即使 uniqueInstance 已经被实例化了。这会让线程阻塞时间过长，因此该方法有性能问题，不推荐使用。
+However, once one thread enters the method, every other thread attempting to enter it must wait, even if `uniqueInstance` has already been instantiated. This can block threads for too long, so this approach has performance problems and is not recommended.
 
 ```java
 public static synchronized Singleton getUniqueInstance() {
@@ -64,9 +64,9 @@ public static synchronized Singleton getUniqueInstance() {
 
 #### IV. Double-Checked Locking - Thread Safe
 
-uniqueInstance 只需要被实例化一次，之后就可以直接使用了。加锁操作只需要对实例化那部分的代码进行，只有当 uniqueInstance 没有被实例化时，才需要进行加锁。
+`uniqueInstance` only needs to be instantiated once and can then be used directly. Locking is only needed around the instantiation code, and only when `uniqueInstance` has not yet been created.
 
-双重校验锁先判断 uniqueInstance 是否已经被实例化，如果没有被实例化，那么才对实例化语句进行加锁。
+Double-checked locking first checks whether `uniqueInstance` has already been instantiated. If not, it locks around the instantiation statement.
 
 ```java
 public class Singleton {
@@ -89,7 +89,7 @@ public class Singleton {
 }
 ```
 
-考虑下面的实现，也就是只使用了一个 if 语句。在 uniqueInstance == null 的情况下，如果两个线程都执行了 if 语句，那么两个线程都会进入 if 语句块内。虽然在 if 语句块内有加锁操作，但是两个线程都会执行 `uniqueInstance = new Singleton();` 这条语句，只是先后的问题，那么就会进行两次实例化。因此必须使用双重校验锁，也就是需要使用两个 if 语句：第一个 if 语句用来避免 uniqueInstance 已经被实例化之后的加锁操作，而第二个 if 语句进行了加锁，所以只能有一个线程进入，就不会出现 uniqueInstance == null 时两个线程同时进行实例化操作。
+Consider the implementation below, which uses only one `if` statement. When `uniqueInstance == null`, if two threads both execute the `if` statement, both enter the `if` block. Although the block contains a lock, both threads will still execute `uniqueInstance = new Singleton();`; the only difference is order, so instantiation happens twice. Therefore, double-checked locking is required, using two `if` statements: the first avoids locking after `uniqueInstance` has already been instantiated, and the second is protected by the lock so only one thread can enter it. This prevents two threads from instantiating `uniqueInstance` at the same time when it is null.
 
 ```java
 if (uniqueInstance == null) {
@@ -99,21 +99,21 @@ if (uniqueInstance == null) {
 }
 ```
 
-uniqueInstance 采用 volatile 关键字修饰也是很有必要的， `uniqueInstance = new Singleton();` 这段代码其实是分为三步执行：
+It is also necessary to declare `uniqueInstance` with the `volatile` keyword. The statement `uniqueInstance = new Singleton();` is actually executed in three steps:
 
-1. 为 uniqueInstance 分配内存空间
-2. 初始化 uniqueInstance
-3. 将 uniqueInstance 指向分配的内存地址
+1. Allocate memory for `uniqueInstance`.
+2. Initialize `uniqueInstance`.
+3. Point `uniqueInstance` to the allocated memory address.
 
-但是由于 JVM 具有指令重排的特性，执行顺序有可能变成 1>3>2。指令重排在单线程环境下不会出现问题，但是在多线程环境下会导致一个线程获得还没有初始化的实例。例如，线程 T<sub>1</sub> 执行了 1 和 3，此时 T<sub>2</sub> 调用 getUniqueInstance() 后发现 uniqueInstance 不为空，因此返回 uniqueInstance，但此时 uniqueInstance 还未被初始化。
+Because the JVM can reorder instructions, the execution order may become 1 > 3 > 2. Instruction reordering is not a problem in a single-threaded environment, but in a multithreaded environment it can let one thread obtain an instance that has not been initialized yet. For example, thread T<sub>1</sub> executes steps 1 and 3. Then T<sub>2</sub> calls `getUniqueInstance()`, sees that `uniqueInstance` is not null, and returns it, even though it has not yet been initialized.
 
-使用 volatile 可以禁止 JVM 的指令重排，保证在多线程环境下也能正常运行。
+Using `volatile` prevents JVM instruction reordering and ensures correct behavior in a multithreaded environment.
 
 #### V. Static Inner Class
 
-当 Singleton 类被加载时，静态内部类 SingletonHolder 没有被加载进内存。只有当调用 `getUniqueInstance()` 方法从而触发 `SingletonHolder.INSTANCE` 时 SingletonHolder 才会被加载，此时初始化 INSTANCE 实例，并且 JVM 能确保 INSTANCE 只被实例化一次。
+When the `Singleton` class is loaded, the static inner class `SingletonHolder` is not loaded into memory. Only when `getUniqueInstance()` is called and triggers `SingletonHolder.INSTANCE` is `SingletonHolder` loaded. At that point, the `INSTANCE` object is initialized, and the JVM guarantees that `INSTANCE` is instantiated only once.
 
-这种方式不仅具有延迟初始化的好处，而且由 JVM 提供了对线程安全的支持。
+This approach provides lazy initialization and relies on the JVM for thread-safety guarantees.
 
 ```java
 public class Singleton {
@@ -182,9 +182,9 @@ secondName
 secondName
 ```
 
-该实现可以防止反射攻击。在其它实现中，通过 setAccessible() 方法可以将私有构造函数的访问级别设置为 public，然后调用构造函数从而实例化对象，如果要防止这种攻击，需要在构造函数中添加防止多次实例化的代码。该实现是由 JVM 保证只会实例化一次，因此不会出现上述的反射攻击。
+This implementation prevents reflection attacks. In other implementations, `setAccessible()` can change a private constructor to public, allowing the constructor to be called and a new object to be instantiated. To prevent that attack, the constructor must include code that blocks multiple instantiations. This implementation relies on the JVM to guarantee a single instantiation, so the reflection attack above does not occur.
 
-该实现在多次序列化和序列化之后，不会得到多个实例。而其它实现需要使用 transient 修饰所有字段，并且实现序列化和反序列化的方法。
+This implementation will not produce multiple instances after repeated serialization and deserialization. Other implementations need to mark all fields with `transient` and implement serialization and deserialization methods.
 
 ### Examples
 

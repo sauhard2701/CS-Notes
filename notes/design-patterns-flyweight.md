@@ -4,13 +4,13 @@
 
 
 
-利用共享的方式来支持大量细粒度的对象，这些对象一部分内部状态是相同的。
+Use sharing to support large numbers of fine-grained objects whose internal state is partly identical.
 
 ### Class Diagram
 
-- Flyweight：享元对象
-- IntrinsicState：内部状态，享元对象共享内部状态
-- ExtrinsicState：外部状态，每个享元对象的外部状态不同
+- Flyweight: the shared object.
+- IntrinsicState: internal state shared by flyweight objects.
+- ExtrinsicState: external state that differs for each flyweight object.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5f5c22d5-9c0e-49e1-b5b0-6cc7032724d4.png"/> </div><br>
 
@@ -79,7 +79,7 @@ ExtrinsicState: y
 
 ### JDK
 
-Java 利用缓存来加速大量小对象的访问时间。
+Java uses caches to speed up access to large numbers of small objects.
 
 - java.lang.Integer#valueOf(int)
 - java.lang.Boolean#valueOf(boolean)

@@ -2,22 +2,22 @@
 
 ### Intent
 
-为语言创建解释器，通常由语言的语法和语法分析来定义。
+Create an interpreter for a language, usually defined by the language grammar and parser.
 
 ### Class Diagram
 
-- TerminalExpression：终结符表达式，每个终结符都需要一个 TerminalExpression。
-- Context：上下文，包含解释器之外的一些全局信息。
+- TerminalExpression: a terminal expression. Each terminal symbol requires a TerminalExpression.
+- Context: holds global information outside the interpreter.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2b125bcd-1b36-43be-9b78-d90b076be549.png"/> </div><br>
 
 ### Implementation
 
-以下是一个规则检验器实现，具有 and 和 or 规则，通过规则可以构建一颗解析树，用来检验一个文本是否满足解析树定义的规则。
+The following is a rule validator with `and` and `or` rules. Rules can be used to build a parse tree that checks whether a text satisfies the rules defined by that tree.
 
-例如一颗解析树为 D And (A Or (B C))，文本 "D A" 满足该解析树定义的规则。
+For example, given the parse tree `D And (A Or (B C))`, the text `"D A"` satisfies the rules defined by that tree.
 
-这里的 Context 指的是 String。
+Here, Context refers to `String`.
 
 ```java
 public abstract class Expression {

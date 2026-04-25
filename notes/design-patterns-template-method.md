@@ -2,9 +2,9 @@
 
 ### Intent
 
-定义算法框架，并将一些步骤的实现延迟到子类。
+Define the skeleton of an algorithm and defer some steps to subclasses.
 
-通过模板方法，子类可以重新定义算法的某些步骤，而不用改变算法的结构。
+With Template Method, subclasses can redefine certain steps of an algorithm without changing its structure.
 
 ### Class Diagram
 
@@ -12,7 +12,7 @@
 
 ### Implementation
 
-冲咖啡和冲茶都有类似的流程，但是某些步骤会有点不一样，要求复用那些相同步骤的代码。
+Making coffee and tea follows similar processes, but some steps differ. Reuse the code for the shared steps.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/11236498-1417-46ce-a1b0-e10054256955.png"/> </div><br>
 

@@ -2,7 +2,7 @@
 
 ### Intent
 
-允许对象在内部状态改变时改变它的行为，对象看起来好像修改了它所属的类。
+Allow an object to change its behavior when its internal state changes, making it appear as if the object changed its class.
 
 ### Class Diagram
 
@@ -10,7 +10,7 @@
 
 ### Implementation
 
-糖果销售机有多种状态，每种状态下销售机有不同的行为，状态可以发生转移，使得销售机的行为也发生改变。
+A gumball machine has multiple states. In each state, it behaves differently. State transitions change the machine's behavior as well.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/396be981-3f2c-4fd9-8101-dbf9c841504b.jpg" width="600"/> </div><br>
 

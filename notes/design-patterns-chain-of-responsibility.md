@@ -2,11 +2,11 @@
 
 ### Intent
 
-使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链发送该请求，直到有一个对象处理它为止。
+Give multiple objects a chance to handle a request, avoiding coupling between the sender and receiver. Chain these objects together and pass the request along the chain until one object handles it.
 
 ### Class Diagram
 
-- Handler：定义处理请求的接口，并且实现后继链（successor）
+- Handler: defines the interface for handling requests and maintains the successor chain.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ca9f23bf-55a4-47b2-9534-a28e35397988.png"/> </div><br>
 

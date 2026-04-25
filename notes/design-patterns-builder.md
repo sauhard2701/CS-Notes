@@ -2,7 +2,7 @@
 
 ### Intent
 
-封装一个对象的构造过程，并允许按步骤构造。
+Encapsulate the construction process of an object and allow it to be built step by step.
 
 ### Class Diagram
 
@@ -10,7 +10,7 @@
 
 ### Implementation
 
-以下是一个简易的 StringBuilder 实现，参考了 JDK 1.8 源码。
+The following is a simplified `StringBuilder` implementation based on the JDK 1.8 source code.
 
 ```java
 public class AbstractStringBuilder {

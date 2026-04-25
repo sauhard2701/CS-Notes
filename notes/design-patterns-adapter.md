@@ -2,7 +2,7 @@
 
 ### Intent
 
-把一个类接口转换成另一个用户需要的接口。
+Convert the interface of a class into another interface that clients expect.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/3d5b828e-5c4d-48d8-a440-281e4a8e1c92.png"/> </div><br>
 
@@ -12,9 +12,9 @@
 
 ### Implementation
 
-鸭子（Duck）和火鸡（Turkey）拥有不同的叫声，Duck 的叫声调用 quack() 方法，而 Turkey 调用 gobble() 方法。
+Duck and Turkey have different calls: Duck calls `quack()`, while Turkey calls `gobble()`.
 
-要求将 Turkey 的 gobble() 方法适配成 Duck 的 quack() 方法，从而让火鸡冒充鸭子！
+Adapt Turkey's `gobble()` method to Duck's `quack()` method so a turkey can pretend to be a duck.
 
 ```java
 public interface Duck {
