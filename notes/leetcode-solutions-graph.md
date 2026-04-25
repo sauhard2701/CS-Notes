@@ -1,21 +1,21 @@
-# Leetcode 题解 - 图
+# LeetCode Solutions - Graphs
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 图](#leetcode-题解---图)
-    * [二分图](#二分图)
-        * [1. 判断是否为二分图](#1-判断是否为二分图)
-    * [拓扑排序](#拓扑排序)
-        * [1. 课程安排的合法性](#1-课程安排的合法性)
-        * [2. 课程安排的顺序](#2-课程安排的顺序)
-    * [并查集](#并查集)
-        * [1. 冗余连接](#1-冗余连接)
+* [Leetcode 题解 - 图](#leetcode-solutions---graphs)
+    * [二分图](#bipartite-graphs)
+        * [1. 判断是否为二分图](#1-is-graph-bipartite)
+    * [拓扑排序](#topological-sort)
+        * [1. 课程安排的合法性](#1-course-schedule)
+        * [2. 课程安排的顺序](#2-course-schedule-ii)
+    * [并查集](#union-find)
+        * [1. 冗余连接](#1-redundant-connection)
 <!-- GFM-TOC -->
 
 
-## 二分图
+## Bipartite Graphs
 
 如果可以用两种颜色对图中的节点进行着色，并且保证相邻的节点颜色不同，那么这个图就是二分图。
 
-### 1. 判断是否为二分图
+### 1. Is Graph Bipartite?
 
 785\. Is Graph Bipartite? (Medium)
 
@@ -72,11 +72,11 @@ private boolean isBipartite(int curNode, int curColor, int[] colors, int[][] gra
 }
 ```
 
-## 拓扑排序
+## Topological Sort
 
 常用于在具有先序关系的任务规划中。
 
-### 1. 课程安排的合法性
+### 1. Course Schedule
 
 207\. Course Schedule (Medium)
 
@@ -136,7 +136,7 @@ private boolean hasCycle(boolean[] globalMarked, boolean[] localMarked,
 }
 ```
 
-### 2. 课程安排的顺序
+### 2. Course Schedule II
 
 210\. Course Schedule II (Medium)
 
@@ -197,11 +197,11 @@ private boolean hasCycle(boolean[] globalMarked, boolean[] localMarked, List<Int
 }
 ```
 
-## 并查集
+## Union Find
 
 并查集可以动态地连通两个点，并且可以非常快速地判断两个点是否连通。
 
-### 1. 冗余连接
+### 1. Redundant Connection
 
 684\. Redundant Connection (Medium)
 

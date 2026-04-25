@@ -1,24 +1,24 @@
-# Leetcode 题解 - 位运算
+# LeetCode Solutions - Bit Manipulation
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 位运算](#leetcode-题解---位运算)
-    * [0. 原理](#0-原理)
-    * [1. 统计两个数的二进制表示有多少位不同](#1-统计两个数的二进制表示有多少位不同)
-    * [2. 数组中唯一一个不重复的元素](#2-数组中唯一一个不重复的元素)
-    * [3. 找出数组中缺失的那个数](#3-找出数组中缺失的那个数)
-    * [4. 数组中不重复的两个元素](#4-数组中不重复的两个元素)
-    * [5. 翻转一个数的比特位](#5-翻转一个数的比特位)
-    * [6. 不用额外变量交换两个整数](#6-不用额外变量交换两个整数)
-    * [7. 判断一个数是不是 2 的 n 次方](#7-判断一个数是不是-2-的-n-次方)
-    * [8.  判断一个数是不是 4 的 n 次方](#8--判断一个数是不是-4-的-n-次方)
-    * [9. 判断一个数的位级表示是否不会出现连续的 0 和 1](#9-判断一个数的位级表示是否不会出现连续的-0-和-1)
-    * [10. 求一个数的补码](#10-求一个数的补码)
-    * [11. 实现整数的加法](#11-实现整数的加法)
-    * [12. 字符串数组最大乘积](#12-字符串数组最大乘积)
-    * [13. 统计从 0 \~ n 每个数的二进制表示中 1 的个数](#13-统计从-0-\~-n-每个数的二进制表示中-1-的个数)
+* [Leetcode 题解 - 位运算](#leetcode-solutions---bit-manipulation)
+    * [0. 原理](#0-principles)
+    * [1. 统计两个数的二进制表示有多少位不同](#1-hamming-distance)
+    * [2. 数组中唯一一个不重复的元素](#2-single-number)
+    * [3. 找出数组中缺失的那个数](#3-missing-number)
+    * [4. 数组中不重复的两个元素](#4-single-number-iii)
+    * [5. 翻转一个数的比特位](#5-reverse-bits)
+    * [6. 不用额外变量交换两个整数](#6-swap-two-integers-without-extra-variable)
+    * [7. 判断一个数是不是 2 的 n 次方](#7-power-of-two)
+    * [8.  判断一个数是不是 4 的 n 次方](#8-power-of-four)
+    * [9. 判断一个数的位级表示是否不会出现连续的 0 和 1](#9-binary-number-with-alternating-bits)
+    * [10. 求一个数的补码](#10-number-complement)
+    * [11. 实现整数的加法](#11-sum-of-two-integers)
+    * [12. 字符串数组最大乘积](#12-maximum-product-of-word-lengths)
+    * [13. 统计从 0 \~ n 每个数的二进制表示中 1 的个数](#13-counting-bits)
 <!-- GFM-TOC -->
 
 
-## 0. 原理
+## 0. Principles
 
 **基本原理** 
 
@@ -120,7 +120,7 @@ static int Integer.highestOneBit();      // 获得最高位
 static String toBinaryString(int i);     // 转换为二进制表示的字符串
 ```
 
-## 1. 统计两个数的二进制表示有多少位不同
+## 1. Hamming Distance
 
 461. Hamming Distance (Easy)
 
@@ -175,7 +175,7 @@ public int hammingDistance(int x, int y) {
 }
 ```
 
-## 2. 数组中唯一一个不重复的元素
+## 2. Single Number
 
 136\. Single Number (Easy)
 
@@ -196,7 +196,7 @@ public int singleNumber(int[] nums) {
 }
 ```
 
-## 3. 找出数组中缺失的那个数
+## 3. Missing Number
 
 268\. Missing Number (Easy)
 
@@ -219,7 +219,7 @@ public int missingNumber(int[] nums) {
 }
 ```
 
-## 4. 数组中不重复的两个元素
+## 4. Single Number III
 
 260\. Single Number III (Medium)
 
@@ -245,7 +245,7 @@ public int[] singleNumber(int[] nums) {
 }
 ```
 
-## 5. 翻转一个数的比特位
+## 5. Reverse Bits
 
 190\. Reverse Bits (Easy)
 
@@ -292,7 +292,7 @@ private int reverseByte(byte b) {
 }
 ```
 
-## 6. 不用额外变量交换两个整数
+## 6. Swap Two Integers Without Extra Variable
 
 [程序员代码面试指南 ：P317](#)
 
@@ -302,7 +302,7 @@ b = a ^ b;
 a = a ^ b;
 ```
 
-## 7. 判断一个数是不是 2 的 n 次方
+## 7. Power of Two
 
 231\. Power of Two (Easy)
 
@@ -324,7 +324,7 @@ public boolean isPowerOfTwo(int n) {
 }
 ```
 
-## 8.  判断一个数是不是 4 的 n 次方
+## 8. Power of Four
 
 342\. Power of Four (Easy)
 
@@ -346,7 +346,7 @@ public boolean isPowerOfFour(int num) {
 }
 ```
 
-## 9. 判断一个数的位级表示是否不会出现连续的 0 和 1
+## 9. Binary Number with Alternating Bits
 
 693\. Binary Number with Alternating Bits (Easy)
 
@@ -373,7 +373,7 @@ public boolean hasAlternatingBits(int n) {
 }
 ```
 
-## 10. 求一个数的补码
+## 10. Number Complement
 
 476\. Number Complement (Easy)
 
@@ -430,7 +430,7 @@ public int findComplement(int num) {
 }
 ```
 
-## 11. 实现整数的加法
+## 11. Sum of Two Integers
 
 371\. Sum of Two Integers (Easy)
 
@@ -446,7 +446,7 @@ public int getSum(int a, int b) {
 }
 ```
 
-## 12. 字符串数组最大乘积
+## 12. Maximum Product of Word Lengths
 
 318\. Maximum Product of Word Lengths (Medium)
 
@@ -483,7 +483,7 @@ public int maxProduct(String[] words) {
 }
 ```
 
-## 13. 统计从 0 \~ n 每个数的二进制表示中 1 的个数
+## 13. Counting Bits
 
 338\. Counting Bits (Medium)
 

@@ -1,50 +1,50 @@
-# Leetcode 题解 - 树
+# LeetCode Solutions - Trees
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 树](#leetcode-题解---树)
-    * [递归](#递归)
-        * [1. 树的高度](#1-树的高度)
-        * [2. 平衡树](#2-平衡树)
-        * [3. 两节点的最长路径](#3-两节点的最长路径)
-        * [4. 翻转树](#4-翻转树)
-        * [5. 归并两棵树](#5-归并两棵树)
-        * [6. 判断路径和是否等于一个数](#6-判断路径和是否等于一个数)
-        * [7. 统计路径和等于一个数的路径数量](#7-统计路径和等于一个数的路径数量)
-        * [8. 子树](#8-子树)
-        * [9. 树的对称](#9-树的对称)
-        * [10. 最小路径](#10-最小路径)
-        * [11. 统计左叶子节点的和](#11-统计左叶子节点的和)
-        * [12. 相同节点值的最大路径长度](#12-相同节点值的最大路径长度)
-        * [13. 间隔遍历](#13-间隔遍历)
-        * [14. 找出二叉树中第二小的节点](#14-找出二叉树中第二小的节点)
-    * [层次遍历](#层次遍历)
-        * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
-        * [2. 得到左下角的节点](#2-得到左下角的节点)
-    * [前中后序遍历](#前中后序遍历)
-        * [1. 非递归实现二叉树的前序遍历](#1-非递归实现二叉树的前序遍历)
-        * [2. 非递归实现二叉树的后序遍历](#2-非递归实现二叉树的后序遍历)
-        * [3. 非递归实现二叉树的中序遍历](#3-非递归实现二叉树的中序遍历)
+* [Leetcode 题解 - 树](#leetcode-solutions---trees)
+    * [递归](#recursion)
+        * [1. 树的高度](#1-maximum-depth-of-binary-tree)
+        * [2. 平衡树](#2-balanced-binary-tree)
+        * [3. 两节点的最长路径](#3-diameter-of-binary-tree)
+        * [4. 翻转树](#4-invert-binary-tree)
+        * [5. 归并两棵树](#5-merge-two-binary-trees)
+        * [6. 判断路径和是否等于一个数](#6-path-sum)
+        * [7. 统计路径和等于一个数的路径数量](#7-path-sum-iii)
+        * [8. 子树](#8-subtree-of-another-tree)
+        * [9. 树的对称](#9-symmetric-tree)
+        * [10. 最小路径](#10-minimum-depth-of-binary-tree)
+        * [11. 统计左叶子节点的和](#11-sum-of-left-leaves)
+        * [12. 相同节点值的最大路径长度](#12-longest-univalue-path)
+        * [13. 间隔遍历](#13-house-robber-iii)
+        * [14. 找出二叉树中第二小的节点](#14-second-minimum-node-in-a-binary-tree)
+    * [层次遍历](#level-order-traversal)
+        * [1. 一棵树每层节点的平均数](#1-average-of-levels-in-binary-tree)
+        * [2. 得到左下角的节点](#2-find-bottom-left-tree-value)
+    * [前中后序遍历](#preorder-inorder-and-postorder-traversal)
+        * [1. 非递归实现二叉树的前序遍历](#1-binary-tree-preorder-traversal)
+        * [2. 非递归实现二叉树的后序遍历](#2-binary-tree-postorder-traversal)
+        * [3. 非递归实现二叉树的中序遍历](#3-binary-tree-inorder-traversal)
     * [BST](#bst)
-        * [1. 修剪二叉查找树](#1-修剪二叉查找树)
-        * [2. 寻找二叉查找树的第 k 个元素](#2-寻找二叉查找树的第-k-个元素)
-        * [3. 把二叉查找树每个节点的值都加上比它大的节点的值](#3-把二叉查找树每个节点的值都加上比它大的节点的值)
-        * [4. 二叉查找树的最近公共祖先](#4-二叉查找树的最近公共祖先)
-        * [5. 二叉树的最近公共祖先](#5-二叉树的最近公共祖先)
-        * [6. 从有序数组中构造二叉查找树](#6-从有序数组中构造二叉查找树)
-        * [7. 根据有序链表构造平衡的二叉查找树](#7-根据有序链表构造平衡的二叉查找树)
-        * [8. 在二叉查找树中寻找两个节点，使它们的和为一个给定值](#8-在二叉查找树中寻找两个节点，使它们的和为一个给定值)
-        * [9. 在二叉查找树中查找两个节点之差的最小绝对值](#9-在二叉查找树中查找两个节点之差的最小绝对值)
-        * [10. 寻找二叉查找树中出现次数最多的值](#10-寻找二叉查找树中出现次数最多的值)
+        * [1. 修剪二叉查找树](#1-trim-a-binary-search-tree)
+        * [2. 寻找二叉查找树的第 k 个元素](#2-kth-smallest-element-in-a-bst)
+        * [3. 把二叉查找树每个节点的值都加上比它大的节点的值](#3-convert-bst-to-greater-tree)
+        * [4. 二叉查找树的最近公共祖先](#4-lowest-common-ancestor-of-a-bst)
+        * [5. 二叉树的最近公共祖先](#5-lowest-common-ancestor-of-a-binary-tree)
+        * [6. 从有序数组中构造二叉查找树](#6-convert-sorted-array-to-binary-search-tree)
+        * [7. 根据有序链表构造平衡的二叉查找树](#7-convert-sorted-list-to-binary-search-tree)
+        * [8. 在二叉查找树中寻找两个节点，使它们的和为一个给定值](#8-two-sum-iv---input-is-a-bst)
+        * [9. 在二叉查找树中查找两个节点之差的最小绝对值](#9-minimum-absolute-difference-in-bst)
+        * [10. 寻找二叉查找树中出现次数最多的值](#10-find-mode-in-binary-search-tree)
     * [Trie](#trie)
-        * [1. 实现一个 Trie](#1-实现一个-trie)
-        * [2. 实现一个 Trie，用来求前缀和](#2-实现一个-trie，用来求前缀和)
+        * [1. 实现一个 Trie](#1-implement-trie)
+        * [2. 实现一个 Trie，用来求前缀和](#2-map-sum-pairs)
 <!-- GFM-TOC -->
 
 
-## 递归
+## Recursion
 
 一棵树要么是空树，要么有两个指针，每个指针指向一棵树。树是一种递归结构，很多树的问题可以使用递归来处理。
 
-### 1. 树的高度
+### 1. Maximum Depth of Binary Tree
 
 104\. Maximum Depth of Binary Tree (Easy)
 
@@ -57,7 +57,7 @@ public int maxDepth(TreeNode root) {
 }
 ```
 
-### 2. 平衡树
+### 2. Balanced Binary Tree
 
 110\. Balanced Binary Tree (Easy)
 
@@ -90,7 +90,7 @@ public int maxDepth(TreeNode root) {
 }
 ```
 
-### 3. 两节点的最长路径
+### 3. Diameter of Binary Tree
 
 543\. Diameter of Binary Tree (Easy)
 
@@ -125,7 +125,7 @@ private int depth(TreeNode root) {
 }
 ```
 
-### 4. 翻转树
+### 4. Invert Binary Tree
 
 226\. Invert Binary Tree (Easy)
 
@@ -141,7 +141,7 @@ public TreeNode invertTree(TreeNode root) {
 }
 ```
 
-### 5. 归并两棵树
+### 5. Merge Two Binary Trees
 
 617\. Merge Two Binary Trees (Easy)
 
@@ -176,7 +176,7 @@ public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
 }
 ```
 
-### 6. 判断路径和是否等于一个数
+### 6. Path Sum
 
 Leetcdoe : 112. Path Sum (Easy)
 
@@ -206,7 +206,7 @@ public boolean hasPathSum(TreeNode root, int sum) {
 }
 ```
 
-### 7. 统计路径和等于一个数的路径数量
+### 7. Path Sum III
 
 437\. Path Sum III (Easy)
 
@@ -248,7 +248,7 @@ private int pathSumStartWithRoot(TreeNode root, int sum) {
 }
 ```
 
-### 8. 子树
+### 8. Subtree of Another Tree
 
 572\. Subtree of Another Tree (Easy)
 
@@ -301,7 +301,7 @@ private boolean isSubtreeWithRoot(TreeNode s, TreeNode t) {
 }
 ```
 
-### 9. 树的对称
+### 9. Symmetric Tree
 
 101\. Symmetric Tree (Easy)
 
@@ -329,7 +329,7 @@ private boolean isSymmetric(TreeNode t1, TreeNode t2) {
 }
 ```
 
-### 10. 最小路径
+### 10. Minimum Depth of Binary Tree
 
 111\. Minimum Depth of Binary Tree (Easy)
 
@@ -347,7 +347,7 @@ public int minDepth(TreeNode root) {
 }
 ```
 
-### 11. 统计左叶子节点的和
+### 11. Sum of Left Leaves
 
 404\. Sum of Left Leaves (Easy)
 
@@ -376,7 +376,7 @@ private boolean isLeaf(TreeNode node){
 }
 ```
 
-### 12. 相同节点值的最大路径长度
+### 12. Longest Univalue Path
 
 687\. Longest Univalue Path (Easy)
 
@@ -411,7 +411,7 @@ private int dfs(TreeNode root){
 }
 ```
 
-### 13. 间隔遍历
+### 13. House Robber III
 
 337\. House Robber III (Medium)
 
@@ -442,7 +442,7 @@ public int rob(TreeNode root) {
 }
 ```
 
-### 14. 找出二叉树中第二小的节点
+### 14. Second Minimum Node in a Binary Tree
 
 671\. Second Minimum Node In a Binary Tree (Easy)
 
@@ -475,11 +475,11 @@ public int findSecondMinimumValue(TreeNode root) {
 }
 ```
 
-## 层次遍历
+## Level Order Traversal
 
 使用 BFS 进行层次遍历。不需要使用两个队列来分别存储当前层的节点和下一层的节点，因为在开始遍历一层的节点时，当前队列中的节点数就是当前层的节点数，只要控制遍历这么多节点数，就能保证这次遍历的都是当前层的节点。
 
-### 1. 一棵树每层节点的平均数
+### 1. Average of Levels in Binary Tree
 
 637\. Average of Levels in Binary Tree (Easy)
 
@@ -506,7 +506,7 @@ public List<Double> averageOfLevels(TreeNode root) {
 }
 ```
 
-### 2. 得到左下角的节点
+### 2. Find Bottom Left Tree Value
 
 513\. Find Bottom Left Tree Value (Easy)
 
@@ -540,7 +540,7 @@ public int findBottomLeftValue(TreeNode root) {
 }
 ```
 
-## 前中后序遍历
+## Preorder, Inorder, and Postorder Traversal
 
 ```html
     1
@@ -589,7 +589,7 @@ void dfs(TreeNode root) {
 }
 ```
 
-### 1. 非递归实现二叉树的前序遍历
+### 1. Binary Tree Preorder Traversal
 
 144\. Binary Tree Preorder Traversal (Medium)
 
@@ -611,7 +611,7 @@ public List<Integer> preorderTraversal(TreeNode root) {
 }
 ```
 
-### 2. 非递归实现二叉树的后序遍历
+### 2. Binary Tree Postorder Traversal
 
 145\. Binary Tree Postorder Traversal (Medium)
 
@@ -636,7 +636,7 @@ public List<Integer> postorderTraversal(TreeNode root) {
 }
 ```
 
-### 3. 非递归实现二叉树的中序遍历
+### 3. Binary Tree Inorder Traversal
 
 94\. Binary Tree Inorder Traversal (Medium)
 
@@ -667,7 +667,7 @@ public List<Integer> inorderTraversal(TreeNode root) {
 
 二叉查找树中序遍历有序。
 
-### 1. 修剪二叉查找树
+### 1. Trim a Binary Search Tree
 
 669\. Trim a Binary Search Tree (Easy)
 
@@ -709,7 +709,7 @@ public TreeNode trimBST(TreeNode root, int L, int R) {
 }
 ```
 
-### 2. 寻找二叉查找树的第 k 个元素
+### 2. Kth Smallest Element in a BST
 
 230\. Kth Smallest Element in a BST (Medium)
 
@@ -755,7 +755,7 @@ private int count(TreeNode node) {
 }
 ```
 
-### 3. 把二叉查找树每个节点的值都加上比它大的节点的值
+### 3. Convert BST to Greater Tree
 
 Convert BST to Greater Tree (Easy)
 
@@ -794,7 +794,7 @@ private void traver(TreeNode node) {
 }
 ```
 
-### 4. 二叉查找树的最近公共祖先
+### 4. Lowest Common Ancestor of a BST
 
 235\. Lowest Common Ancestor of a Binary Search Tree (Easy)
 
@@ -820,7 +820,7 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 }
 ```
 
-### 5. 二叉树的最近公共祖先
+### 5. Lowest Common Ancestor of a Binary Tree
 
 236\. Lowest Common Ancestor of a Binary Tree (Medium) 
 
@@ -847,7 +847,7 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 }
 ```
 
-### 6. 从有序数组中构造二叉查找树
+### 6. Convert Sorted Array to Binary Search Tree
 
 108\. Convert Sorted Array to Binary Search Tree (Easy)
 
@@ -868,7 +868,7 @@ private TreeNode toBST(int[] nums, int sIdx, int eIdx){
 }
 ```
 
-### 7. 根据有序链表构造平衡的二叉查找树
+### 7. Convert Sorted List to Binary Search Tree
 
 109\. Convert Sorted List to Binary Search Tree (Medium)
 
@@ -911,7 +911,7 @@ private ListNode preMid(ListNode head) {
 }
 ```
 
-### 8. 在二叉查找树中寻找两个节点，使它们的和为一个给定值
+### 8. Two Sum IV - Input Is a BST
 
 653\. Two Sum IV - Input is a BST (Easy)
 
@@ -957,7 +957,7 @@ private void inOrder(TreeNode root, List<Integer> nums) {
 }
 ```
 
-### 9. 在二叉查找树中查找两个节点之差的最小绝对值
+### 9. Minimum Absolute Difference in BST
 
 530\. Minimum Absolute Difference in BST (Easy)
 
@@ -997,7 +997,7 @@ private void inOrder(TreeNode node) {
 }
 ```
 
-### 10. 寻找二叉查找树中出现次数最多的值
+### 10. Find Mode in Binary Search Tree
 
 501\. Find Mode in Binary Search Tree (Easy)
 
@@ -1056,7 +1056,7 @@ private void inOrder(TreeNode node, List<Integer> nums) {
 
 Trie，又称前缀树或字典树，用于判断字符串是否存在或者是否具有某种字符串前缀。
 
-### 1. 实现一个 Trie
+### 1. Implement Trie
 
 208\. Implement Trie (Prefix Tree) (Medium)
 
@@ -1120,7 +1120,7 @@ class Trie {
 }
 ```
 
-### 2. 实现一个 Trie，用来求前缀和
+### 2. Map Sum Pairs
 
 677\. Map Sum Pairs (Medium)
 

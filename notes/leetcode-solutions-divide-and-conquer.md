@@ -1,12 +1,12 @@
-# Leetcode 题解 - 分治
+# LeetCode Solutions - Divide and Conquer
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 分治](#leetcode-题解---分治)
-    * [1. 给表达式加括号](#1-给表达式加括号)
-    * [2. 不同的二叉搜索树](#2-不同的二叉搜索树)
+* [Leetcode 题解 - 分治](#leetcode-solutions---divide-and-conquer)
+    * [1. 给表达式加括号](#1-different-ways-to-add-parentheses)
+    * [2. 不同的二叉搜索树](#2-unique-binary-search-trees-ii)
 <!-- GFM-TOC -->
 
 
-## 1. 给表达式加括号
+## 1. Different Ways to Add Parentheses
 
 241\. Different Ways to Add Parentheses (Medium)
 
@@ -53,7 +53,7 @@ public List<Integer> diffWaysToCompute(String input) {
 }
 ```
 
-## 2. 不同的二叉搜索树
+## 2. Unique Binary Search Trees II
 
 95\. Unique Binary Search Trees II (Medium)
 

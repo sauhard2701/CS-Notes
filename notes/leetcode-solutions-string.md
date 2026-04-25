@@ -1,19 +1,19 @@
-# Leetcode 题解 - 字符串
+# LeetCode Solutions - Strings
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 字符串](#leetcode-题解---字符串)
-    * [1. 字符串循环移位包含](#1-字符串循环移位包含)
-    * [2. 字符串循环移位](#2-字符串循环移位)
-    * [3. 字符串中单词的翻转](#3-字符串中单词的翻转)
-    * [4. 两个字符串包含的字符是否完全相同](#4-两个字符串包含的字符是否完全相同)
-    * [5. 计算一组字符集合可以组成的回文字符串的最大长度](#5-计算一组字符集合可以组成的回文字符串的最大长度)
-    * [6. 字符串同构](#6-字符串同构)
-    * [7. 回文子字符串个数](#7-回文子字符串个数)
-    * [8. 判断一个整数是否是回文数](#8-判断一个整数是否是回文数)
-    * [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-统计二进制字符串中连续-1-和连续-0-数量相同的子字符串个数)
+* [Leetcode 题解 - 字符串](#leetcode-solutions---strings)
+    * [1. 字符串循环移位包含](#1-string-rotation-inclusion)
+    * [2. 字符串循环移位](#2-string-rotation)
+    * [3. 字符串中单词的翻转](#3-reverse-words-in-a-string)
+    * [4. 两个字符串包含的字符是否完全相同](#4-valid-anagram)
+    * [5. 计算一组字符集合可以组成的回文字符串的最大长度](#5-longest-palindrome)
+    * [6. 字符串同构](#6-isomorphic-strings)
+    * [7. 回文子字符串个数](#7-palindromic-substrings)
+    * [8. 判断一个整数是否是回文数](#8-palindrome-number)
+    * [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-count-binary-substrings)
 <!-- GFM-TOC -->
 
 
-## 1. 字符串循环移位包含
+## 1. String Rotation Inclusion
 
 [编程之美 3.1](#)
 
@@ -26,7 +26,7 @@ Return : true
 
 s1 进行循环移位的结果是 s1s1 的子字符串，因此只要判断 s2 是否是 s1s1 的子字符串即可。
 
-## 2. 字符串循环移位
+## 2. String Rotation
 
 [编程之美 2.17](#)
 
@@ -39,7 +39,7 @@ Return "123abcd"
 
 将 abcd123 中的 abcd 和 123 单独翻转，得到 dcba321，然后对整个字符串进行翻转，得到 123abcd。
 
-## 3. 字符串中单词的翻转
+## 3. Reverse Words in a String
 
 [程序员代码面试指南](#)
 
@@ -50,7 +50,7 @@ Return "student a am I"
 
 将每个单词翻转，然后将整个字符串翻转。
 
-## 4. 两个字符串包含的字符是否完全相同
+## 4. Valid Anagram
 
 242\. Valid Anagram (Easy)
 
@@ -83,7 +83,7 @@ public boolean isAnagram(String s, String t) {
 }
 ```
 
-## 5. 计算一组字符集合可以组成的回文字符串的最大长度
+## 5. Longest Palindrome
 
 409\. Longest Palindrome (Easy)
 
@@ -116,7 +116,7 @@ public int longestPalindrome(String s) {
 }
 ```
 
-## 6. 字符串同构
+## 6. Isomorphic Strings
 
 205\. Isomorphic Strings (Easy)
 
@@ -146,7 +146,7 @@ public boolean isIsomorphic(String s, String t) {
 }
 ```
 
-## 7. 回文子字符串个数
+## 7. Palindromic Substrings
 
 647\. Palindromic Substrings (Medium)
 
@@ -180,7 +180,7 @@ private void extendSubstrings(String s, int start, int end) {
 }
 ```
 
-## 8. 判断一个整数是否是回文数
+## 8. Palindrome Number
 
 9\. Palindrome Number (Easy)
 
@@ -207,7 +207,7 @@ public boolean isPalindrome(int x) {
 }
 ```
 
-## 9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数
+## 9. Count Binary Substrings
 
 696\. Count Binary Substrings (Easy)
 

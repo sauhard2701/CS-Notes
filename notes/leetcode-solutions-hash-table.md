@@ -1,10 +1,10 @@
-# Leetcode 题解 - 哈希表
+# LeetCode Solutions - Hash Table
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 哈希表](#leetcode-题解---哈希表)
-    * [1. 数组中两个数的和为给定值](#1-数组中两个数的和为给定值)
-    * [2. 判断数组是否含有重复元素](#2-判断数组是否含有重复元素)
-    * [3. 最长和谐序列](#3-最长和谐序列)
-    * [4. 最长连续序列](#4-最长连续序列)
+* [Leetcode 题解 - 哈希表](#leetcode-solutions---hash-table)
+    * [1. 数组中两个数的和为给定值](#1-two-sum)
+    * [2. 判断数组是否含有重复元素](#2-contains-duplicate)
+    * [3. 最长和谐序列](#3-longest-harmonious-subsequence)
+    * [4. 最长连续序列](#4-longest-consecutive-sequence)
 <!-- GFM-TOC -->
 
 
@@ -17,7 +17,7 @@
 [Leetcode](https://leetcode.com/problems/encode-and-decode-tinyurl/description/)，利用 HashMap 就可以存储精简后的 url 到原始 url 的映射，使得不仅可以显示简化的 url，也可以根据简化的 url 得到原始 url 从而定位到正确的资源�) / [力扣](https://leetcode-cn.com/problems/encode-and-decode-tinyurl/description/)，利用 HashMap 就可以存储精简后的 url 到原始 url 的映射，使得不仅可以显示简化的 url，也可以根据简化的 url 得到原始 url 从而定位到正确的资源�)
 
 
-## 1. 数组中两个数的和为给定值
+## 1. Two Sum
 
 1\. Two Sum (Easy)
 
@@ -41,7 +41,7 @@ public int[] twoSum(int[] nums, int target) {
 }
 ```
 
-## 2. 判断数组是否含有重复元素
+## 2. Contains Duplicate
 
 217\. Contains Duplicate (Easy)
 
@@ -57,7 +57,7 @@ public boolean containsDuplicate(int[] nums) {
 }
 ```
 
-## 3. 最长和谐序列
+## 3. Longest Harmonious Subsequence
 
 594\. Longest Harmonious Subsequence (Easy)
 
@@ -87,7 +87,7 @@ public int findLHS(int[] nums) {
 }
 ```
 
-## 4. 最长连续序列
+## 4. Longest Consecutive Sequence
 
 128\. Longest Consecutive Sequence (Hard)
 

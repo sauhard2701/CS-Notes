@@ -1,23 +1,23 @@
-# Leetcode 题解 - 贪心思想
+# LeetCode Solutions - Greedy
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 贪心思想](#leetcode-题解---贪心思想)
-    * [1. 分配饼干](#1-分配饼干)
-    * [2. 不重叠的区间个数](#2-不重叠的区间个数)
-    * [3. 投飞镖刺破气球](#3-投飞镖刺破气球)
-    * [4. 根据身高和序号重组队列](#4-根据身高和序号重组队列)
-    * [5. 买卖股票最大的收益](#5-买卖股票最大的收益)
-    * [6. 买卖股票的最大收益 II](#6-买卖股票的最大收益-ii)
-    * [7. 种植花朵](#7-种植花朵)
-    * [8. 判断是否为子序列](#8-判断是否为子序列)
-    * [9. 修改一个数成为非递减数组](#9-修改一个数成为非递减数组)
-    * [10. 子数组最大的和](#10-子数组最大的和)
-    * [11. 分隔字符串使同种字符出现在一起](#11-分隔字符串使同种字符出现在一起)
+* [Leetcode 题解 - 贪心思想](#leetcode-solutions---greedy)
+    * [1. 分配饼干](#1-assign-cookies)
+    * [2. 不重叠的区间个数](#2-non-overlapping-intervals)
+    * [3. 投飞镖刺破气球](#3-minimum-number-of-arrows-to-burst-balloons)
+    * [4. 根据身高和序号重组队列](#4-queue-reconstruction-by-height)
+    * [5. 买卖股票最大的收益](#5-best-time-to-buy-and-sell-stock)
+    * [6. 买卖股票的最大收益 II](#6-best-time-to-buy-and-sell-stock-ii)
+    * [7. 种植花朵](#7-can-place-flowers)
+    * [8. 判断是否为子序列](#8-is-subsequence)
+    * [9. 修改一个数成为非递减数组](#9-non-decreasing-array)
+    * [10. 子数组最大的和](#10-maximum-subarray)
+    * [11. 分隔字符串使同种字符出现在一起](#11-partition-labels)
 <!-- GFM-TOC -->
 
 
 保证每次操作都是局部最优的，并且最后得到的结果是全局最优的。
 
-## 1. 分配饼干
+## 1. Assign Cookies
 
 455\. Assign Cookies (Easy)
 
@@ -55,7 +55,7 @@ public int findContentChildren(int[] grid, int[] size) {
 }
 ```
 
-## 2. 不重叠的区间个数
+## 2. Non-overlapping Intervals
 
 435\. Non-overlapping Intervals (Medium)
 
@@ -117,7 +117,7 @@ Arrays.sort(intervals, new Comparator<int[]>() {
 
 实现 compare() 函数时避免使用 `return o1[1] - o2[1];` 这种减法操作，防止溢出。
 
-## 3. 投飞镖刺破气球
+## 3. Minimum Number of Arrows to Burst Balloons
 
 452\. Minimum Number of Arrows to Burst Balloons (Medium)
 
@@ -153,7 +153,7 @@ public int findMinArrowShots(int[][] points) {
 }
 ```
 
-## 4. 根据身高和序号重组队列
+## 4. Queue Reconstruction by Height
 
 406\. Queue Reconstruction by Height(Medium)
 
@@ -187,7 +187,7 @@ public int[][] reconstructQueue(int[][] people) {
 }
 ```
 
-## 5. 买卖股票最大的收益
+## 5. Best Time to Buy and Sell Stock
 
 121\. Best Time to Buy and Sell Stock (Easy)
 
@@ -212,7 +212,7 @@ public int maxProfit(int[] prices) {
 ```
 
 
-## 6. 买卖股票的最大收益 II
+## 6. Best Time to Buy and Sell Stock II
 
 122\. Best Time to Buy and Sell Stock II (Easy)
 
@@ -235,7 +235,7 @@ public int maxProfit(int[] prices) {
 ```
 
 
-## 7. 种植花朵
+## 7. Can Place Flowers
 
 605\. Can Place Flowers (Easy)
 
@@ -267,7 +267,7 @@ public boolean canPlaceFlowers(int[] flowerbed, int n) {
 }
 ```
 
-## 8. 判断是否为子序列
+## 8. Is Subsequence
 
 392\. Is Subsequence (Medium)
 
@@ -291,7 +291,7 @@ public boolean isSubsequence(String s, String t) {
 }
 ```
 
-## 9. 修改一个数成为非递减数组
+## 9. Non-decreasing Array
 
 665\. Non-decreasing Array (Easy)
 
@@ -327,7 +327,7 @@ public boolean checkPossibility(int[] nums) {
 
 
 
-## 10. 子数组最大的和
+## 10. Maximum Subarray
 
 53\. Maximum Subarray (Easy)
 
@@ -353,7 +353,7 @@ public int maxSubArray(int[] nums) {
 }
 ```
 
-## 11. 分隔字符串使同种字符出现在一起
+## 11. Partition Labels
 
 763\. Partition Labels (Medium)
 
