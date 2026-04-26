@@ -2,7 +2,8 @@
 
 ## Preface
 
-The problems come from _He Haitao. Sword Offer [M]. Publishing House of Electronics Industry, 2012_. Recommended practice sites:
+The problems come from _He Haitao. Sword Offer [M]. Publishing House of Electronics Industry, 2012_.
+Recommended practice sites:
 
 - [Nowcoder](https://www.nowcoder.com/ta/coding-interviews?from=cyc_github)
 - [LeetCode](https://leetcode-cn.com/problemset/lcof/)

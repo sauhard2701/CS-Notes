@@ -1,6 +1,9 @@
 # CyC2018 CS Notes (English Edition)
 
-I made a structured, interview-focused knowledge base covering core Computer Science topics for software engineers by Translating the CyC2018 CS-Notes repo in English using AI. It took me few hours to do it in order to maintain consistency among files (internal links, code comments, context intact etc.)
+I made a structured, interview-focused knowledge base covering core Computer Science topics for
+software engineers by Translating the CyC2018 CS-Notes repo in English using AI. It took me few
+hours to do it in order to maintain consistency among files (internal links, code comments, context
+intact etc.)
 
 This repository is designed to help you:
 - Build strong DSA fundamentals
@@ -36,9 +39,9 @@ http://localhost:3000
 
 Core data structures, problem-solving patterns, and interview questions.
 
-- [Sword Offer Solutions](notes/sword-offer-solutions-index.md)
-- [LeetCode Solutions](notes/leetcode-solutions-index.md)
-- [Algorithms](notes/algorithms-index.md)
+- [Sword Offer Solutions](/notes/sword-offer-solutions-index.md)
+- [LeetCode Solutions](/notes/leetcode-solutions-index.md)
+- [Algorithms](/notes/algorithms-index.md)
 
 ---
 
@@ -46,8 +49,8 @@ Core data structures, problem-solving patterns, and interview questions.
 
 Processes, memory management, concurrency, and Linux fundamentals.
 
-- [Operating Systems](notes/operating-systems-index.md)
-- [Linux](notes/Linux.md)
+- [Operating Systems](/notes/operating-systems-index.md)
+- [Linux](/notes/Linux.md)
 
 ---
 
@@ -55,9 +58,9 @@ Processes, memory management, concurrency, and Linux fundamentals.
 
 TCP/IP, HTTP, sockets, and real-world network behavior.
 
-- [Computer Networking](notes/computer-networking-index.md)
-- [HTTP](notes/HTTP.md)
-- [Socket Programming](notes/Socket.md)
+- [Computer Networking](/notes/computer-networking-index.md)
+- [HTTP](/notes/HTTP.md)
+- [Socket Programming](/notes/Socket.md)
 
 ---
 
@@ -65,11 +68,11 @@ TCP/IP, HTTP, sockets, and real-world network behavior.
 
 Relational databases, SQL, MySQL, and Redis.
 
-- [Database System Principles](notes/database-system-principles.md)
-- [SQL](notes/sql-syntax.md)
-- [SQL Practice](notes/sql-exercises.md)
-- [MySQL](notes/MySQL.md)
-- [Redis](notes/Redis.md)
+- [Database System Principles](/notes/database-system-principles.md)
+- [SQL](/notes/sql-syntax.md)
+- [SQL Practice](/notes/sql-exercises.md)
+- [MySQL](/notes/MySQL.md)
+- [Redis](/notes/Redis.md)
 
 ---
 
@@ -77,11 +80,11 @@ Relational databases, SQL, MySQL, and Redis.
 
 Java fundamentals, collections, concurrency, JVM, and I/O.
 
-- [Java Basics](notes/java-basics.md)
-- [Java Collections](notes/java-collections.md)
-- [Java Concurrency](notes/java-concurrency.md)
-- [JVM](notes/jvm.md)
-- [Java IO](notes/java-io.md)
+- [Java Basics](/notes/java-basics.md)
+- [Java Collections](/notes/java-collections.md)
+- [Java Concurrency](/notes/java-concurrency.md)
+- [JVM](/notes/jvm.md)
+- [Java IO](/notes/java-io.md)
 
 ---
 
@@ -89,12 +92,12 @@ Java fundamentals, collections, concurrency, JVM, and I/O.
 
 Scalable systems, distributed systems, caching, and messaging.
 
-- [System Design Basics](notes/system-design-basics.md)
-- [Distributed Systems](notes/distributed-systems.md)
-- [Clustering](notes/clustering.md)
-- [Caching](notes/caching.md)
-- [Message Queues](notes/message-queues.md)
-- [Attack Techniques](notes/attack-techniques.md)
+- [System Design Basics](/notes/system-design-basics.md)
+- [Distributed Systems](/notes/distributed-systems.md)
+- [Clustering](/notes/clustering.md)
+- [Caching](/notes/caching.md)
+- [Message Queues](/notes/message-queues.md)
+- [Attack Techniques](/notes/attack-techniques.md)
 
 ---
 
@@ -102,8 +105,8 @@ Scalable systems, distributed systems, caching, and messaging.
 
 Object-oriented design and design patterns.
 
-- [Object-Oriented Programming](notes/object-oriented-programming.md)
-- [Design Patterns](notes/design-patterns-index.md)
+- [Object-Oriented Programming](/notes/object-oriented-programming.md)
+- [Design Patterns](/notes/design-patterns-index.md)
 
 ---
 
@@ -111,10 +114,10 @@ Object-oriented design and design patterns.
 
 Essential engineering tools and utilities.
 
-- [Git](notes/Git.md)
-- [Docker](notes/Docker.md)
-- [Build Tools](notes/build-tools.md)
-- [Regular Expressions](notes/regular-expressions.md)
+- [Git](/notes/Git.md)
+- [Docker](/notes/Docker.md)
+- [Build Tools](/notes/build-tools.md)
+- [Regular Expressions](/notes/regular-expressions.md)
 
 ---
 
@@ -122,8 +125,8 @@ Essential engineering tools and utilities.
 
 Write clean, maintainable, and readable code.
 
-- [Code Readability](notes/code-readability.md)
-- [Code Style Guidelines](notes/code-style-guidelines.md)
+- [Code Readability](/notes/code-readability.md)
+- [Code Style Guidelines](/notes/code-style-guidelines.md)
 
 ---
 

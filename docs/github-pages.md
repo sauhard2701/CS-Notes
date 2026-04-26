@@ -4,8 +4,7 @@ GitHub Pages can publish this repository as static documentation.
 
 ## Recommended Setup
 
-Use the repository root as the publishing source.
-The root contains the Docsify entry files:
+Use the repository root as the publishing source. The root contains the Docsify entry files:
 
 - `index.html`
 - `README.md`
@@ -14,8 +13,8 @@ The root contains the Docsify entry files:
 - `_coverpage.md`
 - `notes/`
 
-Do not publish from `docs/` for the current website.
-This folder is now reserved for project documentation pages.
+Do not publish from `docs/` for the current website. This folder is now reserved for project
+documentation pages.
 
 ## Notes
 

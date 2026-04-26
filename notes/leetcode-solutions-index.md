@@ -2,7 +2,8 @@
 
 ## Preface
 
-This guide selects about 200 LeetCode problems, filtering out overly mechanical problems with limited algorithmic value while keeping classic questions that frequently appear in interviews.
+This guide selects about 200 LeetCode problems, filtering out overly mechanical problems with
+limited algorithmic value while keeping classic questions that frequently appear in interviews.
 
 ## Algorithmic Techniques
 

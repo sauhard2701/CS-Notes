@@ -2,7 +2,9 @@
 
 ## 1. Preface
 
-Design patterns are reusable solutions to common problems. Studying established patterns lets you reuse proven experience, and a shared pattern vocabulary makes technical discussions shorter and clearer without requiring everyone to revisit low-level details.
+Design patterns are reusable solutions to common problems. Studying established patterns lets you
+reuse proven experience, and a shared pattern vocabulary makes technical discussions shorter and
+clearer without requiring everyone to revisit low-level details.
 
 ## 2. Creational Patterns
 
