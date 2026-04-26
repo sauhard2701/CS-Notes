@@ -1,6 +1,6 @@
 # CyC2018 CS Notes (English Edition)
 
-A structured, interview-focused knowledge base covering core Computer Science topics for software engineers.
+I made a structured, interview-focused knowledge base covering core Computer Science topics for software engineers by Translating the CyC2018 CS-Notes repo in English using AI. It took me few hours to do it in order to maintain consistency among files (internal links, code comments, context intact etc.)
 
 This repository is designed to help you:
 - Build strong DSA fundamentals
