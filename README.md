@@ -9,6 +9,21 @@ This repository is designed to help you:
 
 ---
 
+## Run Locally as a Website
+
+```sh
+npm install
+npm run docs:serve
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+---
+
 ## 📚 Topics
 
 | Algorithms | OS | Networking | OOP | Databases | Java | System Design | Tools | Coding Practices |
@@ -32,7 +47,7 @@ Core data structures, problem-solving patterns, and interview questions.
 Processes, memory management, concurrency, and Linux fundamentals.
 
 - [Operating Systems](notes/operating-systems-index.md)
-- [Linux](notes/linux.md)
+- [Linux](notes/Linux.md)
 
 ---
 
@@ -41,8 +56,8 @@ Processes, memory management, concurrency, and Linux fundamentals.
 TCP/IP, HTTP, sockets, and real-world network behavior.
 
 - [Computer Networking](notes/computer-networking-index.md)
-- [HTTP](notes/http.md)
-- [Socket Programming](notes/socket.md)
+- [HTTP](notes/HTTP.md)
+- [Socket Programming](notes/Socket.md)
 
 ---
 
@@ -53,8 +68,8 @@ Relational databases, SQL, MySQL, and Redis.
 - [Database System Principles](notes/database-system-principles.md)
 - [SQL](notes/sql-syntax.md)
 - [SQL Practice](notes/sql-exercises.md)
-- [MySQL](notes/mysql.md)
-- [Redis](notes/redis.md)
+- [MySQL](notes/MySQL.md)
+- [Redis](notes/Redis.md)
 
 ---
 
@@ -96,8 +111,8 @@ Object-oriented design and design patterns.
 
 Essential engineering tools and utilities.
 
-- [Git](notes/git.md)
-- [Docker](notes/docker.md)
+- [Git](notes/Git.md)
+- [Docker](notes/Docker.md)
 - [Build Tools](notes/build-tools.md)
 - [Regular Expressions](notes/regular-expressions.md)
 

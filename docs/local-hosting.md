@@ -1,28 +1,38 @@
 # Local Hosting
 
-This repository is primarily a Markdown knowledge base. You can preview it locally with any static file server or Markdown-capable editor.
+This repository is Markdown-first and uses Docsify for local browsing. There is no build step.
 
-## Static Preview
+## Run the Website Locally
 
-From the repository root, start a simple static server:
+Clone the repository:
 
 ```sh
-python3 -m http.server 8000
+git clone <repository-url>
+cd CS-Notes
 ```
 
-Then open:
+Install Node.js if it is not already installed. Node.js 18 or newer is recommended.
+
+Install the local Docsify dependencies:
+
+```sh
+npm install
+```
+
+Start the local website:
+
+```sh
+npm run docs:serve
+```
+
+Open the site in your browser:
 
 ```text
-http://localhost:8000/
+http://localhost:3000
 ```
 
-## Markdown Editing
+## Optional GitHub Pages Deployment
 
-For content edits, use an editor with Markdown preview and keep links relative to the repository root or to the current Markdown file.
+For GitHub Pages, publish from the branch root so `index.html`, `README.md`, `_sidebar.md`, and `notes/` are served together.
 
-Before publishing changes, check the generated inventory reports:
-
-- `translation-file-map.csv`
-- `internal-link-map.csv`
-- `migration-plan.md`
-
+Keep `.nojekyll` at the repository root so GitHub Pages serves files and folders that begin with underscores.

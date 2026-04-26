@@ -1,0 +1,15 @@
+{
+  "name": "cs-notes-english",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Markdown-first Computer Science notes served locally with Docsify.",
+  "scripts": {
+    "docs:serve": "docsify serve . --port 3000"
+  },
+  "devDependencies": {
+    "docsify": "^4.13.1",
+    "docsify-cli": "^4.4.4",
+    "docsify-copy-code": "^2.1.1",
+    "docsify-pagination": "^2.10.1"
+  }
+}
