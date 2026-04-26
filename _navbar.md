@@ -1,4 +1,4 @@
-- [Home](README.md)
-- [Notes](notes/algorithms-index.md)
-- [Local Hosting](docs/local-hosting.md)
-- [GitHub Pages](docs/github-pages.md)
+- [Home](/README.md)
+- [Notes](/notes/algorithms-index.md)
+- [Local Hosting](/docs/local-hosting.md)
+- [GitHub Pages](/docs/github-pages.md)
