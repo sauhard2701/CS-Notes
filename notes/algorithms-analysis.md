@@ -22,41 +22,41 @@
 
 ## Mathematical Model
 
-###  1. Approximation
+### 1. Approximation
 
 N<sup>3</sup>/6-N<sup>2</sup>/2+N/3 \~ N<sup>3</sup>/6. Use \~f(N) to denote functions whose result divided by f(N) approaches 1 as N grows.
 
-###  2. Order of Growth
+### 2. Order of Growth
 
 The order of growth of N<sup>3</sup>/6-N<sup>2</sup>/2+N/3 is O(N<sup>3</sup>). Order of growth separates an algorithm from its specific implementation; an algorithm with order of growth O(N<sup>3</sup>) is independent of whether it is implemented in Java or runs on a particular computer.
 
-###  3. Inner Loop
+### 3. Inner Loop
 
 The instructions executed most frequently determine the total running time of a program; these instructions are called the program's inner loop.
 
-###  4. Cost Model
+### 4. Cost Model
 
 Use a cost model to evaluate algorithms. For example, the number of array accesses is a cost model.
 
 ## Considerations
 
-###  1. Large Constants
+### 1. Large Constants
 
 When approximating, if the constant coefficient of a lower-order term is very large, the approximation can be wrong.
 
-###  2. Cache
+### 2. Cache
 
 Computer systems use caching to organize memory, so accessing adjacent array elements is much faster than accessing non-adjacent elements.
 
-###  3. Worst-Case Performance Guarantees
+### 3. Worst-Case Performance Guarantees
 
 For software in nuclear reactors, pacemakers, or brake controllers, worst-case performance is very important.
 
-###  4. Randomized Algorithms
+### 4. Randomized Algorithms
 
 Shuffle the input to remove the algorithm's dependence on input order.
 
-###  5. Amortized Analysis
+### 5. Amortized Analysis
 
 Amortize cost by dividing the total cost of all operations by the number of operations. For example, performing N consecutive push() calls on an empty stack requires N+4+8+16+...+2N=5N-4 array accesses. N is the number of writes to the array, and the rest are array accesses needed for copying during resizing. After amortization, the average number of array accesses is constant.
 
@@ -70,7 +70,7 @@ public interface ThreeSum {
 }
 ```
 
-###  1. ThreeSumSlow
+### 1. ThreeSumSlow
 
 The inner loop of this algorithm is the `if (nums[i] + nums[j] + nums[k] == 0)` statement, which executes N(N-1)(N-2) = N<sup>3</sup>/6-N<sup>2</sup>/2+N/3 times in total. Therefore, its approximate execution count is \~N<sup>3</sup>/6, and its order of growth is O(N<sup>3</sup>).
 
@@ -94,7 +94,7 @@ public class ThreeSumSlow implements ThreeSum {
 }
 ```
 
-###  2. ThreeSumBinarySearch
+### 2. ThreeSumBinarySearch
 
 Sort the array, sum two elements, and use binary search to check whether the opposite of that sum exists. If it does, then there is a triple whose sum is 0.
 
@@ -145,7 +145,7 @@ public class BinarySearch {
 }
 ```
 
-###  3. ThreeSumTwoPointer
+### 3. ThreeSumTwoPointer
 
 A more efficient method is to sort the array first, then use two pointers for searching. The time complexity is O(N<sup>2</sup>).
 

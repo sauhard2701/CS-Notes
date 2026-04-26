@@ -16,7 +16,7 @@
 
 A linked list is either an empty node or a node with a value and a pointer to the next node, so many linked-list problems can be handled recursively.
 
-##  1. Intersection of Two Linked Lists
+## 1. Intersection of Two Linked Lists
 
 160\. Intersection of Two Linked Lists (Easy)
 
@@ -68,7 +68,7 @@ If the task is only to determine whether an intersection exists, it becomes anot
 - Connect the end of the first linked list to the head of the second linked list and check whether the second list contains a cycle.
 - Or directly compare whether the last nodes of the two linked lists are the same.
 
-##  2. Reverse Linked List
+## 2. Reverse Linked List
 
 206\. Reverse Linked List (Easy)
 
@@ -104,7 +104,7 @@ public ListNode reverseList(ListNode head) {
 }
 ```
 
-##  3. Merge Two Sorted Lists
+## 3. Merge Two Sorted Lists
 
 21\. Merge Two Sorted Lists (Easy)
 
@@ -124,7 +124,7 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 }
 ```
 
-##  4. Remove Duplicates from Sorted List
+## 4. Remove Duplicates from Sorted List
 
 83\. Remove Duplicates from Sorted List (Easy)
 
@@ -143,7 +143,7 @@ public ListNode deleteDuplicates(ListNode head) {
 }
 ```
 
-##  5. Remove Nth Node From End of List
+## 5. Remove Nth Node From End of List
 
 19\. Remove Nth Node From End of List (Medium)
 
@@ -171,7 +171,7 @@ public ListNode removeNthFromEnd(ListNode head, int n) {
 }
 ```
 
-##  6. Swap Nodes in Pairs
+## 6. Swap Nodes in Pairs
 
 24\. Swap Nodes in Pairs (Medium)
 
@@ -201,7 +201,7 @@ public ListNode swapPairs(ListNode head) {
 }
 ```
 
-##  7. Add Two Numbers II
+## 7. Add Two Numbers II
 
 445\. Add Two Numbers II (Medium)
 
@@ -242,7 +242,7 @@ private Stack<Integer> buildStack(ListNode l) {
 }
 ```
 
-##  8. Palindrome Linked List
+## 8. Palindrome Linked List
 
 234\. Palindrome Linked List (Easy)
 
@@ -293,7 +293,7 @@ private boolean isEqual(ListNode l1, ListNode l2) {
 }
 ```
 
-##  9. Split Linked List in Parts
+## 9. Split Linked List in Parts
 
 725\. Split Linked List in Parts(Medium)
 
@@ -335,7 +335,7 @@ public ListNode[] splitListToParts(ListNode root, int k) {
 }
 ```
 
-##  10. Odd Even Linked List
+## 10. Odd Even Linked List
 
 328\. Odd Even Linked List (Medium)
 

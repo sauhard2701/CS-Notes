@@ -20,7 +20,7 @@
         * [final](#final)
         * [static](#static)
     * [5. Object Common Methods](#5-object-common-methods)
-        * [Overview](#overview)
+        * [Overview](#overview-1)
         * [equals()](#equals)
         * [hashCode()](#hashcode)
         * [toString()](#tostring)
