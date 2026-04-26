@@ -1,10 +1,10 @@
 # LeetCode Solutions - Hash Table
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Hash Table](#leetcode-solutions---hash-table)
-    * [1. Two Sum](#1-two-sum)
-    * [2. Contains Duplicate](#2-contains-duplicate)
-    * [3. Longest Harmonious Subsequence](#3-longest-harmonious-subsequence)
-    * [4. Longest Consecutive Sequence](#4-longest-consecutive-sequence)
+    * [1. Two Sum](#_1-two-sum)
+    * [2. Contains Duplicate](#_2-contains-duplicate)
+    * [3. Longest Harmonious Subsequence](#_3-longest-harmonious-subsequence)
+    * [4. Longest Consecutive Sequence](#_4-longest-consecutive-sequence)
 <!-- GFM-TOC -->
 
 

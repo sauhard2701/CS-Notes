@@ -3,12 +3,12 @@
 * [LeetCode Solutions - Sorting](#leetcode-solutions---sorting)
     * [Quickselect](#quickselect)
     * [Heap](#heap)
-        * [1. Kth Element](#1-kth-element)
+        * [1. Kth Element](#_1-kth-element)
     * [Bucket Sort](#bucket-sort)
-        * [1. Top K Frequent Elements](#1-top-k-frequent-elements)
-        * [2. Sort Characters by Frequency](#2-sort-characters-by-frequency)
+        * [1. Top K Frequent Elements](#_1-top-k-frequent-elements)
+        * [2. Sort Characters by Frequency](#_2-sort-characters-by-frequency)
     * [Dutch National Flag Problem](#dutch-national-flag-problem)
-        * [1. Sort Colors](#1-sort-colors)
+        * [1. Sort Colors](#_1-sort-colors)
 <!-- GFM-TOC -->
 
 

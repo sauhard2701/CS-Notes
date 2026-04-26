@@ -1,10 +1,10 @@
 # Attack Techniques
 <!-- GFM-TOC -->
 * [Attack Techniques](#attack-techniques)
-    * [1. Cross-Site Scripting](#1-cross-site-scripting)
-    * [2. Cross-Site Request Forgery](#2-cross-site-request-forgery)
-    * [3. SQL Injection](#3-sql-injection)
-    * [4. Denial-of-Service Attack](#4-denial-of-service-attack)
+    * [1. Cross-Site Scripting](#_1-cross-site-scripting)
+    * [2. Cross-Site Request Forgery](#_2-cross-site-request-forgery)
+    * [3. SQL Injection](#_3-sql-injection)
+    * [4. Denial-of-Service Attack](#_4-denial-of-service-attack)
     * [References](#references)
 <!-- GFM-TOC -->
 

@@ -6,15 +6,15 @@
     * [Dynamic Host Configuration Protocol](#dynamic-host-configuration-protocol)
     * [Remote Login Protocol](#remote-login-protocol)
     * [Email Protocols](#email-protocols)
-        * [1. SMTP](#1-smtp)
-        * [2. POP3](#2-pop3)
-        * [3. IMAP](#3-imap)
+        * [1. SMTP](#_1-smtp)
+        * [2. POP3](#_2-pop3)
+        * [3. IMAP](#_3-imap)
     * [Common Ports](#common-ports)
     * [Web Page Request Process](#web-page-request-process)
-        * [1. DHCP Configures Host Information](#1-dhcp-configures-host-information)
-        * [2. ARP Resolves MAC Address](#2-arp-resolves-mac-address)
-        * [3. DNS Resolves Domain Name](#3-dns-resolves-domain-name)
-        * [4. HTTP Requests the Page](#4-http-requests-the-page)
+        * [1. DHCP Configures Host Information](#_1-dhcp-configures-host-information)
+        * [2. ARP Resolves MAC Address](#_2-arp-resolves-mac-address)
+        * [3. DNS Resolves Domain Name](#_3-dns-resolves-domain-name)
+        * [4. HTTP Requests the Page](#_4-http-requests-the-page)
 <!-- GFM-TOC -->
 
 

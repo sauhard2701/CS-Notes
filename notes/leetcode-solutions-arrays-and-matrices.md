@@ -1,18 +1,18 @@
 # LeetCode Solutions - Arrays and Matrices
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Arrays and Matrices](#leetcode-solutions---arrays-and-matrices)
-    * [1. Move Zeroes](#1-move-zeroes)
-    * [2. Reshape the Matrix](#2-reshape-the-matrix)
-    * [3. Max Consecutive Ones](#3-max-consecutive-ones)
-    * [4. Search a 2D Matrix II](#4-search-a-2d-matrix-ii)
-    * [5. Kth Smallest Element in a Sorted Matrix](#5-kth-smallest-element-in-a-sorted-matrix)
-    * [6. Set Mismatch](#6-set-mismatch)
-    * [7. Find the Duplicate Number](#7-find-the-duplicate-number)
-    * [8. Beautiful Arrangement II](#8-beautiful-arrangement-ii)
-    * [9. Degree of an Array](#9-degree-of-an-array)
-    * [10. Toeplitz Matrix](#10-toeplitz-matrix)
-    * [11. Array Nesting](#11-array-nesting)
-    * [12. Max Chunks to Make Sorted](#12-max-chunks-to-make-sorted)
+    * [1. Move Zeroes](#_1-move-zeroes)
+    * [2. Reshape the Matrix](#_2-reshape-the-matrix)
+    * [3. Max Consecutive Ones](#_3-max-consecutive-ones)
+    * [4. Search a 2D Matrix II](#_4-search-a-2d-matrix-ii)
+    * [5. Kth Smallest Element in a Sorted Matrix](#_5-kth-smallest-element-in-a-sorted-matrix)
+    * [6. Set Mismatch](#_6-set-mismatch)
+    * [7. Find the Duplicate Number](#_7-find-the-duplicate-number)
+    * [8. Beautiful Arrangement II](#_8-beautiful-arrangement-ii)
+    * [9. Degree of an Array](#_9-degree-of-an-array)
+    * [10. Toeplitz Matrix](#_10-toeplitz-matrix)
+    * [11. Array Nesting](#_11-array-nesting)
+    * [12. Max Chunks to Make Sorted](#_12-max-chunks-to-make-sorted)
 <!-- GFM-TOC -->
 
 

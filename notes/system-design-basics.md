@@ -1,11 +1,11 @@
 # System Design Basics
 <!-- GFM-TOC -->
 * [System Design Basics](#system-design-basics)
-    * [1. Performance](#1-performance)
-    * [2. Scalability](#2-scalability)
-    * [3. Extensibility](#3-extensibility)
-    * [4. Availability](#4-availability)
-    * [5. Security](#5-security)
+    * [1. Performance](#_1-performance)
+    * [2. Scalability](#_2-scalability)
+    * [3. Extensibility](#_3-extensibility)
+    * [4. Availability](#_4-availability)
+    * [5. Security](#_5-security)
     * [References](#references)
 <!-- GFM-TOC -->
 

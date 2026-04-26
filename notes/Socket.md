@@ -1,14 +1,14 @@
 # Socket
 <!-- GFM-TOC -->
 * [Socket](#socket)
-    * [1. I/O Models](#1-io-models)
+    * [1. I/O Models](#_1-io-models)
         * [Blocking I/O](#blocking-io)
         * [Non-Blocking I/O](#non-blocking-io)
         * [I/O Multiplexing](#io-multiplexing)
         * [Signal-Driven I/O](#signal-driven-io)
         * [Asynchronous I/O](#asynchronous-io)
         * [Five I/O Model Comparison](#five-io-model-comparison)
-    * [2. I/O Multiplexing](#2-io-multiplexing)
+    * [2. I/O Multiplexing](#_2-io-multiplexing)
         * [select](#select)
         * [poll](#poll)
         * [Comparison](#comparison)

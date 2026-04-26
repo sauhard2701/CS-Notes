@@ -10,8 +10,8 @@
     * [TCP Sliding Window](#tcp-sliding-window)
     * [TCP Flow Control](#tcp-flow-control)
     * [TCP Congestion Control](#tcp-congestion-control)
-        * [1. Slow Start and Congestion Avoidance](#1-slow-start-and-congestion-avoidance)
-        * [2. Fast Retransmit and Fast Recovery](#2-fast-retransmit-and-fast-recovery)
+        * [1. Slow Start and Congestion Avoidance](#_1-slow-start-and-congestion-avoidance)
+        * [2. Fast Retransmit and Fast Recovery](#_2-fast-retransmit-and-fast-recovery)
 <!-- GFM-TOC -->
 
 

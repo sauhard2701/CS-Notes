@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Docsify/GitHub-style same-file Markdown anchors."""
+"""Validate Docsify-style same-file Markdown anchors."""
 
 from __future__ import annotations
 
@@ -53,6 +53,8 @@ def slug_base(heading_text: str) -> str:
     text = re.sub(r"[^\w\s-]", "", text, flags=re.UNICODE)
     text = text.strip()
     text = re.sub(r"\s", "-", text)
+    if re.match(r"^\d", text):
+        text = f"_{text}"
     return text
 
 
@@ -152,6 +154,7 @@ def main() -> int:
     files = markdown_files()
     anchors_checked = 0
     broken: list[tuple[str, int, str]] = []
+    numeric_mismatches: list[tuple[str, int, str, str]] = []
     inline_issues: list[tuple[str, int, str]] = []
     duplicate_groups: list[tuple[str, str, list[int]]] = []
 
@@ -163,6 +166,9 @@ def main() -> int:
 
         for line_no, _text, anchor in same_file_anchor_links(path):
             anchors_checked += 1
+            expected_numeric_anchor = f"_{anchor}"
+            if re.match(r"^\d", anchor) and expected_numeric_anchor in valid_slugs:
+                numeric_mismatches.append((rel, line_no, anchor, expected_numeric_anchor))
             if anchor not in valid_slugs:
                 broken.append((rel, line_no, anchor))
 
@@ -184,6 +190,9 @@ def main() -> int:
     print(f"broken same-file anchors: {len(broken)}")
     for rel, line_no, anchor in broken:
         print(f"  {rel}:{line_no} -> #{anchor}")
+    print(f"numeric anchor mismatches: {len(numeric_mismatches)}")
+    for rel, line_no, anchor, expected in numeric_mismatches:
+        print(f"  {rel}:{line_no}: #{anchor} should be #{expected}")
     print(f"inline/compressed heading issues: {len(inline_issues)}")
     for rel, line_no, text in inline_issues:
         print(f"  {rel}:{line_no}: {text}")
@@ -192,7 +201,7 @@ def main() -> int:
         joined = ", ".join(str(line) for line in lines)
         print(f"  {rel}: #{slug} at lines {joined}")
 
-    return 1 if broken or inline_issues else 0
+    return 1 if broken or numeric_mismatches or inline_issues else 0
 
 
 if __name__ == "__main__":

@@ -1,14 +1,14 @@
 # Message Queues
 <!-- GFM-TOC -->
 * [Message Queues](#message-queues)
-    * [1. Message Models](#1-message-models)
+    * [1. Message Models](#_1-message-models)
         * [Point-to-Point](#point-to-point)
         * [Publish/Subscribe](#publishsubscribe)
-    * [2. Use Cases](#2-use-cases)
+    * [2. Use Cases](#_2-use-cases)
         * [Asynchronous Processing](#asynchronous-processing)
         * [Traffic Shaping](#traffic-shaping)
         * [Application Decoupling](#application-decoupling)
-    * [3. Reliability](#3-reliability)
+    * [3. Reliability](#_3-reliability)
         * [Sender Reliability](#sender-reliability)
         * [Receiver Reliability](#receiver-reliability)
     * [References](#references)

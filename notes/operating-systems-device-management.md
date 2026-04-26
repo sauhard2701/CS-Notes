@@ -3,9 +3,9 @@
 * [Operating Systems - Device Management](#operating-systems---device-management)
     * [Disk Structure](#disk-structure)
     * [Disk Scheduling Algorithms](#disk-scheduling-algorithms)
-        * [1. First-Come First-Served](#1-first-come-first-served)
-        * [2. Shortest Seek Time First](#2-shortest-seek-time-first)
-        * [3. Elevator Algorithm](#3-elevator-algorithm)
+        * [1. First-Come First-Served](#_1-first-come-first-served)
+        * [2. Shortest Seek Time First](#_2-shortest-seek-time-first)
+        * [3. Elevator Algorithm](#_3-elevator-algorithm)
 <!-- GFM-TOC -->
 
 

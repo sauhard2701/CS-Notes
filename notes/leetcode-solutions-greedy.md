@@ -1,17 +1,17 @@
 # LeetCode Solutions - Greedy
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Greedy](#leetcode-solutions---greedy)
-    * [1. Assign Cookies](#1-assign-cookies)
-    * [2. Non-overlapping Intervals](#2-non-overlapping-intervals)
-    * [3. Minimum Number of Arrows to Burst Balloons](#3-minimum-number-of-arrows-to-burst-balloons)
-    * [4. Queue Reconstruction by Height](#4-queue-reconstruction-by-height)
-    * [5. Best Time to Buy and Sell Stock](#5-best-time-to-buy-and-sell-stock)
-    * [6. Best Time to Buy and Sell Stock II](#6-best-time-to-buy-and-sell-stock-ii)
-    * [7. Can Place Flowers](#7-can-place-flowers)
-    * [8. Is Subsequence](#8-is-subsequence)
-    * [9. Non-decreasing Array](#9-non-decreasing-array)
-    * [10. Maximum Subarray](#10-maximum-subarray)
-    * [11. Partition Labels](#11-partition-labels)
+    * [1. Assign Cookies](#_1-assign-cookies)
+    * [2. Non-overlapping Intervals](#_2-non-overlapping-intervals)
+    * [3. Minimum Number of Arrows to Burst Balloons](#_3-minimum-number-of-arrows-to-burst-balloons)
+    * [4. Queue Reconstruction by Height](#_4-queue-reconstruction-by-height)
+    * [5. Best Time to Buy and Sell Stock](#_5-best-time-to-buy-and-sell-stock)
+    * [6. Best Time to Buy and Sell Stock II](#_6-best-time-to-buy-and-sell-stock-ii)
+    * [7. Can Place Flowers](#_7-can-place-flowers)
+    * [8. Is Subsequence](#_8-is-subsequence)
+    * [9. Non-decreasing Array](#_9-non-decreasing-array)
+    * [10. Maximum Subarray](#_10-maximum-subarray)
+    * [11. Partition Labels](#_11-partition-labels)
 <!-- GFM-TOC -->
 
 

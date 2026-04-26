@@ -1,12 +1,12 @@
 # LeetCode Solutions - Binary Search
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Binary Search](#leetcode-solutions---binary-search)
-    * [1. Sqrt](#1-sqrt)
-    * [2. Smallest Letter Greater Than Target](#2-smallest-letter-greater-than-target)
-    * [3. Single Element in a Sorted Array](#3-single-element-in-a-sorted-array)
-    * [4. First Bad Version](#4-first-bad-version)
-    * [5. Minimum in Rotated Sorted Array](#5-minimum-in-rotated-sorted-array)
-    * [6. Search Range](#6-search-range)
+    * [1. Sqrt](#_1-sqrt)
+    * [2. Smallest Letter Greater Than Target](#_2-smallest-letter-greater-than-target)
+    * [3. Single Element in a Sorted Array](#_3-single-element-in-a-sorted-array)
+    * [4. First Bad Version](#_4-first-bad-version)
+    * [5. Minimum in Rotated Sorted Array](#_5-minimum-in-rotated-sorted-array)
+    * [6. Search Range](#_6-search-range)
 <!-- GFM-TOC -->
 
 

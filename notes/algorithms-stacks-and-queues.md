@@ -2,8 +2,8 @@
 <!-- GFM-TOC -->
 * [Algorithms - Stacks and Queues](#algorithms---stacks-and-queues)
     * [Stack](#stack)
-        * [1. Array Implementation](#1-array-implementation)
-        * [2. Linked List Implementation](#2-linked-list-implementation)
+        * [1. Array Implementation](#_1-array-implementation)
+        * [2. Linked List Implementation](#_2-linked-list-implementation)
     * [Queue](#queue)
 <!-- GFM-TOC -->
 

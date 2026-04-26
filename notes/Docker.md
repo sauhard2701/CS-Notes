@@ -1,11 +1,11 @@
 # Docker
 <!-- GFM-TOC -->
 * [Docker](#docker)
-    * [1. Problems Solved](#1-problems-solved)
-    * [2. Comparison with Virtual Machines](#2-comparison-with-virtual-machines)
-    * [3. Advantages](#3-advantages)
-    * [4. Use Cases](#4-use-cases)
-    * [5. Images and Containers](#5-images-and-containers)
+    * [1. Problems Solved](#_1-problems-solved)
+    * [2. Comparison with Virtual Machines](#_2-comparison-with-virtual-machines)
+    * [3. Advantages](#_3-advantages)
+    * [4. Use Cases](#_4-use-cases)
+    * [5. Images and Containers](#_5-images-and-containers)
     * [References](#references)
 <!-- GFM-TOC -->
 

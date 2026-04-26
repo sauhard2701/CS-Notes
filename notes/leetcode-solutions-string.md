@@ -1,15 +1,15 @@
 # LeetCode Solutions - Strings
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Strings](#leetcode-solutions---strings)
-    * [1. String Rotation Inclusion](#1-string-rotation-inclusion)
-    * [2. String Rotation](#2-string-rotation)
-    * [3. Reverse Words in a String](#3-reverse-words-in-a-string)
-    * [4. Valid Anagram](#4-valid-anagram)
-    * [5. Longest Palindrome](#5-longest-palindrome)
-    * [6. Isomorphic Strings](#6-isomorphic-strings)
-    * [7. Palindromic Substrings](#7-palindromic-substrings)
-    * [8. Palindrome Number](#8-palindrome-number)
-    * [9. Count Binary Substrings](#9-count-binary-substrings)
+    * [1. String Rotation Inclusion](#_1-string-rotation-inclusion)
+    * [2. String Rotation](#_2-string-rotation)
+    * [3. Reverse Words in a String](#_3-reverse-words-in-a-string)
+    * [4. Valid Anagram](#_4-valid-anagram)
+    * [5. Longest Palindrome](#_5-longest-palindrome)
+    * [6. Isomorphic Strings](#_6-isomorphic-strings)
+    * [7. Palindromic Substrings](#_7-palindromic-substrings)
+    * [8. Palindrome Number](#_8-palindrome-number)
+    * [9. Count Binary Substrings](#_9-count-binary-substrings)
 <!-- GFM-TOC -->
 
 

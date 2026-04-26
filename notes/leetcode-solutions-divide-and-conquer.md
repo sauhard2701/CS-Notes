@@ -1,8 +1,8 @@
 # LeetCode Solutions - Divide and Conquer
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Divide and Conquer](#leetcode-solutions---divide-and-conquer)
-    * [1. Different Ways to Add Parentheses](#1-different-ways-to-add-parentheses)
-    * [2. Unique Binary Search Trees II](#2-unique-binary-search-trees-ii)
+    * [1. Different Ways to Add Parentheses](#_1-different-ways-to-add-parentheses)
+    * [2. Unique Binary Search Trees II](#_2-unique-binary-search-trees-ii)
 <!-- GFM-TOC -->
 
 

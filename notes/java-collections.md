@@ -1,13 +1,13 @@
 # Java Collections
 <!-- GFM-TOC -->
 * [Java Collections](#java-collections)
-    * [1. Overview](#1-overview)
+    * [1. Overview](#_1-overview)
         * [Collection](#collection)
         * [Map](#map)
-    * [2. Design Patterns in Collections](#2-design-patterns-in-collections)
+    * [2. Design Patterns in Collections](#_2-design-patterns-in-collections)
         * [Iterator Pattern](#iterator-pattern)
         * [Adapter Pattern](#adapter-pattern)
-    * [3. Source Code Analysis](#3-source-code-analysis)
+    * [3. Source Code Analysis](#_3-source-code-analysis)
         * [ArrayList](#arraylist)
         * [Vector](#vector)
         * [CopyOnWriteArrayList](#copyonwritearraylist)

@@ -1,16 +1,16 @@
 # LeetCode Solutions - Linked List
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Linked List](#leetcode-solutions---linked-list)
-    * [1. Intersection of Two Linked Lists](#1-intersection-of-two-linked-lists)
-    * [2. Reverse Linked List](#2-reverse-linked-list)
-    * [3. Merge Two Sorted Lists](#3-merge-two-sorted-lists)
-    * [4. Remove Duplicates from Sorted List](#4-remove-duplicates-from-sorted-list)
-    * [5. Remove Nth Node From End of List](#5-remove-nth-node-from-end-of-list)
-    * [6. Swap Nodes in Pairs](#6-swap-nodes-in-pairs)
-    * [7. Add Two Numbers II](#7-add-two-numbers-ii)
-    * [8. Palindrome Linked List](#8-palindrome-linked-list)
-    * [9. Split Linked List in Parts](#9-split-linked-list-in-parts)
-    * [10. Odd Even Linked List](#10-odd-even-linked-list)
+    * [1. Intersection of Two Linked Lists](#_1-intersection-of-two-linked-lists)
+    * [2. Reverse Linked List](#_2-reverse-linked-list)
+    * [3. Merge Two Sorted Lists](#_3-merge-two-sorted-lists)
+    * [4. Remove Duplicates from Sorted List](#_4-remove-duplicates-from-sorted-list)
+    * [5. Remove Nth Node From End of List](#_5-remove-nth-node-from-end-of-list)
+    * [6. Swap Nodes in Pairs](#_6-swap-nodes-in-pairs)
+    * [7. Add Two Numbers II](#_7-add-two-numbers-ii)
+    * [8. Palindrome Linked List](#_8-palindrome-linked-list)
+    * [9. Split Linked List in Parts](#_9-split-linked-list-in-parts)
+    * [10. Odd Even Linked List](#_10-odd-even-linked-list)
 <!-- GFM-TOC -->
 
 

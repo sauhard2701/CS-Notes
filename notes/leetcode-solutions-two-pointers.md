@@ -1,13 +1,13 @@
 # LeetCode Solutions - Two Pointers
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Two Pointers](#leetcode-solutions---two-pointers)
-    * [1. Two Sum II: Input Array Is Sorted](#1-two-sum-ii-input-array-is-sorted)
-    * [2. Sum of Square Numbers](#2-sum-of-square-numbers)
-    * [3. Reverse Vowels of a String](#3-reverse-vowels-of-a-string)
-    * [4. Valid Palindrome II](#4-valid-palindrome-ii)
-    * [5. Merge Sorted Array](#5-merge-sorted-array)
-    * [6. Linked List Cycle](#6-linked-list-cycle)
-    * [7. Longest Word in Dictionary through Deleting](#7-longest-word-in-dictionary-through-deleting)
+    * [1. Two Sum II: Input Array Is Sorted](#_1-two-sum-ii-input-array-is-sorted)
+    * [2. Sum of Square Numbers](#_2-sum-of-square-numbers)
+    * [3. Reverse Vowels of a String](#_3-reverse-vowels-of-a-string)
+    * [4. Valid Palindrome II](#_4-valid-palindrome-ii)
+    * [5. Merge Sorted Array](#_5-merge-sorted-array)
+    * [6. Linked List Cycle](#_6-linked-list-cycle)
+    * [7. Longest Word in Dictionary through Deleting](#_7-longest-word-in-dictionary-through-deleting)
 <!-- GFM-TOC -->
 
 

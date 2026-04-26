@@ -2,12 +2,12 @@
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Graphs](#leetcode-solutions---graphs)
     * [Bipartite Graphs](#bipartite-graphs)
-        * [1. Is Graph Bipartite?](#1-is-graph-bipartite)
+        * [1. Is Graph Bipartite?](#_1-is-graph-bipartite)
     * [Topological Sort](#topological-sort)
-        * [1. Course Schedule](#1-course-schedule)
-        * [2. Course Schedule II](#2-course-schedule-ii)
+        * [1. Course Schedule](#_1-course-schedule)
+        * [2. Course Schedule II](#_2-course-schedule-ii)
     * [Union Find](#union-find)
-        * [1. Redundant Connection](#1-redundant-connection)
+        * [1. Redundant Connection](#_1-redundant-connection)
 <!-- GFM-TOC -->
 
 

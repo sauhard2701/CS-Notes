@@ -1,12 +1,12 @@
 # LeetCode Solutions - Stacks and Queues
 <!-- GFM-TOC -->
 * [LeetCode Solutions - Stacks and Queues](#leetcode-solutions---stacks-and-queues)
-    * [1. Implement Queue using Stacks](#1-implement-queue-using-stacks)
-    * [2. Implement Stack using Queues](#2-implement-stack-using-queues)
-    * [3. Min Stack](#3-min-stack)
-    * [4. Valid Parentheses](#4-valid-parentheses)
-    * [5. Daily Temperatures](#5-daily-temperatures)
-    * [6. Next Greater Element II](#6-next-greater-element-ii)
+    * [1. Implement Queue using Stacks](#_1-implement-queue-using-stacks)
+    * [2. Implement Stack using Queues](#_2-implement-stack-using-queues)
+    * [3. Min Stack](#_3-min-stack)
+    * [4. Valid Parentheses](#_4-valid-parentheses)
+    * [5. Daily Temperatures](#_5-daily-temperatures)
+    * [6. Next Greater Element II](#_6-next-greater-element-ii)
 <!-- GFM-TOC -->
 
 

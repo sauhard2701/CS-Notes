@@ -1,13 +1,13 @@
 # Caching
 <!-- GFM-TOC -->
 * [Caching](#caching)
-    * [1. Cache Characteristics](#1-cache-characteristics)
-    * [2. Cache Locations](#2-cache-locations)
-    * [3. CDN](#3-cdn)
-    * [4. Cache Problems](#4-cache-problems)
-    * [5. Data Distribution](#5-data-distribution)
-    * [6. Consistent Hashing](#6-consistent-hashing)
-    * [7. LRU](#7-lru)
+    * [1. Cache Characteristics](#_1-cache-characteristics)
+    * [2. Cache Locations](#_2-cache-locations)
+    * [3. CDN](#_3-cdn)
+    * [4. Cache Problems](#_4-cache-problems)
+    * [5. Data Distribution](#_5-data-distribution)
+    * [6. Consistent Hashing](#_6-consistent-hashing)
+    * [7. LRU](#_7-lru)
     * [References](#references)
 <!-- GFM-TOC -->
 

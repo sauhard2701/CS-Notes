@@ -1,9 +1,9 @@
 # Build Tools
 <!-- GFM-TOC -->
 * [Build Tools](#build-tools)
-    * [1. Purpose of Build Tools](#1-purpose-of-build-tools)
-    * [2. Mainstream Java Build Tools](#2-mainstream-java-build-tools)
-    * [3. Maven](#3-maven)
+    * [1. Purpose of Build Tools](#_1-purpose-of-build-tools)
+    * [2. Mainstream Java Build Tools](#_2-mainstream-java-build-tools)
+    * [3. Maven](#_3-maven)
     * [References](#references)
 <!-- GFM-TOC -->
 
