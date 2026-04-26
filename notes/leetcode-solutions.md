@@ -1,1 +1,1 @@
-[LeetCode Solutions](leetcode-solutions-index.md)
+[LeetCode Solutions](/notes/leetcode-solutions-index.md)

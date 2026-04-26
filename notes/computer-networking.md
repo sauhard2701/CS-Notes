@@ -1,1 +1,1 @@
-[Computer Networking](computer-networking-index.md)
+[Computer Networking](/notes/computer-networking-index.md)

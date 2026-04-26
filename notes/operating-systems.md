@@ -1,1 +1,1 @@
-[Operating Systems](operating-systems-index.md)
+[Operating Systems](/notes/operating-systems-index.md)

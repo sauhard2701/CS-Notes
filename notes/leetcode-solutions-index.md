@@ -6,25 +6,25 @@ This guide selects about 200 LeetCode problems, filtering out overly mechanical 
 
 ## Algorithmic Techniques
 
-- [Two Pointers](leetcode-solutions-two-pointers.md)
-- [Sorting](leetcode-solutions-sorting.md)
-- [Greedy](leetcode-solutions-greedy.md)
-- [Binary Search](leetcode-solutions-binary-search.md)
-- [Divide and Conquer](leetcode-solutions-divide-and-conquer.md)
-- [Search / Backtracking](leetcode-solutions-search.md)
-- [Dynamic Programming](leetcode-solutions-dynamic-programming.md)
-- [Math](leetcode-solutions-math.md)
+- [Two Pointers](/notes/leetcode-solutions-two-pointers.md)
+- [Sorting](/notes/leetcode-solutions-sorting.md)
+- [Greedy](/notes/leetcode-solutions-greedy.md)
+- [Binary Search](/notes/leetcode-solutions-binary-search.md)
+- [Divide and Conquer](/notes/leetcode-solutions-divide-and-conquer.md)
+- [Search / Backtracking](/notes/leetcode-solutions-search.md)
+- [Dynamic Programming](/notes/leetcode-solutions-dynamic-programming.md)
+- [Math](/notes/leetcode-solutions-math.md)
 
 ## Data Structures
 
-- [Linked List](leetcode-solutions-linked-list.md)
-- [Trees](leetcode-solutions-trees.md)
-- [Stacks and Queues](leetcode-solutions-stacks-and-queues.md)
-- [Hash Table](leetcode-solutions-hash-table.md)
-- [Strings](leetcode-solutions-string.md)
-- [Arrays and Matrices](leetcode-solutions-arrays-and-matrices.md)
-- [Graphs](leetcode-solutions-graph.md)
-- [Bit Manipulation](leetcode-solutions-bit-manipulation.md)
+- [Linked List](/notes/leetcode-solutions-linked-list.md)
+- [Trees](/notes/leetcode-solutions-trees.md)
+- [Stacks and Queues](/notes/leetcode-solutions-stacks-and-queues.md)
+- [Hash Table](/notes/leetcode-solutions-hash-table.md)
+- [Strings](/notes/leetcode-solutions-string.md)
+- [Arrays and Matrices](/notes/leetcode-solutions-arrays-and-matrices.md)
+- [Graphs](/notes/leetcode-solutions-graph.md)
+- [Bit Manipulation](/notes/leetcode-solutions-bit-manipulation.md)
 
 ## References
 

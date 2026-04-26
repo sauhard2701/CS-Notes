@@ -1,1 +1,1 @@
-[Algorithms](algorithms-index.md)
+[Algorithms](/notes/algorithms-index.md)

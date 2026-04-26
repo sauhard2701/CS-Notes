@@ -1,11 +1,11 @@
 # Computer Networking
 
-- [Overview](computer-networking-overview.md)
-- [Physical Layer](computer-networking-physical-layer.md)
-- [Link Layer](computer-networking-link-layer.md)
-- [Network Layer](computer-networking-network-layer.md)
-- [Transport Layer](computer-networking-transport-layer.md)
-- [Application Layer](computer-networking-application-layer.md)
+- [Overview](/notes/computer-networking-overview.md)
+- [Physical Layer](/notes/computer-networking-physical-layer.md)
+- [Link Layer](/notes/computer-networking-link-layer.md)
+- [Network Layer](/notes/computer-networking-network-layer.md)
+- [Transport Layer](/notes/computer-networking-transport-layer.md)
+- [Application Layer](/notes/computer-networking-application-layer.md)
 
 ## References
 

@@ -1,1 +1,1 @@
-[Sword Offer Solutions](sword-offer-solutions-index.md)
+[Sword Offer Solutions](/notes/sword-offer-solutions-index.md)

@@ -1,11 +1,11 @@
 # Operating Systems
 
-- [Overview](operating-systems-overview.md)
-- [Process Management](operating-systems-process-management.md)
-- [Deadlocks](operating-systems-deadlocks.md)
-- [Memory Management](operating-systems-memory-management.md)
-- [Device Management](operating-systems-device-management.md)
-- [Linking](operating-systems-linking.md)
+- [Overview](/notes/operating-systems-overview.md)
+- [Process Management](/notes/operating-systems-process-management.md)
+- [Deadlocks](/notes/operating-systems-deadlocks.md)
+- [Memory Management](/notes/operating-systems-memory-management.md)
+- [Device Management](/notes/operating-systems-device-management.md)
+- [Linking](/notes/operating-systems-linking.md)
 
 ## References
 

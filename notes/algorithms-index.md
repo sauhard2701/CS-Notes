@@ -1,11 +1,11 @@
 # Algorithms
 
-- [Algorithm Analysis](algorithms-analysis.md)
-- [Sorting](algorithms-sorting.md)
-- [Union Find](algorithms-union-find.md)
-- [Stacks and Queues](algorithms-stacks-and-queues.md)
-- [Symbol Tables](algorithms-symbol-tables.md)
-- [Miscellaneous](algorithms-other.md)
+- [Algorithm Analysis](/notes/algorithms-analysis.md)
+- [Sorting](/notes/algorithms-sorting.md)
+- [Union Find](/notes/algorithms-union-find.md)
+- [Stacks and Queues](/notes/algorithms-stacks-and-queues.md)
+- [Symbol Tables](/notes/algorithms-symbol-tables.md)
+- [Miscellaneous](/notes/algorithms-other.md)
 
 ## References
 

@@ -4,37 +4,37 @@ Design patterns are reusable solutions to common problems. Studying established 
 
 # 2. Creational Patterns
 
-- [Singleton](design-patterns-singleton.md)
-- [Simple Factory](design-patterns-simple-factory.md)
-- [Factory Method](design-patterns-factory-method.md)
-- [Abstract Factory](design-patterns-abstract-factory.md)
-- [Builder](design-patterns-builder.md)
-- [Prototype](design-patterns-prototype.md)
+- [Singleton](/notes/design-patterns-singleton.md)
+- [Simple Factory](/notes/design-patterns-simple-factory.md)
+- [Factory Method](/notes/design-patterns-factory-method.md)
+- [Abstract Factory](/notes/design-patterns-abstract-factory.md)
+- [Builder](/notes/design-patterns-builder.md)
+- [Prototype](/notes/design-patterns-prototype.md)
 
 # 3. Behavioral Patterns
 
-- [Chain of Responsibility](design-patterns-chain-of-responsibility.md)
-- [Command](design-patterns-command.md)
-- [Interpreter](design-patterns-interpreter.md)
-- [Iterator](design-patterns-iterator.md)
-- [Mediator](design-patterns-mediator.md)
-- [Memento](design-patterns-memento.md)
-- [Observer](design-patterns-observer.md)
-- [State](design-patterns-state.md)
-- [Strategy](design-patterns-strategy.md)
-- [Template Method](design-patterns-template-method.md)
-- [Visitor](design-patterns-visitor.md)
-- [Null Object](design-patterns-null-object.md)
+- [Chain of Responsibility](/notes/design-patterns-chain-of-responsibility.md)
+- [Command](/notes/design-patterns-command.md)
+- [Interpreter](/notes/design-patterns-interpreter.md)
+- [Iterator](/notes/design-patterns-iterator.md)
+- [Mediator](/notes/design-patterns-mediator.md)
+- [Memento](/notes/design-patterns-memento.md)
+- [Observer](/notes/design-patterns-observer.md)
+- [State](/notes/design-patterns-state.md)
+- [Strategy](/notes/design-patterns-strategy.md)
+- [Template Method](/notes/design-patterns-template-method.md)
+- [Visitor](/notes/design-patterns-visitor.md)
+- [Null Object](/notes/design-patterns-null-object.md)
 
 # 4. Structural Patterns
 
-- [Adapter](design-patterns-adapter.md)
-- [Bridge](design-patterns-bridge.md)
-- [Composite](design-patterns-composite.md)
-- [Decorator](design-patterns-decorator.md)
-- [Facade](design-patterns-facade.md)
-- [Flyweight](design-patterns-flyweight.md)
-- [Proxy](design-patterns-proxy.md)
+- [Adapter](/notes/design-patterns-adapter.md)
+- [Bridge](/notes/design-patterns-bridge.md)
+- [Composite](/notes/design-patterns-composite.md)
+- [Decorator](/notes/design-patterns-decorator.md)
+- [Facade](/notes/design-patterns-facade.md)
+- [Flyweight](/notes/design-patterns-flyweight.md)
+- [Proxy](/notes/design-patterns-proxy.md)
 
 # References
 
