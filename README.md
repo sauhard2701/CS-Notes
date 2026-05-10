@@ -14,6 +14,23 @@ This repository is designed to help you:
 
 ## Run Locally as a Website
 
+### One-click launch
+
+After cloning or downloading the repo, you can start the Docsify site by double-clicking the launcher for your operating system:
+
+- macOS: `Open CS-Notes Site.command`
+- Windows: `Open CS-Notes Site.bat`
+
+The launcher starts the local server and opens the site automatically at:
+
+```text
+http://localhost:3000/#/
+```
+
+To stop the site, close the server window or press `Ctrl+C` in it.
+
+### Terminal
+
 ```sh
 npm install
 npm run docs:serve
@@ -22,7 +39,7 @@ npm run docs:serve
 Open:
 
 ```text
-http://localhost:3000
+http://localhost:3000/#/
 ```
 
 ---
